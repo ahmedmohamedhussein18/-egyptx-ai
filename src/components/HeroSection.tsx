@@ -1,56 +1,8 @@
 "use client";
 
-import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
-interface Particle {
-  id: number;
-  x: number;
-  y: number;
-  size: number;
-  color: string;
-  duration: number;
-  delay: number;
-}
-
-interface NetworkLine {
-  id: number;
-  x1: number;
-  y1: number;
-  x2: number;
-  y2: number;
-}
-
 const HeroSection = () => {
-  const [isMounted, setIsMounted] = useState(false);
-  const [particles, setParticles] = useState<Particle[]>([]);
-  const [networkLines, setNetworkLines] = useState<NetworkLine[]>([]);
-
-  useEffect(() => {
-    setIsMounted(true);
-    setParticles(
-      Array.from({ length: 40 }).map((_, i) => ({
-        id: i,
-        x: Math.random() * 100,
-        y: Math.random() * 100,
-        size: Math.random() * 2 + 1,
-        color: Math.random() > 0.5 ? '#C9A84C' : '#1B6B93',
-        duration: Math.random() * 20 + 10,
-        delay: Math.random() * 5,
-      }))
-    );
-
-    setNetworkLines(
-      Array.from({ length: 10 }).map((_, i) => ({
-        id: i,
-        x1: Math.random() * 100,
-        y1: Math.random() * 100,
-        x2: Math.random() * 100,
-        y2: Math.random() * 100,
-      }))
-    );
-  }, []);
-
   const staggerItem = {
     hidden: { opacity: 0, y: 30 },
     visible: { opacity: 1, y: 0 }
@@ -59,94 +11,18 @@ const HeroSection = () => {
   return (
     <section className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden bg-[#030712]">
       
-      {/* 1. Background Gradient */}
-      <div className="absolute inset-0 z-0">
-        <div className="absolute top-1/4 left-1/4 w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-[#C9A84C]/5 rounded-full blur-[100px]" />
-        <div className="absolute bottom-1/4 right-1/4 w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-[#1B6B93]/5 rounded-full blur-[120px]" />
-      </div>
-
-      {/* 2. Egypt Map Silhouette */}
-      <div className="absolute inset-0 z-0 flex items-center justify-center opacity-[0.04] pointer-events-none">
-        <svg viewBox="0 0 600 500" className="w-[80vw] h-[80vh] fill-none stroke-[#C9A84C] stroke-[3px]">
-          {/* Rough abstract map of Egypt outline */}
-          <path fill="#C9A84C" d="M300,50 C400,60 500,40 550,50 L550,450 L100,450 L50,300 C50,200 100,100 200,50 Z" />
-        </svg>
-      </div>
-
-      {/* 3. Nile River */}
-      <div className="absolute inset-0 z-0 flex items-center justify-center opacity-[0.07] pointer-events-none">
-        <svg viewBox="0 0 600 500" className="w-[80vw] h-[80vh] fill-none stroke-[#1B6B93] stroke-[6px]">
-          <path d="M 450,-50 Q 420,100 450,250 T 350,400 Q 320,450 360,550" />
-        </svg>
-      </div>
-
-      {/* 4. Animated Particle Field */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        {isMounted && particles.map((p) => (
-          <motion.div
-            key={p.id}
-            className="absolute rounded-full"
-            style={{
-              left: `${p.x}%`,
-              top: `${p.y}%`,
-              width: p.size,
-              height: p.size,
-              backgroundColor: p.color,
-              opacity: p.color === '#C9A84C' ? 0.2 : 0.15,
-            }}
-            animate={{
-              y: [0, -40, 0],
-              x: [0, 20, 0],
-            }}
-            transition={{
-              duration: p.duration,
-              repeat: Infinity,
-              ease: "linear",
-              delay: p.delay,
-            }}
-          />
-        ))}
-      </div>
-
-      {/* 5. AI Network lines */}
-      <div className="absolute inset-0 z-0 pointer-events-none opacity-5">
-        <svg className="w-full h-full">
-          {isMounted && networkLines.map((line) => (
-            <line
-              key={line.id}
-              x1={`${line.x1}%`}
-              y1={`${line.y1}%`}
-              x2={`${line.x2}%`}
-              y2={`${line.y2}%`}
-              stroke="#C9A84C"
-              strokeWidth="1.5"
-            />
-          ))}
-        </svg>
-      </div>
-
-      {/* 6. Egyptian Pyramid silhouettes */}
-      <div className="absolute bottom-0 w-full h-[35vh] z-0 flex items-end justify-center pointer-events-none opacity-50">
-        <svg viewBox="0 0 1000 300" className="w-full h-full" preserveAspectRatio="none">
-          <defs>
-            <linearGradient id="pyramidGrad1" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="#0A1628" stopOpacity="0" />
-              <stop offset="100%" stopColor="#030712" stopOpacity="1" />
-            </linearGradient>
-            <linearGradient id="pyramidGrad2" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="#1B6B93" stopOpacity="0.1" />
-              <stop offset="100%" stopColor="#030712" stopOpacity="1" />
-            </linearGradient>
-            <linearGradient id="pyramidGrad3" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="#C9A84C" stopOpacity="0.05" />
-              <stop offset="100%" stopColor="#030712" stopOpacity="1" />
-            </linearGradient>
-          </defs>
-          <path d="M 150,300 L 350,120 L 550,300 Z" fill="url(#pyramidGrad2)" />
-          <path d="M 400,300 L 550,60 L 700,300 Z" fill="url(#pyramidGrad1)" />
-          <path d="M 600,300 L 720,160 L 840,300 Z" fill="url(#pyramidGrad3)" />
-        </svg>
-      </div>
+      {/* Background Video */}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover z-0"
+        src="/hero-bg-compressed.mp4"
+      />
+      
+      {/* Dark Overlay */}
+      <div className="absolute inset-0 z-0 pointer-events-none bg-gradient-to-b from-[#030712]/80 via-[#030712]/60 to-[#030712]/90" />
 
       {/* CONTENT */}
       <motion.div 

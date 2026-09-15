@@ -74,159 +74,10 @@ const CITY_COORDS: Record<string, { x: number; y: number }> = {
   Siwa: { x: 100, y: 125 },
   Fayoum: { x: 175, y: 160 },
   Alexandria: { x: 165, y: 115 },
+  'Abu Simbel': { x: 195, y: 360 },
+  Dahab: { x: 260, y: 160 },
+  'Marsa Alam': { x: 255, y: 270 },
 };
-
-/* Hardcoded attraction database keyed by city and interest tag */
-const ATTRACTIONS: Record<string, { tags: string[]; activities: Activity[] }> = {
-  Cairo: {
-    tags: ['ancient', 'culture', 'food'],
-    activities: [
-      { time: '09:00', name: 'Grand Egyptian Museum', description: 'World-class collection of pharaonic antiquities including Tutankhamun\'s treasures', type: 'ancient' },
-      { time: '12:00', name: 'Khan El Khalili Bazaar', description: 'Historic marketplace with traditional crafts, spices, and street food', type: 'culture' },
-      { time: '14:00', name: 'Islamic Cairo Walking Tour', description: 'Explore the medieval streets, mosques, and madrasas of historic Cairo', type: 'culture' },
-      { time: '16:00', name: 'Egyptian Street Food Tour', description: 'Taste koshari, foul, ta\'ameya, and other authentic Egyptian dishes', type: 'food' },
-      { time: '19:00', name: 'Nile Dinner Cruise', description: 'Elegant dinner aboard a traditional felucca with Cairo skyline views', type: 'food' },
-      { time: '10:00', name: 'Coptic Cairo', description: 'Visit the Hanging Church, Ben Ezra Synagogue, and early Christian ruins', type: 'culture' },
-      { time: '15:00', name: 'Al-Azhar Park', description: 'Beautiful gardens with panoramic views of the old city', type: 'nature' },
-    ],
-  },
-  Giza: {
-    tags: ['ancient', 'adventure'],
-    activities: [
-      { time: '07:00', name: 'Great Pyramids of Giza', description: 'Stand before the last surviving Wonder of the Ancient World', type: 'ancient' },
-      { time: '09:30', name: 'The Great Sphinx', description: 'Iconic limestone statue guarding the Giza plateau', type: 'ancient' },
-      { time: '11:00', name: 'Camel Ride at the Pyramids', description: 'Ride across the desert with pyramids as your backdrop', type: 'adventure' },
-      { time: '13:00', name: 'Solar Boat Museum', description: 'Ancient cedar boat discovered buried near Khufu\'s pyramid', type: 'ancient' },
-      { time: '19:00', name: 'Sound & Light Show', description: 'Spectacular evening show illuminating the pyramids and narrating their history', type: 'culture' },
-    ],
-  },
-  Luxor: {
-    tags: ['ancient', 'culture', 'adventure'],
-    activities: [
-      { time: '06:00', name: 'Hot Air Balloon over Luxor', description: 'Sunrise balloon flight over the Valley of the Kings and Nile', type: 'adventure' },
-      { time: '08:00', name: 'Valley of the Kings', description: 'Explore royal tombs adorned with vivid 3,000-year-old paintings', type: 'ancient' },
-      { time: '10:30', name: 'Temple of Hatshepsut', description: 'Terraced mortuary temple of Egypt\'s famous female pharaoh', type: 'ancient' },
-      { time: '14:00', name: 'Karnak Temple Complex', description: 'Vast open-air temple with towering columns and sacred lake', type: 'ancient' },
-      { time: '17:00', name: 'Luxor Temple at Sunset', description: 'Beautifully lit ancient temple on the east bank of the Nile', type: 'ancient' },
-      { time: '12:00', name: 'Luxor Museum', description: 'Curated collection of Theban artifacts in a modern setting', type: 'culture' },
-    ],
-  },
-  Aswan: {
-    tags: ['ancient', 'nature', 'culture'],
-    activities: [
-      { time: '08:00', name: 'Philae Temple', description: 'Island temple dedicated to Isis, rescued from Nile flooding', type: 'ancient' },
-      { time: '10:00', name: 'Felucca Sailing on the Nile', description: 'Traditional sailboat ride around Elephantine Island', type: 'nature' },
-      { time: '13:00', name: 'Nubian Village Visit', description: 'Colorful village with traditional houses, crocodiles, and local cuisine', type: 'culture' },
-      { time: '15:00', name: 'Aswan High Dam', description: 'Engineering marvel creating Lake Nasser, one of the largest reservoirs', type: 'culture' },
-      { time: '16:30', name: 'Unfinished Obelisk', description: 'Massive ancient granite obelisk still attached to bedrock', type: 'ancient' },
-      { time: '06:00', name: 'Abu Simbel Day Trip', description: 'Colossal temples of Ramesses II carved into a mountainside', type: 'ancient' },
-    ],
-  },
-  Hurghada: {
-    tags: ['beaches', 'adventure', 'nature'],
-    activities: [
-      { time: '08:00', name: 'Snorkeling at Giftun Island', description: 'Crystal-clear Red Sea waters with colorful coral reefs', type: 'beaches' },
-      { time: '10:00', name: 'Scuba Diving Experience', description: 'Explore underwater gardens and tropical fish', type: 'adventure' },
-      { time: '14:00', name: 'Desert Safari by Quad Bike', description: 'Adrenaline-fueled ride through the Eastern Desert', type: 'adventure' },
-      { time: '16:00', name: 'Bedouin Camp & Stargazing', description: 'Traditional dinner under the stars with Bedouin hospitality', type: 'nature' },
-      { time: '09:00', name: 'Glass Bottom Boat Tour', description: 'View marine life without getting wet', type: 'beaches' },
-      { time: '11:00', name: 'Makadi Water World', description: 'Family-friendly waterpark along the Red Sea coast', type: 'beaches' },
-    ],
-  },
-  Siwa: {
-    tags: ['nature', 'adventure', 'ancient'],
-    activities: [
-      { time: '08:00', name: 'Temple of the Oracle (Amun)', description: 'Where Alexander the Great was declared son of Zeus-Ammon', type: 'ancient' },
-      { time: '10:00', name: 'Cleopatra\'s Spring', description: 'Natural spring pool surrounded by palm trees', type: 'nature' },
-      { time: '14:00', name: 'Great Sand Sea Adventure', description: 'Thrilling 4x4 dune bashing in the world\'s largest sand desert', type: 'adventure' },
-      { time: '17:00', name: 'Salt Lake Sunset', description: 'Surreal salt lakes with mirror-like reflections at golden hour', type: 'nature' },
-      { time: '20:00', name: 'Desert Stargazing', description: 'Zero light pollution — Milky Way visible to the naked eye', type: 'nature' },
-      { time: '09:00', name: 'Shali Fortress Ruins', description: 'Medieval mud-brick citadel overlooking the oasis', type: 'ancient' },
-    ],
-  },
-  Fayoum: {
-    tags: ['nature', 'adventure', 'ancient'],
-    activities: [
-      { time: '08:00', name: 'Wadi El Rayan Waterfalls', description: 'Egypt\'s only waterfalls in a stunning desert oasis', type: 'nature' },
-      { time: '10:30', name: 'Whale Valley (Wadi Al-Hitan)', description: 'UNESCO site with 40-million-year-old whale fossils', type: 'nature' },
-      { time: '14:00', name: 'Lake Qarun', description: 'Ancient lake with birdwatching and peaceful boat rides', type: 'nature' },
-      { time: '16:00', name: 'Sandboarding at Fayoum Dunes', description: 'Slide down towering golden dunes', type: 'adventure' },
-      { time: '09:00', name: 'Hawara Pyramid', description: 'Middle Kingdom pyramid with remains of the famous Labyrinth', type: 'ancient' },
-    ],
-  },
-  Alexandria: {
-    tags: ['culture', 'food', 'ancient'],
-    activities: [
-      { time: '09:00', name: 'Bibliotheca Alexandrina', description: 'Stunning modern library honoring the ancient Library of Alexandria', type: 'culture' },
-      { time: '11:00', name: 'Catacombs of Kom El Shoqafa', description: 'Underground Roman burial site blending Egyptian and Greek art', type: 'ancient' },
-      { time: '13:00', name: 'Alexandria Seafood Feast', description: 'Fresh grilled fish and seafood at the waterfront', type: 'food' },
-      { time: '15:00', name: 'Citadel of Qaitbay', description: 'Medieval fortress built on the site of the ancient Lighthouse', type: 'ancient' },
-      { time: '17:00', name: 'Corniche Sunset Walk', description: 'Scenic Mediterranean promenade with cafes and sea views', type: 'culture' },
-    ],
-  },
-};
-
-/* ─────────────────── ITINERARY GENERATOR ─────────────────── */
-
-function generateItinerary(
-  duration: number,
-  interests: string[],
-  budget: number,
-): DayPlan[] {
-  // Determine which cities to include based on interests and duration
-  const cityScores: { city: string; score: number }[] = [];
-  for (const [city, data] of Object.entries(ATTRACTIONS)) {
-    const overlap = data.tags.filter(t => interests.includes(t)).length;
-    if (overlap > 0) {
-      cityScores.push({ city, score: overlap });
-    }
-  }
-  cityScores.sort((a, b) => b.score - a.score);
-
-  // Always start with Cairo/Giza
-  const orderedCities: string[] = ['Cairo', 'Giza'];
-  for (const { city } of cityScores) {
-    if (!orderedCities.includes(city) && orderedCities.length < duration) {
-      orderedCities.push(city);
-    }
-  }
-  // Fill remaining days with existing cities cycling
-  while (orderedCities.length < duration) {
-    orderedCities.push(orderedCities[orderedCities.length % cityScores.length] || 'Cairo');
-  }
-
-  const usedActivities = new Set<string>();
-  const plan: DayPlan[] = [];
-
-  for (let d = 0; d < duration; d++) {
-    const city = orderedCities[d];
-    const cityData = ATTRACTIONS[city] || ATTRACTIONS['Cairo'];
-
-    // Pick 3-5 activities, preferring matching interests
-    const relevantFirst = [...cityData.activities].sort((a, b) => {
-      const aMatch = interests.includes(a.type) ? 1 : 0;
-      const bMatch = interests.includes(b.type) ? 1 : 0;
-      return bMatch - aMatch;
-    });
-
-    const count = budget > 2000 ? 5 : budget > 1000 ? 4 : 3;
-    const dayActivities: Activity[] = [];
-    for (const act of relevantFirst) {
-      const key = `${city}-${act.name}`;
-      if (!usedActivities.has(key) && dayActivities.length < count) {
-        dayActivities.push(act);
-        usedActivities.add(key);
-      }
-    }
-
-    // Sort by time
-    dayActivities.sort((a, b) => a.time.localeCompare(b.time));
-
-    plan.push({ day: d + 1, city, activities: dayActivities });
-  }
-
-  return plan;
-}
 
 /* ─────────────────── EGYPT MAP SVG ─────────────────── */
 
@@ -331,6 +182,7 @@ export default function PlannerPage() {
 
   // Result state
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [itinerary, setItinerary] = useState<DayPlan[] | null>(null);
 
   const toggleInterest = (id: string) => {
@@ -339,16 +191,31 @@ export default function PlannerPage() {
     );
   };
 
-  const handleGenerate = () => {
+  const handleGenerate = async () => {
     if (!country || interests.length === 0 || !travelStyle) return;
     setLoading(true);
     setItinerary(null);
-    // Simulate AI thinking
-    setTimeout(() => {
-      const result = generateItinerary(duration, interests, budget);
-      setItinerary(result);
+    setError(null);
+    
+    try {
+      const response = await fetch('/api/generate-itinerary', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ country, duration, budget, interests, travelStyle })
+      });
+      
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to generate itinerary');
+      }
+      
+      setItinerary(data);
+    } catch (err: any) {
+      setError(err.message || 'An unexpected error occurred.');
+    } finally {
       setLoading(false);
-    }, 1800);
+    }
   };
 
   const isFormValid = country && interests.length > 0 && travelStyle;
@@ -393,7 +260,7 @@ export default function PlannerPage() {
       {/* Content */}
       <div className="max-w-5xl mx-auto px-4 pb-24">
         <AnimatePresence mode="wait">
-          {!loading && !itinerary && (
+          {!loading && !itinerary && !error && (
             <motion.div
               key="form"
               initial={{ opacity: 0, y: 20 }}
@@ -533,6 +400,26 @@ export default function PlannerPage() {
                   <p className="text-white/30 text-sm mt-3">Please fill in all fields to continue</p>
                 )}
               </div>
+            </motion.div>
+          )}
+
+          {error && !loading && (
+            <motion.div
+              key="error"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0 }}
+              className="max-w-xl mx-auto bg-red-950/40 border border-red-500/50 rounded-2xl p-8 text-center backdrop-blur-md"
+            >
+              <div className="text-4xl mb-4">⚠️</div>
+              <h3 className="text-xl font-bold text-red-200 mb-2">Oops! Something went wrong.</h3>
+              <p className="text-red-200/70 mb-6">{error}</p>
+              <button
+                onClick={() => setError(null)}
+                className="px-8 py-3 rounded-xl bg-red-500/20 text-red-200 border border-red-500/30 hover:bg-red-500/30 transition-colors font-semibold"
+              >
+                Try Again
+              </button>
             </motion.div>
           )}
 
