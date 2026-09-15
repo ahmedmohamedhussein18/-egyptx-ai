@@ -1,8 +1,11 @@
 "use client";
 
 import { motion } from 'framer-motion';
+import { useAuth } from '@/context/AuthContext';
 
 const HeroSection = () => {
+  const { user } = useAuth();
+
   const staggerItem = {
     hidden: { opacity: 0, y: 30 },
     visible: { opacity: 1, y: 0 }
@@ -33,6 +36,14 @@ const HeroSection = () => {
           visible: { transition: { staggerChildren: 0.15 } }
         }}
       >
+        {user && (
+          <motion.div variants={staggerItem} className="mb-4">
+            <span className="inline-block px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-white/80 text-sm font-medium backdrop-blur-md">
+              Welcome back, <span className="text-[#C9A84C] font-bold">{user.name.split(' ')[0]}</span> 👋
+            </span>
+          </motion.div>
+        )}
+
         {/* Badge */}
         <motion.div variants={staggerItem} className="mb-6 md:mb-8 inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#C9A84C]/30 bg-white/5 backdrop-blur-md">
           <span className="text-lg md:text-xl">🏛️</span>

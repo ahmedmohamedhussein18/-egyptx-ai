@@ -1,18 +1,10 @@
 import { NextResponse } from 'next/server';
-import { GoogleGenAI } from '@google/genai';
+import { generateContentWithFallback } from '@/lib/gemini';
 
 export async function POST(req: Request) {
   try {
     const body = await req.json();
     const { country, duration, budget, interests, travelStyle } = body;
-
-    const apiKey = process.env.GEMINI_API_KEY;
-    if (!apiKey) {
-      console.error('Missing GEMINI_API_KEY');
-      return NextResponse.json({ error: 'GEMINI_API_KEY is not configured on the server.' }, { status: 500 });
-    }
-
-    const ai = new GoogleGenAI({ apiKey });
 
     // Validate inputs
     const parsedDuration = parseInt(duration, 10);
@@ -57,9 +49,8 @@ Only return the JSON. No markdown formatting blocks or extra text.`;
 
     let data;
     try {
-      const response = await ai.models.generateContent({
-        model: 'gemini-3.6-flash',
-        contents: prompt,
+      const response = await generateContentWithFallback({
+        contents: prompt as any,
         config: {
           responseMimeType: 'application/json',
         }

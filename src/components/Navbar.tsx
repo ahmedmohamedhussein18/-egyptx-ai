@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useAuth } from '@/context/AuthContext';
 
 const navItems = [
   { name: 'Home', href: '/' },
@@ -17,6 +18,9 @@ const navItems = [
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const { user, logout } = useAuth();
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,6 +28,16 @@ export default function Navbar() {
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   return (
@@ -54,7 +68,7 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-6">
+          <nav className="hidden xl:flex items-center gap-6">
             {navItems.map((item) => (
               <Link
                 key={item.name}
@@ -73,14 +87,61 @@ export default function Navbar() {
               href="/command-center"
               className="px-4 py-2 text-sm font-medium text-white/90 border border-[#C9A84C]/50 rounded hover:bg-[#C9A84C]/10 hover:border-[#C9A84C] transition-colors"
             >
-              Command Center
+              Command
             </Link>
-            <Link
-              href="/business-portal"
-              className="px-4 py-2 text-sm font-medium text-[#0A1628] bg-[#C9A84C] rounded hover:bg-[#E3C973] transition-colors shadow-[0_0_15px_rgba(201,168,76,0.3)]"
-            >
-              Business Portal
-            </Link>
+            
+            {user ? (
+              <div className="relative" ref={dropdownRef}>
+                <button
+                  onClick={() => setDropdownOpen(!dropdownOpen)}
+                  className="flex items-center gap-2 pl-1 pr-3 py-1 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full transition-colors"
+                >
+                  <div className="w-7 h-7 rounded-full bg-gradient-to-r from-[#C9A84C] to-[#1B6B93] flex items-center justify-center text-[#030712] font-bold text-xs uppercase">
+                    {user.name.charAt(0)}
+                  </div>
+                  <span className="text-sm font-medium text-white">{user.name.split(' ')[0]}</span>
+                </button>
+                
+                <AnimatePresence>
+                  {dropdownOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 10 }}
+                      className="absolute right-0 mt-2 w-48 bg-[#0A1628] border border-[#C9A84C]/20 rounded-xl overflow-hidden shadow-xl"
+                    >
+                      <div className="px-4 py-3 border-b border-white/5">
+                        <p className="text-sm font-medium text-white truncate">{user.name}</p>
+                        <p className="text-xs text-white/50 truncate">{user.email}</p>
+                      </div>
+                      <Link
+                        href="/tourist-passport"
+                        onClick={() => setDropdownOpen(false)}
+                        className="block px-4 py-2 text-sm text-white/80 hover:bg-white/5 hover:text-[#C9A84C]"
+                      >
+                        Profile & Passport
+                      </Link>
+                      <button
+                        onClick={() => {
+                          logout();
+                          setDropdownOpen(false);
+                        }}
+                        className="block w-full text-left px-4 py-2 text-sm text-white/80 hover:bg-white/5 hover:text-red-400"
+                      >
+                        Log Out
+                      </button>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            ) : (
+              <Link
+                href="/login"
+                className="px-5 py-2 text-sm font-medium text-[#0A1628] bg-[#C9A84C] rounded hover:bg-[#E3C973] transition-colors shadow-[0_0_15px_rgba(201,168,76,0.3)]"
+              >
+                Login
+              </Link>
+            )}
           </div>
 
           {/* Mobile menu button */}
@@ -110,6 +171,17 @@ export default function Navbar() {
             className="absolute top-full left-0 right-0 bg-[#0A1628]/95 backdrop-blur-xl border-b border-[#C9A84C]/20 lg:hidden shadow-2xl"
           >
             <div className="px-4 pt-2 pb-6 space-y-1">
+              {user && (
+                <div className="px-3 py-3 mb-2 border-b border-white/10 flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-[#C9A84C] to-[#1B6B93] flex items-center justify-center text-[#030712] font-bold text-sm uppercase">
+                    {user.name.charAt(0)}
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-white">{user.name}</p>
+                    <p className="text-xs text-white/50">{user.email}</p>
+                  </div>
+                </div>
+              )}
               {navItems.map((item) => (
                 <Link
                   key={item.name}
@@ -128,13 +200,25 @@ export default function Navbar() {
                 >
                   Command Center
                 </Link>
-                <Link
-                  href="/business-portal"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="block w-full px-4 py-3 text-center text-sm font-medium text-[#0A1628] bg-[#C9A84C] rounded-md hover:bg-[#E3C973] transition-colors"
-                >
-                  Business Portal
-                </Link>
+                {user ? (
+                  <button
+                    onClick={() => {
+                      logout();
+                      setMobileMenuOpen(false);
+                    }}
+                    className="block w-full px-4 py-3 text-center text-sm font-medium text-[#0A1628] bg-red-400 rounded-md hover:bg-red-300 transition-colors"
+                  >
+                    Log Out
+                  </button>
+                ) : (
+                  <Link
+                    href="/login"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="block w-full px-4 py-3 text-center text-sm font-medium text-[#0A1628] bg-[#C9A84C] rounded-md hover:bg-[#E3C973] transition-colors"
+                  >
+                    Login
+                  </Link>
+                )}
               </div>
             </div>
           </motion.div>
