@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '@/context/AuthContext';
+import { logoutAction } from '@/app/actions/auth';
 
 const navItems = [
   { name: 'Home', href: '/' },
@@ -121,109 +122,109 @@ export default function Navbar() {
                       >
                         Profile & Passport
                       </Link>
-                      <button
-                        onClick={() => {
-                          logout();
-                          setDropdownOpen(false);
-                        }}
-                        className="block w-full text-left px-4 py-2 text-sm text-white/80 hover:bg-white/5 hover:text-red-400"
-                      >
-                        Log Out
-                      </button>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                  <form action={logoutAction} className="block w-full">
+                    <button
+                      type="submit"
+                      onClick={() => setDropdownOpen(false)}
+                      className="block w-full text-left px-4 py-2 text-sm text-white/80 hover:bg-white/5 hover:text-red-400"
+                    >
+                      Log Out
+                    </button>
+                  </form>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        ) : (
+          <Link
+            href="/login"
+            className="px-5 py-2 text-sm font-medium text-[#0A1628] bg-[#C9A84C] rounded hover:bg-[#E3C973] transition-colors shadow-[0_0_15px_rgba(201,168,76,0.3)]"
+          >
+            Login
+          </Link>
+        )}
+      </div>
+
+      {/* Mobile menu button */}
+      <button
+        className="lg:hidden p-2 text-white/80 hover:text-white"
+        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+      >
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          {mobileMenuOpen ? (
+            <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          ) : (
+            <path d="M4 6H20M4 12H20M4 18H20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          )}
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  {/* Mobile Menu */}
+  <AnimatePresence>
+    {mobileMenuOpen && (
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -20 }}
+        transition={{ duration: 0.2 }}
+        className="absolute top-full left-0 right-0 bg-[#0A1628]/95 backdrop-blur-xl border-b border-[#C9A84C]/20 lg:hidden shadow-2xl"
+      >
+        <div className="px-4 pt-2 pb-6 space-y-1">
+          {user && (
+            <div className="px-3 py-3 mb-2 border-b border-white/10 flex items-center gap-3">
+              <div className="w-8 h-8 rounded-full bg-gradient-to-r from-[#C9A84C] to-[#1B6B93] flex items-center justify-center text-[#030712] font-bold text-sm uppercase">
+                {user.name.charAt(0)}
               </div>
+              <div>
+                <p className="text-sm font-medium text-white">{user.name}</p>
+                <p className="text-xs text-white/50">{user.email}</p>
+              </div>
+            </div>
+          )}
+          {navItems.map((item) => (
+            <Link
+              key={item.name}
+              href={item.href}
+              onClick={() => setMobileMenuOpen(false)}
+              className="block px-3 py-3 text-base font-medium text-white/80 hover:text-[#C9A84C] hover:bg-white/5 rounded-md transition-colors"
+            >
+              {item.name}
+            </Link>
+          ))}
+          <div className="pt-4 mt-2 border-t border-white/10 flex flex-col gap-3">
+            <Link
+              href="/command-center"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block w-full px-4 py-3 text-center text-sm font-medium text-[#C9A84C] border border-[#C9A84C]/50 rounded-md hover:bg-[#C9A84C]/10 transition-colors"
+            >
+              Command Center
+            </Link>
+            {user ? (
+              <form action={logoutAction} className="block w-full">
+                <button
+                  type="submit"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block w-full px-4 py-3 text-center text-sm font-medium text-[#0A1628] bg-red-400 rounded-md hover:bg-red-300 transition-colors"
+                >
+                  Log Out
+                </button>
+              </form>
             ) : (
               <Link
                 href="/login"
-                className="px-5 py-2 text-sm font-medium text-[#0A1628] bg-[#C9A84C] rounded hover:bg-[#E3C973] transition-colors shadow-[0_0_15px_rgba(201,168,76,0.3)]"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block w-full px-4 py-3 text-center text-sm font-medium text-[#0A1628] bg-[#C9A84C] rounded-md hover:bg-[#E3C973] transition-colors"
               >
                 Login
               </Link>
             )}
           </div>
-
-          {/* Mobile menu button */}
-          <button
-            className="lg:hidden p-2 text-white/80 hover:text-white"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              {mobileMenuOpen ? (
-                <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              ) : (
-                <path d="M4 6H20M4 12H20M4 18H20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              )}
-            </svg>
-          </button>
         </div>
-      </div>
-
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {mobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.2 }}
-            className="absolute top-full left-0 right-0 bg-[#0A1628]/95 backdrop-blur-xl border-b border-[#C9A84C]/20 lg:hidden shadow-2xl"
-          >
-            <div className="px-4 pt-2 pb-6 space-y-1">
-              {user && (
-                <div className="px-3 py-3 mb-2 border-b border-white/10 flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-[#C9A84C] to-[#1B6B93] flex items-center justify-center text-[#030712] font-bold text-sm uppercase">
-                    {user.name.charAt(0)}
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-white">{user.name}</p>
-                    <p className="text-xs text-white/50">{user.email}</p>
-                  </div>
-                </div>
-              )}
-              {navItems.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="block px-3 py-3 text-base font-medium text-white/80 hover:text-[#C9A84C] hover:bg-white/5 rounded-md transition-colors"
-                >
-                  {item.name}
-                </Link>
-              ))}
-              <div className="pt-4 mt-2 border-t border-white/10 flex flex-col gap-3">
-                <Link
-                  href="/command-center"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="block w-full px-4 py-3 text-center text-sm font-medium text-[#C9A84C] border border-[#C9A84C]/50 rounded-md hover:bg-[#C9A84C]/10 transition-colors"
-                >
-                  Command Center
-                </Link>
-                {user ? (
-                  <button
-                    onClick={() => {
-                      logout();
-                      setMobileMenuOpen(false);
-                    }}
-                    className="block w-full px-4 py-3 text-center text-sm font-medium text-[#0A1628] bg-red-400 rounded-md hover:bg-red-300 transition-colors"
-                  >
-                    Log Out
-                  </button>
-                ) : (
-                  <Link
-                    href="/login"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="block w-full px-4 py-3 text-center text-sm font-medium text-[#0A1628] bg-[#C9A84C] rounded-md hover:bg-[#E3C973] transition-colors"
-                  >
-                    Login
-                  </Link>
-                )}
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </header>
-  );
+      </motion.div>
+    )}
+  </AnimatePresence>
+</header>
+);
 }

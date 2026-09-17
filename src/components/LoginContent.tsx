@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/context/AuthContext';
+import { createClient } from '@/lib/supabase/client';
 import Link from 'next/link';
 
 const COUNTRIES = [
@@ -25,7 +25,7 @@ const COUNTRIES = [
 export default function LoginContent() {
   const [isLogin, setIsLogin] = useState(true);
   const router = useRouter();
-  const { login } = useAuth();
+  const supabase = createClient();
 
   // Form State
   const [name, setName] = useState('');
@@ -33,20 +33,39 @@ export default function LoginContent() {
   const [password, setPassword] = useState('');
   const [country, setCountry] = useState('');
   const [language, setLanguage] = useState('English');
+  const [errorMsg, setErrorMsg] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !password) return;
     if (!isLogin && (!name || !country)) return;
 
-    // Fake Auth Logic
-    login({
-      name: isLogin ? email.split('@')[0] : name, // fallback to email prefix for login
-      email,
-      country: isLogin ? 'EG' : country,
-      language
-    });
-    router.push('/');
+    setLoading(true);
+    setErrorMsg('');
+
+    try {
+      if (isLogin) {
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error) throw error;
+      } else {
+        const { error } = await supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            data: { full_name: name }
+          }
+        });
+        if (error) throw error;
+      }
+      
+      router.push('/');
+      router.refresh();
+    } catch (err: any) {
+      setErrorMsg(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const toggleView = () => {
@@ -55,6 +74,7 @@ export default function LoginContent() {
     setEmail('');
     setPassword('');
     setCountry('');
+    setErrorMsg('');
   };
 
   return (
@@ -79,6 +99,12 @@ export default function LoginContent() {
                 : 'Join the National Smart Tourism Ecosystem today.'}
             </p>
           </div>
+
+          {errorMsg && (
+            <div className="mb-6 p-4 bg-red-500/10 border border-red-500/50 rounded-xl text-red-400 text-sm">
+              {errorMsg}
+            </div>
+          )}
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <AnimatePresence mode="popLayout">
@@ -158,9 +184,10 @@ export default function LoginContent() {
 
             <button
               type="submit"
-              className="w-full mt-6 px-6 py-4 rounded-xl bg-gradient-to-r from-[#C9A84C] to-[#E2CB85] text-[#030712] font-bold text-sm hover:shadow-[0_0_20px_rgba(201,168,76,0.3)] transition-all hover:-translate-y-0.5"
+              disabled={loading}
+              className="w-full mt-6 px-6 py-4 rounded-xl bg-gradient-to-r from-[#C9A84C] to-[#E2CB85] text-[#030712] font-bold text-sm hover:shadow-[0_0_20px_rgba(201,168,76,0.3)] transition-all hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isLogin ? 'Login' : 'Create Account'}
+              {loading ? 'Processing...' : (isLogin ? 'Login' : 'Create Account')}
             </button>
 
             {!isLogin && (
