@@ -18,11 +18,21 @@ export default async function CommandCenterPage() {
     redirect("/login");
   }
 
-  const { data: profile } = await supabase
+  // Using Service Role Client here to bypass a known infinite recursion bug 
+  // in the profiles RLS policy until the database is patched.
+  const { createClient: createAdminClient } = await import("@supabase/supabase-js");
+  const supabaseAdmin = createAdminClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SECRET_KEY!
+  );
+
+  const { data: profile, error: profileError } = await supabaseAdmin
     .from("profiles")
     .select("role")
     .eq("id", user.id)
     .single();
+
+
 
   if (!profile || profile.role === "tourist") {
     redirect("/?error=unauthorized");

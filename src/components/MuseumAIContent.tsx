@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Camera, ScanLine, Info, Images, ExternalLink, MapPin, Search } from 'lucide-react';
+import { trackEvent } from '@/lib/analytics';
 
 interface ArtifactData {
   id: string;
@@ -52,6 +53,10 @@ const ARTIFACTS: ArtifactData[] = [
 export default function MuseumAIContent() {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analyzedArtifact, setAnalyzedArtifact] = useState<ArtifactData | null>(null);
+
+  React.useEffect(() => {
+    trackEvent('page_view');
+  }, []);
 
   const handleIdentify = () => {
     setAnalyzedArtifact(null);

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { generateContentWithFallback } from '@/lib/gemini';
+import { generateContentWithFallback } from '@/lib/groq';
 
 export async function POST(req: Request) {
   try {
@@ -10,24 +10,27 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Invalid messages format' }, { status: 400 });
     }
 
-    // Format history for the Gemini API
-    const contents = messages.map((m: any) => ({
-      role: m.role === 'assistant' ? 'model' : 'user',
-      parts: [{ text: m.content }]
-    }));
-
     const systemInstruction = `You are "EgyptX AI", a friendly, knowledgeable Egypt tourism assistant. 
 Your goal is to give helpful, realistic, and concise answers (typically 2-4 sentences) about Egyptian destinations, itinerary advice, crowd levels (you can invent plausible crowd status), safety tips, and general travel advice. 
 Keep your tone warm and expert, like a knowledgeable local guide. Do not use complex formatting; plain text with occasional emojis is best.`;
 
+    const groqMessages = [
+      { role: 'system', content: systemInstruction },
+      ...messages.map((m: any) => ({
+        role: m.role === 'assistant' ? 'assistant' : 'user',
+        content: m.content
+      }))
+    ];
+
     const response = await generateContentWithFallback({
-      contents: contents,
+      messages: groqMessages,
       config: {
-        systemInstruction,
+        temperature: 0.7,
+        max_tokens: 1024,
       }
     });
 
-    const replyText = response.text || "I'm sorry, I couldn't process that request right now.";
+    const replyText = response?.choices?.[0]?.message?.content || "I'm sorry, I couldn't process that request right now.";
 
     return NextResponse.json({ reply: replyText });
   } catch (error) {

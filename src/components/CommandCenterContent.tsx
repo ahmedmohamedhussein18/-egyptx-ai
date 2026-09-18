@@ -1,69 +1,110 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  TrendingUp, Users, Clock, DollarSign, 
-  AlertTriangle, ShieldCheck, Thermometer, 
-  Droplets, Activity, Radio, MapPin, 
-  BarChart3, AlertCircle, ArrowRight
+  Users, Clock, Activity, Radio, MapPin, 
+  BarChart3, AlertCircle, Loader2, Calendar, Map
 } from 'lucide-react';
+import dynamic from 'next/dynamic';
+import {
+  LineChart, Line, BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid
+} from 'recharts';
 
-/* ─────────────────── DATA ─────────────────── */
-
-const MAP_SITES = [
-  { id: 'giza', name: 'Giza', x: 185, y: 140, status: 'red', visitors: '45,210', crowd: 'HIGH' },
-  { id: 'luxor', name: 'Luxor', x: 205, y: 265, status: 'yellow', visitors: '28,450', crowd: 'MEDIUM' },
-  { id: 'aswan', name: 'Aswan', x: 210, y: 315, status: 'green', visitors: '12,300', crowd: 'LOW' },
-  { id: 'hurghada', name: 'Hurghada', x: 230, y: 220, status: 'yellow', visitors: '31,100', crowd: 'MEDIUM' },
-  { id: 'siwa', name: 'Siwa', x: 100, y: 125, status: 'green', visitors: '2,400', crowd: 'LOW' },
-  { id: 'fayoum', name: 'Fayoum', x: 175, y: 160, status: 'green', visitors: '4,100', crowd: 'LOW' },
-];
-
-const HEALTH_SITES = [
-  {
-    name: 'Karnak Temple',
-    temp: '24.8°C',
-    humidity: '52%',
-    vibration: 'Normal',
-    density: '72%',
-    risk: 'green',
-    alertMsg: 'No Critical Threat'
-  },
-  {
-    name: 'Valley of the Kings (KV62)',
-    temp: '28.5°C',
-    humidity: '68%',
-    vibration: 'Elevated',
-    density: '94%',
-    risk: 'red',
-    alertMsg: 'High humidity detected',
-    actionMsg: 'Reduce visitor density to preserve tomb paintings'
-  },
-  {
-    name: 'Abu Simbel',
-    temp: '32.1°C',
-    humidity: '20%',
-    vibration: 'Normal',
-    density: '45%',
-    risk: 'green',
-    alertMsg: 'No Critical Threat'
-  }
-];
-
-const CHART_DATA = [
-  { name: 'Giza', val: 45 },
-  { name: 'Hurghada', val: 31 },
-  { name: 'Luxor', val: 28 },
-  { name: 'Aswan', val: 12 },
-  { name: 'Fayoum', val: 4 },
-  { name: 'Siwa', val: 2.4 },
-];
-
-/* ─────────────────── COMPONENTS ─────────────────── */
+const MapLeaflet = dynamic(() => import('@/components/MapLeaflet'), { ssr: false });
 
 export default function CommandCenterContent() {
-  const [selectedSite, setSelectedSite] = useState(MAP_SITES[0]);
+  const [dateRange, setDateRange] = useState('today'); // today, 7d, 30d, custom
+  const [customStart, setCustomStart] = useState('');
+  const [customEnd, setCustomEnd] = useState('');
+
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  
+  const [data, setData] = useState<any>(null);
+  const [selectedSiteId, setSelectedSiteId] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetchData();
+  }, [dateRange, customStart, customEnd]);
+
+  async function fetchData() {
+    if (dateRange === 'custom' && (!customStart || !customEnd)) {
+      return; // Wait for both dates
+    }
+    
+    setLoading(true);
+    setError(null);
+    try {
+      let url = `/api/command-center?range=${dateRange}`;
+      if (dateRange === 'custom') {
+        url += `&startDate=${customStart}&endDate=${customEnd}`;
+      }
+
+      const res = await fetch(url);
+      const json = await res.json();
+
+      if (!res.ok) {
+        throw new Error(json.error || 'Failed to fetch dashboard data');
+      }
+
+      setData(json);
+      
+      // Auto-select first site if none selected
+      if (!selectedSiteId && json.mapData && json.mapData.length > 0) {
+        setSelectedSiteId(json.mapData[0].id);
+      }
+    } catch (err: any) {
+      console.error(err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const kpis = data?.kpis || {};
+  const charts = data?.charts || {};
+  const mapData = data?.mapData || [];
+  
+  const scopeTitle = data?.isNational 
+    ? 'National Command Center' 
+    : data?.scopeName ? `${data.scopeName} Tourism Dashboard` : 'Command Center';
+
+  const CustomTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="bg-[#0A1628] border border-[#C9A84C]/30 p-3 rounded-lg shadow-xl">
+          <p className="text-white text-sm mb-1">{label}</p>
+          <p className="text-[#C9A84C] font-bold">
+            {payload[0].name}: {payload[0].value}
+          </p>
+        </div>
+      );
+    }
+    return null;
+  };
+
+  // Derived crowd prediction logic
+  const selectedSite = useMemo(() => mapData.find((a: any) => a.id === selectedSiteId), [mapData, selectedSiteId]);
+  let predictionText = 'Insufficient data to estimate crowd level.';
+  let predictionColor = 'text-gray-500';
+  let predictionBg = 'bg-white/5 border-white/10';
+
+  if (selectedSite && selectedSite.checkins >= 5) {
+    if (selectedSite.checkins > 20) {
+      predictionText = 'Predicted: High Crowd Density';
+      predictionColor = 'text-red-400';
+      predictionBg = 'bg-red-500/10 border-red-500/20';
+    } else if (selectedSite.checkins > 10) {
+      predictionText = 'Predicted: Moderate Crowd Density';
+      predictionColor = 'text-yellow-400';
+      predictionBg = 'bg-yellow-500/10 border-yellow-500/20';
+    } else {
+      predictionText = 'Predicted: Low Crowd Density (Optimal)';
+      predictionColor = 'text-green-400';
+      predictionBg = 'bg-green-500/10 border-green-500/20';
+    }
+  }
 
   return (
     <div className="min-h-screen bg-[#030712] text-white pt-24 pb-16 font-sans">
@@ -78,7 +119,7 @@ export default function CommandCenterContent() {
               className="text-3xl md:text-4xl font-bold text-[#C9A84C] mb-2 uppercase tracking-wide flex items-center gap-3"
             >
               <Radio className="w-8 h-8" />
-              EgyptX AI — Command Center
+              {scopeTitle}
             </motion.h1>
             <motion.p 
               initial={{ opacity: 0, x: -20 }}
@@ -86,334 +127,307 @@ export default function CommandCenterContent() {
               transition={{ delay: 0.1 }}
               className="text-gray-400 font-medium tracking-wider uppercase text-sm"
             >
-              National Tourism Intelligence Platform
+              Real-time Tourism Intelligence Platform
             </motion.p>
           </div>
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="flex items-center gap-2 px-4 py-2 bg-green-500/10 border border-green-500/30 rounded-full"
-          >
-            <div className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse" />
-            <span className="text-green-400 text-sm font-bold tracking-widest uppercase">System Online</span>
-          </motion.div>
-        </div>
-
-        {/* Top Stats Row */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-          {[
-            { label: 'Today\'s Visitors', value: '184,523', trend: '+12%', icon: Users, color: '#C9A84C' },
-            { label: 'Active Tourists', value: '72,391', trend: '+5%', icon: Activity, color: '#1B6B93' },
-            { label: 'Average Stay', value: '6.4 Days', trend: '+0.2', icon: Clock, color: '#1B6B93' },
-            { label: 'Tourism Spending', value: '$12.8M', trend: '+18%', icon: DollarSign, color: '#C9A84C' },
-          ].map((stat, idx) => (
+          <div className="flex flex-col items-end gap-3">
             <motion.div 
-              key={idx}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: idx * 0.1 }}
-              className="bg-[#0A1628]/80 backdrop-blur border border-[#C9A84C]/20 rounded-2xl p-5 flex items-start justify-between"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="flex items-center gap-2 px-4 py-2 bg-green-500/10 border border-green-500/30 rounded-full"
             >
-              <div>
-                <p className="text-gray-400 text-sm font-medium uppercase tracking-wider mb-2">{stat.label}</p>
-                <div className="flex items-baseline gap-3">
-                  <h3 className="text-3xl font-bold text-white font-mono">{stat.value}</h3>
-                  <span className="flex items-center text-green-400 text-xs font-bold bg-green-400/10 px-1.5 py-0.5 rounded">
-                    <TrendingUp className="w-3 h-3 mr-1" />
-                    {stat.trend}
-                  </span>
-                </div>
-              </div>
-              <div className="p-3 bg-white/5 rounded-xl border border-white/5">
-                <stat.icon className="w-6 h-6" style={{ color: stat.color }} />
-              </div>
+              <div className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse" />
+              <span className="text-green-400 text-sm font-bold tracking-widest uppercase">System Online</span>
             </motion.div>
-          ))}
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
-          
-          {/* Live Tourism Map (Left Column) */}
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="lg:col-span-1 bg-[#0A1628]/80 backdrop-blur border border-[#C9A84C]/20 rounded-2xl p-6 relative overflow-hidden flex flex-col"
-          >
-            <h3 className="text-lg font-bold text-[#C9A84C] uppercase tracking-wider mb-4 flex items-center gap-2">
-              <MapPin className="w-5 h-5" /> Live Tourism Map
-            </h3>
             
-            <div className="relative flex-grow flex items-center justify-center min-h-[400px]">
-              <svg viewBox="0 0 300 500" className="w-full h-full max-h-[450px]" fill="none">
-                {/* Simplified Egypt outline */}
-                <path
-                  d="M165 50 L250 50 L260 80 L270 100 L260 120 L255 140 L265 155 L255 170 L250 185 L260 200 L255 220 L250 240 L245 260 L240 280 L235 300 L230 320 L225 340 L218 370 L210 400 L195 430 L180 450 L165 440 L150 420 L140 400 L130 380 L125 350 L130 320 L140 290 L150 260 L155 230 L160 200 L170 170 L175 150 L180 130 L175 110 L170 90 L165 70 Z"
-                  fill="#C9A84C" fillOpacity="0.05" stroke="#C9A84C" strokeWidth="1" strokeOpacity="0.3"
-                />
-                {/* Nile */}
-                <path
-                  d="M195 130 Q200 160 205 200 Q210 240 205 270 Q200 310 210 350 Q215 380 195 430"
-                  stroke="#1B6B93" strokeWidth="2.5" strokeOpacity="0.5" strokeLinecap="round" fill="none"
-                />
-                
-                {/* Map Markers */}
-                {MAP_SITES.map(site => {
-                  const color = site.status === 'red' ? '#EF4444' : site.status === 'yellow' ? '#EAB308' : '#22C55E';
-                  const isSelected = selectedSite.id === site.id;
-                  
-                  return (
-                    <g 
-                      key={site.id} 
-                      onClick={() => setSelectedSite(site)}
-                      className="cursor-pointer group"
-                    >
-                      <circle cx={site.x} cy={site.y} r="15" fill={color} opacity="0.2" className={isSelected ? 'animate-ping' : ''} />
-                      <circle cx={site.x} cy={site.y} r="6" fill={color} stroke="#030712" strokeWidth="2" />
-                      {isSelected && (
-                        <circle cx={site.x} cy={site.y} r="9" stroke={color} strokeWidth="1" fill="none" />
-                      )}
-                    </g>
-                  );
-                })}
-              </svg>
-
-              {/* Popup Card for selected site */}
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={selectedSite.id}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  className="absolute bottom-4 left-4 right-4 bg-black/80 backdrop-blur-md border border-white/10 rounded-xl p-4 shadow-xl"
+            {/* Date Filters */}
+            <div className="flex bg-[#0A1628] rounded-lg border border-white/10 p-1">
+              {(['today', '7d', '30d', 'custom'] as const).map(range => (
+                <button
+                  key={range}
+                  onClick={() => setDateRange(range)}
+                  className={`px-3 py-1.5 text-xs font-bold uppercase rounded-md transition-colors ${
+                    dateRange === range 
+                    ? 'bg-[#C9A84C]/20 text-[#C9A84C]' 
+                    : 'text-gray-500 hover:text-white'
+                  }`}
                 >
-                  <div className="flex justify-between items-start mb-2">
-                    <h4 className="font-bold text-white uppercase">{selectedSite.name}</h4>
-                    <span className={`text-[10px] px-2 py-0.5 rounded font-bold uppercase tracking-wider border ${
-                      selectedSite.status === 'red' ? 'bg-red-500/20 text-red-400 border-red-500/30' :
-                      selectedSite.status === 'yellow' ? 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30' :
-                      'bg-green-500/20 text-green-400 border-green-500/30'
-                    }`}>
-                      {selectedSite.crowd}
-                    </span>
-                  </div>
-                  <div className="flex justify-between items-end">
-                    <span className="text-gray-400 text-xs uppercase">Current Visitors</span>
-                    <span className="text-xl font-mono text-[#C9A84C]">{selectedSite.visitors}</span>
-                  </div>
-                </motion.div>
-              </AnimatePresence>
+                  {range === '7d' ? '7 Days' : range === '30d' ? '30 Days' : range}
+                </button>
+              ))}
             </div>
-          </motion.div>
-
-          {/* Right Column: AI Crowd Prediction & Heritage Health */}
-          <div className="lg:col-span-2 flex flex-col gap-8">
             
-            {/* AI Crowd Prediction Panel */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="bg-[#0A1628]/80 backdrop-blur border border-red-500/30 rounded-2xl overflow-hidden relative shadow-[0_0_40px_rgba(239,68,68,0.1)]"
-            >
-              {/* Decorative AI background */}
-              <div className="absolute top-0 right-0 w-64 h-64 bg-red-500/5 blur-[100px] pointer-events-none" />
-              
-              <div className="p-6 border-b border-red-500/20 flex justify-between items-center bg-red-500/5">
-                <h3 className="text-xl font-bold text-white uppercase tracking-wider flex items-center gap-2">
-                  <AlertCircle className="w-6 h-6 text-red-400" /> AI Crowd Prediction
-                </h3>
-                <span className="text-[10px] font-mono text-gray-500 border border-gray-700 px-2 py-1 rounded bg-black/50">PROTOTYPE SIMULATION — DEMO DATA</span>
+            {dateRange === 'custom' && (
+              <div className="flex gap-2">
+                <input 
+                  type="date" 
+                  value={customStart} 
+                  onChange={(e) => setCustomStart(e.target.value)}
+                  className="bg-[#0A1628] border border-white/10 rounded px-2 py-1 text-xs text-white"
+                />
+                <input 
+                  type="date" 
+                  value={customEnd} 
+                  onChange={(e) => setCustomEnd(e.target.value)}
+                  className="bg-[#0A1628] border border-white/10 rounded px-2 py-1 text-xs text-white"
+                />
               </div>
-              
-              <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div>
-                  <p className="text-gray-400 text-sm uppercase tracking-wider mb-1">Target Zone</p>
-                  <h2 className="text-3xl font-bold text-white mb-6 font-serif">Giza Plateau</h2>
-                  
-                  <div className="space-y-4">
-                    <div>
-                      <div className="flex justify-between text-sm mb-1">
-                        <span className="text-red-400 font-bold uppercase">Current Crowd: High</span>
-                        <span className="font-mono text-red-400">95% Cap</span>
-                      </div>
-                      <div className="w-full bg-gray-800 rounded-full h-2 overflow-hidden">
-                        <div className="bg-red-500 h-2 rounded-full w-[95%]" />
-                      </div>
+            )}
+          </div>
+        </div>
+
+        {error ? (
+          <div className="bg-red-500/10 border border-red-500/30 text-red-400 p-6 rounded-xl text-center mb-8">
+            <h3 className="font-bold text-lg mb-2">Error Loading Dashboard</h3>
+            <p>{error}</p>
+          </div>
+        ) : loading && !data ? (
+          <div className="flex flex-col items-center justify-center min-h-[400px] text-[#C9A84C]">
+            <Loader2 className="w-12 h-12 animate-spin mb-4" />
+            <span className="text-lg uppercase tracking-widest font-bold">Initializing Uplink...</span>
+          </div>
+        ) : (
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={dateRange + customStart + customEnd}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+            >
+              {/* KPIs Row */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                {/* Check-ins */}
+                <div className="bg-[#0A1628]/80 backdrop-blur border border-[#C9A84C]/20 rounded-2xl p-5 flex items-start justify-between">
+                  <div>
+                    <p className="text-gray-400 text-xs font-medium uppercase tracking-wider mb-2">Verified Check-ins</p>
+                    <div className="flex flex-col gap-1">
+                      {kpis.verifiedCheckins > 0 ? (
+                        <h3 className="text-3xl font-bold text-[#C9A84C]">{kpis.verifiedCheckins}</h3>
+                      ) : (
+                        <h3 className="text-sm font-bold text-gray-500 italic mt-1">No verified check-ins recorded yet for this period.</h3>
+                      )}
                     </div>
-                    
-                    <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl">
-                      <p className="text-red-400 text-sm font-bold uppercase mb-1 flex items-center gap-2"><Clock className="w-4 h-4" /> AI Prediction</p>
-                      <p className="text-white text-lg">Expected peak congestion in 2 hours</p>
-                    </div>
+                  </div>
+                  <div className="p-3 bg-white/5 rounded-xl border border-white/5">
+                    <MapPin className="w-6 h-6 text-[#C9A84C]" />
                   </div>
                 </div>
 
-                <div className="flex flex-col justify-center">
-                  <p className="text-gray-400 text-sm uppercase tracking-wider mb-2">Recommended Action</p>
-                  <p className="text-white text-lg font-medium mb-6">Redirect 18% of visitors toward Saqqara & Fayoum</p>
-                  
-                  <div className="bg-[#1B6B93]/20 border border-[#1B6B93]/30 rounded-xl p-5">
-                    <p className="text-[#4CC9F0] text-sm font-bold uppercase mb-3">AI Intervention Impact</p>
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-white text-sm">Giza Congestion</span>
-                      <span className="text-green-400 font-mono font-bold">-14%</span>
-                    </div>
-                    <div className="w-full flex h-3 rounded-full overflow-hidden bg-gray-800">
-                      {/* Before (red) vs After (blue) visual */}
-                      <div className="bg-[#1B6B93] h-full w-[81%]" />
-                      <div className="bg-red-500/30 h-full w-[14%] relative">
-                        <div className="absolute inset-0 bg-[url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAIklEQVQIW2NkQAKrVq36zwjjgzhhYWGMYAEYB8RmROaABADeOQ8CXl/xfgAAAABJRU5ErkJggg==')] opacity-50" />
-                      </div>
-                    </div>
-                    <div className="mt-4 pt-4 border-t border-[#1B6B93]/30 flex justify-between items-center">
-                      <span className="text-sm text-gray-300">Promote: Saqqara</span>
-                      <button className="px-4 py-1.5 bg-[#1B6B93] hover:bg-[#1B6B93]/80 rounded text-white text-xs font-bold uppercase tracking-wider transition-colors">
-                        Execute Rule
-                      </button>
+                {/* Page Views */}
+                <div className="bg-[#0A1628]/80 backdrop-blur border border-[#1B6B93]/30 rounded-2xl p-5 flex items-start justify-between">
+                  <div>
+                    <p className="text-gray-400 text-xs font-medium uppercase tracking-wider mb-2">Attraction Page Views</p>
+                    <div className="flex flex-col gap-1">
+                      {kpis.attractionViews > 0 ? (
+                        <h3 className="text-3xl font-bold text-[#4CC9F0]">{kpis.attractionViews}</h3>
+                      ) : (
+                        <h3 className="text-sm font-bold text-gray-500 italic mt-1">No attraction views recorded yet.</h3>
+                      )}
                     </div>
                   </div>
+                  <div className="p-3 bg-white/5 rounded-xl border border-white/5">
+                    <Activity className="w-6 h-6 text-[#4CC9F0]" />
+                  </div>
                 </div>
-              </div>
-            </motion.div>
 
-            {/* Heritage Site Health Panel */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="bg-[#0A1628]/80 backdrop-blur border border-[#C9A84C]/20 rounded-2xl overflow-hidden p-6"
-            >
-              <h3 className="text-lg font-bold text-[#C9A84C] uppercase tracking-wider mb-6 flex items-center gap-2">
-                <ShieldCheck className="w-5 h-5" /> Heritage Site Health
-              </h3>
-              
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                {HEALTH_SITES.map((site, idx) => (
-                  <div key={idx} className={`p-4 rounded-xl border ${site.risk === 'red' ? 'bg-red-500/10 border-red-500/30' : 'bg-white/5 border-white/10'}`}>
-                    <h4 className="font-bold text-white mb-4 line-clamp-1" title={site.name}>{site.name}</h4>
-                    
-                    <div className="space-y-2 mb-4">
-                      <div className="flex justify-between items-center text-sm">
-                        <span className="text-gray-400 flex items-center gap-1"><Thermometer className="w-3 h-3" /> Temp</span>
-                        <span className="font-mono text-gray-200">{site.temp}</span>
-                      </div>
-                      <div className="flex justify-between items-center text-sm">
-                        <span className="text-gray-400 flex items-center gap-1"><Droplets className="w-3 h-3" /> Humid</span>
-                        <span className={`font-mono ${site.risk === 'red' ? 'text-red-400 font-bold' : 'text-gray-200'}`}>{site.humidity}</span>
-                      </div>
-                      <div className="flex justify-between items-center text-sm">
-                        <span className="text-gray-400 flex items-center gap-1"><Activity className="w-3 h-3" /> Vibr</span>
-                        <span className={`font-mono ${site.risk === 'red' ? 'text-red-400 font-bold' : 'text-gray-200'}`}>{site.vibration}</span>
-                      </div>
+                {/* Planner Requests */}
+                <div className="bg-[#0A1628]/80 backdrop-blur border border-[#C9A84C]/20 rounded-2xl p-5 flex items-start justify-between">
+                  <div>
+                    <p className="text-gray-400 text-xs font-medium uppercase tracking-wider mb-2">AI Planner Requests</p>
+                    <div className="flex flex-col gap-1">
+                      {kpis.plannerRequests > 0 ? (
+                        <h3 className="text-3xl font-bold text-[#C9A84C]">{kpis.plannerRequests}</h3>
+                      ) : (
+                        <h3 className="text-sm font-bold text-gray-500 italic mt-1">No itineraries generated yet.</h3>
+                      )}
                     </div>
-                    
-                    <div className="pt-3 border-t border-white/10">
-                      {site.risk === 'red' ? (
+                  </div>
+                  <div className="p-3 bg-white/5 rounded-xl border border-white/5">
+                    <Calendar className="w-6 h-6 text-[#C9A84C]" />
+                  </div>
+                </div>
+
+                {/* Most Viewed */}
+                <div className="bg-[#0A1628]/80 backdrop-blur border border-[#1B6B93]/30 rounded-2xl p-5 flex items-start justify-between">
+                  <div>
+                    <p className="text-gray-400 text-xs font-medium uppercase tracking-wider mb-2">Most Viewed Attraction</p>
+                    <div className="flex flex-col gap-1">
+                      {kpis.mostViewedAttraction ? (
                         <>
-                          <p className="text-red-400 text-xs font-bold uppercase flex items-center gap-1 mb-1">
-                            <AlertTriangle className="w-3 h-3" /> Potential Risk
-                          </p>
-                          <p className="text-[10px] text-gray-400 uppercase">{site.actionMsg}</p>
+                          <h3 className="text-lg font-bold text-[#4CC9F0] leading-tight truncate max-w-[150px]" title={kpis.mostViewedAttraction.name}>
+                            {kpis.mostViewedAttraction.name}
+                          </h3>
+                          <span className="text-xs text-gray-400">{kpis.mostViewedAttraction.views} views</span>
                         </>
                       ) : (
-                        <p className="text-green-400 text-xs font-bold uppercase flex items-center gap-1">
-                          <ShieldCheck className="w-3 h-3" /> {site.alertMsg}
-                        </p>
+                        <h3 className="text-sm font-bold text-gray-500 italic mt-1">Awaiting Data</h3>
                       )}
                     </div>
                   </div>
-                ))}
+                  <div className="p-3 bg-white/5 rounded-xl border border-white/5">
+                    <Users className="w-6 h-6 text-[#4CC9F0]" />
+                  </div>
+                </div>
               </div>
-            </motion.div>
-          </div>
-        </div>
 
-        {/* Analytics Chart Section */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="bg-[#0A1628]/80 backdrop-blur border border-[#C9A84C]/20 rounded-2xl p-6"
-        >
-          <div className="flex justify-between items-center mb-6">
-            <h3 className="text-lg font-bold text-[#C9A84C] uppercase tracking-wider flex items-center gap-2">
-              <BarChart3 className="w-5 h-5" /> Visitors by Destination (Real-time, thousands)
-            </h3>
-            <button className="text-[#1B6B93] hover:text-white text-sm font-bold uppercase flex items-center gap-1 transition-colors">
-              Full Report <ArrowRight className="w-4 h-4" />
-            </button>
-          </div>
-          
-          <div className="w-full h-64 relative">
-            <svg viewBox="0 0 600 200" className="w-full h-full preserve-3d" preserveAspectRatio="none">
-              {/* Grid lines */}
-              {[0, 1, 2, 3, 4].map(i => (
-                <line key={i} x1="0" y1={i * 40} x2="600" y2={i * 40} stroke="#ffffff" strokeOpacity="0.05" strokeWidth="1" />
-              ))}
-              
-              {/* Bars */}
-              {CHART_DATA.map((d, i) => {
-                const maxVal = 50; // max scale 50k
-                const barHeight = (d.val / maxVal) * 160;
-                const yPos = 160 - barHeight;
-                const xPos = (i * 100) + 20;
-                const isMax = d.val === Math.max(...CHART_DATA.map(c => c.val));
+              {/* Middle Row: Map and Prediction */}
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
                 
-                return (
-                  <g key={d.name} className="group">
-                    {/* Hover highlight line */}
-                    <line x1={xPos + 30} y1="0" x2={xPos + 30} y2="160" stroke="#ffffff" strokeOpacity="0" strokeWidth="60" className="group-hover:stroke-opacity-5 transition-opacity" />
-                    
-                    {/* Bar */}
-                    <rect 
-                      x={xPos + 10} 
-                      y={yPos} 
-                      width="40" 
-                      height={barHeight} 
-                      fill={isMax ? 'url(#bar-gold)' : 'url(#bar-blue)'}
-                      rx="4"
-                      className="transition-all duration-500 ease-out hover:brightness-125"
+                {/* Live Tourism Map */}
+                <div className="lg:col-span-2 bg-[#0A1628]/80 backdrop-blur border border-[#C9A84C]/20 rounded-2xl p-6 relative flex flex-col min-h-[500px]">
+                  <h3 className="text-lg font-bold text-[#C9A84C] uppercase tracking-wider mb-4 flex items-center gap-2">
+                    <Map className="w-5 h-5" /> Live Tourism Map
+                  </h3>
+                  <div className="flex-grow w-full relative z-0">
+                    <MapLeaflet 
+                      attractions={mapData} 
+                      selectedId={selectedSiteId} 
+                      onMarkerClick={(id) => setSelectedSiteId(id)} 
                     />
-                    
-                    {/* Value Label */}
-                    <text 
-                      x={xPos + 30} 
-                      y={yPos - 10} 
-                      textAnchor="middle" 
-                      fill={isMax ? '#C9A84C' : '#ffffff'} 
-                      opacity="0.8"
-                      className="text-[10px] font-mono font-bold"
-                    >
-                      {d.val}k
-                    </text>
-                    
-                    {/* Axis Label */}
-                    <text 
-                      x={xPos + 30} 
-                      y="185" 
-                      textAnchor="middle" 
-                      fill="#9ca3af" 
-                      className="text-[12px] font-sans uppercase tracking-wider font-bold"
-                    >
-                      {d.name}
-                    </text>
-                  </g>
-                );
-              })}
-              
-              <defs>
-                <linearGradient id="bar-gold" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#E2C779" />
-                  <stop offset="100%" stopColor="#C9A84C" stopOpacity="0.3" />
-                </linearGradient>
-                <linearGradient id="bar-blue" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#4CC9F0" />
-                  <stop offset="100%" stopColor="#1B6B93" stopOpacity="0.3" />
-                </linearGradient>
-              </defs>
-            </svg>
-          </div>
-        </motion.div>
+                  </div>
+                </div>
 
+                {/* AI Crowd Prediction Panel */}
+                <div className="bg-[#0A1628]/80 backdrop-blur border border-[#1B6B93]/30 rounded-2xl overflow-hidden relative shadow-[0_0_40px_rgba(27,107,147,0.1)] flex flex-col">
+                  <div className="p-6 border-b border-[#1B6B93]/20 flex justify-between items-center bg-[#1B6B93]/5">
+                    <h3 className="text-lg font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                      <AlertCircle className="w-5 h-5 text-[#4CC9F0]" /> AI Crowd Prediction
+                    </h3>
+                  </div>
+                  
+                  <div className="p-6 flex-grow flex flex-col">
+                    <p className="text-gray-400 text-xs uppercase tracking-wider mb-1">Target Zone</p>
+                    <h2 className="text-2xl font-bold text-white mb-6 truncate" title={selectedSite?.name_en || 'Select an attraction'}>
+                      {selectedSite?.name_en || 'Select an attraction'}
+                    </h2>
+                    
+                    <div className="space-y-6 flex-grow">
+                      <div className="p-4 bg-[#1B6B93]/10 border border-[#1B6B93]/20 rounded-xl">
+                        <p className="text-[#4CC9F0] text-xs font-bold uppercase mb-2 flex items-center gap-2">
+                          <Clock className="w-4 h-4" /> Current Data Volume
+                        </p>
+                        <p className="text-white font-mono text-lg">{selectedSite?.checkins || 0} <span className="text-sm text-gray-400">check-ins</span></p>
+                      </div>
+
+                      <div className={`p-4 border rounded-xl ${predictionBg}`}>
+                        <p className="text-gray-400 text-xs font-bold uppercase mb-2">AI Analysis</p>
+                        <p className={`font-semibold ${predictionColor}`}>
+                          {predictionText}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="mt-4 pt-4 border-t border-white/5">
+                      <p className="text-[10px] text-gray-500 italic text-center">Prediction requires a minimum of 5 verified check-ins in the selected period to establish a baseline.</p>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              {/* Charts Row */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                {/* Line Chart */}
+                <div className="bg-[#0A1628]/80 backdrop-blur border border-[#C9A84C]/20 rounded-2xl p-6">
+                  <h3 className="text-md font-bold text-[#C9A84C] uppercase tracking-wider mb-6 flex items-center gap-2">
+                    <BarChart3 className="w-5 h-5" /> Verified Check-ins Over Time
+                  </h3>
+                  <div className="w-full h-64">
+                    {charts.checkinsOverTime.length > 0 ? (
+                      <ResponsiveContainer width="100%" height="100%">
+                        <LineChart data={charts.checkinsOverTime}>
+                          <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" vertical={false} />
+                          <XAxis 
+                            dataKey="date" 
+                            stroke="#6b7280" 
+                            tick={{fill: '#9ca3af', fontSize: 12}} 
+                            tickLine={false}
+                            axisLine={false}
+                            dy={10}
+                          />
+                          <YAxis 
+                            stroke="#6b7280" 
+                            tick={{fill: '#9ca3af', fontSize: 12}} 
+                            tickLine={false}
+                            axisLine={false}
+                            dx={-10}
+                            allowDecimals={false}
+                          />
+                          <Tooltip content={<CustomTooltip />} />
+                          <Line 
+                            type="monotone" 
+                            dataKey="checkins" 
+                            name="Check-ins"
+                            stroke="#C9A84C" 
+                            strokeWidth={3}
+                            dot={{ fill: '#C9A84C', r: 4, strokeWidth: 2, stroke: '#030712' }}
+                            activeDot={{ r: 6, fill: '#E2CB85' }}
+                          />
+                        </LineChart>
+                      </ResponsiveContainer>
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center bg-white/5 rounded-xl border border-white/5">
+                        <p className="text-gray-500 italic text-sm">No data available for this period.</p>
+                      </div>
+                    )}
+                  </div>
+                  <div className="mt-4 text-center">
+                    <p className="text-[10px] text-gray-500 uppercase tracking-widest">Source: EgyptX Platform Analytics • Last Updated: {new Date().toLocaleTimeString()}</p>
+                  </div>
+                </div>
+
+                {/* Bar Chart */}
+                <div className="bg-[#0A1628]/80 backdrop-blur border border-[#1B6B93]/30 rounded-2xl p-6">
+                  <h3 className="text-md font-bold text-[#4CC9F0] uppercase tracking-wider mb-6 flex items-center gap-2">
+                    <BarChart3 className="w-5 h-5" /> Most Viewed Attractions
+                  </h3>
+                  <div className="w-full h-64">
+                    {charts.viewsChartData.length > 0 ? (
+                      <ResponsiveContainer width="100%" height="100%">
+                        <BarChart data={charts.viewsChartData} layout="vertical" margin={{ top: 0, right: 0, left: 20, bottom: 0 }}>
+                          <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" horizontal={false} />
+                          <XAxis 
+                            type="number" 
+                            stroke="#6b7280" 
+                            tick={{fill: '#9ca3af', fontSize: 12}} 
+                            tickLine={false}
+                            axisLine={false}
+                            allowDecimals={false}
+                          />
+                          <YAxis 
+                            type="category" 
+                            dataKey="name" 
+                            stroke="#6b7280" 
+                            tick={{fill: '#9ca3af', fontSize: 11}} 
+                            tickLine={false}
+                            axisLine={false}
+                            width={100}
+                          />
+                          <Tooltip content={<CustomTooltip />} />
+                          <Bar 
+                            dataKey="views" 
+                            name="Views"
+                            fill="#1B6B93" 
+                            radius={[0, 4, 4, 0]}
+                            barSize={20}
+                          />
+                        </BarChart>
+                      </ResponsiveContainer>
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center bg-white/5 rounded-xl border border-white/5">
+                        <p className="text-gray-500 italic text-sm">No data available for this period.</p>
+                      </div>
+                    )}
+                  </div>
+                  <div className="mt-4 text-center">
+                    <p className="text-[10px] text-gray-500 uppercase tracking-widest">Source: EgyptX Platform Analytics • Last Updated: {new Date().toLocaleTimeString()}</p>
+                  </div>
+                </div>
+              </div>
+
+            </motion.div>
+          </AnimatePresence>
+        )}
       </div>
     </div>
   );

@@ -14,6 +14,7 @@ const navItems = [
   { name: 'Museum AI', href: '/museum-ai' },
   { name: 'Hidden Egypt', href: '/hidden-egypt' },
   { name: 'Tourist Passport', href: '/tourist-passport' },
+  { name: 'Emergency', href: '/emergency' },
 ];
 
 export default function Navbar() {

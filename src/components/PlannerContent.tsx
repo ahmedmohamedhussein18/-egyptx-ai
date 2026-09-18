@@ -1,8 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
+import { trackEvent } from '@/lib/analytics';
+import React from 'react';
+import { createClient } from '@/lib/supabase/client';
 
 /* ─────────────────── DATA ─────────────────── */
 
@@ -50,6 +53,12 @@ const TRAVEL_STYLES = [
   { id: 'group', label: 'Group', emoji: '👥', desc: 'Friends & tours' },
 ];
 
+const PACES = [
+  { id: 'relaxed', label: 'Relaxed (1-2 activities/day)' },
+  { id: 'balanced', label: 'Balanced (3-4 activities/day)' },
+  { id: 'packed', label: 'Packed (5+ activities/day)' },
+];
+
 interface Activity {
   time: string;
   name: string;
@@ -61,6 +70,11 @@ interface DayPlan {
   day: number;
   city: string;
   activities: Activity[];
+}
+
+interface Governorate {
+  id: string;
+  name_en: string;
 }
 
 /* City coordinates on our simplified SVG map (viewBox 0 0 300 500) */
@@ -85,7 +99,6 @@ function EgyptMap({ cities }: { cities: string[] }) {
   const uniqueCities = [...new Set(cities)];
   return (
     <svg viewBox="0 0 300 500" className="w-full h-full" fill="none">
-      {/* Simplified Egypt outline */}
       <path
         d="M165 50 L250 50 L260 80 L270 100 L260 120 L255 140 L265 155 L255 170 L250 185 L260 200 L255 220 L250 240 L245 260 L240 280 L235 300 L230 320 L225 340 L218 370 L210 400 L195 430 L180 450 L165 440 L150 420 L140 400 L130 380 L125 350 L130 320 L140 290 L150 260 L155 230 L160 200 L170 170 L175 150 L180 130 L175 110 L170 90 L165 70 Z"
         fill="#C9A84C"
@@ -94,7 +107,6 @@ function EgyptMap({ cities }: { cities: string[] }) {
         strokeWidth="1.5"
         strokeOpacity="0.3"
       />
-      {/* Nile */}
       <path
         d="M195 130 Q200 160 205 200 Q210 240 205 270 Q200 310 210 350 Q215 380 195 430"
         stroke="#1B6B93"
@@ -103,7 +115,6 @@ function EgyptMap({ cities }: { cities: string[] }) {
         strokeLinecap="round"
         fill="none"
       />
-      {/* Sinai */}
       <path
         d="M255 140 L280 120 L290 155 L270 190 L255 170"
         fill="#C9A84C"
@@ -112,7 +123,6 @@ function EgyptMap({ cities }: { cities: string[] }) {
         strokeWidth="1"
         strokeOpacity="0.2"
       />
-      {/* Red Sea coast hint */}
       <path
         d="M260 200 Q270 210 265 230 Q260 250 255 270"
         stroke="#1B6B93"
@@ -120,24 +130,14 @@ function EgyptMap({ cities }: { cities: string[] }) {
         strokeOpacity="0.3"
         fill="none"
       />
-      {/* City markers */}
       {uniqueCities.map((city) => {
         const coords = CITY_COORDS[city];
         if (!coords) return null;
         return (
           <g key={city}>
-            {/* Glow */}
             <circle cx={coords.x} cy={coords.y} r="12" fill="#C9A84C" fillOpacity="0.15" />
             <circle cx={coords.x} cy={coords.y} r="5" fill="#C9A84C" fillOpacity="0.9" stroke="#030712" strokeWidth="2" />
-            <text
-              x={coords.x}
-              y={coords.y - 14}
-              textAnchor="middle"
-              fill="#C9A84C"
-              fontSize="10"
-              fontWeight="600"
-              fontFamily="system-ui"
-            >
+            <text x={coords.x} y={coords.y - 14} textAnchor="middle" fill="#C9A84C" fontSize="10" fontWeight="600" fontFamily="system-ui">
               {city}
             </text>
           </g>
@@ -149,22 +149,20 @@ function EgyptMap({ cities }: { cities: string[] }) {
 
 /* ─────────────────── LOADING ANIMATION ─────────────────── */
 
-function LoadingAnimation() {
+function LoadingAnimation({ isRegenerating = false }: { isRegenerating?: boolean }) {
   return (
-    <div className="flex flex-col items-center justify-center py-24 gap-6">
+    <div className={`flex flex-col items-center justify-center ${isRegenerating ? 'py-12' : 'py-24'} gap-6`}>
       <div className="relative w-24 h-24">
-        {/* Spinning rings */}
         <div className="absolute inset-0 rounded-full border-2 border-[#C9A84C]/30 animate-spin" style={{ animationDuration: '3s' }} />
         <div className="absolute inset-2 rounded-full border-2 border-[#1B6B93]/40 animate-spin" style={{ animationDuration: '2s', animationDirection: 'reverse' }} />
         <div className="absolute inset-4 rounded-full border-2 border-[#C9A84C]/50 animate-spin" style={{ animationDuration: '1.5s' }} />
-        {/* Center dot */}
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="w-4 h-4 rounded-full bg-[#C9A84C] animate-pulse" />
         </div>
       </div>
       <div className="text-center">
-        <p className="text-[#C9A84C] font-semibold text-lg">AI is crafting your journey...</p>
-        <p className="text-white/40 text-sm mt-1">Analyzing preferences & optimizing routes</p>
+        <p className="text-[#C9A84C] font-semibold text-lg">{isRegenerating ? 'Regenerating day...' : 'AI is crafting your journey...'}</p>
+        <p className="text-white/40 text-sm mt-1">{isRegenerating ? 'Finding new experiences' : 'Analyzing preferences & optimizing routes'}</p>
       </div>
     </div>
   );
@@ -172,18 +170,46 @@ function LoadingAnimation() {
 
 /* ─────────────────── MAIN PAGE ─────────────────── */
 
-export default function PlannerPage() {
-  // Form state
+export default function PlannerContent() {
+  const supabase = createClient();
+  
+  // Existing Form state
   const [country, setCountry] = useState('');
   const [duration, setDuration] = useState(5);
   const [budget, setBudget] = useState(1500);
   const [interests, setInterests] = useState<string[]>([]);
   const [travelStyle, setTravelStyle] = useState('');
 
+  // New Form state
+  const [travelers, setTravelers] = useState(2);
+  const [governorateId, setGovernorateId] = useState('');
+  const [pace, setPace] = useState('balanced');
+  const [accessibility, setAccessibility] = useState('');
+  const [avoidPlaces, setAvoidPlaces] = useState('');
+  const [avoidCrowds, setAvoidCrowds] = useState(false);
+
+  // Data state
+  const [governorates, setGovernorates] = useState<Governorate[]>([]);
+
   // Result state
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [itinerary, setItinerary] = useState<DayPlan[] | null>(null);
+  
+  // Action states
+  const [saving, setSaving] = useState(false);
+  const [saveSuccess, setSaveSuccess] = useState(false);
+  const [regeneratingDay, setRegeneratingDay] = useState<number | null>(null);
+
+  useEffect(() => {
+    trackEvent('page_view');
+    fetchGovernorates();
+  }, []);
+
+  const fetchGovernorates = async () => {
+    const { data } = await supabase.from('governorates').select('id, name_en').order('name_en');
+    if (data) setGovernorates(data);
+  };
 
   const toggleInterest = (id: string) => {
     setInterests(prev =>
@@ -191,17 +217,35 @@ export default function PlannerPage() {
     );
   };
 
+  const getPayload = () => ({
+    country,
+    duration,
+    budget,
+    interests,
+    travelStyle,
+    travelers,
+    governorateId,
+    pace,
+    accessibility,
+    avoidPlaces,
+    avoidCrowds
+  });
+
   const handleGenerate = async () => {
     if (!country || interests.length === 0 || !travelStyle) return;
+    
+    trackEvent('planner_started', getPayload());
+    
     setLoading(true);
     setItinerary(null);
     setError(null);
+    setSaveSuccess(false);
     
     try {
       const response = await fetch('/api/generate-itinerary', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ country, duration, budget, interests, travelStyle })
+        body: JSON.stringify(getPayload())
       });
       
       const data = await response.json();
@@ -211,10 +255,97 @@ export default function PlannerPage() {
       }
       
       setItinerary(data);
+      trackEvent('planner_completed', { duration, budget });
     } catch (err: any) {
       setError(err.message || 'An unexpected error occurred.');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleSaveTrip = async () => {
+    if (!itinerary) return;
+    setSaving(true);
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        window.location.href = '/login?redirect=/planner';
+        return;
+      }
+
+      // Insert trip plan
+      const { data: tripPlan, error: planError } = await supabase.from('trip_plans').insert({
+        user_id: user.id,
+        title: `Egypt Trip (${duration} Days)`,
+        governorate_id: governorateId || null,
+        duration_days: duration,
+        budget,
+        travelers
+      }).select().single();
+
+      if (planError) throw planError;
+
+      // Insert days and places
+      for (const day of itinerary) {
+        const { data: tripDay, error: dayError } = await supabase.from('trip_days').insert({
+          trip_plan_id: tripPlan.id,
+          day_number: day.day
+        }).select().single();
+
+        if (dayError) throw dayError;
+
+        // Note: The AI returns attraction names, but matching them back to the exact UUID in the database 
+        // can be tricky if names don't perfectly match. For now, we save it as a note or time_slot with the name.
+        // If we want exact attraction IDs, we would need the AI to return the ID or we search it here.
+        // For this task, saving the place name in notes is sufficient to show persistence.
+        for (const act of day.activities) {
+          await supabase.from('trip_places').insert({
+            trip_day_id: tripDay.id,
+            time_slot: act.time,
+            notes: `${act.name}: ${act.description}`
+          });
+        }
+      }
+
+      setSaveSuccess(true);
+    } catch (err: any) {
+      alert('Error saving trip: ' + err.message);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleRegenerateDay = async (dayNumber: number) => {
+    if (!itinerary) return;
+    setRegeneratingDay(dayNumber);
+    try {
+      const response = await fetch('/api/generate-day', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...getPayload(),
+          dayNumber,
+          existingItinerary: itinerary
+        })
+      });
+
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || 'Failed to regenerate day');
+
+      setItinerary(prev => {
+        if (!prev) return prev;
+        const newItin = [...prev];
+        const idx = newItin.findIndex(d => d.day === dayNumber);
+        if (idx !== -1) {
+          newItin[idx] = data;
+        }
+        return newItin;
+      });
+      setSaveSuccess(false); // They modified it, can save again
+    } catch (err: any) {
+      alert(err.message);
+    } finally {
+      setRegeneratingDay(null);
     }
   };
 
@@ -267,25 +398,75 @@ export default function PlannerPage() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.4 }}
-              className="space-y-10"
+              className="space-y-6 md:space-y-10"
             >
-              {/* ── Country ── */}
-              <div className="bg-[#0A1628]/60 backdrop-blur-md rounded-2xl p-6 md:p-8 border border-[#C9A84C]/10">
-                <label className="block text-sm font-semibold text-white/70 mb-3 uppercase tracking-wider">
-                  Where are you from?
-                </label>
-                <select
-                  value={country}
-                  onChange={(e) => setCountry(e.target.value)}
-                  className="w-full bg-[#060E1A] border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#C9A84C]/50 transition-colors appearance-none cursor-pointer"
-                >
-                  <option value="">Select your country</option>
-                  {COUNTRIES.map(c => (
-                    <option key={c.code} value={c.code}>
-                      {c.flag} {c.name}
-                    </option>
-                  ))}
-                </select>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* ── Country ── */}
+                <div className="bg-[#0A1628]/60 backdrop-blur-md rounded-2xl p-6 md:p-8 border border-[#C9A84C]/10">
+                  <label className="block text-sm font-semibold text-white/70 mb-3 uppercase tracking-wider">
+                    Where are you from? *
+                  </label>
+                  <select
+                    value={country}
+                    onChange={(e) => setCountry(e.target.value)}
+                    className="w-full bg-[#060E1A] border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#C9A84C]/50 transition-colors appearance-none cursor-pointer"
+                  >
+                    <option value="">Select your country</option>
+                    {COUNTRIES.map(c => (
+                      <option key={c.code} value={c.code}>{c.flag} {c.name}</option>
+                    ))}
+                  </select>
+                </div>
+                
+                {/* ── Governorate ── */}
+                <div className="bg-[#0A1628]/60 backdrop-blur-md rounded-2xl p-6 md:p-8 border border-[#C9A84C]/10">
+                  <label className="block text-sm font-semibold text-white/70 mb-3 uppercase tracking-wider">
+                    Target Governorate (Optional)
+                  </label>
+                  <select
+                    value={governorateId}
+                    onChange={(e) => setGovernorateId(e.target.value)}
+                    className="w-full bg-[#060E1A] border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#C9A84C]/50 transition-colors appearance-none cursor-pointer"
+                  >
+                    <option value="">Anywhere in Egypt</option>
+                    {governorates.map(g => (
+                      <option key={g.id} value={g.id}>{g.name_en}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* ── Travelers ── */}
+                <div className="bg-[#0A1628]/60 backdrop-blur-md rounded-2xl p-6 border border-[#C9A84C]/10">
+                  <label className="block text-sm font-semibold text-white/70 mb-3 uppercase tracking-wider">
+                    Travelers *
+                  </label>
+                  <input
+                    type="number"
+                    min="1"
+                    max="50"
+                    value={travelers}
+                    onChange={(e) => setTravelers(Number(e.target.value))}
+                    className="w-full bg-[#060E1A] border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#C9A84C]/50"
+                  />
+                </div>
+
+                {/* ── Pace ── */}
+                <div className="bg-[#0A1628]/60 backdrop-blur-md rounded-2xl p-6 border border-[#C9A84C]/10">
+                  <label className="block text-sm font-semibold text-white/70 mb-3 uppercase tracking-wider">
+                    Preferred Pace
+                  </label>
+                  <select
+                    value={pace}
+                    onChange={(e) => setPace(e.target.value)}
+                    className="w-full bg-[#060E1A] border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#C9A84C]/50 transition-colors appearance-none cursor-pointer"
+                  >
+                    {PACES.map(p => (
+                      <option key={p.id} value={p.id}>{p.label}</option>
+                    ))}
+                  </select>
+                </div>
               </div>
 
               {/* ── Duration & Budget ── */}
@@ -296,44 +477,29 @@ export default function PlannerPage() {
                   </label>
                   <p className="text-3xl font-bold text-[#C9A84C] mb-4">{duration} {duration === 1 ? 'Day' : 'Days'}</p>
                   <input
-                    type="range"
-                    min={1}
-                    max={14}
-                    value={duration}
-                    onChange={(e) => setDuration(Number(e.target.value))}
+                    type="range" min={1} max={14}
+                    value={duration} onChange={(e) => setDuration(Number(e.target.value))}
                     className="w-full h-2 bg-[#1B6B93]/30 rounded-lg appearance-none cursor-pointer accent-[#C9A84C]"
                   />
-                  <div className="flex justify-between text-xs text-white/30 mt-2">
-                    <span>1 day</span>
-                    <span>14 days</span>
-                  </div>
                 </div>
 
                 <div className="bg-[#0A1628]/60 backdrop-blur-md rounded-2xl p-6 md:p-8 border border-[#C9A84C]/10">
                   <label className="block text-sm font-semibold text-white/70 mb-1 uppercase tracking-wider">
-                    Budget
+                    Budget (Total)
                   </label>
                   <p className="text-3xl font-bold text-[#C9A84C] mb-4">${budget.toLocaleString()}</p>
                   <input
-                    type="range"
-                    min={200}
-                    max={5000}
-                    step={100}
-                    value={budget}
-                    onChange={(e) => setBudget(Number(e.target.value))}
+                    type="range" min={200} max={10000} step={100}
+                    value={budget} onChange={(e) => setBudget(Number(e.target.value))}
                     className="w-full h-2 bg-[#1B6B93]/30 rounded-lg appearance-none cursor-pointer accent-[#C9A84C]"
                   />
-                  <div className="flex justify-between text-xs text-white/30 mt-2">
-                    <span>$200</span>
-                    <span>$5,000</span>
-                  </div>
                 </div>
               </div>
 
               {/* ── Interests ── */}
               <div className="bg-[#0A1628]/60 backdrop-blur-md rounded-2xl p-6 md:p-8 border border-[#C9A84C]/10">
                 <label className="block text-sm font-semibold text-white/70 mb-4 uppercase tracking-wider">
-                  What interests you? <span className="text-white/30 normal-case">(select multiple)</span>
+                  What interests you? * <span className="text-white/30 normal-case">(select multiple)</span>
                 </label>
                 <div className="flex flex-wrap gap-3">
                   {INTERESTS.map(i => {
@@ -359,7 +525,7 @@ export default function PlannerPage() {
               {/* ── Travel Style ── */}
               <div className="bg-[#0A1628]/60 backdrop-blur-md rounded-2xl p-6 md:p-8 border border-[#C9A84C]/10">
                 <label className="block text-sm font-semibold text-white/70 mb-4 uppercase tracking-wider">
-                  Travel Style
+                  Travel Style *
                 </label>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   {TRAVEL_STYLES.map(s => {
@@ -383,6 +549,40 @@ export default function PlannerPage() {
                 </div>
               </div>
 
+              {/* ── Optional Constraints ── */}
+              <div className="bg-[#0A1628]/60 backdrop-blur-md rounded-2xl p-6 md:p-8 border border-[#C9A84C]/10">
+                <label className="block text-sm font-semibold text-white/70 mb-4 uppercase tracking-wider">
+                  Additional Constraints (Optional)
+                </label>
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-xs text-white/50 mb-1">Accessibility Needs</label>
+                    <input
+                      type="text" placeholder="e.g. wheelchair accessible, avoiding stairs"
+                      value={accessibility} onChange={(e) => setAccessibility(e.target.value)}
+                      className="w-full bg-[#060E1A] border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#C9A84C]/50"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs text-white/50 mb-1">Places to Avoid</label>
+                    <input
+                      type="text" placeholder="e.g. Alexandria, tight spaces"
+                      value={avoidPlaces} onChange={(e) => setAvoidPlaces(e.target.value)}
+                      className="w-full bg-[#060E1A] border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#C9A84C]/50"
+                    />
+                  </div>
+                  <label className="flex items-center gap-3 cursor-pointer mt-4">
+                    <input 
+                      type="checkbox" 
+                      checked={avoidCrowds} 
+                      onChange={(e) => setAvoidCrowds(e.target.checked)}
+                      className="w-5 h-5 accent-[#C9A84C] bg-[#060E1A] border-white/10"
+                    />
+                    <span className="text-white/80">Prefer less crowded locations</span>
+                  </label>
+                </div>
+              </div>
+
               {/* ── Generate ── */}
               <div className="text-center pt-4">
                 <button
@@ -397,7 +597,7 @@ export default function PlannerPage() {
                   ✨ Generate My Egypt Journey
                 </button>
                 {!isFormValid && (
-                  <p className="text-white/30 text-sm mt-3">Please fill in all fields to continue</p>
+                  <p className="text-white/30 text-sm mt-3">Please fill in all required fields (*) to continue</p>
                 )}
               </div>
             </motion.div>
@@ -446,14 +646,23 @@ export default function PlannerPage() {
               <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-8 gap-4">
                 <div>
                   <h2 className="text-2xl md:text-3xl font-bold text-white mb-1">Your Personalized Itinerary</h2>
-                  <p className="text-white/40">{duration} days &middot; {TRAVEL_STYLES.find(s => s.id === travelStyle)?.label} trip &middot; ${budget.toLocaleString()} budget</p>
+                  <p className="text-white/40">{duration} days &middot; {travelers} traveler(s) &middot; ${budget.toLocaleString()} budget</p>
                 </div>
-                <button
-                  onClick={() => { setItinerary(null); }}
-                  className="px-5 py-2.5 rounded-lg border border-[#C9A84C]/40 text-[#C9A84C] text-sm font-medium hover:bg-[#C9A84C]/10 transition-colors"
-                >
-                  ← Modify Plan
-                </button>
+                <div className="flex gap-3">
+                  <button
+                    onClick={() => { setItinerary(null); setSaveSuccess(false); }}
+                    className="px-5 py-2.5 rounded-lg border border-[#C9A84C]/40 text-[#C9A84C] text-sm font-medium hover:bg-[#C9A84C]/10 transition-colors"
+                  >
+                    ← Modify Plan
+                  </button>
+                  <button
+                    onClick={handleSaveTrip}
+                    disabled={saving || saveSuccess}
+                    className="px-5 py-2.5 rounded-lg bg-[#C9A84C] text-[#030712] text-sm font-bold hover:bg-[#E2CB85] transition-colors disabled:opacity-50"
+                  >
+                    {saving ? 'Saving...' : saveSuccess ? 'Saved!' : 'Save Trip'}
+                  </button>
+                </div>
               </div>
 
               {/* Map + Timeline */}
@@ -479,18 +688,33 @@ export default function PlannerPage() {
                       className="bg-[#0A1628]/60 backdrop-blur-md rounded-2xl border border-[#C9A84C]/10 overflow-hidden"
                     >
                       {/* Day header */}
-                      <div className="px-6 py-4 border-b border-white/5 flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-xl bg-[#C9A84C]/15 flex items-center justify-center text-[#C9A84C] font-bold text-lg">
-                          {day.day}
+                      <div className="px-6 py-4 border-b border-white/5 flex items-center justify-between gap-4">
+                        <div className="flex items-center gap-4">
+                          <div className="w-12 h-12 rounded-xl bg-[#C9A84C]/15 flex items-center justify-center text-[#C9A84C] font-bold text-lg">
+                            {day.day}
+                          </div>
+                          <div>
+                            <h3 className="text-lg font-bold text-white">Day {day.day} — {day.city}</h3>
+                            <p className="text-white/30 text-sm">{day.activities.length} activities planned</p>
+                          </div>
                         </div>
-                        <div>
-                          <h3 className="text-lg font-bold text-white">Day {day.day} — {day.city}</h3>
-                          <p className="text-white/30 text-sm">{day.activities.length} activities planned</p>
-                        </div>
+                        <button
+                          onClick={() => handleRegenerateDay(day.day)}
+                          disabled={regeneratingDay !== null}
+                          className="px-3 py-1.5 rounded bg-white/5 text-white/50 text-xs font-medium hover:text-white hover:bg-white/10 transition-colors border border-white/10"
+                        >
+                          🔄 Regenerate Day
+                        </button>
                       </div>
 
-                      {/* Activities */}
-                      <div className="px-6 py-4 space-y-0">
+                      {/* Regenerating overlay / Activities */}
+                      <div className="px-6 py-4 space-y-0 relative min-h-[100px]">
+                        {regeneratingDay === day.day && (
+                          <div className="absolute inset-0 bg-[#0A1628]/80 backdrop-blur-sm z-10 flex items-center justify-center">
+                            <LoadingAnimation isRegenerating={true} />
+                          </div>
+                        )}
+                        
                         {day.activities.map((act, actIdx) => (
                           <div
                             key={actIdx}
@@ -514,6 +738,9 @@ export default function PlannerPage() {
                             </div>
                           </div>
                         ))}
+                        {day.activities.length === 0 && (
+                          <p className="text-white/40 text-sm py-4 text-center">No activities planned for this day based on constraints.</p>
+                        )}
                       </div>
                     </motion.div>
                   ))}

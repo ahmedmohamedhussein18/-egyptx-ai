@@ -86,11 +86,9 @@ const Icons = {
 
 const nodes = [
   { id: 'Tourists', label: 'Tourists', icon: Icons.Tourists },
-  { id: 'Government', label: 'Government', icon: Icons.Government },
   { id: 'Businesses', label: 'Businesses', icon: Icons.Businesses },
   { id: 'Data', label: 'Data', icon: Icons.Data },
   { id: 'Heritage', label: 'Heritage', icon: Icons.Heritage },
-  { id: 'IoT', label: 'IoT', icon: Icons.IoT },
 ];
 
 // Pre-compute node positions so they're consistent between server and client

@@ -20,28 +20,28 @@ const BUSINESS_TYPES: { id: BusinessType; icon: React.ElementType; label: string
 
 const KPI_DATA: Record<BusinessType, any[]> = {
   'Hotels': [
-    { label: 'Bookings', value: '1,284', trend: '+8%', icon: Calendar },
-    { label: 'Tourists Reached', value: '3,821', trend: '+15%', icon: Users },
-    { label: 'Revenue', value: '$84K', trend: '+22%', icon: DollarSign },
-    { label: 'Average Rating', value: '4.7', trend: '+0.1', icon: Star },
+    { label: 'Bookings', value: 'AWAITING DATA', trend: '-', icon: Calendar },
+    { label: 'Tourists Reached', value: 'AWAITING DATA', trend: '-', icon: Users },
+    { label: 'Revenue', value: 'AWAITING DATA', trend: '-', icon: DollarSign },
+    { label: 'Average Rating', value: 'AWAITING DATA', trend: '-', icon: Star },
   ],
   'Restaurants': [
-    { label: 'Reservations', value: '850', trend: '+12%', icon: Calendar },
-    { label: 'Diners Reached', value: '2,400', trend: '+18%', icon: Users },
-    { label: 'Revenue', value: '$32K', trend: '+10%', icon: DollarSign },
-    { label: 'Average Rating', value: '4.8', trend: '+0.2', icon: Star },
+    { label: 'Reservations', value: 'AWAITING DATA', trend: '-', icon: Calendar },
+    { label: 'Diners Reached', value: 'AWAITING DATA', trend: '-', icon: Users },
+    { label: 'Revenue', value: 'AWAITING DATA', trend: '-', icon: DollarSign },
+    { label: 'Average Rating', value: 'AWAITING DATA', trend: '-', icon: Star },
   ],
   'Tour Companies': [
-    { label: 'Bookings', value: '420', trend: '+25%', icon: Calendar },
-    { label: 'Tourists Reached', value: '1,800', trend: '+30%', icon: Users },
-    { label: 'Revenue', value: '$65K', trend: '+40%', icon: DollarSign },
-    { label: 'Average Rating', value: '4.9', trend: '+0.1', icon: Star },
+    { label: 'Bookings', value: 'AWAITING DATA', trend: '-', icon: Calendar },
+    { label: 'Tourists Reached', value: 'AWAITING DATA', trend: '-', icon: Users },
+    { label: 'Revenue', value: 'AWAITING DATA', trend: '-', icon: DollarSign },
+    { label: 'Average Rating', value: 'AWAITING DATA', trend: '-', icon: Star },
   ],
   'Artisans': [
-    { label: 'Sales', value: '150', trend: '+5%', icon: Tag },
-    { label: 'Tourists Reached', value: '600', trend: '+8%', icon: Users },
-    { label: 'Revenue', value: '$8K', trend: '+15%', icon: DollarSign },
-    { label: 'Average Rating', value: '5.0', trend: '-', icon: Star },
+    { label: 'Sales', value: 'AWAITING DATA', trend: '-', icon: Tag },
+    { label: 'Tourists Reached', value: 'AWAITING DATA', trend: '-', icon: Users },
+    { label: 'Revenue', value: 'AWAITING DATA', trend: '-', icon: DollarSign },
+    { label: 'Average Rating', value: 'AWAITING DATA', trend: '-', icon: Star },
   ],
 };
 
@@ -117,13 +117,7 @@ export default function BusinessPortalContent() {
                 <div>
                   <p className="text-gray-400 text-sm font-medium uppercase tracking-wider mb-2">{stat.label}</p>
                   <div className="flex items-baseline gap-3">
-                    <h3 className="text-3xl font-bold text-white font-mono">{stat.value}</h3>
-                    {stat.trend !== '-' && (
-                      <span className="flex items-center text-green-400 text-xs font-bold bg-green-400/10 px-1.5 py-0.5 rounded">
-                        <TrendingUp className="w-3 h-3 mr-1" />
-                        {stat.trend}
-                      </span>
-                    )}
+                    <h3 className="text-lg font-bold text-gray-500 font-mono italic">{stat.value}</h3>
                   </div>
                 </div>
                 <div className="p-3 bg-[#1B6B93]/10 text-[#C9A84C] rounded-xl border border-[#1B6B93]/20 group-hover:scale-110 transition-transform">

@@ -30,10 +30,10 @@ export default function Footer() {
           {/* Column 2 */}
           <div className="flex flex-col space-y-4">
             <h3 className="text-white/70 uppercase text-xs tracking-[0.2em] font-semibold mb-2">Experience</h3>
-            <Link href="#" className="text-white/40 hover:text-[#D4AF37] transition-colors text-sm">Museum AI</Link>
-            <Link href="#" className="text-white/40 hover:text-[#D4AF37] transition-colors text-sm">Hidden Egypt</Link>
-            <Link href="#" className="text-white/40 hover:text-[#D4AF37] transition-colors text-sm">Virtual Egypt</Link>
-            <Link href="#" className="text-white/40 hover:text-[#D4AF37] transition-colors text-sm">Tourist Passport</Link>
+            <Link href="/museum-ai" className="text-white/40 hover:text-[#D4AF37] transition-colors text-sm">Museum AI</Link>
+            <Link href="/hidden-egypt" className="text-white/40 hover:text-[#D4AF37] transition-colors text-sm">Hidden Egypt</Link>
+            <Link href="/emergency" className="text-white/40 hover:text-[#D4AF37] transition-colors text-sm">Emergency Assistant</Link>
+            <Link href="/tourist-passport" className="text-white/40 hover:text-[#D4AF37] transition-colors text-sm">Tourist Passport</Link>
           </div>
 
           {/* Column 3 */}

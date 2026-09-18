@@ -1,38 +1,31 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Star, MapPin, Users, Calendar, Clock, ArrowRight } from 'lucide-react';
+import { Star, MapPin, Users, Calendar, Clock, ArrowRight, Cloud, Loader2, AlertCircle, Thermometer } from 'lucide-react';
+import { createClient } from '@/lib/supabase/client';
+import { trackEvent } from '@/lib/analytics';
+import dynamic from 'next/dynamic';
 
-type Category = 'All' | 'Ancient Sites' | 'Hidden Egypt' | 'Nature';
+const MapLeaflet = dynamic(() => import('@/components/MapLeaflet'), { 
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-[300px] lg:h-[500px] flex items-center justify-center bg-white/5 rounded-3xl border border-[#C9A84C]/20">
+      <Loader2 className="w-8 h-8 animate-spin text-[#C9A84C]" />
+    </div>
+  )
+});
 
-interface Destination {
-  id: string;
-  category: Exclude<Category, 'All'>;
-  name: string;
-  rating: number;
-  tagline: string;
-  bestTime: string;
-  crowdLevel: 'Low' | 'Medium' | 'High';
-  recommendedStay: string;
-  mapX: number;
-  mapY: number;
-  svg: React.ReactNode;
-}
+type Category = 'All' | 'Ancient' | 'Museum' | 'Nature' | 'Beach' | 'Hidden';
 
-const destinations: Destination[] = [
-  {
-    id: 'giza',
-    category: 'Ancient Sites',
-    name: 'Giza',
-    rating: 4.9,
-    tagline: 'Home to the Great Pyramids and Sphinx',
-    bestTime: 'Oct-Apr',
-    crowdLevel: 'High',
-    recommendedStay: '1-2 days',
-    mapX: 185,
-    mapY: 140,
-    svg: (
+
+
+// Helper to get SVG based on category or specific name
+function getAttractionSvg(name_en: string, category: string) {
+  const name = name_en.toLowerCase();
+  
+  if (name.includes('giza') || name.includes('saqqara')) {
+    return (
       <svg viewBox="0 0 400 240" className="w-full h-full object-cover">
         <defs>
           <linearGradient id="giza-sky" x1="0%" y1="0%" x2="0%" y2="100%">
@@ -52,20 +45,11 @@ const destinations: Destination[] = [
         <path d="M0 170 Q 100 160 200 180 T 400 170 L 400 240 L 0 240 Z" fill="url(#giza-sand)" />
         <circle cx="340" cy="50" r="30" fill="#F4A261" opacity="0.8" />
       </svg>
-    ),
-  },
-  {
-    id: 'luxor',
-    category: 'Ancient Sites',
-    name: 'Luxor',
-    rating: 4.9,
-    tagline: 'The world\'s greatest open-air museum',
-    bestTime: 'Oct-Apr',
-    crowdLevel: 'High',
-    recommendedStay: '2-3 days',
-    mapX: 205,
-    mapY: 265,
-    svg: (
+    );
+  }
+  
+  if (name.includes('luxor') || name.includes('karnak') || name.includes('valley')) {
+    return (
       <svg viewBox="0 0 400 240" className="w-full h-full object-cover">
         <defs>
           <linearGradient id="luxor-sky" x1="0%" y1="0%" x2="0%" y2="100%">
@@ -81,20 +65,11 @@ const destinations: Destination[] = [
         <rect x="60" y="60" width="280" height="20" fill="#E9C46A" />
         <path d="M0 190 Q 200 180 400 190 L 400 240 L 0 240 Z" fill="#8D99AE" />
       </svg>
-    ),
-  },
-  {
-    id: 'aswan',
-    category: 'Ancient Sites',
-    name: 'Aswan',
-    rating: 4.8,
-    tagline: 'Serene Nile views and Nubian culture',
-    bestTime: 'Oct-Apr',
-    crowdLevel: 'Medium',
-    recommendedStay: '2 days',
-    mapX: 210,
-    mapY: 315,
-    svg: (
+    );
+  }
+
+  if (name.includes('aswan') || name.includes('philae')) {
+    return (
       <svg viewBox="0 0 400 240" className="w-full h-full object-cover">
         <defs>
           <linearGradient id="aswan-sky" x1="0%" y1="0%" x2="0%" y2="100%">
@@ -112,20 +87,11 @@ const destinations: Destination[] = [
         <rect x="205" y="160" width="30" height="10" fill="#5C4033" />
         <circle cx="100" cy="80" r="25" fill="#FFFFFF" opacity="0.5" />
       </svg>
-    ),
-  },
-  {
-    id: 'abu-simbel',
-    category: 'Ancient Sites',
-    name: 'Abu Simbel',
-    rating: 5.0,
-    tagline: 'Colossal temples carved into rock',
-    bestTime: 'Oct-Apr',
-    crowdLevel: 'Medium',
-    recommendedStay: '1 day',
-    mapX: 195,
-    mapY: 360,
-    svg: (
+    );
+  }
+
+  if (name.includes('abu simbel')) {
+    return (
       <svg viewBox="0 0 400 240" className="w-full h-full object-cover">
         <rect width="400" height="240" fill="#4A4E69" />
         <path d="M50 200 Q 150 50 350 200 Z" fill="#9A8C98" />
@@ -134,20 +100,11 @@ const destinations: Destination[] = [
         <rect x="230" y="120" width="30" height="60" fill="#C9A84C" />
         <path d="M0 180 Q 200 170 400 190 L 400 240 L 0 240 Z" fill="#22223B" />
       </svg>
-    ),
-  },
-  {
-    id: 'siwa-oasis',
-    category: 'Hidden Egypt',
-    name: 'Siwa Oasis',
-    rating: 4.9,
-    tagline: 'Salt lakes and desert springs',
-    bestTime: 'Oct-Apr',
-    crowdLevel: 'Low',
-    recommendedStay: '3-4 days',
-    mapX: 100,
-    mapY: 125,
-    svg: (
+    );
+  }
+
+  if (category === 'hidden' || name.includes('oasis')) {
+    return (
       <svg viewBox="0 0 400 240" className="w-full h-full object-cover">
         <rect width="400" height="240" fill="#030712" />
         <circle cx="200" cy="100" r="40" fill="#E2E8F0" opacity="0.8" />
@@ -156,101 +113,11 @@ const destinations: Destination[] = [
         <path d="M80 170 L80 120 M80 120 L60 100 M80 120 L100 100 M80 130 L100 140 M80 130 L60 140" stroke="#2F855A" strokeWidth="4" fill="none" />
         <path d="M320 160 L320 110 M320 110 L300 90 M320 110 L340 90 M320 120 L340 130 M320 120 L300 130" stroke="#2F855A" strokeWidth="4" fill="none" />
       </svg>
-    ),
-  },
-  {
-    id: 'fayoum',
-    category: 'Hidden Egypt',
-    name: 'Fayoum',
-    rating: 4.7,
-    tagline: 'Waterfalls, lakes, and desert dunes',
-    bestTime: 'Oct-Apr',
-    crowdLevel: 'Medium',
-    recommendedStay: '2 days',
-    mapX: 175,
-    mapY: 160,
-    svg: (
-      <svg viewBox="0 0 400 240" className="w-full h-full object-cover">
-        <rect width="400" height="240" fill="#87CEEB" />
-        <path d="M0 160 Q 200 130 400 170 L 400 240 L 0 240 Z" fill="#E9C46A" />
-        <path d="M100 180 Q 250 160 400 200 L 400 240 L 100 240 Z" fill="#2A9D8F" opacity="0.8" />
-        <circle cx="80" cy="60" r="20" fill="#F4A261" />
-      </svg>
-    ),
-  },
-  {
-    id: 'dakhla-oasis',
-    category: 'Hidden Egypt',
-    name: 'Dakhla Oasis',
-    rating: 4.8,
-    tagline: 'Ancient mud-brick towns',
-    bestTime: 'Oct-Apr',
-    crowdLevel: 'Low',
-    recommendedStay: '2-3 days',
-    mapX: 120,
-    mapY: 270,
-    svg: (
-      <svg viewBox="0 0 400 240" className="w-full h-full object-cover">
-        <rect width="400" height="240" fill="#F4A261" />
-        <rect x="100" y="140" width="60" height="60" fill="#B38B59" />
-        <rect x="180" y="120" width="80" height="80" fill="#C9A84C" />
-        <rect x="280" y="150" width="50" height="50" fill="#B38B59" />
-        <path d="M0 200 L 400 200 L 400 240 L 0 240 Z" fill="#D4A373" />
-        <circle cx="300" cy="80" r="25" fill="#E9C46A" />
-      </svg>
-    ),
-  },
-  {
-    id: 'new-valley',
-    category: 'Hidden Egypt',
-    name: 'New Valley',
-    rating: 4.6,
-    tagline: 'Where desert meets greenery',
-    bestTime: 'Oct-Apr',
-    crowdLevel: 'Low',
-    recommendedStay: '2 days',
-    mapX: 150,
-    mapY: 300,
-    svg: (
-      <svg viewBox="0 0 400 240" className="w-full h-full object-cover">
-        <rect width="400" height="240" fill="#E9C46A" />
-        <path d="M0 160 Q 200 120 400 160 L 400 240 L 0 240 Z" fill="#D4A373" />
-        <path d="M150 180 Q 250 140 400 190 L 400 240 L 150 240 Z" fill="#2A9D8F" />
-      </svg>
-    ),
-  },
-  {
-    id: 'red-sea',
-    category: 'Nature',
-    name: 'Red Sea',
-    rating: 4.8,
-    tagline: 'World-class diving and resorts',
-    bestTime: 'Sep-Nov, Mar-May',
-    crowdLevel: 'High',
-    recommendedStay: '4-5 days',
-    mapX: 230,
-    mapY: 220,
-    svg: (
-      <svg viewBox="0 0 400 240" className="w-full h-full object-cover">
-        <rect width="400" height="240" fill="#0077B6" />
-        <path d="M0 120 Q 100 100 200 120 T 400 120 L 400 240 L 0 240 Z" fill="#0096C7" />
-        <path d="M50 200 Q 80 180 110 210 T 170 200" stroke="#FF5400" strokeWidth="8" fill="none" strokeLinecap="round" />
-        <circle cx="300" cy="60" r="30" fill="#FFD166" />
-      </svg>
-    ),
-  },
-  {
-    id: 'white-desert',
-    category: 'Nature',
-    name: 'White Desert',
-    rating: 4.9,
-    tagline: 'Surreal chalk rock formations',
-    bestTime: 'Oct-Apr',
-    crowdLevel: 'Low',
-    recommendedStay: '1-2 days',
-    mapX: 130,
-    mapY: 220,
-    svg: (
+    );
+  }
+
+  if (category === 'nature' || name.includes('desert')) {
+    return (
       <svg viewBox="0 0 400 240" className="w-full h-full object-cover">
         <rect width="400" height="240" fill="#14213D" />
         <path d="M0 180 Q 200 150 400 180 L 400 240 L 0 240 Z" fill="#E5E5E5" />
@@ -258,45 +125,126 @@ const destinations: Destination[] = [
         <path d="M250 190 Q 280 100 310 190 Z" fill="#FFFFFF" />
         <circle cx="200" cy="80" r="15" fill="#FFFFFF" opacity="0.8" />
       </svg>
-    ),
-  },
-  {
-    id: 'ras-mohammed',
-    category: 'Nature',
-    name: 'Ras Mohammed National Park',
-    rating: 4.9,
-    tagline: 'Pristine coral reefs and marine life',
-    bestTime: 'Sep-Nov, Mar-May',
-    crowdLevel: 'Medium',
-    recommendedStay: '1 day',
-    mapX: 245,
-    mapY: 175,
-    svg: (
-      <svg viewBox="0 0 400 240" className="w-full h-full object-cover">
-        <rect width="400" height="240" fill="#03045E" />
-        <path d="M0 100 Q 100 80 200 100 T 400 100 L 400 240 L 0 240 Z" fill="#0077B6" />
-        <circle cx="100" cy="180" r="20" fill="#F72585" opacity="0.8" />
-        <circle cx="280" cy="160" r="30" fill="#4CC9F0" opacity="0.8" />
-        <path d="M180 200 Q 200 180 220 200 T 260 190" stroke="#7209B7" strokeWidth="6" fill="none" />
-      </svg>
-    ),
-  },
-];
+    );
+  }
 
-const categories: Category[] = ['All', 'Ancient Sites', 'Hidden Egypt', 'Nature'];
+  if (category === 'beach' || name.includes('sea') || name.includes('sharm')) {
+    return (
+      <svg viewBox="0 0 400 240" className="w-full h-full object-cover">
+        <rect width="400" height="240" fill="#0077B6" />
+        <path d="M0 120 Q 100 100 200 120 T 400 120 L 400 240 L 0 240 Z" fill="#0096C7" />
+        <path d="M50 200 Q 80 180 110 210 T 170 200" stroke="#FF5400" strokeWidth="8" fill="none" strokeLinecap="round" />
+        <circle cx="300" cy="60" r="30" fill="#FFD166" />
+      </svg>
+    );
+  }
+
+  if (category === 'museum') {
+    return (
+      <svg viewBox="0 0 400 240" className="w-full h-full object-cover">
+        <rect width="400" height="240" fill="#2b2d42" />
+        <rect x="50" y="100" width="300" height="20" fill="#edf2f4" />
+        <rect x="70" y="120" width="20" height="80" fill="#8d99ae" />
+        <rect x="140" y="120" width="20" height="80" fill="#8d99ae" />
+        <rect x="240" y="120" width="20" height="80" fill="#8d99ae" />
+        <rect x="310" y="120" width="20" height="80" fill="#8d99ae" />
+        <rect x="40" y="200" width="320" height="20" fill="#edf2f4" />
+        <polygon points="200,40 50,100 350,100" fill="#d90429" />
+      </svg>
+    );
+  }
+
+  // Fallback ancient
+  return (
+    <svg viewBox="0 0 400 240" className="w-full h-full object-cover">
+      <defs>
+        <linearGradient id="fallback-sky" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor="#1B6B93" />
+          <stop offset="100%" stopColor="#D4A373" />
+        </linearGradient>
+      </defs>
+      <rect width="400" height="240" fill="url(#fallback-sky)" />
+      <polygon points="120,180 220,60 320,180" fill="#E9C46A" />
+    </svg>
+  );
+}
+
+// Weather Badge component to fetch weather for each card individually
+function WeatherBadge({ lat, lon }: { lat: number, lon: number }) {
+  const [weather, setWeather] = useState<any>(null);
+
+  useEffect(() => {
+    if (!lat || !lon) return;
+    fetch(`/api/weather?lat=${lat}&lon=${lon}`)
+      .then(res => res.json())
+      .then(data => {
+        if (!data.error) {
+          setWeather(data);
+        }
+      })
+      .catch(console.error);
+  }, [lat, lon]);
+
+  if (!weather) return null;
+
+  return (
+    <div className="absolute top-4 right-4 bg-black/60 backdrop-blur rounded-full px-3 py-1 flex items-center gap-2 border border-white/20 shadow-lg">
+      <img src={`https://openweathermap.org/img/wn/${weather.icon}.png`} alt={weather.description} className="w-6 h-6" />
+      <span className="text-white text-xs font-bold">{weather.temperature}°C</span>
+    </div>
+  );
+}
+
+const categories: Category[] = ['All', 'Ancient', 'Museum', 'Nature', 'Beach', 'Hidden'];
 
 export default function ExploreContent() {
   const [activeCategory, setActiveCategory] = useState<Category>('All');
+  const [attractions, setAttractions] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [selectedMapId, setSelectedMapId] = useState<string | null>(null);
+  const supabase = createClient();
 
-  const filteredDestinations = destinations.filter(
-    (dest) => activeCategory === 'All' || dest.category === activeCategory
-  );
+  useEffect(() => {
+    async function fetchAttractions() {
+      try {
+        const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+        const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+        console.log("Supabase URL:", supabaseUrl);
+        console.log("Supabase Key (first 10 chars):", supabaseKey ? supabaseKey.substring(0, 10) + '...' : 'undefined');
+
+        const { data, error } = await supabase
+          .from('attractions')
+          .select('*')
+          .eq('verified', true);
+
+        if (error) throw error;
+        setAttractions(data || []);
+        trackEvent('page_view');
+      } catch (err: any) {
+        setError(err.message || 'Failed to fetch attractions');
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchAttractions();
+  }, [supabase]);
+
+  const filteredDestinations = attractions.filter((dest) => {
+    if (activeCategory === 'All') return true;
+    return dest.category?.toLowerCase() === activeCategory.toLowerCase();
+  });
 
   const handleDotClick = (id: string) => {
+    setSelectedMapId(id);
     const el = document.getElementById(id);
     if (el) {
       el.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
+  };
+
+  const handleCardClick = (id: string) => {
+    setSelectedMapId(id);
   };
 
   return (
@@ -349,127 +297,94 @@ export default function ExploreContent() {
                 <MapPin className="w-5 h-5" />
                 Interactive Map
               </h3>
-              <div className="relative w-full aspect-[3/5]">
-                <svg viewBox="0 0 300 500" className="w-full h-full" fill="none">
-                  {/* Map Outline */}
-                  <path 
-                    d="M165 50 L250 50 L260 80 L270 100 L260 120 L255 140 L265 155 L255 170 L250 185 L260 200 L255 220 L250 240 L245 260 L240 280 L235 300 L230 320 L225 340 L218 370 L210 400 L195 430 L180 450 L165 440 L150 420 L140 400 L130 380 L125 350 L130 320 L140 290 L150 260 L155 230 L160 200 L170 170 L175 150 L180 130 L175 110 L170 90 L165 70 Z" 
-                    fill="#C9A84C" 
-                    fillOpacity="0.08" 
-                    stroke="#C9A84C" 
-                    strokeWidth="1.5" 
-                    strokeOpacity="0.3"
-                  />
-                  {/* Nile River */}
-                  <path 
-                    d="M195 130 Q200 160 205 200 Q210 240 205 270 Q200 310 210 350 Q215 380 195 430" 
-                    stroke="#1B6B93" 
-                    strokeWidth="2.5" 
-                    strokeOpacity="0.5" 
-                    strokeLinecap="round" 
-                    fill="none"
-                  />
-                  
-                  {/* Destination Dots */}
-                  {destinations.map((dest) => {
-                    const isVisible = activeCategory === 'All' || dest.category === activeCategory;
-                    if (!isVisible) return null;
-                    return (
-                      <g 
-                        key={dest.id} 
-                        onClick={() => handleDotClick(dest.id)}
-                        className="cursor-pointer group"
-                      >
-                        <circle 
-                          cx={dest.mapX} 
-                          cy={dest.mapY} 
-                          r="6" 
-                          fill="#C9A84C"
-                          className="transition-transform group-hover:scale-150"
-                        />
-                        <circle 
-                          cx={dest.mapX} 
-                          cy={dest.mapY} 
-                          r="12" 
-                          fill="#C9A84C"
-                          opacity="0.3"
-                          className="animate-ping group-hover:animate-none"
-                        />
-                      </g>
-                    );
-                  })}
-                </svg>
+              <div className="relative w-full">
+                <MapLeaflet 
+                  attractions={filteredDestinations} 
+                  selectedId={selectedMapId}
+                  onMarkerClick={handleDotClick}
+                />
               </div>
             </div>
           </div>
 
           {/* Right Column - Destination Cards */}
           <div className="w-full lg:w-2/3">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {filteredDestinations.map((dest, index) => (
-                <motion.div
-                  key={dest.id}
-                  id={dest.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.05 }}
-                  className="bg-white/5 backdrop-blur border border-[#C9A84C]/20 rounded-2xl overflow-hidden hover:border-[#C9A84C] transition-colors group flex flex-col"
-                >
-                  {/* Image/SVG Section */}
-                  <div className="h-48 relative overflow-hidden bg-gray-900">
-                    {dest.svg}
-                    <div className="absolute top-4 left-4">
-                      <span className="px-3 py-1 bg-black/60 backdrop-blur rounded-full text-xs font-medium text-[#C9A84C] border border-[#C9A84C]/30">
-                        {dest.category}
-                      </span>
-                    </div>
-                    <div className="absolute top-4 right-4 flex items-center gap-1 px-2 py-1 bg-black/60 backdrop-blur rounded-full text-sm font-medium text-white border border-white/10">
-                      <Star className="w-4 h-4 text-[#C9A84C] fill-current" />
-                      {dest.rating}
-                    </div>
-                  </div>
-
-                  {/* Details Section */}
-                  <div className="p-6 flex flex-col flex-grow">
-                    <h3 className="text-2xl font-bold text-white mb-2">{dest.name}</h3>
-                    <p className="text-gray-400 mb-6 flex-grow">{dest.tagline}</p>
-                    
-                    <div className="grid grid-cols-2 gap-4 mb-6">
-                      <div className="flex items-center gap-2 text-sm text-gray-300">
-                        <Calendar className="w-4 h-4 text-[#C9A84C]" />
-                        <span>{dest.bestTime}</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-sm text-gray-300">
-                        <Clock className="w-4 h-4 text-[#C9A84C]" />
-                        <span>{dest.recommendedStay}</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-sm text-gray-300 col-span-2">
-                        <Users className="w-4 h-4 text-[#C9A84C]" />
-                        <span className="flex items-center gap-2">
-                          Crowd Level: 
-                          <span className={`px-2 py-0.5 rounded text-xs font-semibold ${
-                            dest.crowdLevel === 'Low' ? 'bg-green-500/20 text-green-400' :
-                            dest.crowdLevel === 'Medium' ? 'bg-yellow-500/20 text-yellow-400' :
-                            'bg-red-500/20 text-red-400'
-                          }`}>
-                            {dest.crowdLevel}
-                          </span>
-                        </span>
-                      </div>
-                    </div>
-
-                    <button className="w-full py-3 bg-[#1B6B93]/20 hover:bg-[#1B6B93]/40 border border-[#1B6B93] rounded-xl text-white font-medium flex justify-center items-center gap-2 transition-colors">
-                      Explore Destination
-                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                    </button>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-            
-            {filteredDestinations.length === 0 && (
+            {loading ? (
+              <div className="flex flex-col items-center justify-center py-20 text-[#C9A84C]">
+                <Loader2 className="w-10 h-10 animate-spin mb-4" />
+                <p>Loading verified destinations...</p>
+              </div>
+            ) : error ? (
+              <div className="flex flex-col items-center justify-center py-20 text-red-400">
+                <AlertCircle className="w-10 h-10 mb-4" />
+                <p>{error}</p>
+              </div>
+            ) : filteredDestinations.length === 0 ? (
               <div className="text-center py-20 text-gray-400">
                 No destinations found for this category.
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {filteredDestinations.map((dest, index) => (
+                  <motion.div
+                    key={dest.id}
+                    id={dest.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.05 }}
+                    onClick={() => handleCardClick(dest.id)}
+                    className={`bg-white/5 backdrop-blur border rounded-2xl overflow-hidden hover:border-[#C9A84C] transition-colors group flex flex-col relative cursor-pointer ${
+                      selectedMapId === dest.id ? 'border-[#C9A84C] shadow-[0_0_15px_rgba(201,168,76,0.3)]' : 'border-[#C9A84C]/20'
+                    }`}
+                  >
+                    {/* Image/SVG Section */}
+                    <div className="h-48 relative overflow-hidden bg-gray-900">
+                      {getAttractionSvg(dest.name_en, dest.category)}
+                      <div className="absolute top-4 left-4">
+                        <span className="px-3 py-1 bg-black/60 backdrop-blur rounded-full text-xs font-medium text-[#C9A84C] border border-[#C9A84C]/30 capitalize">
+                          {dest.category}
+                        </span>
+                      </div>
+                      
+                      {/* Weather Badge */}
+                      {dest.latitude && dest.longitude && (
+                        <WeatherBadge lat={dest.latitude} lon={dest.longitude} />
+                      )}
+                    </div>
+
+                    {/* Details Section */}
+                    <div className="p-6 flex flex-col flex-grow">
+                      <div className="flex justify-between items-start mb-2">
+                        <h3 className="text-2xl font-bold text-white">{dest.name_en}</h3>
+                        {dest.name_ar && <span className="text-xl text-[#C9A84C] font-arabic">{dest.name_ar}</span>}
+                      </div>
+                      <p className="text-gray-400 mb-6 flex-grow">{dest.description_en || `Explore the beautiful ${dest.name_en}`}</p>
+                      
+                      <div className="grid grid-cols-2 gap-4 mb-6">
+                        <div className="flex items-center gap-2 text-sm text-gray-300">
+                          <MapPin className="w-4 h-4 text-[#C9A84C]" />
+                          <span>{dest.city || 'Egypt'}</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-sm text-gray-300">
+                          <Star className="w-4 h-4 text-[#C9A84C]" />
+                          <span className="italic text-gray-500">Rating unavailable</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-sm text-gray-500 col-span-2">
+                          <Users className="w-4 h-4 text-gray-600" />
+                          <span className="italic">Crowd data unavailable</span>
+                        </div>
+                      </div>
+
+                      <button 
+                        onClick={() => trackEvent('attraction_view', { attraction_id: dest.id, governorate_id: dest.governorate_id })}
+                        className="w-full py-3 bg-[#1B6B93]/20 hover:bg-[#1B6B93]/40 border border-[#1B6B93] rounded-xl text-white font-medium flex justify-center items-center gap-2 transition-colors"
+                      >
+                        Explore Destination
+                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                      </button>
+                    </div>
+                  </motion.div>
+                ))}
               </div>
             )}
           </div>

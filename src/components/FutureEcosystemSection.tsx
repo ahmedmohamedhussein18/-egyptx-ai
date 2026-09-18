@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { 
   Globe, Map, Smile, Siren, 
@@ -13,6 +14,7 @@ const UPCOMING_FEATURES = [
     title: 'VR Egypt',
     desc: 'Immersive 360° virtual tours of ancient wonders',
     icon: Globe,
+    href: '/vr-egypt',
   },
   {
     id: 2,
@@ -25,18 +27,15 @@ const UPCOMING_FEATURES = [
     title: 'Kids Mode',
     desc: 'A magical, educational experience for young explorers',
     icon: Smile,
+    href: '/kids',
   },
-  {
-    id: 4,
-    title: 'Emergency Assistant',
-    desc: 'Instant access to help, translation, and emergency services',
-    icon: Siren,
-  },
+
   {
     id: 5,
     title: 'AI Memories',
     desc: 'Auto-generated story of your journey with photos and highlights',
     icon: Camera,
+    href: '/memories',
   },
   {
     id: 6,
@@ -82,19 +81,15 @@ export default function FutureEcosystemSection() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {UPCOMING_FEATURES.map((feature, idx) => (
-              <motion.div
-                key={feature.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.05 }}
-                className="relative bg-white/5 backdrop-blur border border-white/10 rounded-2xl p-6 flex flex-col items-start overflow-hidden group grayscale-[50%] opacity-80 hover:grayscale-0 hover:opacity-100 transition-all duration-500"
-              >
-                {/* Coming Soon Badge */}
-                <div className="absolute top-4 right-4 px-2 py-1 bg-[#1B6B93]/20 border border-[#1B6B93]/40 rounded text-[10px] uppercase font-bold text-[#4CC9F0] flex items-center gap-1">
-                  <Lock className="w-3 h-3" /> Coming Soon
-                </div>
+          {UPCOMING_FEATURES.map((feature, idx) => {
+            const CardContent = (
+              <>
+                {/* Coming Soon Badge - Only show if no href */}
+                {!feature.href && (
+                  <div className="absolute top-4 right-4 px-2 py-1 bg-[#1B6B93]/20 border border-[#1B6B93]/40 rounded text-[10px] uppercase font-bold text-[#4CC9F0] flex items-center gap-1">
+                    <Lock className="w-3 h-3" /> Coming Soon
+                  </div>
+                )}
 
                 <div className="w-12 h-12 rounded-xl bg-gray-800 border border-gray-700 flex items-center justify-center mb-4">
                   <feature.icon className="w-6 h-6 text-gray-400 group-hover:text-[#C9A84C] transition-colors" />
@@ -109,8 +104,31 @@ export default function FutureEcosystemSection() {
                 
                 {/* Shimmer line */}
                 <div className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-[#C9A84C]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+              </>
+            );
+
+            const cardClasses = "relative bg-white/5 backdrop-blur border border-white/10 rounded-2xl p-6 flex flex-col items-start overflow-hidden group transition-all duration-500 " + (feature.href ? "hover:border-[#C9A84C]/50 hover:bg-white/10" : "grayscale-[50%] opacity-80 hover:grayscale-0 hover:opacity-100");
+
+            return (
+              <motion.div
+                key={feature.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: idx * 0.05 }}
+              >
+                {feature.href ? (
+                  <Link href={feature.href} className={`block h-full ${cardClasses}`}>
+                    {CardContent}
+                  </Link>
+                ) : (
+                  <div className={`h-full ${cardClasses}`}>
+                    {CardContent}
+                  </div>
+                )}
               </motion.div>
-          ))}
+            );
+          })}
         </div>
         
       </div>

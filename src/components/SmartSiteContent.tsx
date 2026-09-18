@@ -1,97 +1,67 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { QrCode, Scan, History, Cuboid, Globe, Eye, ScanLine, Clock, MapPin, Search } from 'lucide-react';
-
-interface TimelineEvent {
-  year: string;
-  event: string;
-}
-
-interface SiteData {
-  id: string;
-  name: string;
-  tagline: string;
-  description: string;
-  timeline: TimelineEvent[];
-}
-
-const SITES: SiteData[] = [
-  {
-    id: 'karnak',
-    name: 'Temple of Karnak',
-    tagline: 'The largest religious building ever constructed',
-    description: 'The Karnak Temple Complex is a vast open-air museum and the largest religious site in the ancient world. Dedicated to the Theban triad of Amun, Mut, and Khonsu, it was developed over 2,000 years by successive pharaohs.',
-    timeline: [
-      { year: '2000 BCE', event: 'Construction begins during the Middle Kingdom under Senusret I.' },
-      { year: '1500 BCE', event: 'Major expansions by Thutmose I and Hatshepsut.' },
-      { year: '1290 BCE', event: 'The Great Hypostyle Hall is completed by Seti I and Ramesses II.' },
-      { year: '323 BCE', event: 'Ptolemaic additions, including the Philip Arrhidaeus shrine.' }
-    ]
-  },
-  {
-    id: 'giza',
-    name: 'Great Pyramid of Giza',
-    tagline: 'The last surviving Wonder of the Ancient World',
-    description: 'Built for the Pharaoh Khufu, the Great Pyramid was the tallest man-made structure in the world for over 3,800 years. It consists of an estimated 2.3 million stone blocks.',
-    timeline: [
-      { year: '2560 BCE', event: 'Construction is completed under the reign of Khufu.' },
-      { year: '1303 CE', event: 'A massive earthquake loosens the outer casing stones.' },
-      { year: '1880 CE', event: 'Flinders Petrie conducts the first scientific excavations and measurements.' }
-    ]
-  },
-  {
-    id: 'valley-kings',
-    name: 'Valley of the Kings',
-    tagline: 'The grand necropolis of the pharaohs',
-    description: 'A royal burial ground situated on the west bank of the Nile, hiding over 60 tombs of pharaohs and powerful nobles from the New Kingdom, designed to thwart tomb robbers.',
-    timeline: [
-      { year: '1539 BCE', event: 'First royal burials begin (Thutmose I).' },
-      { year: '1075 BCE', event: 'End of the New Kingdom; the valley is abandoned for royal burials.' },
-      { year: '1922 CE', event: 'Howard Carter discovers the nearly intact tomb of Tutankhamun (KV62).' }
-    ]
-  },
-  {
-    id: 'abu-simbel',
-    name: 'Abu Simbel',
-    tagline: 'Colossal temples rescued from the Nile',
-    description: 'Carved out of a mountainside during the reign of Ramesses II, these twin temples serve as a lasting monument to the king and his queen Nefertari, aligned perfectly with the sun.',
-    timeline: [
-      { year: '1244 BCE', event: 'Construction of the temples is completed.' },
-      { year: '1813 CE', event: 'The temples are rediscovered by Swiss orientalist Jean-Louis Burckhardt.' },
-      { year: '1968 CE', event: 'UNESCO relocation project saves the temples from Lake Nasser.' }
-    ]
-  },
-  {
-    id: 'luxor',
-    name: 'Luxor Temple',
-    tagline: 'The southern sanctuary of ancient Thebes',
-    description: 'Unlike other temples in Thebes, Luxor Temple is not dedicated to a cult god or a deified version of the pharaoh in death, but to the rejuvenation of kingship and the royal Ka.',
-    timeline: [
-      { year: '1400 BCE', event: 'Construction started by Amenhotep III.' },
-      { year: '1250 BCE', event: 'Ramesses II adds the great pylon and colossal statues.' },
-      { year: '320 BCE', event: 'Alexander the Great rebuilds the sanctuary.' }
-    ]
-  }
-];
+import { QrCode, Scan, History, Cuboid, Globe, Eye, ScanLine, X, Loader2, AlertCircle } from 'lucide-react';
+import { createClient } from '@/lib/supabase/client';
+import { trackEvent } from '@/lib/analytics';
 
 type TabType = 'overview' | 'timeline' | '3d' | 'translation' | 'ar';
 
 export default function SmartSiteContent() {
-  const [selectedSiteId, setSelectedSiteId] = useState<string>(SITES[0].id);
+  const [attractions, setAttractions] = useState<any[]>([]);
+  const [selectedSiteId, setSelectedSiteId] = useState<string>('');
   const [isScanning, setIsScanning] = useState(false);
   const [scanComplete, setScanComplete] = useState(false);
   const [activeTab, setActiveTab] = useState<TabType>('overview');
   const [language, setLanguage] = useState('English');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  
+  // QR Modal State
+  const [showQrModal, setShowQrModal] = useState(false);
+  const [qrCodeData, setQrCodeData] = useState<string | null>(null);
+  const [qrLoading, setQrLoading] = useState(false);
 
-  const selectedSite = SITES.find(s => s.id === selectedSiteId) || SITES[0];
+  useEffect(() => {
+    trackEvent('page_view');
+    
+    async function fetchSites() {
+      try {
+        const supabase = createClient();
+        const { data, error } = await supabase
+          .from('attractions')
+          .select('*')
+          .eq('verified', true)
+          .limit(10); // fetch some top attractions
+
+        if (error) throw error;
+        
+        if (data && data.length > 0) {
+          setAttractions(data);
+          setSelectedSiteId(data[0].id);
+        }
+      } catch (err: any) {
+        setError(err.message || 'Failed to fetch attractions');
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchSites();
+  }, []);
+
+  const selectedSite = attractions.find(s => s.id === selectedSiteId) || attractions[0];
 
   const handleSelectSite = (id: string) => {
     setSelectedSiteId(id);
     setScanComplete(false);
     setIsScanning(false);
     setActiveTab('overview');
+    
+    const site = attractions.find(s => s.id === id);
+    if (site) {
+      trackEvent('attraction_view', { attraction_id: id, governorate_id: site.governorate_id });
+    }
   };
 
   const handleScan = () => {
@@ -101,6 +71,44 @@ export default function SmartSiteContent() {
       setScanComplete(true);
     }, 1800);
   };
+
+  const handleViewQr = async () => {
+    if (!selectedSite) return;
+    setShowQrModal(true);
+    setQrLoading(true);
+    setQrCodeData(null);
+    try {
+      const res = await fetch(`/api/qr/generate?attractionId=${selectedSite.id}`);
+      const data = await res.json();
+      if (res.ok) {
+        setQrCodeData(data.qrCode);
+      } else {
+        console.error('Failed to generate QR:', data.error);
+      }
+    } catch (err) {
+      console.error('Error fetching QR:', err);
+    } finally {
+      setQrLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#030712] flex flex-col items-center justify-center text-[#C9A84C]">
+        <Loader2 className="w-10 h-10 animate-spin mb-4" />
+        <p>Loading Smart Sites...</p>
+      </div>
+    );
+  }
+
+  if (error || attractions.length === 0) {
+    return (
+      <div className="min-h-screen bg-[#030712] flex flex-col items-center justify-center text-red-500">
+        <AlertCircle className="w-10 h-10 mb-4" />
+        <p>{error || 'No verified attractions found.'}</p>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#030712] text-white pt-24 pb-16">
@@ -127,7 +135,7 @@ export default function SmartSiteContent() {
 
         {/* Site Selector */}
         <div className="flex overflow-x-auto pb-6 mb-12 gap-4 scrollbar-hide snap-x">
-          {SITES.map((site) => (
+          {attractions.map((site) => (
             <button
               key={site.id}
               onClick={() => handleSelectSite(site.id)}
@@ -138,9 +146,9 @@ export default function SmartSiteContent() {
               }`}
             >
               <h3 className={`font-semibold text-lg mb-1 ${selectedSiteId === site.id ? 'text-[#C9A84C]' : 'text-white'}`}>
-                {site.name}
+                {site.name_en}
               </h3>
-              <p className="text-sm text-gray-400 line-clamp-2">{site.tagline}</p>
+              <p className="text-sm text-gray-400 line-clamp-2">{site.city || site.category}</p>
             </button>
           ))}
         </div>
@@ -149,8 +157,17 @@ export default function SmartSiteContent() {
         <div className="bg-white/5 backdrop-blur-lg border border-[#C9A84C]/20 rounded-3xl p-8 mb-12 text-center relative overflow-hidden">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-2xl h-full bg-[#1B6B93]/5 blur-[100px] pointer-events-none" />
           
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">{selectedSite.name}</h2>
-          <p className="text-[#C9A84C] text-lg mb-10">{selectedSite.tagline}</p>
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">{selectedSite.name_en}</h2>
+          <p className="text-[#C9A84C] text-lg mb-6">{selectedSite.city || selectedSite.category}</p>
+
+          <div className="flex justify-center mb-10">
+            <button 
+              onClick={handleViewQr}
+              className="px-6 py-2 border border-[#C9A84C]/50 text-[#C9A84C] rounded-lg hover:bg-[#C9A84C]/10 transition-colors text-sm font-semibold flex items-center gap-2"
+            >
+              <QrCode className="w-4 h-4" /> View Site QR Code
+            </button>
+          </div>
 
           <AnimatePresence mode="wait">
             {!isScanning && !scanComplete && (
@@ -165,8 +182,8 @@ export default function SmartSiteContent() {
                   onClick={handleScan}
                   className="group relative flex flex-col items-center justify-center w-48 h-48 bg-[#0A1628] rounded-2xl border border-[#C9A84C]/30 hover:border-[#C9A84C] hover:shadow-[0_0_30px_rgba(201,168,76,0.3)] transition-all cursor-pointer"
                 >
-                  <QrCode className="w-16 h-16 text-[#C9A84C] mb-4 group-hover:scale-110 transition-transform" />
-                  <span className="font-semibold text-lg">Scan QR Code</span>
+                  <Scan className="w-16 h-16 text-[#C9A84C] mb-4 group-hover:scale-110 transition-transform" />
+                  <span className="font-semibold text-lg">Simulate Scan</span>
                   {/* Decorative corners */}
                   <div className="absolute top-4 left-4 w-4 h-4 border-t-2 border-l-2 border-[#C9A84C]" />
                   <div className="absolute top-4 right-4 w-4 h-4 border-t-2 border-r-2 border-[#C9A84C]" />
@@ -185,7 +202,7 @@ export default function SmartSiteContent() {
                 className="flex justify-center"
               >
                 <div className="relative w-48 h-48 bg-[#0A1628] rounded-2xl border border-[#C9A84C] flex items-center justify-center overflow-hidden shadow-[0_0_40px_rgba(201,168,76,0.4)]">
-                  <QrCode className="w-16 h-16 text-[#C9A84C]/30" />
+                  <Scan className="w-16 h-16 text-[#C9A84C]/30" />
                   <motion.div 
                     animate={{ top: ['0%', '100%', '0%'] }}
                     transition={{ duration: 1.5, ease: "linear", repeat: Infinity }}
@@ -207,7 +224,6 @@ export default function SmartSiteContent() {
           >
             <div className="p-6 bg-[#0A1628]/80 border-b border-[#C9A84C]/10 flex flex-wrap gap-2 md:gap-4">
               <button onClick={() => setActiveTab('overview')} className={`px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors ${activeTab === 'overview' ? 'bg-[#C9A84C] text-[#030712]' : 'bg-white/5 text-gray-300 hover:bg-white/10'}`}><ScanLine className="w-4 h-4" /> Overview</button>
-              <button onClick={() => setActiveTab('timeline')} className={`px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors ${activeTab === 'timeline' ? 'bg-[#C9A84C] text-[#030712]' : 'bg-white/5 text-gray-300 hover:bg-white/10'}`}><History className="w-4 h-4" /> Timeline</button>
               <button onClick={() => setActiveTab('3d')} className={`px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors ${activeTab === '3d' ? 'bg-[#C9A84C] text-[#030712]' : 'bg-white/5 text-gray-300 hover:bg-white/10'}`}><Cuboid className="w-4 h-4" /> 3D Model</button>
               <button onClick={() => setActiveTab('translation')} className={`px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors ${activeTab === 'translation' ? 'bg-[#C9A84C] text-[#030712]' : 'bg-white/5 text-gray-300 hover:bg-white/10'}`}><Globe className="w-4 h-4" /> Translation</button>
               <button onClick={() => setActiveTab('ar')} className={`px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors ${activeTab === 'ar' ? 'bg-[#1B6B93] text-white border border-[#1B6B93]' : 'bg-white/5 text-gray-300 hover:bg-white/10'}`}><Eye className="w-4 h-4" /> AR View</button>
@@ -217,26 +233,7 @@ export default function SmartSiteContent() {
               {activeTab === 'overview' && (
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-4">
                   <h3 className="text-xl font-bold text-[#C9A84C]">What You&apos;re Looking At</h3>
-                  <p className="text-gray-300 leading-relaxed text-lg">{selectedSite.description}</p>
-                </motion.div>
-              )}
-
-              {activeTab === 'timeline' && (
-                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
-                  <h3 className="text-xl font-bold text-[#C9A84C] mb-6">Historical Timeline</h3>
-                  <div className="relative border-l-2 border-[#1B6B93]/30 pl-8 space-y-8 ml-4">
-                    {selectedSite.timeline.map((item, idx) => (
-                      <div key={idx} className="relative">
-                        <div className="absolute -left-[41px] bg-[#030712] p-1 rounded-full">
-                          <div className="w-4 h-4 bg-[#C9A84C] rounded-full shadow-[0_0_10px_#C9A84C]" />
-                        </div>
-                        <div className="bg-white/5 p-4 rounded-xl border border-white/5">
-                          <span className="text-[#1B6B93] font-bold text-sm tracking-wider uppercase mb-1 block">{item.year}</span>
-                          <p className="text-gray-200">{item.event}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+                  <p className="text-gray-300 leading-relaxed text-lg">{selectedSite.description_en || 'Information is currently being updated for this location.'}</p>
                 </motion.div>
               )}
 
@@ -270,7 +267,7 @@ export default function SmartSiteContent() {
                   </div>
                   <div className="bg-white/5 p-6 rounded-xl border border-white/5">
                     <h3 className="text-xl font-bold text-[#C9A84C] mb-4">What You&apos;re Looking At</h3>
-                    <p className="text-gray-300 leading-relaxed text-lg">{selectedSite.description}</p>
+                    <p className="text-gray-300 leading-relaxed text-lg">{selectedSite.description_en || 'Information is currently being updated for this location.'}</p>
                     {language !== 'English' && (
                       <p className="text-xs text-[#1B6B93] mt-4 flex items-center gap-1"><Globe className="w-3 h-3" /> AI Translation Active</p>
                     )}
@@ -281,21 +278,18 @@ export default function SmartSiteContent() {
               {activeTab === 'ar' && (
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col items-center justify-center py-8">
                   <div className="relative w-full max-w-md aspect-[3/4] bg-gray-900 rounded-3xl overflow-hidden mb-6 border border-white/10">
-                    {/* Simulated Camera Feed */}
                     <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-30 mix-blend-overlay" />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#030712] via-transparent to-transparent" />
                     
-                    {/* AR Brackets */}
                     <div className="absolute top-8 left-8 w-8 h-8 border-t-2 border-l-2 border-[#C9A84C]" />
                     <div className="absolute top-8 right-8 w-8 h-8 border-t-2 border-r-2 border-[#C9A84C]" />
                     <div className="absolute bottom-16 left-8 w-8 h-8 border-b-2 border-l-2 border-[#C9A84C]" />
                     <div className="absolute bottom-16 right-8 w-8 h-8 border-b-2 border-r-2 border-[#C9A84C]" />
                     
-                    {/* AR Overlay Mock */}
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center w-full">
                       <ScanLine className="w-12 h-12 text-[#1B6B93] mx-auto mb-4 opacity-50" />
                       <div className="inline-block bg-black/60 backdrop-blur px-4 py-2 rounded-lg border border-[#C9A84C]/50 text-sm">
-                        <span className="text-[#C9A84C] font-bold">Detected:</span> {selectedSite.name}
+                        <span className="text-[#C9A84C] font-bold">Detected:</span> {selectedSite.name_en}
                       </div>
                     </div>
                   </div>
@@ -310,6 +304,55 @@ export default function SmartSiteContent() {
         )}
 
       </div>
+
+      {/* QR Code Modal */}
+      <AnimatePresence>
+        {showQrModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="bg-[#0A1628] border border-[#C9A84C]/30 rounded-3xl p-8 max-w-sm w-full relative shadow-2xl"
+            >
+              <button
+                onClick={() => setShowQrModal(false)}
+                className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
+              >
+                <X className="w-6 h-6" />
+              </button>
+
+              <div className="text-center">
+                <h3 className="text-2xl font-bold text-white mb-1">Check In</h3>
+                <p className="text-[#C9A84C] text-sm mb-6 font-semibold">{selectedSite?.name_en}</p>
+
+                <div className="bg-white p-4 rounded-xl inline-block mx-auto mb-6 shadow-[0_0_30px_rgba(201,168,76,0.2)]">
+                  {qrLoading ? (
+                    <div className="w-48 h-48 flex items-center justify-center">
+                      <Loader2 className="w-8 h-8 text-[#C9A84C] animate-spin" />
+                    </div>
+                  ) : qrCodeData ? (
+                    <img src={qrCodeData} alt="Check-in QR Code" className="w-48 h-48" />
+                  ) : (
+                    <div className="w-48 h-48 flex items-center justify-center text-red-500">
+                      Failed to load
+                    </div>
+                  )}
+                </div>
+
+                <p className="text-gray-400 text-sm">
+                  Scan this QR code with your mobile device when you arrive at the physical site to collect your digital passport stamp.
+                </p>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
