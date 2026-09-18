@@ -64,8 +64,9 @@ export default function MapLeaflet({ attractions, selectedId = null, onMarkerCli
         className="w-full h-full"
       >
         <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
-          url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          className="osm-dark-tiles"
         />
         
         <MapUpdater selectedId={selectedId} attractions={attractions} />
@@ -142,6 +143,9 @@ export default function MapLeaflet({ attractions, selectedId = null, onMarkerCli
         }
         .custom-popup .leaflet-popup-content {
           margin: 10px;
+        }
+        .osm-dark-tiles {
+          filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%);
         }
       `}} />
     </div>
