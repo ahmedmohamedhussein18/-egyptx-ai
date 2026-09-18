@@ -8,6 +8,32 @@ import { trackEvent } from '@/lib/analytics';
 
 type TabType = 'overview' | 'timeline' | '3d' | 'translation' | 'ar';
 
+function WeatherBadge({ lat, lon }: { lat: number, lon: number }) {
+  const [weather, setWeather] = useState<any>(null);
+
+  useEffect(() => {
+    if (!lat || !lon) return;
+    fetch(`/api/weather?lat=${lat}&lon=${lon}`)
+      .then(res => res.json())
+      .then(data => {
+        if (!data.error) {
+          setWeather(data);
+        }
+      })
+      .catch(console.error);
+  }, [lat, lon]);
+
+  if (!weather) return null;
+
+  return (
+    <div className="inline-flex items-center gap-2 bg-black/40 backdrop-blur rounded-full px-4 py-1.5 border border-[#C9A84C]/30 shadow-lg mb-6">
+      <img src={`https://openweathermap.org/img/wn/${weather.icon}.png`} alt={weather.description} className="w-6 h-6" />
+      <span className="text-white text-sm font-bold">{weather.temperature}°C</span>
+      <span className="text-gray-300 text-xs capitalize">{weather.description}</span>
+    </div>
+  );
+}
+
 export default function SmartSiteContent() {
   const [attractions, setAttractions] = useState<any[]>([]);
   const [selectedSiteId, setSelectedSiteId] = useState<string>('');
@@ -158,7 +184,11 @@ export default function SmartSiteContent() {
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-2xl h-full bg-[#1B6B93]/5 blur-[100px] pointer-events-none" />
           
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">{selectedSite.name_en}</h2>
-          <p className="text-[#C9A84C] text-lg mb-6">{selectedSite.city || selectedSite.category}</p>
+          <p className="text-[#C9A84C] text-lg mb-3">{selectedSite.city || selectedSite.category}</p>
+          
+          {selectedSite.latitude && selectedSite.longitude && (
+            <WeatherBadge lat={selectedSite.latitude} lon={selectedSite.longitude} />
+          )}
 
           <div className="flex justify-center mb-10">
             <button 
