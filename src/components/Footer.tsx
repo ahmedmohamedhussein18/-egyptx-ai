@@ -47,11 +47,11 @@ export default function Footer() {
 
           {/* Column 4 */}
           <div className="flex flex-col space-y-4">
-            <h3 className="text-white/70 uppercase text-xs tracking-[0.2em] font-semibold mb-2">About</h3>
+            <h3 className="text-white/70 uppercase text-xs tracking-[0.2em] font-semibold mb-2">Discover</h3>
+            <Link href="/crafts" className="text-white/40 hover:text-[#D4AF37] transition-colors text-sm">Egyptian Crafts</Link>
             <Link href="#" className="text-white/40 hover:text-[#D4AF37] transition-colors text-sm">About EgyptX</Link>
             <Link href="#" className="text-white/40 hover:text-[#D4AF37] transition-colors text-sm">Technology</Link>
-            <Link href="#" className="text-white/40 hover:text-[#D4AF37] transition-colors text-sm">Privacy</Link>
-            <Link href="#" className="text-white/40 hover:text-[#D4AF37] transition-colors text-sm">Terms</Link>
+            <Link href="#" className="text-white/40 hover:text-[#D4AF37] transition-colors text-sm">Terms & Privacy</Link>
           </div>
         </div>
 

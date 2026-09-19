@@ -29,6 +29,13 @@ const UPCOMING_FEATURES = [
     icon: Smile,
     href: '/kids',
   },
+  {
+    id: 4,
+    title: 'Emergency Assistant',
+    desc: '24/7 instant multilingual emergency support and location sharing',
+    icon: Siren,
+    href: '/emergency',
+  },
 
   {
     id: 5,

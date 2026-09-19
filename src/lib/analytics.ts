@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/supabase/client';
 
-export type AnalyticsEventType = 'page_view' | 'search' | 'attraction_view' | 'planner_started' | 'planner_completed' | 'qr_checkin' | 'favorite_added' | 'emergency_location_granted' | 'emergency_location_denied' | 'emergency_location_copied' | 'emergency_call_clicked';
+export type AnalyticsEventType = 'page_view' | 'search' | 'attraction_view' | 'planner_started' | 'planner_completed' | 'qr_checkin' | 'favorite_added' | 'emergency_location_granted' | 'emergency_location_denied' | 'emergency_location_copied' | 'emergency_call_clicked' | 'expense_added' | 'photo_uploaded' | 'travel_card_generated' | 'ai_guide_started' | 'ai_guide_used';
 
 let session_id: string | null = null;
 

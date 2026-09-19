@@ -13,8 +13,8 @@ const navItems = [
   { name: 'Smart Sites', href: '/smart-site' },
   { name: 'Museum AI', href: '/museum-ai' },
   { name: 'Hidden Egypt', href: '/hidden-egypt' },
-  { name: 'Tourist Passport', href: '/tourist-passport' },
-  { name: 'Emergency', href: '/emergency' },
+  { name: 'Crafts', href: '/crafts' },
+  { name: 'Tourist Passport', href: '/tourist-passport' }
 ];
 
 export default function Navbar() {
@@ -70,17 +70,26 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden xl:flex items-center gap-6">
+          <nav className="hidden xl:flex items-center gap-5">
             {navItems.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
-                className="relative text-sm font-medium text-white/70 hover:text-[#C9A84C] transition-colors group py-2"
+                className="relative text-sm font-medium text-white/80 hover:text-[#C9A84C] transition-colors group py-2"
               >
                 {item.name}
                 <span className="absolute left-0 bottom-0 w-0 h-[2px] bg-[#C9A84C] transition-all duration-300 group-hover:w-full"></span>
               </Link>
             ))}
+            {user && (
+              <Link
+                href="/ai-guide"
+                className="relative text-sm font-medium text-white/80 hover:text-[#C9A84C] transition-colors group py-2"
+              >
+                AI Guide
+                <span className="absolute left-0 bottom-0 w-0 h-[2px] bg-[#C9A84C] transition-all duration-300 group-hover:w-full"></span>
+              </Link>
+            )}
           </nav>
 
           {/* Right side buttons */}
@@ -189,11 +198,20 @@ export default function Navbar() {
               key={item.name}
               href={item.href}
               onClick={() => setMobileMenuOpen(false)}
-              className="block px-3 py-3 text-base font-medium text-white/80 hover:text-[#C9A84C] hover:bg-white/5 rounded-md transition-colors"
+              className="block px-3 py-3 text-sm font-medium text-white/80 hover:text-[#C9A84C] hover:bg-white/5 rounded-md transition-colors"
             >
               {item.name}
             </Link>
           ))}
+          {user && (
+            <Link
+              href="/ai-guide"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block px-3 py-3 text-sm font-medium text-white/80 hover:text-[#C9A84C] hover:bg-white/5 rounded-md transition-colors"
+            >
+              AI Guide
+            </Link>
+          )}
           <div className="pt-4 mt-2 border-t border-white/10 flex flex-col gap-3">
             <Link
               href="/command-center"

@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 import { Star, MapPin, Users, Calendar, Clock, ArrowRight, Cloud, Loader2, AlertCircle, Thermometer } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 import { trackEvent } from '@/lib/analytics';
@@ -204,6 +205,7 @@ export default function ExploreContent() {
   const [error, setError] = useState('');
   const [selectedMapId, setSelectedMapId] = useState<string | null>(null);
   const supabase = createClient();
+  const router = useRouter();
 
   useEffect(() => {
     async function fetchAttractions() {
@@ -375,12 +377,11 @@ export default function ExploreContent() {
                         </div>
                       </div>
 
-                      <button 
-                        onClick={() => trackEvent('attraction_view', { attraction_id: dest.id, governorate_id: dest.governorate_id })}
-                        className="w-full py-3 bg-[#1B6B93]/20 hover:bg-[#1B6B93]/40 border border-[#1B6B93] rounded-xl text-white font-medium flex justify-center items-center gap-2 transition-colors"
+                      <button
+                        onClick={() => router.push(`/destination/${dest.id}`)}
+                        className="w-full mt-6 py-2.5 bg-transparent border border-[#C9A84C]/50 hover:bg-[#C9A84C] hover:text-[#0A1628] text-[#C9A84C] font-bold rounded-lg transition-all flex items-center justify-center gap-2"
                       >
-                        Explore Destination
-                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                        Explore Details <ArrowRight className="w-4 h-4" />
                       </button>
                     </div>
                   </motion.div>

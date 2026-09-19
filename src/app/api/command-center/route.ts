@@ -17,8 +17,14 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    // 2. Fetch User Profile
-    const { data: profile, error: profileError } = await supabaseUser
+    // 2. Admin Client (needed to bypass RLS for profile and data)
+    const supabaseAdmin = createAdminClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.SUPABASE_SECRET_KEY!
+    );
+
+    // 3. Fetch User Profile using Admin Client to ensure no RLS blocking
+    const { data: profile, error: profileError } = await supabaseAdmin
       .from('profiles')
       .select('role, governorate_id')
       .eq('id', user.id)
@@ -29,17 +35,13 @@ export async function GET(req: Request) {
     }
 
     const isNational = profile.role === 'national_admin';
+    const isGovAdmin = profile.role === 'governorate_admin' || profile.role === 'governorate_analyst';
     const govId = profile.governorate_id;
 
-    if (!isNational && !govId) {
-      return NextResponse.json({ error: 'Missing governorate assignment' }, { status: 400 });
+    // Reject governorate roles if they lack a governorate_id
+    if (isGovAdmin && !govId) {
+      return NextResponse.json({ error: 'Missing governorate assignment' }, { status: 403 });
     }
-
-    // 3. Admin Client
-    const supabaseAdmin = createAdminClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SECRET_KEY!
-    );
 
     // 4. Date Range Logic
     let startDate = new Date();

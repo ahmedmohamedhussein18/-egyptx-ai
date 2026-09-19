@@ -1,10 +1,12 @@
 "use client";
 
 import { motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 
 const HeroSection = () => {
   const { user } = useAuth();
+  const router = useRouter();
 
   const staggerItem = {
     hidden: { opacity: 0, y: 30 },
@@ -68,13 +70,13 @@ const HeroSection = () => {
 
         {/* Buttons */}
         <motion.div variants={staggerItem} className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto mb-12 md:mb-16">
-          <button className="w-full sm:w-auto px-6 md:px-8 py-3 md:py-4 bg-[#C9A84C] hover:bg-[#D5B965] text-black font-semibold rounded-lg shadow-[0_0_20px_rgba(201,168,76,0.3)] transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(201,168,76,0.5)]">
+          <button onClick={() => router.push('/planner')} className="w-full sm:w-auto px-6 md:px-8 py-3 md:py-4 bg-[#C9A84C] hover:bg-[#D5B965] text-black font-semibold rounded-lg shadow-[0_0_20px_rgba(201,168,76,0.3)] transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(201,168,76,0.5)]">
             Plan My Journey
           </button>
-          <button className="w-full sm:w-auto px-6 md:px-8 py-3 md:py-4 border border-[#C9A84C] text-[#C9A84C] hover:bg-[#C9A84C]/10 font-semibold rounded-lg transition-all duration-300 hover:scale-105">
+          <button onClick={() => router.push('/explore')} className="w-full sm:w-auto px-6 md:px-8 py-3 md:py-4 border border-[#C9A84C] text-[#C9A84C] hover:bg-[#C9A84C]/10 font-semibold rounded-lg transition-all duration-300 hover:scale-105">
             Explore Egypt
           </button>
-          <button className="w-full sm:w-auto px-6 md:px-8 py-3 md:py-4 border border-[#1B6B93] text-[#1B6B93] hover:bg-[#1B6B93]/10 font-semibold rounded-lg transition-all duration-300 hover:scale-105">
+          <button onClick={() => router.push('/vr-egypt')} className="w-full sm:w-auto px-6 md:px-8 py-3 md:py-4 border border-[#1B6B93] text-[#1B6B93] hover:bg-[#1B6B93]/10 font-semibold rounded-lg transition-all duration-300 hover:scale-105">
             Virtual Egypt
           </button>
         </motion.div>
