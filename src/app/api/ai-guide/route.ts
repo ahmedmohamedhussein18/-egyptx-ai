@@ -11,24 +11,26 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'No image provided' }, { status: 400 });
     }
 
-    const apiKey = process.env.OPENROUTER_API_KEY;
+    const apiKey = process.env.GROQ_API_KEY;
     if (!apiKey) {
-      return NextResponse.json({ error: 'OpenRouter API Key missing' }, { status: 500 });
+      return NextResponse.json({ error: 'Groq API Key missing' }, { status: 500 });
     }
 
-    // Make sure we have the full data URL to send to OpenRouter
+    console.log(`[AI Guide] Using Groq API Key starting with: ${apiKey.substring(0, 8)}...`);
+
+    // Make sure we have the full data URL to send to Groq
     const imageUrl = image.startsWith('data:') ? image : `data:image/jpeg;base64,${image}`;
 
-    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${apiKey}`,
-        'Content-Type': 'application/json',
-        'HTTP-Referer': 'https://egyptx-ai.vercel.app',
-        'X-Title': 'EgyptX AI'
-      },
-      body: JSON.stringify({
-        model: 'meta-llama/llama-3.2-11b-vision-instruct:free',
+    const { default: Groq } = await import('groq-sdk');
+    const groq = new Groq({ apiKey });
+    
+    let aiResponseStr = null;
+
+    try {
+      console.log(`[AI Guide] Trying model: qwen/qwen3.8-27b`);
+      
+      const response = await groq.chat.completions.create({
+        model: 'qwen/qwen3.8-27b',
         messages: [
           {
             role: 'user',
@@ -43,20 +45,21 @@ export async function POST(req: Request) {
               }
             ]
           }
-        ]
-      })
-    });
+        ],
+        response_format: { type: 'json_object' },
+        temperature: 0.2
+      });
 
-    if (!response.ok) {
-      const errData = await response.text();
-      throw new Error(`OpenRouter API error: ${response.status} ${errData}`);
+      aiResponseStr = response.choices[0]?.message?.content;
+      console.log(`[AI Guide] Success with Groq model`);
+      
+    } catch (error: any) {
+      console.error(`[AI Guide] Groq model failed:`, error.message);
+      throw new Error(`Groq Vision model failed: ${error.message}`);
     }
 
-    const data = await response.json();
-    const aiResponseStr = data.choices?.[0]?.message?.content;
-
     if (!aiResponseStr) {
-      throw new Error(`Vision model returned empty response.`);
+      throw new Error(`Groq Vision model returned empty response.`);
     }
 
     // Clean up potential markdown wrapper from text output
@@ -68,13 +71,28 @@ export async function POST(req: Request) {
     let dbMatch = null;
     if (parsedResponse.confidence_level !== 'unable' && parsedResponse.identified_name) {
       // Search in our verified attractions table
-      const searchName = parsedResponse.identified_name.split(' ')[0]; // rough keyword match if full name fails
-      const { data: dbData } = await supabase
+      // Try an exact/full phrase match first
+      let { data: dbData } = await supabase
         .from('attractions')
         .select('*')
         .eq('verified', true)
-        .ilike('name_en', `%${searchName}%`)
+        .ilike('name_en', `%${parsedResponse.identified_name}%`)
         .limit(1);
+        
+      if (!dbData || dbData.length === 0) {
+        // Fallback: search by significant keyword (ignoring 'the', 'a', etc)
+        const words = parsedResponse.identified_name.split(' ').filter((w: string) => !['the', 'a', 'an', 'of'].includes(w.toLowerCase()));
+        if (words.length > 0) {
+          const searchName = words[0]; 
+          const { data: fallbackData } = await supabase
+            .from('attractions')
+            .select('*')
+            .eq('verified', true)
+            .ilike('name_en', `%${searchName}%`)
+            .limit(1);
+          dbData = fallbackData;
+        }
+      }
         
       if (dbData && dbData.length > 0) {
         dbMatch = dbData[0];
@@ -90,6 +108,10 @@ export async function POST(req: Request) {
 
   } catch (error: any) {
     console.error('AI Guide API Error:', error);
-    return NextResponse.json({ error: 'Vision AI is temporarily unavailable. Please try again later.' }, { status: 500 });
+    const isDev = process.env.NODE_ENV !== 'production';
+    return NextResponse.json(
+      { error: isDev ? error.message : 'Vision AI is temporarily unavailable. Please try again later.' }, 
+      { status: 500 }
+    );
   }
 }

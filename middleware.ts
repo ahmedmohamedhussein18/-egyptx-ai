@@ -13,7 +13,9 @@ const PROTECTED_ROUTES = [
 ];
 
 export async function middleware(request: NextRequest) {
-  let response = NextResponse.next({ request });
+  let supabaseResponse = NextResponse.next({
+    request,
+  });
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -27,9 +29,11 @@ export async function middleware(request: NextRequest) {
           cookiesToSet.forEach(({ name, value }) =>
             request.cookies.set(name, value)
           );
-          response = NextResponse.next({ request });
+          supabaseResponse = NextResponse.next({
+            request,
+          });
           cookiesToSet.forEach(({ name, value, options }) =>
-            response.cookies.set(name, value, options)
+            supabaseResponse.cookies.set(name, value, options)
           );
         },
       },
@@ -42,16 +46,25 @@ export async function middleware(request: NextRequest) {
   const isProtected = PROTECTED_ROUTES.some(route => pathname.startsWith(route));
 
   if (isProtected && !user) {
+    let redirectUrl = new URL(`/login?redirectTo=${pathname}`, request.url);
     if (pathname.startsWith('/government')) {
-      return NextResponse.redirect(new URL('/government/login', request.url));
+      redirectUrl = new URL('/government/login', request.url);
+    } else if (pathname.startsWith('/national')) {
+      redirectUrl = new URL('/national/login', request.url);
     }
-    if (pathname.startsWith('/national')) {
-      return NextResponse.redirect(new URL('/national/login', request.url));
-    }
-    return NextResponse.redirect(new URL(`/login?redirectTo=${pathname}`, request.url));
+    
+    const redirectResponse = NextResponse.redirect(redirectUrl);
+    
+    // VERY IMPORTANT: Propagate any cookies set by Supabase during getUser()
+    // (e.g. token refreshes or clearing dead tokens) to the redirect response.
+    supabaseResponse.cookies.getAll().forEach((cookie) => {
+      redirectResponse.cookies.set(cookie.name, cookie.value);
+    });
+    
+    return redirectResponse;
   }
 
-  return response;
+  return supabaseResponse;
 }
 
 export const config = {
