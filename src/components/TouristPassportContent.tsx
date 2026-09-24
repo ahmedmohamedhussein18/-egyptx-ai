@@ -13,6 +13,7 @@ import { useRouter } from 'next/navigation';
 export default function TouristPassportContent() {
   const [userProfile, setUserProfile] = useState<any>(null);
   const [checkins, setCheckins] = useState<any[]>([]);
+  const [explored, setExplored] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
@@ -67,11 +68,58 @@ export default function TouristPassportContent() {
             name: c.attractions?.name_en || 'Unknown Site',
             date: new Date(c.checked_in_at).toLocaleDateString(),
             icon,
-            angle: (i % 2 === 0 ? 1 : -1) * (15 + (i * 5) % 20) // slight random angle
+            angle: (i % 2 === 0 ? 1 : -1) * (15 + (i * 5) % 20)
           };
         });
 
         setCheckins(mappedStamps);
+
+        // Fetch AI Planned destinations (Explored Online)
+        const { data: plansData } = await supabase
+          .from('trip_plans')
+          .select(`
+            id,
+            trip_days (
+              trip_places (
+                id,
+                created_at,
+                attractions (
+                  id,
+                  name_en,
+                  category
+                )
+              )
+            )
+          `)
+          .eq('user_id', user.id);
+
+        const exploredList: any[] = [];
+        let i = 0;
+        plansData?.forEach(plan => {
+          plan.trip_days?.forEach((day: any) => {
+            day.trip_places?.forEach((place: any) => {
+              if (place.attractions) {
+                let icon = Crown;
+                if (place.attractions.category === 'nature') icon = Palmtree;
+                if (place.attractions.category === 'hidden') icon = Tent;
+                
+                // only add if not already physically checked in
+                if (!mappedStamps.find(s => s.name === place.attractions.name_en) && !exploredList.find(e => e.name === place.attractions.name_en)) {
+                  exploredList.push({
+                    id: place.id,
+                    name: place.attractions.name_en,
+                    date: new Date(place.created_at).toLocaleDateString(),
+                    icon,
+                    angle: (i % 2 === 0 ? 1 : -1) * (15 + (i * 5) % 20)
+                  });
+                  i++;
+                }
+              }
+            });
+          });
+        });
+
+        setExplored(exploredList);
 
       } catch (err) {
         console.error('Error loading passport data:', err);
@@ -154,7 +202,7 @@ export default function TouristPassportContent() {
                 <div className="grid grid-cols-2 gap-4 mt-6">
                   <div className="bg-white/5 rounded-lg p-3 border border-white/5">
                     <p className="text-[10px] text-gray-500 uppercase font-bold tracking-wider mb-1">Total Stamps</p>
-                    <p className="font-mono text-[#4CC9F0] text-sm">{totalStamps}</p>
+                    <p className="font-mono text-[#4CC9F0] text-sm">{totalStamps} زيارات موثقة | {explored.length} مستكشف رقمياً</p>
                   </div>
                   <div className="bg-white/5 rounded-lg p-3 border border-white/5">
                     <p className="text-[10px] text-gray-500 uppercase font-bold tracking-wider mb-1">Status</p>
@@ -191,11 +239,14 @@ export default function TouristPassportContent() {
                 >
                   <div className="absolute inset-2 rounded-full border border-[#C9A84C]/30 group-hover:border-[#C9A84C]/60 transition-colors" />
                   
-                  <stamp.icon className="w-8 h-8 text-[#C9A84C]/80 mb-1" strokeWidth={1.5} />
-                  <span className="text-[10px] font-bold text-[#C9A84C] text-center leading-tight uppercase px-1">
+                  <stamp.icon className="w-6 h-6 text-[#C9A84C]/80 mb-0.5" strokeWidth={1.5} />
+                  <span className="text-[9px] font-bold text-[#C9A84C] text-center leading-tight uppercase px-1">
                     {stamp.name}
                   </span>
-                  <span className="text-[8px] font-mono text-[#C9A84C]/60 mt-1 uppercase">
+                  <div className="text-[10px] font-black text-[#C9A84C] my-0.5 tracking-wider uppercase bg-[#C9A84C]/10 px-1.5 py-0.5 rounded-sm border border-[#C9A84C]/40 transform -rotate-6">
+                    VISITED ✓
+                  </div>
+                  <span className="text-[7px] font-mono text-[#C9A84C]/60 uppercase">
                     {stamp.date}
                   </span>
                 </motion.div>
@@ -208,6 +259,40 @@ export default function TouristPassportContent() {
             )}
           </div>
         </div>
+
+        {/* Explored Online (AI Planner) */}
+        {explored.length > 0 && (
+          <div>
+            <div className="flex items-center gap-3 mb-8">
+              <Compass className="w-6 h-6 text-gray-400" />
+              <h2 className="text-2xl font-bold text-gray-300 uppercase tracking-wider" dir="rtl">مستكشف رقمياً (Explored Online)</h2>
+              <div className="h-px bg-white/10 flex-1 ml-4" />
+            </div>
+            
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 justify-items-center">
+              {explored.map((stamp, index) => (
+                <motion.div
+                  key={stamp.id}
+                  initial={{ opacity: 0, scale: 0.5, rotate: 0 }}
+                  animate={{ opacity: 1, scale: 1, rotate: stamp.angle }}
+                  transition={{ delay: index * 0.1, type: "spring", stiffness: 100 }}
+                  className="w-32 h-32 rounded-full border-[2px] border-solid border-gray-600/50 flex flex-col items-center justify-center p-2 relative group hover:border-gray-400 transition-colors bg-[#0A1628]/20 grayscale hover:grayscale-0"
+                >
+                  <stamp.icon className="w-6 h-6 text-gray-400 mb-0.5" strokeWidth={1.5} />
+                  <span className="text-[9px] font-bold text-gray-400 text-center leading-tight uppercase px-1 group-hover:text-gray-200 transition-colors">
+                    {stamp.name}
+                  </span>
+                  <div className="text-[10px] font-black text-gray-500 my-0.5 tracking-wider uppercase bg-gray-800/50 px-1.5 py-0.5 rounded-sm border border-gray-600 transform -rotate-6">
+                    EXPLORED
+                  </div>
+                  <span className="text-[7px] font-mono text-gray-500 uppercase">
+                    {stamp.date}
+                  </span>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Achievements / Badges */}
         <div>

@@ -173,9 +173,9 @@ export default function VrEgyptContent() {
                     }
                   }}
                 >
-                  {/* Subtle coming soon badge for unavailable VR */}
+                  {/* Subtle badge for unavailable VR */}
                   {!vr && (
-                    <div className="absolute top-4 right-4 text-gray-500 bg-black/20 p-1.5 rounded-full border border-white/5" title="Coming Soon">
+                    <div className="absolute top-4 right-4 text-gray-500 bg-black/20 p-1.5 rounded-full border border-white/5">
                       <Lock className="w-3.5 h-3.5" />
                     </div>
                   )}
@@ -189,11 +189,7 @@ export default function VrEgyptContent() {
                     <div className="flex items-center gap-2 text-[#4CC9F0] font-medium text-sm mt-8">
                       <ImageIcon className="w-4 h-4" /> 360° Panorama Available
                     </div>
-                  ) : (
-                    <div className="flex items-center gap-2 text-gray-500 font-medium text-sm mt-8 opacity-0 group-hover:opacity-100 transition-opacity">
-                      Coming Soon
-                    </div>
-                  )}
+                  ) : null}
                 </motion.div>
               );
             })}

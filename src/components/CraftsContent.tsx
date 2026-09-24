@@ -8,14 +8,14 @@ import { AlertCircle, Filter, Store } from 'lucide-react';
 const CATEGORIES = ['All', 'Pottery', 'Papyrus', 'Textiles', 'Jewelry', 'Wood Crafts', 'Traditional Crafts'];
 
 const DEMO_PRODUCTS = [
-  { id: 1, title: 'Hand-Painted Fayoum Pottery Bowl', category: 'Pottery', image: '/crafts/pottery.jpg' },
-  { id: 2, title: 'Authentic Painted Papyrus Scroll', category: 'Papyrus', image: '/crafts/papyrus.jpg' },
-  { id: 3, title: 'Akhmim Handwoven Textile', category: 'Textiles', image: '/crafts/textiles.jpg' },
-  { id: 4, title: 'Silver Lotus Flower Pendant', category: 'Jewelry', image: '/crafts/jewelry.jpg' },
-  { id: 5, title: 'Mother of Pearl Inlaid Box', category: 'Wood Crafts', image: '/crafts/wood-crafts.jpg' },
-  { id: 6, title: 'Traditional Alabaster Vase', category: 'Traditional Crafts', image: '/crafts/traditional-crafts.jpg' },
-  { id: 7, title: 'Nubian Handwoven Basket', category: 'Traditional Crafts', image: '/crafts/baskets.jpg' },
-  { id: 8, title: 'Gold Cartouche Pendant', category: 'Jewelry', image: '/crafts/cartouche.jpg' },
+  { id: 1, title: 'Hand-Painted Fayoum Pottery Bowl', category: 'Pottery', price: '450 EGP', image: '/crafts/pottery.jpg' },
+  { id: 2, title: 'Authentic Painted Papyrus Scroll', category: 'Papyrus', price: '350 EGP', image: '/crafts/papyrus.jpg' },
+  { id: 3, title: 'Akhmim Handwoven Textile', category: 'Textiles', price: '800 EGP', image: '/crafts/textiles.jpg' },
+  { id: 4, title: 'Silver Lotus Flower Pendant', category: 'Jewelry', price: '1,200 EGP', image: '/crafts/jewelry.jpg' },
+  { id: 5, title: 'Mother of Pearl Inlaid Box', category: 'Wood Crafts', price: '650 EGP', image: '/crafts/wood-crafts.jpg' },
+  { id: 6, title: 'Traditional Alabaster Vase', category: 'Traditional Crafts', price: '550 EGP', image: '/crafts/traditional-crafts.jpg' },
+  { id: 7, title: 'Nubian Handwoven Basket', category: 'Traditional Crafts', price: '280 EGP', image: '/crafts/baskets.jpg' },
+  { id: 8, title: 'Gold Cartouche Pendant', category: 'Jewelry', price: '2,500 EGP', image: '/crafts/cartouche.jpg' },
 ];
 
 export default function CraftsContent() {
@@ -29,10 +29,15 @@ export default function CraftsContent() {
   return (
     <div className="min-h-screen bg-[#030712] pt-24 pb-16 px-4 sm:px-6 lg:px-8">
       {/* Demo Banner */}
-      <div className="max-w-7xl mx-auto mb-8 bg-yellow-500/20 border border-yellow-500/50 rounded-xl p-4 flex items-start sm:items-center gap-4 text-yellow-500">
-        <AlertCircle className="w-6 h-6 shrink-0 mt-1 sm:mt-0" />
-        <p className="font-bold text-sm sm:text-base">
-          🏺 DEMO MARKETPLACE — Illustrative Demo Only. Real verified artisan vendors coming soon.
+      <div className="max-w-7xl mx-auto mb-8 bg-yellow-500/20 border border-yellow-500/50 rounded-xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-yellow-500">
+        <div className="flex items-start sm:items-center gap-4">
+          <AlertCircle className="w-6 h-6 shrink-0 mt-1 sm:mt-0" />
+          <p className="font-bold text-sm sm:text-base">
+            🏺 DEMO MARKETPLACE — Illustrative Demo Only. Real verified artisan vendors coming soon.
+          </p>
+        </div>
+        <p className="font-bold text-sm sm:text-base whitespace-nowrap" dir="rtl">
+          الأسعار تقريبية وتعكس أسعار السوق المصري
         </p>
       </div>
 
@@ -99,10 +104,15 @@ export default function CraftsContent() {
                   <img src={product.image} alt={product.title} className="w-full h-full object-cover" />
                 </div>
                 
-                <div className="p-5 flex flex-col h-[180px]">
-                  <span className="text-[#C9A84C] text-xs font-bold uppercase tracking-widest mb-2">
-                    {product.category}
-                  </span>
+                <div className="p-5 flex flex-col h-[200px]">
+                  <div className="flex justify-between items-start mb-2">
+                    <span className="text-[#C9A84C] text-xs font-bold uppercase tracking-widest leading-tight pr-2">
+                      {product.category}
+                    </span>
+                    <span className="text-white font-bold bg-[#1B6B93]/30 px-2 py-1 rounded text-sm border border-[#1B6B93]/50 shrink-0">
+                      {product.price}
+                    </span>
+                  </div>
                   <h3 className="text-white font-bold text-lg mb-auto">
                     {product.title}
                   </h3>

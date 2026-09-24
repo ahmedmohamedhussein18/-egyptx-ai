@@ -91,22 +91,39 @@ export default function DestinationDetailContent({ id }: { id: string }) {
               <p>{attraction.description_en || 'Experience the rich history and beauty of this Egyptian marvel. Visitors from around the world travel here to witness its grandeur.'}</p>
             </div>
 
-            {/* 3D Placeholder */}
-            <div className="mt-8 bg-[#0A1628] border border-[#1B6B93]/30 rounded-2xl p-6 relative overflow-hidden group">
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#1B6B93]/10 opacity-0 group-hover:opacity-100 transition-opacity" />
-              <div className="flex items-center gap-4 mb-4">
-                <div className="w-12 h-12 rounded-full bg-[#1B6B93]/20 flex items-center justify-center text-[#4CC9F0]">
-                  <Cuboid className="w-6 h-6" />
+            {/* Video Section */}
+            {(() => {
+              const lowerName = attraction.name_en.toLowerCase();
+              let videoSrc = null;
+              if (lowerName.includes('giza')) videoSrc = '/videos/giza.mp4';
+              else if (lowerName.includes('karnak') || lowerName.includes('luxor') || lowerName.includes('valley of the kings')) videoSrc = '/videos/luxor.mp4';
+              else if (lowerName.includes('philae') || lowerName.includes('abu simbel')) videoSrc = '/videos/aswan.mp4';
+              else if (lowerName.includes('siwa')) videoSrc = '/videos/siwa.mp4';
+              else if (lowerName.includes('fayoum') || lowerName.includes('wadi el hitan')) videoSrc = '/videos/fayoum.mp4';
+              else if (lowerName.includes('hurghada') || lowerName.includes('red sea')) videoSrc = '/videos/hurghada.mp4';
+
+              if (!videoSrc) return null;
+
+              return (
+                <div className="mt-8 bg-[#0A1628] border border-[#1B6B93]/30 rounded-2xl p-6 relative overflow-hidden group">
+                  <div className="flex items-center gap-4 mb-4">
+                    <div>
+                      <h3 className="text-xl font-bold text-white">Experience {attraction.name_en}</h3>
+                    </div>
+                  </div>
+                  <div className="w-full rounded-xl overflow-hidden border border-white/5">
+                    <video 
+                      src={videoSrc}
+                      autoPlay 
+                      muted 
+                      loop 
+                      playsInline 
+                      className="w-full h-auto object-cover"
+                    />
+                  </div>
                 </div>
-                <div>
-                  <h3 className="text-xl font-bold text-white">Interactive 3D Model</h3>
-                  <p className="text-sm text-gray-400">Explore this site in 3D space</p>
-                </div>
-              </div>
-              <div className="w-full h-48 bg-black/40 rounded-xl border border-white/5 flex items-center justify-center">
-                <p className="text-gray-500 text-sm font-medium">3D Model Placeholder. Feature coming soon.</p>
-              </div>
-            </div>
+              );
+            })()}
           </motion.div>
 
           {/* Map */}

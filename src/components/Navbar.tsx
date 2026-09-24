@@ -5,16 +5,16 @@ import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '@/context/AuthContext';
 import { logoutAction } from '@/app/actions/auth';
+import { Sparkles } from 'lucide-react';
 
 const navItems = [
   { name: 'Home', href: '/' },
   { name: 'AI Planner', href: '/planner' },
   { name: 'Explore Egypt', href: '/explore' },
-  { name: 'Smart Sites', href: '/smart-site' },
-  { name: 'Museum AI', href: '/museum-ai' },
   { name: 'Hidden Egypt', href: '/hidden-egypt' },
   { name: 'Crafts', href: '/crafts' },
-  { name: 'Tourist Passport', href: '/tourist-passport' }
+  { name: 'Tourist Passport', href: '/tourist-passport' },
+  { name: 'News', href: '/news' }
 ];
 
 export default function Navbar() {
@@ -84,9 +84,10 @@ export default function Navbar() {
             {user && (
               <Link
                 href="/ai-guide"
-                className="relative text-sm font-medium text-white/80 hover:text-[#C9A84C] transition-colors group py-2"
+                title="AI Vision Guide"
+                className="relative text-[#C9A84C] hover:text-[#E3C973] transition-colors group py-2"
               >
-                AI Guide
+                <Sparkles className="w-5 h-5" />
                 <span className="absolute left-0 bottom-0 w-0 h-[2px] bg-[#C9A84C] transition-all duration-300 group-hover:w-full"></span>
               </Link>
             )}
@@ -207,9 +208,10 @@ export default function Navbar() {
             <Link
               href="/ai-guide"
               onClick={() => setMobileMenuOpen(false)}
-              className="block px-3 py-3 text-sm font-medium text-white/80 hover:text-[#C9A84C] hover:bg-white/5 rounded-md transition-colors"
+              className="flex items-center gap-2 px-3 py-3 text-sm font-medium text-[#C9A84C] hover:bg-white/5 rounded-md transition-colors"
             >
-              AI Guide
+              <Sparkles className="w-4 h-4" />
+              AI Vision Guide
             </Link>
           )}
           <div className="pt-4 mt-2 border-t border-white/10 flex flex-col gap-3">

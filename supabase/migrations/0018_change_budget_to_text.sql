@@ -1,0 +1,1 @@
+ALTER TABLE trip_plans ALTER COLUMN budget TYPE text;

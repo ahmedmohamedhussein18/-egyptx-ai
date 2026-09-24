@@ -190,7 +190,7 @@ export default function EmergencyContent() {
                   <MapPin className="w-10 h-10 text-red-400 mx-auto mb-4 opacity-50" />
                   <h3 className="text-lg font-bold text-red-200 mb-2">Location Access Denied</h3>
                   <p className="text-red-200/60 text-sm max-w-md mx-auto">
-                    Location access is needed to show nearby help. You can still call emergency numbers directly using the buttons above.
+                    Please enable location access to find nearby hospitals and police stations. You can still call emergency numbers directly using the buttons above.
                   </p>
                   <button
                     onClick={requestLocation}
@@ -233,25 +233,41 @@ export default function EmergencyContent() {
                     </button>
                   </div>
 
-                  {/* Placeholder for nearby facilities */}
+                  {/* Nearby facilities */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="p-5 bg-white/5 border border-white/10 rounded-xl">
+                    <div className="p-5 bg-white/5 border border-white/10 rounded-xl flex flex-col">
                       <div className="flex items-center gap-3 mb-3">
                         <Hospital className="w-5 h-5 text-[#1B6B93]" />
                         <h4 className="font-bold text-white">Nearest Hospitals</h4>
                       </div>
-                      <p className="text-sm text-gray-400 italic">
-                        Nearby facility search requires a connected places data source — not yet configured.
+                      <p className="text-sm text-gray-400 italic mb-4">
+                        Find the closest medical facilities to your current location.
                       </p>
+                      <a
+                        href={`https://www.google.com/maps/search/hospital/@${coords.lat},${coords.lng},14z`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-auto inline-flex w-full py-2.5 bg-[#1B6B93]/20 hover:bg-[#1B6B93]/40 border border-[#1B6B93]/50 text-[#4CC9F0] rounded-lg text-sm font-medium transition-colors items-center justify-center gap-2"
+                      >
+                        Find Nearest Hospital
+                      </a>
                     </div>
-                    <div className="p-5 bg-white/5 border border-white/10 rounded-xl">
+                    <div className="p-5 bg-white/5 border border-white/10 rounded-xl flex flex-col">
                       <div className="flex items-center gap-3 mb-3">
                         <ShieldAlert className="w-5 h-5 text-[#1B6B93]" />
                         <h4 className="font-bold text-white">Nearest Police Station</h4>
                       </div>
-                      <p className="text-sm text-gray-400 italic">
-                        Nearby facility search requires a connected places data source — not yet configured.
+                      <p className="text-sm text-gray-400 italic mb-4">
+                        Find the closest police stations to your current location.
                       </p>
+                      <a
+                        href={`https://www.google.com/maps/search/police+station/@${coords.lat},${coords.lng},14z`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-auto inline-flex w-full py-2.5 bg-[#1B6B93]/20 hover:bg-[#1B6B93]/40 border border-[#1B6B93]/50 text-[#4CC9F0] rounded-lg text-sm font-medium transition-colors items-center justify-center gap-2"
+                      >
+                        Find Nearest Police Station
+                      </a>
                     </div>
                   </div>
 

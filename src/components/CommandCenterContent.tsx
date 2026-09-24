@@ -1,47 +1,60 @@
 'use client';
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  Users, Clock, Activity, Radio, MapPin, 
-  BarChart3, AlertCircle, Loader2, Calendar, Map
+  Users, Activity, MapPin, 
+  BarChart3, Loader2, Calendar, Map, PieChart as PieChartIcon,
+  Home, LayoutDashboard, Compass, Database, TrendingUp, Landmark, FileText, Settings, Key,
+  Bot, Send
 } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import {
-  LineChart, Line, BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid
+  LineChart, Line, BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid,
+  PieChart, Pie, Cell
 } from 'recharts';
 
 const MapLeaflet = dynamic(() => import('@/components/MapLeaflet'), { ssr: false });
 
+const COLORS = ['#C9A84C', '#1B6B93', '#4CC9F0', '#E8D08D', '#0A1628'];
+
 export default function CommandCenterContent() {
-  const [dateRange, setDateRange] = useState('today'); // today, 7d, 30d, custom
+  const [dateRange, setDateRange] = useState('today'); 
   const [customStart, setCustomStart] = useState('');
   const [customEnd, setCustomEnd] = useState('');
+  const [governorate, setGovernorate] = useState('cairo');
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   
   const [data, setData] = useState<any>(null);
-  const [selectedSiteId, setSelectedSiteId] = useState<string | null>(null);
+
+  const [chatMessage, setChatMessage] = useState('');
+  const [chatHistory, setChatHistory] = useState<{role: string, content: string}[]>([
+    { role: 'assistant', content: 'أهلاً بك في المساعد الذكي السياحي. كيف يمكنني مساعدتك اليوم؟' }
+  ]);
+  const [chatLoading, setChatLoading] = useState(false);
+
+  const [activeTab, setActiveTab] = useState('dashboard');
 
   useEffect(() => {
     fetchData();
-  }, [dateRange, customStart, customEnd]);
+  }, [dateRange, customStart, customEnd, governorate, activeTab]);
 
   async function fetchData() {
     if (dateRange === 'custom' && (!customStart || !customEnd)) {
-      return; // Wait for both dates
+      return; 
     }
     
     setLoading(true);
     setError(null);
     try {
-      let url = `/api/command-center?range=${dateRange}`;
+      let url = `/api/command-center?range=${dateRange}&governorate=${governorate}`;
       if (dateRange === 'custom') {
         url += `&startDate=${customStart}&endDate=${customEnd}`;
       }
 
-      const res = await fetch(url);
+      const res = await fetch(url, { credentials: 'include' });
       const json = await res.json();
 
       if (!res.ok) {
@@ -49,11 +62,6 @@ export default function CommandCenterContent() {
       }
 
       setData(json);
-      
-      // Auto-select first site if none selected
-      if (!selectedSiteId && json.mapData && json.mapData.length > 0) {
-        setSelectedSiteId(json.mapData[0].id);
-      }
     } catch (err: any) {
       console.error(err);
       setError(err.message);
@@ -62,21 +70,49 @@ export default function CommandCenterContent() {
     }
   }
 
+  const handleChatSubmit = async (e: React.FormEvent, forceMsg?: string) => {
+    e.preventDefault();
+    const msg = forceMsg || chatMessage;
+    if (!msg.trim()) return;
+
+    const newHistory = [...chatHistory, { role: 'user', content: msg }];
+    setChatHistory(newHistory);
+    setChatMessage('');
+    setChatLoading(true);
+
+    try {
+      const res = await fetch('/api/government-ai', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ messages: newHistory, dashboardData: data })
+      });
+      const json = await res.json();
+      
+      if (res.ok) {
+        setChatHistory([...newHistory, { role: 'assistant', content: json.response }]);
+      } else {
+        setChatHistory([...newHistory, { role: 'assistant', content: 'عذراً، حدث خطأ أثناء الاتصال بالمساعد الذكي.' }]);
+      }
+    } catch (err) {
+      setChatHistory([...newHistory, { role: 'assistant', content: 'عذراً، حدث خطأ أثناء الاتصال بالمساعد الذكي.' }]);
+    } finally {
+      setChatLoading(false);
+    }
+  };
+
   const kpis = data?.kpis || {};
   const charts = data?.charts || {};
   const mapData = data?.mapData || [];
-  
-  const scopeTitle = data?.isNational 
-    ? 'National Command Center' 
-    : data?.scopeName ? `${data.scopeName} Tourism Dashboard` : 'Command Center';
+  const profile = data?.profile || {};
 
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-[#0A1628] border border-[#C9A84C]/30 p-3 rounded-lg shadow-xl">
+        <div className="bg-[#0A1628] border border-[#C9A84C]/30 p-3 rounded-lg shadow-xl" dir="rtl">
           <p className="text-white text-sm mb-1">{label}</p>
           <p className="text-[#C9A84C] font-bold">
-            {payload[0].name}: {payload[0].value}
+            العدد: {payload[0].value}
           </p>
         </div>
       );
@@ -84,350 +120,385 @@ export default function CommandCenterContent() {
     return null;
   };
 
-  // Derived crowd prediction logic
-  const selectedSite = useMemo(() => mapData.find((a: any) => a.id === selectedSiteId), [mapData, selectedSiteId]);
-  let predictionText = 'Insufficient data to estimate crowd level.';
-  let predictionColor = 'text-gray-500';
-  let predictionBg = 'bg-white/5 border-white/10';
-
-  if (selectedSite && selectedSite.checkins >= 5) {
-    if (selectedSite.checkins > 20) {
-      predictionText = 'Predicted: High Crowd Density';
-      predictionColor = 'text-red-400';
-      predictionBg = 'bg-red-500/10 border-red-500/20';
-    } else if (selectedSite.checkins > 10) {
-      predictionText = 'Predicted: Moderate Crowd Density';
-      predictionColor = 'text-yellow-400';
-      predictionBg = 'bg-yellow-500/10 border-yellow-500/20';
-    } else {
-      predictionText = 'Predicted: Low Crowd Density (Optimal)';
-      predictionColor = 'text-green-400';
-      predictionBg = 'bg-green-500/10 border-green-500/20';
-    }
-  }
-
   return (
-    <div className="min-h-screen bg-[#030712] text-white pt-24 pb-16 font-sans">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Header Section */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4 border-b border-white/10 pb-6">
-          <div>
-            <motion.h1 
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              className="text-3xl md:text-4xl font-bold text-[#C9A84C] mb-2 uppercase tracking-wide flex items-center gap-3"
-            >
-              <Radio className="w-8 h-8" />
-              {scopeTitle}
-            </motion.h1>
-            <motion.p 
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.1 }}
-              className="text-gray-400 font-medium tracking-wider uppercase text-sm"
-            >
-              Real-time Tourism Intelligence Platform
-            </motion.p>
+    <div className="min-h-screen bg-[#030712] text-white font-sans flex flex-col pt-20 pb-0" dir="rtl">
+      
+      {/* HEADER */}
+      <header className="w-full bg-[#0A1628] border-b border-white/10 px-6 py-4 flex items-center justify-between z-10 shrink-0">
+        <div className="flex items-center gap-4">
+          <div className="w-12 h-12 bg-[#C9A84C]/10 border border-[#C9A84C]/30 rounded-xl flex items-center justify-center">
+            {/* Ankh symbol simple SVG */}
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="7" r="4" />
+              <path d="M12 11v10" />
+              <path d="M8 15h8" />
+            </svg>
           </div>
-          <div className="flex flex-col items-end gap-3">
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="flex items-center gap-2 px-4 py-2 bg-green-500/10 border border-green-500/30 rounded-full"
-            >
-              <div className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse" />
-              <span className="text-green-400 text-sm font-bold tracking-widest uppercase">System Online</span>
-            </motion.div>
+          <div>
+            <h1 className="text-2xl font-bold text-white tracking-wide">وزارة السياحة والآثار - مركز المعلومات السياحية الوطني</h1>
+            <p className="text-[#C9A84C] text-sm font-medium">EgyptX AI - National Smart Tourism Ecosystem</p>
+          </div>
+        </div>
+        <div className="flex items-center gap-6">
+          <div className="flex bg-[#030712] rounded-lg border border-white/10 p-1">
+            {(['today', '7d', '30d', 'custom'] as const).map(range => (
+              <button
+                key={range}
+                onClick={() => setDateRange(range)}
+                className={`px-4 py-2 text-xs font-bold rounded-md transition-colors ${
+                  dateRange === range 
+                  ? 'bg-[#C9A84C] text-[#0A1628]' 
+                  : 'text-gray-400 hover:text-white'
+                }`}
+              >
+                {range === 'today' ? 'اليوم' : range === '7d' ? 'آخر 7 أيام' : range === '30d' ? 'آخر 30 يوم' : 'مخصص'}
+              </button>
+            ))}
+          </div>
+          <div className="text-left border-r border-white/10 pr-6">
+            <p className="text-white font-bold">{profile.firstName || 'مستخدم'} {profile.lastName || ''}</p>
+            <p className="text-gray-400 text-xs">مدير النظام الوطني</p>
+          </div>
+        </div>
+      </header>
+
+      <div className="flex flex-1 overflow-hidden">
+        {/* SIDEBAR (Visual Right in RTL) */}
+        <aside className="w-64 bg-[#0A1628] border-l border-white/10 overflow-y-auto hidden lg:block shrink-0">
+          <nav className="p-4 space-y-2">
+            <button onClick={() => setActiveTab('dashboard')} className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${activeTab === 'dashboard' ? 'bg-[#C9A84C]/10 text-[#C9A84C] border border-[#C9A84C]/20 font-bold' : 'text-gray-400 hover:bg-white/5 hover:text-white font-medium'}`}>
+              <LayoutDashboard className="w-5 h-5" />
+              <span>لوحة المعلومات</span>
+            </button>
+            <button onClick={() => setActiveTab('governorates')} className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${activeTab === 'governorates' ? 'bg-[#C9A84C]/10 text-[#C9A84C] border border-[#C9A84C]/20 font-bold' : 'text-gray-400 hover:bg-white/5 hover:text-white font-medium'}`}>
+              <MapPin className="w-5 h-5" />
+              <span>المحافظات</span>
+            </button>
+            <button onClick={() => setActiveTab('analytics')} className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${activeTab === 'analytics' ? 'bg-[#C9A84C]/10 text-[#C9A84C] border border-[#C9A84C]/20 font-bold' : 'text-gray-400 hover:bg-white/5 hover:text-white font-medium'}`}>
+              <Database className="w-5 h-5" />
+              <span>التحليلات والبيانات</span>
+            </button>
+            <button onClick={() => setActiveTab('heritage')} className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${activeTab === 'heritage' ? 'bg-[#C9A84C]/10 text-[#C9A84C] border border-[#C9A84C]/20 font-bold' : 'text-gray-400 hover:bg-white/5 hover:text-white font-medium'}`}>
+              <Landmark className="w-5 h-5" />
+              <span>التراث والمناطق</span>
+            </button>
+            <button className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-400 hover:bg-white/5 hover:text-white transition-colors">
+              <TrendingUp className="w-5 h-5" />
+              <span className="font-medium">الزوار والتنبؤات</span>
+            </button>
+            <button className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-400 hover:bg-white/5 hover:text-white transition-colors">
+              <FileText className="w-5 h-5" />
+              <span className="font-medium">التقارير والتصدير</span>
+            </button>
+            <button className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-400 hover:bg-white/5 hover:text-white transition-colors">
+              <LayoutDashboard className="w-5 h-5" />
+              <span className="font-medium">إدارة المحتوى</span>
+            </button>
+            <button className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-400 hover:bg-white/5 hover:text-white transition-colors">
+              <Settings className="w-5 h-5" />
+              <span className="font-medium">إعدادات النظام</span>
+            </button>
+          </nav>
+        </aside>
+
+        {/* MAIN CONTENT */}
+        <main className="flex-1 overflow-y-auto bg-[#030712] relative">
+          <div className="p-6 md:p-8 max-w-[1600px] mx-auto">
             
-            {/* Date Filters */}
-            <div className="flex bg-[#0A1628] rounded-lg border border-white/10 p-1">
-              {(['today', '7d', '30d', 'custom'] as const).map(range => (
-                <button
-                  key={range}
-                  onClick={() => setDateRange(range)}
-                  className={`px-3 py-1.5 text-xs font-bold uppercase rounded-md transition-colors ${
-                    dateRange === range 
-                    ? 'bg-[#C9A84C]/20 text-[#C9A84C]' 
-                    : 'text-gray-500 hover:text-white'
-                  }`}
-                >
-                  {range === '7d' ? '7 Days' : range === '30d' ? '30 Days' : range}
-                </button>
-              ))}
-            </div>
-            
-            {dateRange === 'custom' && (
-              <div className="flex gap-2">
-                <input 
-                  type="date" 
-                  value={customStart} 
-                  onChange={(e) => setCustomStart(e.target.value)}
-                  className="bg-[#0A1628] border border-white/10 rounded px-2 py-1 text-xs text-white"
-                />
-                <input 
-                  type="date" 
-                  value={customEnd} 
-                  onChange={(e) => setCustomEnd(e.target.value)}
-                  className="bg-[#0A1628] border border-white/10 rounded px-2 py-1 text-xs text-white"
-                />
+            {error ? (
+              <div className="bg-red-500/10 border border-red-500/30 text-red-400 p-6 rounded-xl text-center mb-8">
+                <h3 className="font-bold text-lg mb-2">خطأ في تحميل البيانات</h3>
+                <p>{error}</p>
+              </div>
+            ) : loading && !data ? (
+              <div className="flex flex-col items-center justify-center min-h-[400px] text-[#C9A84C]">
+                <Loader2 className="w-12 h-12 animate-spin mb-4" />
+                <span className="text-lg font-bold">جاري تحميل البيانات...</span>
+              </div>
+            ) : (
+              <div className="space-y-6">
+                
+                {activeTab === 'dashboard' && (
+                  <>
+                    <div className="flex justify-between items-center bg-[#0A1628] p-4 rounded-2xl border border-white/10">
+                      <div className="flex items-center gap-4">
+                        <span className="text-gray-400">المحافظة:</span>
+                        <select 
+                          value={governorate}
+                          onChange={(e) => setGovernorate(e.target.value)}
+                          className="bg-[#030712] border border-[#C9A84C]/30 text-white rounded-lg px-4 py-2 font-bold outline-none focus:border-[#C9A84C]"
+                        >
+                          <option value="cairo">القاهرة</option>
+                          {data?.governoratesList?.map((g: any) => (
+                            <option key={g.id} value={g.id}>{g.name_ar || g.name_en}</option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
+                      {[
+                        { title: 'جلسات المنصة', value: kpis.totalSessions, icon: <Activity className="text-blue-400" />, trend: '+12.5%' },
+                        { title: 'المستخدمون المسجلون', value: kpis.registeredUsers, icon: <Users className="text-green-400" />, trend: '+8.2%' },
+                        { title: 'خطط الرحلات المُنشأة', value: kpis.tripPlansCreated, icon: <Compass className="text-purple-400" />, trend: '+24.1%' },
+                        { title: 'مشاهدات صفحات المعالم', value: kpis.attractionViews, icon: <PieChartIcon className="text-orange-400" />, trend: '+5.4%' },
+                        { title: 'إشارات التحقق الموثقة', value: kpis.verifiedCheckins, icon: <MapPin className="text-[#C9A84C]" />, trend: '+18.9%' },
+                        { title: 'إشارات تحقق مرتقبة', value: kpis.verifiedCheckins, icon: <MapPin className="text-yellow-400" />, trend: '+15.2%' }
+                      ].map((kpi, i) => (
+                        <div key={i} className="bg-[#0A1628] border border-white/10 rounded-2xl p-5 hover:border-[#C9A84C]/30 transition-colors">
+                          <div className="flex justify-between items-start mb-4">
+                            <div className="p-3 bg-white/5 rounded-xl border border-white/5">{kpi.icon}</div>
+                            <span className="text-xs font-bold text-green-400 bg-green-400/10 px-2 py-1 rounded">{kpi.trend}</span>
+                          </div>
+                          <p className="text-gray-400 text-xs font-medium mb-1 truncate">{kpi.title}</p>
+                          <h3 className="text-2xl font-bold text-white">
+                            {kpi.value > 0 ? kpi.value : <span className="text-sm font-normal text-gray-500">0</span>}
+                          </h3>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                      <div className="bg-[#0A1628] border border-white/10 rounded-2xl p-6 h-[400px] flex flex-col relative">
+                        <h3 className="text-lg font-bold text-white mb-4">الخريطة التفاعلية</h3>
+                        <div className="flex-1 w-full relative z-0 rounded-xl overflow-hidden border border-white/5">
+                          <MapLeaflet attractions={mapData} selectedId={null} onMarkerClick={() => {}} />
+                        </div>
+                      </div>
+
+                      <div className="bg-[#0A1628] border border-white/10 rounded-2xl p-6 h-[400px] flex flex-col">
+                        <h3 className="text-lg font-bold text-white mb-4">إشارات التحقق الموثقة بمرور الوقت</h3>
+                        <div className="flex-1 w-full">
+                          {charts.checkinsOverTime.length > 0 ? (
+                            <ResponsiveContainer width="100%" height="100%">
+                              <LineChart data={charts.checkinsOverTime}>
+                                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" vertical={false} />
+                                <XAxis dataKey="date" stroke="#6b7280" tick={{fill: '#9ca3af', fontSize: 12}} tickLine={false} axisLine={false} />
+                                <YAxis stroke="#6b7280" tick={{fill: '#9ca3af', fontSize: 12}} tickLine={false} axisLine={false} allowDecimals={false} />
+                                <Tooltip content={<CustomTooltip />} />
+                                <Line type="monotone" dataKey="checkins" stroke="#C9A84C" strokeWidth={3} dot={{ fill: '#C9A84C', r: 4 }} />
+                              </LineChart>
+                            </ResponsiveContainer>
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center text-gray-500">لا توجد بيانات تحقق لهذه الفترة</div>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="bg-[#0A1628] border border-white/10 rounded-2xl p-6 h-[400px] flex flex-col">
+                        <h3 className="text-lg font-bold text-white mb-4">أكثر الفئات السياحية زيارة</h3>
+                        <div className="flex-1 w-full">
+                          {charts.categoryDistribution.length > 0 ? (
+                            <ResponsiveContainer width="100%" height="100%">
+                              <PieChart>
+                                <Pie
+                                  data={charts.categoryDistribution}
+                                  cx="50%"
+                                  cy="50%"
+                                  innerRadius={60}
+                                  outerRadius={80}
+                                  paddingAngle={5}
+                                  dataKey="value"
+                                >
+                                  {charts.categoryDistribution.map((entry: any, index: number) => (
+                                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                  ))}
+                                </Pie>
+                                <Tooltip content={<CustomTooltip />} />
+                              </PieChart>
+                            </ResponsiveContainer>
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center text-gray-500">لا توجد بيانات لهذه الفترة</div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                )}
+
+                {activeTab === 'governorates' && (
+                  <div className="bg-[#0A1628] border border-white/10 rounded-2xl p-6">
+                    <h3 className="text-xl font-bold text-white mb-6">المحافظات</h3>
+                    {data?.governoratesList && data.governoratesList.length > 0 ? (
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {data.governoratesList.map((g: any) => (
+                          <div key={g.id} className="p-4 bg-white/5 rounded-xl border border-white/10 hover:border-[#C9A84C]/50 transition-colors cursor-pointer flex items-center gap-4">
+                            <div className="w-10 h-10 rounded-full bg-[#1B6B93]/30 flex items-center justify-center">
+                              <MapPin className="w-5 h-5 text-[#4CC9F0]" />
+                            </div>
+                            <div>
+                              <h4 className="font-bold text-white">{g.name_ar || g.name_en}</h4>
+                              <p className="text-xs text-gray-400">محافظة</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="py-20 text-center text-gray-500 border border-dashed border-white/10 rounded-xl">لا توجد بيانات متاحة حالياً</div>
+                    )}
+                  </div>
+                )}
+
+                {activeTab === 'analytics' && (
+                  <div className="space-y-6">
+                    <h3 className="text-xl font-bold text-white">التحليلات والبيانات التفصيلية</h3>
+                    
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                      <div className="bg-[#0A1628] border border-white/10 rounded-2xl p-6 h-[400px] flex flex-col">
+                        <h3 className="text-lg font-bold text-white mb-4">أبرز الوجهات طلباً في مخطط الرحلات</h3>
+                        <div className="flex-1 w-full">
+                          {charts.topTripDestinations && charts.topTripDestinations.length > 0 ? (
+                            <ResponsiveContainer width="100%" height="100%">
+                              <BarChart data={charts.topTripDestinations} layout="vertical" margin={{ top: 0, right: 0, left: 20, bottom: 0 }}>
+                                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" horizontal={false} />
+                                <XAxis type="number" stroke="#6b7280" tick={{fill: '#9ca3af', fontSize: 12}} tickLine={false} axisLine={false} allowDecimals={false} />
+                                <YAxis type="category" dataKey="name" stroke="#6b7280" tick={{fill: '#9ca3af', fontSize: 11}} tickLine={false} axisLine={false} width={100} />
+                                <Tooltip content={<CustomTooltip />} />
+                                <Bar dataKey="requests" name="الطلبات" fill="#1B6B93" radius={[4, 0, 0, 4]} barSize={20} />
+                              </BarChart>
+                            </ResponsiveContainer>
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center text-gray-500">لا توجد خطط رحلات لهذه الفترة</div>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="bg-[#0A1628] border border-white/10 rounded-2xl p-6 overflow-hidden">
+                        <h3 className="text-lg font-bold text-white mb-4">أكثر المعالم زيارة في القاهرة (التحقق الفعلي)</h3>
+                        <div className="overflow-x-auto max-h-[300px]">
+                          <table className="w-full text-right">
+                            <thead>
+                              <tr className="border-b border-white/10 text-gray-400 text-sm">
+                                <th className="pb-3 font-medium">اسم المعلم</th>
+                                <th className="pb-3 font-medium text-left">عدد الزيارات</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {charts.topAttractionsTable && charts.topAttractionsTable.length > 0 ? (
+                                charts.topAttractionsTable.map((attr: any, i: number) => (
+                                  <tr key={i} className="border-b border-white/5 last:border-0 hover:bg-white/5 transition-colors">
+                                    <td className="py-3 text-white font-medium">{attr.name}</td>
+                                    <td className="py-3 text-[#C9A84C] font-bold text-left">{attr.checkins}</td>
+                                  </tr>
+                                ))
+                              ) : (
+                                <tr>
+                                  <td colSpan={2} className="py-8 text-center text-gray-500">لا توجد زيارات موثقة بعد</td>
+                                </tr>
+                              )}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {activeTab === 'heritage' && (
+                  <div className="bg-[#0A1628] border border-white/10 rounded-2xl p-6">
+                    <h3 className="text-xl font-bold text-white mb-6">التراث والمناطق</h3>
+                    {data?.attractionsList && data.attractionsList.length > 0 ? (
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        {data.attractionsList.map((a: any) => (
+                          <div key={a.id} className="p-4 bg-white/5 rounded-xl border border-white/10 flex flex-col gap-2">
+                            <div className="w-full h-32 bg-[#030712] rounded-lg mb-2 flex items-center justify-center">
+                              <Landmark className="w-10 h-10 text-[#C9A84C]/50" />
+                            </div>
+                            <h4 className="font-bold text-white truncate" title={a.name_ar || a.name_en}>{a.name_ar || a.name_en}</h4>
+                            <p className="text-xs text-[#4CC9F0]">{a.category || 'معلم سياحي'}</p>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="py-20 text-center text-gray-500 border border-dashed border-white/10 rounded-xl">لا توجد بيانات متاحة حالياً</div>
+                    )}
+                  </div>
+                )}
+
+                {/* BOTTOM ACTION BAR */}
+                <div className="flex flex-wrap items-center justify-center gap-4 bg-[#0A1628] p-4 rounded-2xl border border-white/10 mt-8 pb-4">
+                  <button className="px-6 py-3 bg-[#C9A84C] text-[#0A1628] font-bold rounded-xl hover:bg-[#E8D08D] transition-colors">استكشف مصر</button>
+                  <button className="px-6 py-3 bg-white/5 border border-white/10 text-white font-bold rounded-xl hover:bg-white/10 transition-colors">استخدام الذكاء الاصطناعي</button>
+                  <button className="px-6 py-3 bg-white/5 border border-white/10 text-white font-bold rounded-xl hover:bg-white/10 transition-colors">تصدير التقارير PDF/Excel</button>
+                  <button className="px-6 py-3 bg-white/5 border border-white/10 text-white font-bold rounded-xl hover:bg-white/10 transition-colors">مركز المساعدة</button>
+                </div>
               </div>
             )}
           </div>
-        </div>
+        </main>
 
-        {error ? (
-          <div className="bg-red-500/10 border border-red-500/30 text-red-400 p-6 rounded-xl text-center mb-8">
-            <h3 className="font-bold text-lg mb-2">Error Loading Dashboard</h3>
-            <p>{error}</p>
+        {/* AI ASSISTANT PANEL (Visual Left in RTL) */}
+        <aside className="w-80 bg-[#0A1628] border-r border-white/10 flex flex-col shrink-0 hidden xl:flex">
+          <div className="p-6 border-b border-white/10 bg-gradient-to-b from-[#1B6B93]/20 to-transparent">
+            <div className="flex items-center gap-3 mb-2">
+              <Bot className="w-6 h-6 text-[#C9A84C]" />
+              <h3 className="text-lg font-bold text-white">المساعد الذكي السياحي</h3>
+            </div>
+            <p className="text-gray-400 text-sm">اسألني عن أي معلومة سياحية أو تحليل تريده</p>
           </div>
-        ) : loading && !data ? (
-          <div className="flex flex-col items-center justify-center min-h-[400px] text-[#C9A84C]">
-            <Loader2 className="w-12 h-12 animate-spin mb-4" />
-            <span className="text-lg uppercase tracking-widest font-bold">Initializing Uplink...</span>
+          
+          <div className="flex-1 p-4 overflow-y-auto space-y-4">
+            {chatHistory.map((msg, idx) => (
+              <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                <div className={`p-3 rounded-2xl max-w-[85%] text-sm ${
+                  msg.role === 'user' 
+                  ? 'bg-[#C9A84C] text-[#0A1628] rounded-tl-none font-medium' 
+                  : 'bg-white/5 border border-white/10 text-white rounded-tr-none'
+                }`}>
+                  {msg.content}
+                </div>
+              </div>
+            ))}
+            {chatLoading && (
+              <div className="flex justify-start">
+                <div className="p-4 rounded-2xl bg-white/5 border border-white/10 text-white rounded-tr-none">
+                  <Loader2 className="w-4 h-4 animate-spin text-[#C9A84C]" />
+                </div>
+              </div>
+            )}
           </div>
-        ) : (
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={dateRange + customStart + customEnd}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-            >
-              {/* KPIs Row */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                {/* Check-ins */}
-                <div className="bg-[#0A1628]/80 backdrop-blur border border-[#C9A84C]/20 rounded-2xl p-5 flex items-start justify-between">
-                  <div>
-                    <p className="text-gray-400 text-xs font-medium uppercase tracking-wider mb-2">Verified Check-ins</p>
-                    <div className="flex flex-col gap-1">
-                      {kpis.verifiedCheckins > 0 ? (
-                        <h3 className="text-3xl font-bold text-[#C9A84C]">{kpis.verifiedCheckins}</h3>
-                      ) : (
-                        <h3 className="text-sm font-bold text-gray-500 italic mt-1">No verified check-ins recorded yet for this period.</h3>
-                      )}
-                    </div>
-                  </div>
-                  <div className="p-3 bg-white/5 rounded-xl border border-white/5">
-                    <MapPin className="w-6 h-6 text-[#C9A84C]" />
-                  </div>
-                </div>
 
-                {/* Page Views */}
-                <div className="bg-[#0A1628]/80 backdrop-blur border border-[#1B6B93]/30 rounded-2xl p-5 flex items-start justify-between">
-                  <div>
-                    <p className="text-gray-400 text-xs font-medium uppercase tracking-wider mb-2">Attraction Page Views</p>
-                    <div className="flex flex-col gap-1">
-                      {kpis.attractionViews > 0 ? (
-                        <h3 className="text-3xl font-bold text-[#4CC9F0]">{kpis.attractionViews}</h3>
-                      ) : (
-                        <h3 className="text-sm font-bold text-gray-500 italic mt-1">No attraction views recorded yet.</h3>
-                      )}
-                    </div>
-                  </div>
-                  <div className="p-3 bg-white/5 rounded-xl border border-white/5">
-                    <Activity className="w-6 h-6 text-[#4CC9F0]" />
-                  </div>
-                </div>
-
-                {/* Planner Requests */}
-                <div className="bg-[#0A1628]/80 backdrop-blur border border-[#C9A84C]/20 rounded-2xl p-5 flex items-start justify-between">
-                  <div>
-                    <p className="text-gray-400 text-xs font-medium uppercase tracking-wider mb-2">AI Planner Requests</p>
-                    <div className="flex flex-col gap-1">
-                      {kpis.plannerRequests > 0 ? (
-                        <h3 className="text-3xl font-bold text-[#C9A84C]">{kpis.plannerRequests}</h3>
-                      ) : (
-                        <h3 className="text-sm font-bold text-gray-500 italic mt-1">No itineraries generated yet.</h3>
-                      )}
-                    </div>
-                  </div>
-                  <div className="p-3 bg-white/5 rounded-xl border border-white/5">
-                    <Calendar className="w-6 h-6 text-[#C9A84C]" />
-                  </div>
-                </div>
-
-                {/* Most Viewed */}
-                <div className="bg-[#0A1628]/80 backdrop-blur border border-[#1B6B93]/30 rounded-2xl p-5 flex items-start justify-between">
-                  <div>
-                    <p className="text-gray-400 text-xs font-medium uppercase tracking-wider mb-2">Most Viewed Attraction</p>
-                    <div className="flex flex-col gap-1">
-                      {kpis.mostViewedAttraction ? (
-                        <>
-                          <h3 className="text-lg font-bold text-[#4CC9F0] leading-tight truncate max-w-[150px]" title={kpis.mostViewedAttraction.name}>
-                            {kpis.mostViewedAttraction.name}
-                          </h3>
-                          <span className="text-xs text-gray-400">{kpis.mostViewedAttraction.views} views</span>
-                        </>
-                      ) : (
-                        <h3 className="text-sm font-bold text-gray-500 italic mt-1">Awaiting Data</h3>
-                      )}
-                    </div>
-                  </div>
-                  <div className="p-3 bg-white/5 rounded-xl border border-white/5">
-                    <Users className="w-6 h-6 text-[#4CC9F0]" />
-                  </div>
-                </div>
-              </div>
-
-              {/* Middle Row: Map and Prediction */}
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
-                
-                {/* Live Tourism Map */}
-                <div className="lg:col-span-2 bg-[#0A1628]/80 backdrop-blur border border-[#C9A84C]/20 rounded-2xl p-6 relative flex flex-col min-h-[500px]">
-                  <h3 className="text-lg font-bold text-[#C9A84C] uppercase tracking-wider mb-4 flex items-center gap-2">
-                    <Map className="w-5 h-5" /> Live Tourism Map
-                  </h3>
-                  <div className="flex-grow w-full relative z-0">
-                    <MapLeaflet 
-                      attractions={mapData} 
-                      selectedId={selectedSiteId} 
-                      onMarkerClick={(id) => setSelectedSiteId(id)} 
-                    />
-                  </div>
-                </div>
-
-                {/* AI Crowd Prediction Panel */}
-                <div className="bg-[#0A1628]/80 backdrop-blur border border-[#1B6B93]/30 rounded-2xl overflow-hidden relative shadow-[0_0_40px_rgba(27,107,147,0.1)] flex flex-col">
-                  <div className="p-6 border-b border-[#1B6B93]/20 flex justify-between items-center bg-[#1B6B93]/5">
-                    <h3 className="text-lg font-bold text-white uppercase tracking-wider flex items-center gap-2">
-                      <AlertCircle className="w-5 h-5 text-[#4CC9F0]" /> AI Crowd Prediction
-                    </h3>
-                  </div>
-                  
-                  <div className="p-6 flex-grow flex flex-col">
-                    <p className="text-gray-400 text-xs uppercase tracking-wider mb-1">Target Zone</p>
-                    <h2 className="text-2xl font-bold text-white mb-6 truncate" title={selectedSite?.name_en || 'Select an attraction'}>
-                      {selectedSite?.name_en || 'Select an attraction'}
-                    </h2>
-                    
-                    <div className="space-y-6 flex-grow">
-                      <div className="p-4 bg-[#1B6B93]/10 border border-[#1B6B93]/20 rounded-xl">
-                        <p className="text-[#4CC9F0] text-xs font-bold uppercase mb-2 flex items-center gap-2">
-                          <Clock className="w-4 h-4" /> Current Data Volume
-                        </p>
-                        <p className="text-white font-mono text-lg">{selectedSite?.checkins || 0} <span className="text-sm text-gray-400">check-ins</span></p>
-                      </div>
-
-                      <div className={`p-4 border rounded-xl ${predictionBg}`}>
-                        <p className="text-gray-400 text-xs font-bold uppercase mb-2">AI Analysis</p>
-                        <p className={`font-semibold ${predictionColor}`}>
-                          {predictionText}
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="mt-4 pt-4 border-t border-white/5">
-                      <p className="text-[10px] text-gray-500 italic text-center">Prediction requires a minimum of 5 verified check-ins in the selected period to establish a baseline.</p>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-
-              {/* Charts Row */}
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-                {/* Line Chart */}
-                <div className="bg-[#0A1628]/80 backdrop-blur border border-[#C9A84C]/20 rounded-2xl p-6">
-                  <h3 className="text-md font-bold text-[#C9A84C] uppercase tracking-wider mb-6 flex items-center gap-2">
-                    <BarChart3 className="w-5 h-5" /> Verified Check-ins Over Time
-                  </h3>
-                  <div className="w-full h-64">
-                    {charts.checkinsOverTime.length > 0 ? (
-                      <ResponsiveContainer width="100%" height="100%">
-                        <LineChart data={charts.checkinsOverTime}>
-                          <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" vertical={false} />
-                          <XAxis 
-                            dataKey="date" 
-                            stroke="#6b7280" 
-                            tick={{fill: '#9ca3af', fontSize: 12}} 
-                            tickLine={false}
-                            axisLine={false}
-                            dy={10}
-                          />
-                          <YAxis 
-                            stroke="#6b7280" 
-                            tick={{fill: '#9ca3af', fontSize: 12}} 
-                            tickLine={false}
-                            axisLine={false}
-                            dx={-10}
-                            allowDecimals={false}
-                          />
-                          <Tooltip content={<CustomTooltip />} />
-                          <Line 
-                            type="monotone" 
-                            dataKey="checkins" 
-                            name="Check-ins"
-                            stroke="#C9A84C" 
-                            strokeWidth={3}
-                            dot={{ fill: '#C9A84C', r: 4, strokeWidth: 2, stroke: '#030712' }}
-                            activeDot={{ r: 6, fill: '#E2CB85' }}
-                          />
-                        </LineChart>
-                      </ResponsiveContainer>
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center bg-white/5 rounded-xl border border-white/5">
-                        <p className="text-gray-500 italic text-sm">No data available for this period.</p>
-                      </div>
-                    )}
-                  </div>
-                  <div className="mt-4 text-center">
-                    <p className="text-[10px] text-gray-500 uppercase tracking-widest">Source: EgyptX Platform Analytics • Last Updated: {new Date().toLocaleTimeString()}</p>
-                  </div>
-                </div>
-
-                {/* Bar Chart */}
-                <div className="bg-[#0A1628]/80 backdrop-blur border border-[#1B6B93]/30 rounded-2xl p-6">
-                  <h3 className="text-md font-bold text-[#4CC9F0] uppercase tracking-wider mb-6 flex items-center gap-2">
-                    <BarChart3 className="w-5 h-5" /> Most Viewed Attractions
-                  </h3>
-                  <div className="w-full h-64">
-                    {charts.viewsChartData.length > 0 ? (
-                      <ResponsiveContainer width="100%" height="100%">
-                        <BarChart data={charts.viewsChartData} layout="vertical" margin={{ top: 0, right: 0, left: 20, bottom: 0 }}>
-                          <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" horizontal={false} />
-                          <XAxis 
-                            type="number" 
-                            stroke="#6b7280" 
-                            tick={{fill: '#9ca3af', fontSize: 12}} 
-                            tickLine={false}
-                            axisLine={false}
-                            allowDecimals={false}
-                          />
-                          <YAxis 
-                            type="category" 
-                            dataKey="name" 
-                            stroke="#6b7280" 
-                            tick={{fill: '#9ca3af', fontSize: 11}} 
-                            tickLine={false}
-                            axisLine={false}
-                            width={100}
-                          />
-                          <Tooltip content={<CustomTooltip />} />
-                          <Bar 
-                            dataKey="views" 
-                            name="Views"
-                            fill="#1B6B93" 
-                            radius={[0, 4, 4, 0]}
-                            barSize={20}
-                          />
-                        </BarChart>
-                      </ResponsiveContainer>
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center bg-white/5 rounded-xl border border-white/5">
-                        <p className="text-gray-500 italic text-sm">No data available for this period.</p>
-                      </div>
-                    )}
-                  </div>
-                  <div className="mt-4 text-center">
-                    <p className="text-[10px] text-gray-500 uppercase tracking-widest">Source: EgyptX Platform Analytics • Last Updated: {new Date().toLocaleTimeString()}</p>
-                  </div>
-                </div>
-              </div>
-
-            </motion.div>
-          </AnimatePresence>
-        )}
+          <div className="p-4 border-t border-white/10 bg-[#030712]">
+            <div className="flex flex-wrap gap-2 mb-4">
+              {[
+                "ما هي أهم الأماكن الحيوية في القاهرة؟",
+                "تحليل المعالم الأكثر تفاعلاً",
+                "قارن بين المحافظات",
+                "ما هي المعالم الأقل زيارة؟"
+              ].map((suggestion, i) => (
+                <button 
+                  key={i}
+                  onClick={(e) => handleChatSubmit(e, suggestion)}
+                  className="text-xs bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 px-3 py-1.5 rounded-full transition-colors text-right"
+                >
+                  {suggestion}
+                </button>
+              ))}
+            </div>
+            <form onSubmit={handleChatSubmit} className="flex gap-2">
+              <input 
+                type="text" 
+                value={chatMessage}
+                onChange={(e) => setChatMessage(e.target.value)}
+                placeholder="اكتب سؤالك هنا..."
+                className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-[#C9A84C]"
+                disabled={chatLoading}
+              />
+              <button 
+                type="submit"
+                disabled={chatLoading || !chatMessage.trim()}
+                className="w-10 h-10 flex items-center justify-center bg-[#C9A84C] text-[#0A1628] rounded-xl hover:bg-[#E8D08D] transition-colors disabled:opacity-50 shrink-0"
+              >
+                <Send className="w-4 h-4" />
+              </button>
+            </form>
+            <div className="mt-4">
+              <button className="w-full py-2 bg-[#1B6B93]/20 border border-[#1B6B93]/50 text-[#4CC9F0] text-sm font-bold rounded-xl hover:bg-[#1B6B93]/40 transition-colors">
+                تصدير التقرير الكامل
+              </button>
+            </div>
+          </div>
+        </aside>
       </div>
     </div>
   );

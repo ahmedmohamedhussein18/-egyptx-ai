@@ -176,7 +176,7 @@ export default function PlannerContent() {
   // Existing Form state
   const [country, setCountry] = useState('');
   const [duration, setDuration] = useState(5);
-  const [budget, setBudget] = useState(1500);
+  const [budget, setBudget] = useState('');
   const [interests, setInterests] = useState<string[]>([]);
   const [travelStyle, setTravelStyle] = useState('');
 
@@ -285,6 +285,9 @@ export default function PlannerContent() {
 
       if (planError) throw planError;
 
+      // Fetch all attractions for matching
+      const { data: allAttractions } = await supabase.from('attractions').select('id, name_en');
+
       // Insert days and places
       for (const day of itinerary) {
         const { data: tripDay, error: dayError } = await supabase.from('trip_days').insert({
@@ -294,13 +297,19 @@ export default function PlannerContent() {
 
         if (dayError) throw dayError;
 
-        // Note: The AI returns attraction names, but matching them back to the exact UUID in the database 
-        // can be tricky if names don't perfectly match. For now, we save it as a note or time_slot with the name.
-        // If we want exact attraction IDs, we would need the AI to return the ID or we search it here.
-        // For this task, saving the place name in notes is sufficient to show persistence.
         for (const act of day.activities) {
+          let matchedId = null;
+          if (allAttractions) {
+            const match = allAttractions.find(a => 
+              act.name.toLowerCase().includes(a.name_en.toLowerCase()) || 
+              a.name_en.toLowerCase().includes(act.name.toLowerCase())
+            );
+            if (match) matchedId = match.id;
+          }
+
           await supabase.from('trip_places').insert({
             trip_day_id: tripDay.id,
+            attraction_id: matchedId,
             time_slot: act.time,
             notes: `${act.name}: ${act.description}`
           });
@@ -487,11 +496,12 @@ export default function PlannerContent() {
                   <label className="block text-sm font-semibold text-white/70 mb-1 uppercase tracking-wider">
                     Budget (Total)
                   </label>
-                  <p className="text-3xl font-bold text-[#C9A84C] mb-4">${budget.toLocaleString()}</p>
                   <input
-                    type="range" min={200} max={10000} step={100}
-                    value={budget} onChange={(e) => setBudget(Number(e.target.value))}
-                    className="w-full h-2 bg-[#1B6B93]/30 rounded-lg appearance-none cursor-pointer accent-[#C9A84C]"
+                    type="text"
+                    value={budget}
+                    onChange={(e) => setBudget(e.target.value)}
+                    placeholder="e.g. $500, $2000, unlimited..."
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#C9A84C] mt-2"
                   />
                 </div>
               </div>
@@ -646,7 +656,7 @@ export default function PlannerContent() {
               <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-8 gap-4">
                 <div>
                   <h2 className="text-2xl md:text-3xl font-bold text-white mb-1">Your Personalized Itinerary</h2>
-                  <p className="text-white/40">{duration} days &middot; {travelers} traveler(s) &middot; ${budget.toLocaleString()} budget</p>
+                  <p className="text-white/40">{duration} days &middot; {travelers} traveler(s) &middot; {budget} budget</p>
                 </div>
                 <div className="flex gap-3">
                   <button

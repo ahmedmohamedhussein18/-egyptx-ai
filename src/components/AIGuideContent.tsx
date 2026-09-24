@@ -204,7 +204,8 @@ export default function AIGuideContent() {
                       <div className="flex items-center gap-2">
                         <span className={`px-2 py-1 text-[10px] font-bold uppercase rounded-md border ${
                           result.confidence_level === 'high' ? 'bg-green-500/20 text-green-400 border-green-500/30' :
-                          'bg-yellow-500/20 text-yellow-400 border-yellow-500/30'
+                          result.confidence_level === 'medium' ? 'bg-orange-500/20 text-orange-400 border-orange-500/30' :
+                          'bg-red-500/20 text-red-400 border-red-500/30'
                         }`}>
                           {result.confidence_level} Confidence
                         </span>
@@ -214,6 +215,9 @@ export default function AIGuideContent() {
                     <div className="prose prose-invert max-w-none mb-8">
                       <p className="text-gray-300 leading-relaxed text-sm sm:text-base">
                         {result.ai_description}
+                      </p>
+                      <p className="text-xs text-orange-400/80 mt-4 font-medium flex items-start gap-1.5">
+                        <span className="text-orange-400">⚠️</span> AI identification may not be 100% accurate. Always verify with official sources or on-site information.
                       </p>
                     </div>
 

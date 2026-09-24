@@ -8,6 +8,7 @@ export async function GET(req: Request) {
     const range = url.searchParams.get('range') || 'today';
     const customStart = url.searchParams.get('startDate');
     const customEnd = url.searchParams.get('endDate');
+    const govFilter = url.searchParams.get('governorate') || 'cairo'; // default cairo as requested
 
     // 1. Authenticate User
     const supabaseUser = await createClient();
@@ -18,28 +19,55 @@ export async function GET(req: Request) {
     }
 
     // 2. Admin Client (needed to bypass RLS for profile and data)
-    const supabaseAdmin = createAdminClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SECRET_KEY!
-    );
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const supabaseKey = process.env.SUPABASE_SECRET_KEY; // Use Service Role Key
 
-    // 3. Fetch User Profile using Admin Client to ensure no RLS blocking
+    if (!supabaseUrl || !supabaseKey) {
+      console.error('Missing Supabase environment variables');
+      return NextResponse.json({ error: 'Server Configuration Error' }, { status: 500 });
+    }
+
+    const supabaseAdmin = createAdminClient(supabaseUrl, supabaseKey);
+
+    // 3. Fetch User Profile
     const { data: profile, error: profileError } = await supabaseAdmin
       .from('profiles')
-      .select('role, governorate_id')
+      .select('*')
       .eq('id', user.id)
       .single();
 
-    if (profileError || !profile || profile.role === 'tourist') {
+    console.log('Command Center Auth Check:');
+    console.log('User ID:', user.id);
+    console.log('Profile Data:', profile);
+    console.log('Profile Error:', profileError);
+
+    const allowedRoles = ['national_admin', 'governorate_admin', 'governorate_analyst', 'site_manager'];
+    
+    if (profileError) {
+      console.error('Failed to fetch profile:', profileError);
+      return NextResponse.json({ error: 'Failed to fetch profile' }, { status: 500 });
+    }
+
+    if (!profile || !allowedRoles.includes(profile.role)) {
+      console.log(`Access Denied - Role ${profile?.role} not in allowed list`);
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
     const isNational = profile.role === 'national_admin';
     const isGovAdmin = profile.role === 'governorate_admin' || profile.role === 'governorate_analyst';
-    const govId = profile.governorate_id;
+    
+    // Fetch Cairo Governorate ID
+    const { data: cairoGov } = await supabaseAdmin
+      .from('governorates')
+      .select('id')
+      .eq('name_en', 'Cairo')
+      .single();
+      
+    const cairoId = cairoGov?.id;
+    // Force scope to Cairo
+    const govId = cairoId || profile.governorate_id;
 
-    // Reject governorate roles if they lack a governorate_id
-    if (isGovAdmin && !govId) {
+    if (isGovAdmin && !profile.governorate_id) {
       return NextResponse.json({ error: 'Missing governorate assignment' }, { status: 403 });
     }
 
@@ -66,7 +94,7 @@ export async function GET(req: Request) {
 
     // Helper for scoping
     const applyScope = (query: any) => {
-      if (!isNational) {
+      if (govId) {
         return query.eq('governorate_id', govId);
       }
       return query;
@@ -77,123 +105,177 @@ export async function GET(req: Request) {
       checkinsRes,
       analyticsRes,
       attractionsRes,
-      governorateRes
+      profilesRes,
+      tripPlansRes,
+      tripPlacesRes,
+      governoratesRes
     ] = await Promise.all([
-      applyScope(
-        supabaseAdmin
-          .from('qr_checkins')
-          .select('id, attraction_id, checked_in_at')
-          .gte('checked_in_at', startIso)
-          .lte('checked_in_at', endIso)
-      ),
-      applyScope(
-        supabaseAdmin
-          .from('analytics_events')
-          .select('id, event_type, attraction_id, created_at')
-          .gte('created_at', startIso)
-          .lte('created_at', endIso)
-      ),
+      supabaseAdmin
+        .from('qr_checkins')
+        .select('id, attraction_id, checked_in_at')
+        .gte('checked_in_at', startIso)
+        .lte('checked_in_at', endIso),
+      supabaseAdmin
+        .from('analytics_events')
+        .select('id, event_type, attraction_id, created_at')
+        .gte('created_at', startIso)
+        .lte('created_at', endIso),
       applyScope(
         supabaseAdmin
           .from('attractions')
-          .select('id, name_en, category, city, latitude, longitude')
+          .select('id, name_en, name_ar, category, city, latitude, longitude, governorate_id')
           .eq('verified', true)
       ),
-      isNational ? Promise.resolve({ data: { name_en: 'National' } }) : supabaseAdmin.from('governorates').select('name_en').eq('id', govId).single()
+      // Profiles counts 
+      govId ? 
+        supabaseAdmin.from('profiles').select('id', { count: 'exact', head: true }).eq('governorate_id', govId).gte('created_at', startIso).lte('created_at', endIso) :
+        supabaseAdmin.from('profiles').select('id', { count: 'exact', head: true }).gte('created_at', startIso).lte('created_at', endIso),
+      
+      // Trip plans
+      supabaseAdmin
+        .from('trip_plans')
+        .select('id', { count: 'exact', head: true })
+        .gte('created_at', startIso)
+        .lte('created_at', endIso),
+      
+      // Trip places
+      supabaseAdmin
+        .from('trip_places')
+        .select('attraction_id, created_at')
+        .gte('created_at', startIso)
+        .lte('created_at', endIso),
+        
+      // Governorates
+      supabaseAdmin
+        .from('governorates')
+        .select('id, name_en, name_ar')
     ]);
 
     const checkins = checkinsRes.data || [];
     const analytics = analyticsRes.data || [];
     const attractions = attractionsRes.data || [];
-    const scopeName = governorateRes.data?.name_en || 'National';
+    const tripPlacesRaw = tripPlacesRes.data || [];
+    const governoratesList = governoratesRes.data || [];
+    
+    // For national admin filtering by dropdown ('cairo'), for gov admin their data is already scoped to their govId.
+    // However, since we don't have a reliable mapping for govFilter in attractions right now, we will just pass through the attractions if isGovAdmin, 
+    // or if isNational we filter by city matches for 'cairo'
+    let scopedAttractions = attractions;
+    if (isNational && govFilter === 'cairo') {
+      scopedAttractions = attractions.filter((a: any) => 
+        a.city?.toLowerCase().includes('cairo') || 
+        a.city?.toLowerCase().includes('giza')
+      );
+    }
+
+    const scopedAttractionIds = new Set(scopedAttractions.map((a: any) => a.id));
+
+    // Filter checkins and analytics to only include those that match our scoped attractions
+    const localCheckins = checkins.filter((c: any) => scopedAttractionIds.has(c.attraction_id));
+    const localAnalytics = analytics.filter((a: any) => !a.attraction_id || scopedAttractionIds.has(a.attraction_id));
+    const localTripPlaces = tripPlacesRaw.filter((t: any) => scopedAttractionIds.has(t.attraction_id));
 
     // 6. Calculate KPIs
-    const verifiedCheckins = checkins.length;
-    
-    const attractionViews = analytics.filter((e: any) => e.event_type === 'attraction_view').length;
-    const plannerRequests = analytics.filter((e: any) => e.event_type === 'planner_completed').length;
-
-    // Top Attraction
-    const viewsByAttraction: Record<string, number> = {};
-    analytics.forEach((e: any) => {
-      if (e.event_type === 'attraction_view' && e.attraction_id) {
-        viewsByAttraction[e.attraction_id] = (viewsByAttraction[e.attraction_id] || 0) + 1;
-      }
-    });
-
-    let topAttractionId = null;
-    let topAttractionCount = 0;
-    for (const [id, count] of Object.entries(viewsByAttraction)) {
-      if (count > topAttractionCount) {
-        topAttractionCount = count;
-        topAttractionId = id;
-      }
-    }
-    
-    let mostViewedAttraction = null;
-    if (topAttractionId) {
-      const topAttrData = attractions.find((a: any) => a.id === topAttractionId);
-      if (topAttrData) {
-        mostViewedAttraction = {
-          name: topAttrData.name_en,
-          views: topAttractionCount
-        };
-      }
-    }
+    const totalSessions = localAnalytics.length; 
+    const attractionViews = localAnalytics.filter((e: any) => e.event_type === 'attraction_view').length;
+    const verifiedCheckins = localCheckins.length;
+    const registeredUsers = profilesRes.count || 0;
+    const tripPlansCreated = tripPlansRes.count || 0;
 
     // 7. Timeseries Data (Check-ins over time)
     const timeseriesMap: Record<string, number> = {};
-    checkins.forEach((c: any) => {
+    localCheckins.forEach((c: any) => {
       const dateKey = new Date(c.checked_in_at).toISOString().split('T')[0];
       timeseriesMap[dateKey] = (timeseriesMap[dateKey] || 0) + 1;
     });
 
-    // If no data, return empty array, else sort keys
     const checkinsOverTime = Object.keys(timeseriesMap).sort().map(date => ({
       date,
       checkins: timeseriesMap[date]
     }));
 
-    // 8. Bar Chart Data (Most Viewed Attractions - Top 5)
-    const viewsChartData = Object.entries(viewsByAttraction)
-      .map(([id, views]) => ({
-        name: attractions.find((a: any) => a.id === id)?.name_en || 'Unknown',
-        views
-      }))
-      .sort((a, b) => b.views - a.views)
-      .slice(0, 5);
+    // 8. Category Distribution (Pie Chart)
+    const categoryMap: Record<string, number> = {};
+    localAnalytics.forEach((e: any) => {
+      if (e.event_type === 'attraction_view' && e.attraction_id) {
+        const attr = attractions.find((a: any) => a.id === e.attraction_id);
+        if (attr && attr.category) {
+          categoryMap[attr.category] = (categoryMap[attr.category] || 0) + 1;
+        }
+      }
+    });
+    
+    const categoryDistribution = Object.keys(categoryMap).map(category => ({
+      name: category,
+      value: categoryMap[category]
+    })).sort((a, b) => b.value - a.value);
 
-    // 9. Map Markers (Attractions with Checkin Counts)
+    // 9. Top Attractions Table Data (from checkins)
     const checkinsByAttraction: Record<string, number> = {};
-    checkins.forEach((c: any) => {
+    localCheckins.forEach((c: any) => {
       if (c.attraction_id) {
         checkinsByAttraction[c.attraction_id] = (checkinsByAttraction[c.attraction_id] || 0) + 1;
       }
     });
 
-    const mapData = attractions.map((attr: any) => ({
+    const topAttractionsTable = Object.entries(checkinsByAttraction)
+      .map(([id, checkins]) => ({
+        id,
+        name: attractions.find((a: any) => a.id === id)?.name_ar || attractions.find((a: any) => a.id === id)?.name_en || 'غير معروف',
+        checkins
+      }))
+      .sort((a, b) => b.checkins - a.checkins)
+      .slice(0, 10);
+
+    // 10. Top Destinations in Planner (Bar Chart)
+    const tripPlacesMap: Record<string, number> = {};
+    localTripPlaces.forEach((t: any) => {
+      if (t.attraction_id) {
+        tripPlacesMap[t.attraction_id] = (tripPlacesMap[t.attraction_id] || 0) + 1;
+      }
+    });
+
+    const topTripDestinations = Object.entries(tripPlacesMap)
+      .map(([id, requests]) => ({
+        name: attractions.find((a: any) => a.id === id)?.name_ar || attractions.find((a: any) => a.id === id)?.name_en || 'غير معروف',
+        requests
+      }))
+      .sort((a, b) => b.requests - a.requests)
+      .slice(0, 5);
+
+    // 11. Map Markers (Attractions with Checkin Counts)
+    const mapData = scopedAttractions.map((attr: any) => ({
       ...attr,
+      name: attr.name_ar || attr.name_en, // Use Arabic name if available
       checkins: checkinsByAttraction[attr.id] || 0
     }));
 
     return NextResponse.json({
-      scopeName,
-      isNational,
+      profile: {
+        firstName: profile?.first_name || profile?.full_name?.split(' ')[0] || profile?.name?.split(' ')[0] || 'Admin',
+        lastName: profile?.last_name || profile?.full_name?.split(' ').slice(1).join(' ') || profile?.name?.split(' ').slice(1).join(' ') || '',
+        role: profile.role
+      },
       kpis: {
-        verifiedCheckins,
+        totalSessions,
+        registeredUsers,
+        tripPlansCreated,
         attractionViews,
-        plannerRequests,
-        mostViewedAttraction
+        verifiedCheckins
       },
       charts: {
         checkinsOverTime,
-        viewsChartData
+        categoryDistribution,
+        topAttractionsTable,
+        topTripDestinations
       },
-      mapData
+      mapData,
+      governoratesList,
+      attractionsList: attractions
     });
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('Command Center API Error:', error);
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+    return NextResponse.json({ error: error.message || 'Internal Server Error' }, { status: 500 });
   }
 }

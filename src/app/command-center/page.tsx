@@ -34,7 +34,8 @@ export default async function CommandCenterPage() {
 
 
 
-  if (!profile || profile.role === "tourist") {
+  const allowedRoles = ['national_admin', 'governorate_admin', 'governorate_analyst', 'site_manager'];
+  if (!profile || !allowedRoles.includes(profile.role)) {
     redirect("/?error=unauthorized");
   }
 
