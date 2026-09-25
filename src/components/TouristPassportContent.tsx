@@ -46,6 +46,8 @@ export default function TouristPassportContent() {
           .select(`
             id,
             checked_in_at,
+            verification_method,
+            metadata,
             attractions (
               id,
               name_en,
@@ -58,67 +60,41 @@ export default function TouristPassportContent() {
         if (checkinError) throw checkinError;
 
         // Map data to STAMPS format
-        const mappedStamps = (checkinData || []).map((c: any, i: number) => {
+        const mappedStamps: any[] = [];
+        const exploredList: any[] = [];
+        
+        (checkinData || []).forEach((c: any, i: number) => {
           let icon = Crown;
           if (c.attractions?.category === 'nature') icon = Palmtree;
           if (c.attractions?.category === 'hidden') icon = Tent;
           
-          return {
+          const siteName = c.attractions?.name_en || c.metadata?.attraction_name || 'Unknown Site';
+          const siteCountry = c.metadata?.city || 'Egypt';
+
+          const stamp = {
             id: c.id,
-            name: c.attractions?.name_en || 'Unknown Site',
+            name: siteName,
             date: new Date(c.checked_in_at).toLocaleDateString(),
             icon,
             angle: (i % 2 === 0 ? 1 : -1) * (15 + (i * 5) % 20)
           };
+
+          if (c.verification_method === 'ai_planner_self_report') {
+            exploredList.push({
+              id: c.id,
+              name: siteName,
+              country: siteCountry, 
+              duration: c.metadata?.day_number ? `Day ${c.metadata.day_number}` : 1, 
+              date: new Date(c.checked_in_at).toLocaleDateString(),
+              icon,
+              angle: (i % 2 === 0 ? 1 : -1) * (5 + (i * 2) % 10)
+            });
+          } else {
+            mappedStamps.push(stamp);
+          }
         });
 
         setCheckins(mappedStamps);
-
-        // Fetch AI Planned destinations (Explored Online)
-        const { data: plansData } = await supabase
-          .from('trip_plans')
-          .select(`
-            id,
-            trip_days (
-              trip_places (
-                id,
-                created_at,
-                attractions (
-                  id,
-                  name_en,
-                  category
-                )
-              )
-            )
-          `)
-          .eq('user_id', user.id);
-
-        const exploredList: any[] = [];
-        let i = 0;
-        plansData?.forEach(plan => {
-          plan.trip_days?.forEach((day: any) => {
-            day.trip_places?.forEach((place: any) => {
-              if (place.attractions) {
-                let icon = Crown;
-                if (place.attractions.category === 'nature') icon = Palmtree;
-                if (place.attractions.category === 'hidden') icon = Tent;
-                
-                // only add if not already physically checked in
-                if (!mappedStamps.find(s => s.name === place.attractions.name_en) && !exploredList.find(e => e.name === place.attractions.name_en)) {
-                  exploredList.push({
-                    id: place.id,
-                    name: place.attractions.name_en,
-                    date: new Date(place.created_at).toLocaleDateString(),
-                    icon,
-                    angle: (i % 2 === 0 ? 1 : -1) * (15 + (i * 5) % 20)
-                  });
-                  i++;
-                }
-              }
-            });
-          });
-        });
-
         setExplored(exploredList);
 
       } catch (err) {
@@ -193,7 +169,7 @@ export default function TouristPassportContent() {
               {/* ID Details */}
               <div className="flex-1 text-center md:text-left z-10">
                 <h3 className="text-xl text-[#C9A84C] font-semibold uppercase tracking-widest mb-1">
-                  🇪🇬 EgyptX Tourist Passport
+                  ≡ƒç¬≡ƒç¼ EgyptX Tourist Passport
                 </h3>
                 <h1 className="text-4xl sm:text-5xl font-bold text-white mb-2 font-serif">
                   {userProfile?.full_name || 'Tourist'}&apos;s Journey
@@ -202,7 +178,7 @@ export default function TouristPassportContent() {
                 <div className="grid grid-cols-2 gap-4 mt-6">
                   <div className="bg-white/5 rounded-lg p-3 border border-white/5">
                     <p className="text-[10px] text-gray-500 uppercase font-bold tracking-wider mb-1">Total Stamps</p>
-                    <p className="font-mono text-[#4CC9F0] text-sm">{totalStamps} زيارات موثقة | {explored.length} مستكشف رقمياً</p>
+                    <p className="font-mono text-[#4CC9F0] text-sm">{totalStamps} زيارات موتقة | {explored.length} رحلات مخطهة</p>
                   </div>
                   <div className="bg-white/5 rounded-lg p-3 border border-white/5">
                     <p className="text-[10px] text-gray-500 uppercase font-bold tracking-wider mb-1">Status</p>
@@ -220,7 +196,7 @@ export default function TouristPassportContent() {
         <div>
           <div className="flex items-center gap-3 mb-8">
             <MapPin className="w-6 h-6 text-[#1B6B93]" />
-            <h2 className="text-2xl font-bold text-white uppercase tracking-wider">Visited Places</h2>
+            <h2 className="text-2xl font-bold text-white uppercase tracking-wider" dir="rtl">زيارات موتقة</h2>
             <div className="h-px bg-white/10 flex-1 ml-4" />
           </div>
           
@@ -243,8 +219,8 @@ export default function TouristPassportContent() {
                   <span className="text-[9px] font-bold text-[#C9A84C] text-center leading-tight uppercase px-1">
                     {stamp.name}
                   </span>
-                  <div className="text-[10px] font-black text-[#C9A84C] my-0.5 tracking-wider uppercase bg-[#C9A84C]/10 px-1.5 py-0.5 rounded-sm border border-[#C9A84C]/40 transform -rotate-6">
-                    VISITED ✓
+                  <div className="text-[10px] font-black text-[#030712] my-0.5 tracking-wider uppercase bg-[#C9A84C] px-1.5 py-0.5 rounded-sm border border-[#C9A84C]/40 transform -rotate-6" dir="rtl">
+                    زيارة موثقة بۀ QR
                   </div>
                   <span className="text-[7px] font-mono text-[#C9A84C]/60 uppercase">
                     {stamp.date}
@@ -260,14 +236,18 @@ export default function TouristPassportContent() {
           </div>
         </div>
 
-        {/* Explored Online (AI Planner) */}
+        
+        {/* Planned Trips (AI Planner) */}
         {explored.length > 0 && (
           <div>
-            <div className="flex items-center gap-3 mb-8">
-              <Compass className="w-6 h-6 text-gray-400" />
-              <h2 className="text-2xl font-bold text-gray-300 uppercase tracking-wider" dir="rtl">مستكشف رقمياً (Explored Online)</h2>
+            <div className="flex items-center gap-3 mb-4">
+              <Compass className="w-6 h-6 text-[#C9A84C]" />
+              <h2 className="text-2xl font-bold text-[#C9A84C] uppercase tracking-wider" dir="rtl">رحلاتي المخطهة (Planned Trips)</h2>
               <div className="h-px bg-white/10 flex-1 ml-4" />
             </div>
+            <p className="text-sm text-gray-400 mb-8 text-right" dir="rtl">
+              الزیارات الموثقة تتطلب مسح QR Code فی الموقع الفعلٍ. الرحلات المخططة ه، رحلات أنشأتها بالذكاء الاصطناعو.
+            </p>
             
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 justify-items-center">
               {explored.map((stamp, index) => (
@@ -276,16 +256,18 @@ export default function TouristPassportContent() {
                   initial={{ opacity: 0, scale: 0.5, rotate: 0 }}
                   animate={{ opacity: 1, scale: 1, rotate: stamp.angle }}
                   transition={{ delay: index * 0.1, type: "spring", stiffness: 100 }}
-                  className="w-32 h-32 rounded-full border-[2px] border-solid border-gray-600/50 flex flex-col items-center justify-center p-2 relative group hover:border-gray-400 transition-colors bg-[#0A1628]/20 grayscale hover:grayscale-0"
+                  className="w-36 h-36 rounded-full border-[2px] border-solid border-[#C9A84C]/50 flex flex-col items-center justify-center p-2 relative group hover:border-[#C9A84C] transition-colors bg-[#0A1628]/20"
                 >
-                  <stamp.icon className="w-6 h-6 text-gray-400 mb-0.5" strokeWidth={1.5} />
-                  <span className="text-[9px] font-bold text-gray-400 text-center leading-tight uppercase px-1 group-hover:text-gray-200 transition-colors">
-                    {stamp.name}
+                  <span className="text-[10px] font-bold text-gray-300 text-center leading-tight uppercase px-1">
+                    📍 {stamp.name}
                   </span>
-                  <div className="text-[10px] font-black text-gray-500 my-0.5 tracking-wider uppercase bg-gray-800/50 px-1.5 py-0.5 rounded-sm border border-gray-600 transform -rotate-6">
-                    EXPLORED
+                  <div className="text-[9px] font-bold text-[#C9A84C] my-0.5 tracking-wider uppercase px-1.5 py-0.5 mt-1 border border-[#C9A84C]/40 rounded bg-white/5 flex items-center gap-1">
+                    <span>🌍</span> {stamp.country}
                   </div>
-                  <span className="text-[7px] font-mono text-gray-500 uppercase">
+                  <div className="text-[9px] font-bold text-white/80 my-0.5 tracking-wider uppercase px-1.5 py-0.5 border border-white/20 rounded bg-white/5 flex items-center gap-1">
+                    <span>📅</span> {stamp.duration} أيام
+                  </div>
+                  <span className="text-[7px] font-mono text-gray-500 uppercase mt-1">
                     {stamp.date}
                   </span>
                 </motion.div>

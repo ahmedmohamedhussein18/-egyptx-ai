@@ -22,155 +22,63 @@ type Category = 'All' | 'Ancient' | 'Museum' | 'Nature' | 'Beach' | 'Hidden';
 
 
 // Helper to get SVG based on category or specific name
-function getAttractionSvg(name_en: string, category: string) {
-  const name = name_en.toLowerCase();
-  
-  if (name.includes('giza') || name.includes('saqqara')) {
-    return (
-      <svg viewBox="0 0 400 240" className="w-full h-full object-cover">
-        <defs>
-          <linearGradient id="giza-sky" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#1B6B93" />
-            <stop offset="100%" stopColor="#D4A373" />
-          </linearGradient>
-          <linearGradient id="giza-sand" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#E9C46A" />
-            <stop offset="100%" stopColor="#C9A84C" />
-          </linearGradient>
-        </defs>
-        <rect width="400" height="240" fill="url(#giza-sky)" />
-        <polygon points="120,180 220,60 320,180" fill="#E9C46A" />
-        <polygon points="220,60 320,180 270,180" fill="#C9A84C" />
-        <polygon points="50,180 130,90 210,180" fill="#D4A373" />
-        <polygon points="130,90 210,180 160,180" fill="#B38B59" />
-        <path d="M0 170 Q 100 160 200 180 T 400 170 L 400 240 L 0 240 Z" fill="url(#giza-sand)" />
-        <circle cx="340" cy="50" r="30" fill="#F4A261" opacity="0.8" />
-      </svg>
-    );
-  }
-  
-  if (name.includes('luxor') || name.includes('karnak') || name.includes('valley')) {
-    return (
-      <svg viewBox="0 0 400 240" className="w-full h-full object-cover">
-        <defs>
-          <linearGradient id="luxor-sky" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#2D3142" />
-            <stop offset="100%" stopColor="#4F5D75" />
-          </linearGradient>
-        </defs>
-        <rect width="400" height="240" fill="url(#luxor-sky)" />
-        <rect x="80" y="80" width="30" height="120" fill="#C9A84C" />
-        <rect x="150" y="80" width="30" height="120" fill="#C9A84C" />
-        <rect x="220" y="80" width="30" height="120" fill="#C9A84C" />
-        <rect x="290" y="80" width="30" height="120" fill="#C9A84C" />
-        <rect x="60" y="60" width="280" height="20" fill="#E9C46A" />
-        <path d="M0 190 Q 200 180 400 190 L 400 240 L 0 240 Z" fill="#8D99AE" />
-      </svg>
-    );
-  }
+const exactImageMap: Record<string, string> = {
+  "Great Pyramid of Giza": "Great Pyramid of Giza.jpg",
+  "Egyptian Museum Cairo": "Egyptian Museum Cairo.webp",
+  "Karnak Temple": "Karnak Temple.jpeg",
+  "Luxor Temple": "Luxor Temple.jpg",
+  "Valley of the Kings": "Valley of the Kings.jpg",
+  "Abu Simbel Temples": "Abu Simbel Temples.jpg",
+  "Philae Temple": "Philae Temple.jpeg",
+  "Siwa Oasis": "Siwa Oasis.jpg",
+  "White Desert": "White Desert.jpg",
+  "Grand Egyptian Museum": "Grand Egyptian Museum.jpg",
+  "Saqqara Step Pyramid": "Saqqara Step Pyramid.jpg",
+  "Fayoum Oasis": "Fayoum Oasis.jpg",
+  "Red Sea Coast Hurghada": "Red Sea Coast Hurghada.jpg",
+  "Sharm El Sheikh": "Sharm El Sheikh.jpg",
+  "Ras Mohammed": "Ras Mohammed.jpg",
+  "Alexandria Library": "Alexandria Library.webp",
+  "Saint Catherine Monastery": "Saint Catherine Monastery.jpg",
+  "Citadel of Saladin": "Citadel of Saladin.jpg",
+  "Wadi El Hitan": "Wadi El Hitan.jpeg",
+  "Egyptian Museum (Tahrir)": "Egyptian Museum (Tahrir).jpg",
+  "Mosque of Muhammad Ali": "Mosque of Muhammad Ali.jpg",
+  "Sultan Hassan Mosque": "Sultan Hassan Mosque.webp",
+  "Al-Rifa'i Mosque": "Al-Rifa'i Mosque.jpg",
+  "Khan el-Khalili Bazaar": "Khan el-Khalili Bazaar.jpg",
+  "Al-Azhar Mosque": "Al-Azhar Mosque.webp",
+  "Hanging Church (El Muallaqa)": "Hanging Church (El Muallaqa).jpeg",
+  "Coptic Museum": "Coptic Museum.jpg",
+  "Ben Ezra Synagogue": "Ben Ezra Synagogue.jpeg",
+  "Amr ibn al-As Mosque": "Amr ibn al-As Mosque.jpg",
+  "Cairo Tower (Borg El Qahira)": "Cairo Tower (Borg El Qahira).jpg",
+  "Manial Palace Museum": "Manial Palace Museum.jpg",
+  "Museum of Islamic Art (Cairo)": "Museum of Islamic Art (Cairo).jpg",
+  "Bayt Al-Suhaymi": "Bayt Al-Suhaymi.webp",
+  "Al-Azhar Park": "Al-Azhar Park.webp",
+  "Qasr El Nil Bridge": "Qasr El Nil Bridge.jpg",
+  "Ibn Tulun Mosque": "Ibn Tulun Mosque.webp",
+  "Gayer-Anderson Museum": "Gayer-Anderson Museum.jpg"
+};
 
-  if (name.includes('aswan') || name.includes('philae')) {
-    return (
-      <svg viewBox="0 0 400 240" className="w-full h-full object-cover">
-        <defs>
-          <linearGradient id="aswan-sky" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#FF9F1C" />
-            <stop offset="100%" stopColor="#FFBF69" />
-          </linearGradient>
-          <linearGradient id="nile" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#1B6B93" />
-            <stop offset="100%" stopColor="#0B4061" />
-          </linearGradient>
-        </defs>
-        <rect width="400" height="240" fill="url(#aswan-sky)" />
-        <path d="M0 140 Q 200 120 400 150 L 400 240 L 0 240 Z" fill="url(#nile)" />
-        <polygon points="200,160 220,80 240,160" fill="#FFFFFF" opacity="0.9" />
-        <rect x="205" y="160" width="30" height="10" fill="#5C4033" />
-        <circle cx="100" cy="80" r="25" fill="#FFFFFF" opacity="0.5" />
-      </svg>
-    );
-  }
+function getAttractionImage(name_en: string, category: string) {
+  // Direct lookup from the exact map
+  const matchedImage = exactImageMap[name_en] || "placeholder.jpg";
+  const src = `/images/${matchedImage}`;
 
-  if (name.includes('abu simbel')) {
-    return (
-      <svg viewBox="0 0 400 240" className="w-full h-full object-cover">
-        <rect width="400" height="240" fill="#4A4E69" />
-        <path d="M50 200 Q 150 50 350 200 Z" fill="#9A8C98" />
-        <rect x="150" y="120" width="30" height="60" fill="#C9A84C" />
-        <rect x="190" y="120" width="30" height="60" fill="#C9A84C" />
-        <rect x="230" y="120" width="30" height="60" fill="#C9A84C" />
-        <path d="M0 180 Q 200 170 400 190 L 400 240 L 0 240 Z" fill="#22223B" />
-      </svg>
-    );
-  }
-
-  if (category === 'hidden' || name.includes('oasis')) {
-    return (
-      <svg viewBox="0 0 400 240" className="w-full h-full object-cover">
-        <rect width="400" height="240" fill="#030712" />
-        <circle cx="200" cy="100" r="40" fill="#E2E8F0" opacity="0.8" />
-        <path d="M0 180 Q 100 150 200 170 T 400 160 L 400 240 L 0 240 Z" fill="#D4A373" />
-        <ellipse cx="200" cy="200" rx="60" ry="15" fill="#4FD1C5" opacity="0.7" />
-        <path d="M80 170 L80 120 M80 120 L60 100 M80 120 L100 100 M80 130 L100 140 M80 130 L60 140" stroke="#2F855A" strokeWidth="4" fill="none" />
-        <path d="M320 160 L320 110 M320 110 L300 90 M320 110 L340 90 M320 120 L340 130 M320 120 L300 130" stroke="#2F855A" strokeWidth="4" fill="none" />
-      </svg>
-    );
-  }
-
-  if (category === 'nature' || name.includes('desert')) {
-    return (
-      <svg viewBox="0 0 400 240" className="w-full h-full object-cover">
-        <rect width="400" height="240" fill="#14213D" />
-        <path d="M0 180 Q 200 150 400 180 L 400 240 L 0 240 Z" fill="#E5E5E5" />
-        <path d="M120 180 Q 150 80 180 180 Z" fill="#FFFFFF" />
-        <path d="M250 190 Q 280 100 310 190 Z" fill="#FFFFFF" />
-        <circle cx="200" cy="80" r="15" fill="#FFFFFF" opacity="0.8" />
-      </svg>
-    );
-  }
-
-  if (category === 'beach' || name.includes('sea') || name.includes('sharm')) {
-    return (
-      <svg viewBox="0 0 400 240" className="w-full h-full object-cover">
-        <rect width="400" height="240" fill="#0077B6" />
-        <path d="M0 120 Q 100 100 200 120 T 400 120 L 400 240 L 0 240 Z" fill="#0096C7" />
-        <path d="M50 200 Q 80 180 110 210 T 170 200" stroke="#FF5400" strokeWidth="8" fill="none" strokeLinecap="round" />
-        <circle cx="300" cy="60" r="30" fill="#FFD166" />
-      </svg>
-    );
-  }
-
-  if (category === 'museum') {
-    return (
-      <svg viewBox="0 0 400 240" className="w-full h-full object-cover">
-        <rect width="400" height="240" fill="#2b2d42" />
-        <rect x="50" y="100" width="300" height="20" fill="#edf2f4" />
-        <rect x="70" y="120" width="20" height="80" fill="#8d99ae" />
-        <rect x="140" y="120" width="20" height="80" fill="#8d99ae" />
-        <rect x="240" y="120" width="20" height="80" fill="#8d99ae" />
-        <rect x="310" y="120" width="20" height="80" fill="#8d99ae" />
-        <rect x="40" y="200" width="320" height="20" fill="#edf2f4" />
-        <polygon points="200,40 50,100 350,100" fill="#d90429" />
-      </svg>
-    );
-  }
-
-  // Fallback ancient
   return (
-    <svg viewBox="0 0 400 240" className="w-full h-full object-cover">
-      <defs>
-        <linearGradient id="fallback-sky" x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" stopColor="#1B6B93" />
-          <stop offset="100%" stopColor="#D4A373" />
-        </linearGradient>
-      </defs>
-      <rect width="400" height="240" fill="url(#fallback-sky)" />
-      <polygon points="120,180 220,60 320,180" fill="#E9C46A" />
-    </svg>
+    <img 
+      src={src} 
+      alt={name_en}
+      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+      onError={(e) => {
+        (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1539650116574-8efeb43e2750?q=80&w=1000&auto=format&fit=crop';
+      }}
+    />
   );
 }
 
-// Weather Badge component to fetch weather for each card individually
 function WeatherBadge({ lat, lon }: { lat: number, lon: number }) {
   const [weather, setWeather] = useState<any>(null);
 
@@ -220,8 +128,68 @@ export default function ExploreContent() {
           .select('*')
           .eq('verified', true);
 
-        if (error) throw error;
-        setAttractions(data || []);
+                if (error) throw error;
+        
+        const strictOrder = [
+  "great pyramid of giza",
+  "egyptian museum cairo",
+  "karnak temple",
+  "luxor temple",
+  "valley of the kings",
+  "abu simbel temples",
+  "philae temple",
+  "siwa oasis",
+  "white desert",
+  "grand egyptian museum",
+  "saqqara step pyramid",
+  "fayoum oasis",
+  "red sea coast hurghada",
+  "sharm el sheikh",
+  "ras mohammed",
+  "alexandria library",
+  "saint catherine monastery",
+  "citadel of saladin",
+  "wadi el hitan",
+  "egyptian museum (tahrir)",
+  "mosque of muhammad ali",
+  "sultan hassan mosque",
+  "al-rifa'i mosque",
+  "khan el-khalili bazaar",
+  "al-azhar mosque",
+  "hanging church (el muallaqa)",
+  "coptic museum",
+  "ben ezra synagogue",
+  "amr ibn al-as mosque",
+  "cairo tower (borg el qahira)",
+  "manial palace museum",
+  "museum of islamic art (cairo)",
+  "bayt al-suhaymi",
+  "al-azhar park",
+  "qasr el nil bridge",
+  "ibn tulun mosque",
+  "gayer-anderson museum"
+];
+
+        const getSortIndex = (name_en: string) => {
+          if (!name_en) return 999;
+          const name = name_en.toLowerCase();
+          
+          for (let i = 0; i < strictOrder.length; i++) {
+            // Check for direct match or substring match from strictOrder
+            // Clean up both strings to make matching more robust
+            const target = strictOrder[i].replace(/[()'-]/g, '').trim();
+            const current = name.replace(/[()'-]/g, '').trim();
+            
+            if (current.includes(target) || target.includes(current)) {
+              return i;
+            }
+          }
+          return 999;
+        };
+
+        const sortedData = (data || []).sort((a, b) => getSortIndex(a.name_en) - getSortIndex(b.name_en));
+
+        setAttractions(sortedData);
         trackEvent('page_view');
       } catch (err: any) {
         setError(err.message || 'Failed to fetch attractions');
@@ -341,7 +309,7 @@ export default function ExploreContent() {
                   >
                     {/* Image/SVG Section */}
                     <div className="h-48 relative overflow-hidden bg-gray-900">
-                      {getAttractionSvg(dest.name_en, dest.category)}
+                      {getAttractionImage(dest.name_en, dest.category)}
                       <div className="absolute top-4 left-4">
                         <span className="px-3 py-1 bg-black/60 backdrop-blur rounded-full text-xs font-medium text-[#C9A84C] border border-[#C9A84C]/30 capitalize">
                           {dest.category}

@@ -274,13 +274,16 @@ export default function PlannerContent() {
       }
 
       // Insert trip plan
+      const cleanBudget = parseFloat(String(budget).replace(/[^0-9.]/g, '')) || 0;
+      const cleanTravelers = parseInt(String(travelers).replace(/[^0-9]/g, '')) || 1;
+
       const { data: tripPlan, error: planError } = await supabase.from('trip_plans').insert({
         user_id: user.id,
-        title: `Egypt Trip (${duration} Days)`,
+        title: JSON.stringify({ title: `Egypt Trip (${duration} Days)`, country: country || 'Unknown', city: itinerary[0]?.city || 'Egypt' }),
         governorate_id: governorateId || null,
         duration_days: duration,
-        budget,
-        travelers
+        budget: cleanBudget,
+        travelers: cleanTravelers
       }).select().single();
 
       if (planError) throw planError;
@@ -321,6 +324,34 @@ export default function PlannerContent() {
       alert('Error saving trip: ' + err.message);
     } finally {
       setSaving(false);
+    }
+  };
+
+    const [checkedInDays, setCheckedInDays] = useState<Record<number, boolean>>({});
+
+  const handleCheckinDay = async (dayNumber: number, dayCity: string, firstActivityName: string) => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        window.location.href = '/login?redirect=/planner';
+        return;
+      }
+
+      setCheckedInDays(prev => ({ ...prev, [dayNumber]: true }));
+      
+      await fetch('/api/planner-checkin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          day: dayNumber,
+          city: dayCity,
+          attractionName: firstActivityName
+        })
+      });
+    } catch (err) {
+      console.error('Failed to checkin day', err);
+      // Revert if error
+      setCheckedInDays(prev => ({ ...prev, [dayNumber]: false }));
     }
   };
 
@@ -708,13 +739,26 @@ export default function PlannerContent() {
                             <p className="text-white/30 text-sm">{day.activities.length} activities planned</p>
                           </div>
                         </div>
-                        <button
-                          onClick={() => handleRegenerateDay(day.day)}
-                          disabled={regeneratingDay !== null}
-                          className="px-3 py-1.5 rounded bg-white/5 text-white/50 text-xs font-medium hover:text-white hover:bg-white/10 transition-colors border border-white/10"
-                        >
-                          🔄 Regenerate Day
-                        </button>
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={() => handleRegenerateDay(day.day)}
+                            disabled={regeneratingDay !== null}
+                            className="px-3 py-1.5 rounded bg-white/5 text-white/50 text-xs font-medium hover:text-white hover:bg-white/10 transition-colors border border-white/10"
+                          >
+                            🔄 Regenerate Day
+                          </button>
+                          <button
+                            onClick={() => handleCheckinDay(day.day, day.city, day.activities[0]?.name || '')}
+                            disabled={checkedInDays[day.day]}
+                            className={`px-3 py-1.5 rounded text-xs font-medium transition-colors border ${
+                              checkedInDays[day.day] 
+                                ? 'bg-[#19A974]/20 text-[#19A974] border-[#19A974]/50' 
+                                : 'bg-transparent text-[#C9A84C] border-[#C9A84C] hover:bg-[#C9A84C]/10'
+                            }`}
+                          >
+                            {checkedInDays[day.day] ? '✓ تم التسجيل' : '📍 تسجيل زيارة'}
+                          </button>
+                        </div>
                       </div>
 
                       {/* Regenerating overlay / Activities */}

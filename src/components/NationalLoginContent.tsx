@@ -22,19 +22,25 @@ export default function NationalLoginContent() {
     setError('');
 
     try {
-      const { data, error: signInError } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
+      const formData = new FormData();
+      formData.append('email', email);
+      formData.append('password', password);
 
-      if (signInError) throw signInError;
-      if (!data.user) throw new Error('No user returned');
+      const { loginAction } = await import('@/app/actions/auth');
+      const result = await loginAction(formData);
+
+      if (result?.error) {
+        throw new Error(result.error);
+      }
+
+      const { data: { user }, error: userError } = await supabase.auth.getUser();
+      if (userError || !user) throw new Error('No user returned');
 
       // Check role
       const { data: profile, error: profileError } = await supabase
         .from('profiles')
         .select('role')
-        .eq('id', data.user.id)
+        .eq('id', user.id)
         .single();
 
       if (profileError) throw profileError;
@@ -45,7 +51,7 @@ export default function NationalLoginContent() {
         throw new Error('Unauthorized. This portal is strictly for National Admins.');
       }
 
-      router.push('/national/dashboard');
+      window.location.href = '/national/dashboard';
     } catch (err: any) {
       setError(err.message || 'Failed to login');
     } finally {

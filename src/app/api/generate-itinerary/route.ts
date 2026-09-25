@@ -97,76 +97,113 @@ IMPORTANT INSTRUCTIONS:
 
 Only return the JSON. No markdown formatting blocks or extra text.`;
 
-    // Call Groq API with retry via helper
-    let groqData;
+    // Call Groq API with validation and retry
+    let formattedData: any = null;
     let errorStatus = 500;
     let errorMessage = '';
 
-    for (let attempt = 1; attempt <= 2; attempt++) {
+    const maxAttempts = 3; // Initial + 2 retries
+    for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+      let currentPrompt = prompt;
+      
+      if (attempt > 1) {
+        currentPrompt += `\n\nCRITICAL VALIDATION FAILURE ON PREVIOUS ATTEMPT:
+${errorMessage}
+
+The application has already determined the requested duration.
+requestedDays = ${parsedDuration}
+
+You MUST generate exactly ${parsedDuration} itinerary days.
+Do not decide a different duration.
+Do not omit days.
+Do not merge days.
+Do not create extra days.
+Do not duplicate days.
+The days MUST be sequentially numbered from 1 to ${parsedDuration}.`;
+      }
+
       try {
         const { generateContentWithFallback } = await import('@/lib/groq');
-        groqData = await generateContentWithFallback({
-          messages: [{ role: 'user', content: prompt }],
+        const groqData = await generateContentWithFallback({
+          messages: [{ role: 'user', content: currentPrompt }],
           config: {
             response_format: { type: "json_object" },
-            temperature: 0.2
+            // Slightly increase temperature on retry to encourage different outputs
+            temperature: attempt === 1 ? 0.2 : 0.4
           }
         });
         
-        break; // Success
+        const text = groqData.choices[0]?.message?.content || '';
+
+        let data;
+        try {
+          data = JSON.parse(text);
+        } catch (parseError) {
+          const cleanedText = text.replace(/```json/gi, '').replace(/```/g, '').trim();
+          data = JSON.parse(cleanedText);
+        }
+
+        if (!data || !Array.isArray(data.days)) {
+          throw new Error('AI returned an invalid structure. Missing "days" array.');
+        }
+
+        // 1. Validate total day count
+        if (data.days.length !== parsedDuration) {
+          throw new Error(`Expected exactly ${parsedDuration} days, but received ${data.days.length} days.`);
+        }
+
+        // 2. Validate sequential day numbers
+        for (let i = 0; i < parsedDuration; i++) {
+          const expectedDayNumber = i + 1;
+          const actualDayNumber = data.days[i].dayNumber || data.days[i].day;
+          
+          if (actualDayNumber !== expectedDayNumber) {
+            throw new Error(`Expected day ${expectedDayNumber} at index ${i}, but found day ${actualDayNumber}. Days must be strictly sequential starting from 1.`);
+          }
+        }
+
+        // If validation passes, construct formattedData
+        formattedData = data.days.map((d: any) => ({
+          day: d.dayNumber || d.day, 
+          city: d.city || 'Egypt',
+          activities: (d.activities || []).map((a: any) => ({
+            time: a.time || '10:00',
+            type: a.category || 'general',
+            name: a.title || 'Activity',
+            description: a.description || ''
+          }))
+        }));
+
+        console.log(`[Planner] requestedDays=${parsedDuration} generatedDays=${formattedData.length} validation=SUCCESS retry=${attempt-1}`);
+        break; // Success!
+
       } catch (err: any) {
-        console.error(`Groq fetch exception (Attempt ${attempt}):`, err);
+        console.error(`[Planner] Attempt ${attempt} failed validation/fetch:`, err.message);
         errorMessage = err.message || String(err);
         
         if (errorMessage.includes('429')) errorStatus = 429;
         if (errorMessage.includes('503') || errorMessage.includes('504')) errorStatus = 503;
         
-        // Only retry on 429, 503, 504. Otherwise break immediately.
-        if (errorStatus !== 429 && errorStatus !== 503 && errorStatus !== 504) {
+        // Only stop early if it's an API rate limit or hard timeout
+        if (errorStatus === 429 || errorStatus === 503 || errorStatus === 504) {
           break;
         }
 
-        if (attempt === 1) {
-          // wait 2 seconds before retry
-          await new Promise(res => setTimeout(res, 2000));
+        console.log(`[Planner] requestedDays=${parsedDuration} validation=FAILED retry=${attempt}`);
+        
+        // Add a small delay before retrying
+        if (attempt < maxAttempts) {
+          await new Promise(res => setTimeout(res, 1000 * attempt));
         }
       }
     }
 
-    if (!groqData) {
+    if (!formattedData) {
       if (errorStatus === 429) {
         return NextResponse.json({ error: 'AI is currently busy (rate limit). Please try again in a moment.' }, { status: 429 });
       }
-      return NextResponse.json({ error: 'AI provider timeout or error. Please try again.' }, { status: errorStatus });
+      return NextResponse.json({ error: 'Unable to generate a valid itinerary for the requested duration. Please try again.' }, { status: 422 });
     }
-
-    const text = groqData.choices[0]?.message?.content || '';
-
-    let data;
-    try {
-      data = JSON.parse(text);
-    } catch (parseError) {
-      const cleanedText = text.replace(/```json/gi, '').replace(/```/g, '').trim();
-      data = JSON.parse(cleanedText);
-    }
-
-    if (!data || !Array.isArray(data.days)) {
-      if (data.message) {
-        return NextResponse.json({ error: data.message }, { status: 400 });
-      }
-      throw new Error('AI returned an invalid structure.');
-    }
-
-    const formattedData = data.days.map((d: any) => ({
-      day: d.dayNumber,
-      city: d.city,
-      activities: d.activities.map((a: any) => ({
-        time: a.time,
-        type: a.category,
-        name: a.title,
-        description: a.description
-      }))
-    }));
 
     return NextResponse.json(formattedData);
   } catch (error) {

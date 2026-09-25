@@ -18,31 +18,30 @@ const UPCOMING_FEATURES = [
   },
   {
     id: 2,
-    title: 'Treasure Hunt',
-    desc: 'Gamified exploration challenges with real rewards',
-    icon: Map,
-  },
-  {
-    id: 3,
     title: 'Kids Mode',
     desc: 'A magical, educational experience for young explorers',
     icon: Smile,
     href: '/kids',
   },
   {
-    id: 4,
+    id: 3,
     title: 'Emergency Assistant',
     desc: '24/7 instant multilingual emergency support and location sharing',
     icon: Siren,
     href: '/emergency',
   },
-
   {
-    id: 5,
+    id: 4,
     title: 'AI Memories',
     desc: 'Auto-generated story of your journey with photos and highlights',
     icon: Camera,
     href: '/memories',
+  },
+  {
+    id: 5,
+    title: 'Treasure Hunt',
+    desc: 'Gamified exploration challenges with real rewards',
+    icon: Map,
   },
   {
     id: 6,

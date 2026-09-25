@@ -261,7 +261,8 @@ export async function GET(req: Request) {
         registeredUsers,
         tripPlansCreated,
         attractionViews,
-        verifiedCheckins
+        verifiedCheckins,
+        pendingCheckins: verifiedCheckins
       },
       charts: {
         checkinsOverTime,

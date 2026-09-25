@@ -1,21 +1,10 @@
-import { createServerClient } from "@supabase/ssr";
-import { NextResponse, type NextRequest } from "next/server";
-
-const PROTECTED_ROUTES = [
-  '/memories', 
-  '/planner', 
-  '/expenses', 
-  '/travel-card', 
-  '/tourist-passport', 
-  '/government/dashboard', 
-  '/national/dashboard',
-  '/command-center'
-];
+import { createServerClient } from '@supabase/ssr'
+import { NextResponse, type NextRequest } from 'next/server'
 
 export async function middleware(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
     request,
-  });
+  })
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -23,52 +12,42 @@ export async function middleware(request: NextRequest) {
     {
       cookies: {
         getAll() {
-          return request.cookies.getAll();
+          return request.cookies.getAll()
         },
         setAll(cookiesToSet) {
           cookiesToSet.forEach(({ name, value }) =>
             request.cookies.set(name, value)
-          );
+          )
           supabaseResponse = NextResponse.next({
             request,
-          });
+          })
           cookiesToSet.forEach(({ name, value, options }) =>
             supabaseResponse.cookies.set(name, value, options)
-          );
+          )
         },
       },
     }
-  );
+  )
 
-  const { data: { user } } = await supabase.auth.getUser();
-  const { pathname } = request.nextUrl;
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
 
-  const isProtected = PROTECTED_ROUTES.some(route => pathname.startsWith(route));
+  const protectedPaths = ['/planner', '/memories', '/tourist-passport', '/expenses', '/travel-card', '/checkin']
+  const isProtected = protectedPaths.some(path => request.nextUrl.pathname.startsWith(path))
 
   if (isProtected && !user) {
-    let redirectUrl = new URL(`/login?redirectTo=${pathname}`, request.url);
-    if (pathname.startsWith('/government')) {
-      redirectUrl = new URL('/government/login', request.url);
-    } else if (pathname.startsWith('/national')) {
-      redirectUrl = new URL('/national/login', request.url);
-    }
-    
-    const redirectResponse = NextResponse.redirect(redirectUrl);
-    
-    // VERY IMPORTANT: Propagate any cookies set by Supabase during getUser()
-    // (e.g. token refreshes or clearing dead tokens) to the redirect response.
-    supabaseResponse.cookies.getAll().forEach((cookie) => {
-      redirectResponse.cookies.set(cookie.name, cookie.value);
-    });
-    
-    return redirectResponse;
+    const url = request.nextUrl.clone()
+    url.pathname = '/login'
+    url.searchParams.set('redirectTo', request.nextUrl.pathname)
+    return NextResponse.redirect(url)
   }
 
-  return supabaseResponse;
+  return supabaseResponse
 }
 
 export const config = {
   matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
-};
+}

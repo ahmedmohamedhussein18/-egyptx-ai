@@ -46,21 +46,24 @@ export default function LoginContent() {
 
     try {
       if (isLogin) {
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        const { error } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
         if (error) throw error;
       } else {
         const { error } = await supabase.auth.signUp({
           email,
           password,
           options: {
-            data: { full_name: name }
+            data: { full_name: name, country }
           }
         });
         if (error) throw error;
       }
       
-      router.push('/');
       router.refresh();
+      router.push('/');
     } catch (err: any) {
       setErrorMsg(err.message);
     } finally {

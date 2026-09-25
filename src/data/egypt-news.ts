@@ -7,7 +7,7 @@ const egyptNews = [
     date: "2023-11-18",
     source: "Grand Egyptian Museum Official",
     sourceUrl: "https://gem.gov.eg",
-    image: null
+    image: '/news/gem.jpg'
   },
   {
     id: 2,
@@ -17,7 +17,7 @@ const egyptNews = [
     date: "2024-03-15",
     source: "Ministry of Tourism and Antiquities",
     sourceUrl: "https://www.antiquities.go.eg",
-    image: null
+    image: '/news/luxor-tomb.jpg'
   },
   {
     id: 3,
@@ -27,7 +27,7 @@ const egyptNews = [
     date: "2025-01-10",
     source: "Egyptian Ministry of Tourism",
     sourceUrl: "https://www.egypt.travel",
-    image: null
+    image: '/news/tourists.jpg'
   },
   {
     id: 4,
@@ -37,7 +37,7 @@ const egyptNews = [
     date: "2024-09-20",
     source: "Supreme Council of Antiquities",
     sourceUrl: "https://www.antiquities.go.eg",
-    image: null
+    image: '/news/saqqara.jpg'
   },
   {
     id: 5,
@@ -47,7 +47,7 @@ const egyptNews = [
     date: "2024-11-05",
     source: "UNESCO",
     sourceUrl: "https://ich.unesco.org",
-    image: null
+    image: '/news/crafts.jpg'
   },
   {
     id: 6,
@@ -57,7 +57,7 @@ const egyptNews = [
     date: "2024-07-12",
     source: "Ministry of Tourism and Antiquities",
     sourceUrl: "https://www.antiquities.go.eg",
-    image: null
+    image: '/news/karnak.jpg'
   },
   {
     id: 7,
@@ -67,7 +67,7 @@ const egyptNews = [
     date: "2025-02-28",
     source: "Egyptian Ministry of Tourism",
     sourceUrl: "https://www.egypt.travel",
-    image: null
+    image: '/news/alexandria.jpg'
   },
   {
     id: 8,
@@ -77,7 +77,7 @@ const egyptNews = [
     date: "2024-05-30",
     source: "Grand Egyptian Museum",
     sourceUrl: "https://gem.gov.eg",
-    image: null
+    image: '/news/chariots.jpg'
   },
   {
     id: 9,
@@ -87,7 +87,7 @@ const egyptNews = [
     date: "2025-03-15",
     source: "National Geographic",
     sourceUrl: "https://www.nationalgeographic.com",
-    image: null
+    image: '/news/white-desert.jpg'
   },
   {
     id: 10,
@@ -97,7 +97,7 @@ const egyptNews = [
     date: "2024-08-22",
     source: "Journal of Egyptian Archaeology",
     sourceUrl: "https://www.ees.ac.uk",
-    image: null
+    image: '/news/papyri.jpg'
   },
   {
     id: 11,
@@ -107,7 +107,7 @@ const egyptNews = [
     date: "2025-04-10",
     source: "Egyptian Ministry of Tourism",
     sourceUrl: "https://www.egypt.travel",
-    image: null
+    image: '/news/philae.jpg'
   },
   {
     id: 12,
@@ -117,7 +117,7 @@ const egyptNews = [
     date: "2025-05-20",
     source: "UNWTO",
     sourceUrl: "https://www.unwto.org",
-    image: null
+    image: '/news/siwa.jpg'
   }
 ];
 

@@ -1,354 +1,234 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { createClient } from '@/lib/supabase/client';
-import { Globe, MapPin, EyeOff, Plus, X, Loader2, Image as ImageIcon, Lock } from 'lucide-react';
+import { Globe, MapPin, Lock, ArrowLeft, PlayCircle, Sparkles } from 'lucide-react';
 
-interface Attraction {
-  id: string;
-  name_en: string;
-  city: string;
-}
-
-interface VrExperience {
-  id: string;
-  attraction_id: string;
-  asset_url: string;
-  source: string;
-  creator: string;
-}
+const destinations = [
+  {
+    id: 1,
+    title: "Abu Simbel Temples",
+    city: "Aswan",
+    description: "Carved out of a mountainside in the 13th century BC, the Abu Simbel temples stand as a testament to the grandeur of Ramesses II. Experience the majestic colossal statues that guard the entrance to one of ancient Egypt's most awe-inspiring monuments, preserved for eternity on the banks of Lake Nasser.",
+    videoSrc: "/videos/vr1.mp4"
+  },
+  {
+    id: 2,
+    title: "Al-Azhar Mosque",
+    city: "Cairo",
+    description: "Founded in 970 AD, Al-Azhar Mosque is a masterpiece of Fatimid architecture and the heart of Islamic learning in Egypt. Wander virtually through its expansive marble courtyards and admire the intricate stucco work and historic minarets that have overlooked Cairo for over a millennium.",
+    videoSrc: "/videos/vr2.mp4" 
+  },
+  {
+    id: 3,
+    title: "Al-Azhar Park",
+    city: "Cairo",
+    description: "A lush, green oasis in the center of historic Cairo. Al-Azhar Park offers breathtaking panoramic views of the city's ancient skyline. Stroll through the beautifully manicured Islamic gardens, serene water features, and enjoy a virtual moment of peace above the bustling metropolis.",
+    videoSrc: "/videos/vr3.mp4"
+  },
+  {
+    id: 4,
+    title: "Al-Rifa'i Mosque",
+    city: "Cairo",
+    description: "Constructed in two phases between 1869 and 1912, this monumental mosque stands opposite the Mosque of Sultan Hassan. Step inside to marvel at its soaring ceilings, lavish gold-leaf decorations, and the grand tombs of the Egyptian royal family resting in absolute architectural splendor.",
+    videoSrc: "/videos/vr4.mp4"
+  },
+  {
+    id: 5,
+    title: "Alexandria Library",
+    city: "Alexandria",
+    description: "The Bibliotheca Alexandrina is a striking architectural homage to the ancient Library of Alexandria. Explore the vast, sunlit main reading room which cascades down towards the sea, and admire the majestic granite walls carved with characters from 120 different human scripts.",
+    videoSrc: "/videos/vr5.mp4"
+  },
+  {
+    id: 6,
+    title: "Amr ibn al-As Mosque",
+    city: "Cairo",
+    description: "Originally built in 642 AD, it was the first mosque ever constructed in Egypt and the whole of Africa. Experience the vast, serene interior where wooden columns support an expansive wooden roof, offering a profound sense of history and spiritual tranquility.",
+    videoSrc: "/videos/vr6.mp4"
+  }
+];
 
 export default function VrEgyptContent() {
-  const supabase = createClient();
-  const [loading, setLoading] = useState(true);
-  const [attractions, setAttractions] = useState<Attraction[]>([]);
-  const [vrAssets, setVrAssets] = useState<Record<string, VrExperience>>({});
-  
-  // Admin State
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [showAddModal, setShowAddModal] = useState(false);
-  const [addForm, setAddForm] = useState({ attraction_id: '', asset_url: '', source: '', license: '', creator: '' });
-  const [saving, setSaving] = useState(false);
-
-  // Viewer State
-  const [activeVr, setActiveVr] = useState<VrExperience | null>(null);
-  const [toastMessage, setToastMessage] = useState<string | null>(null);
-
-  const showToast = (msg: string) => {
-    setToastMessage(msg);
-    setTimeout(() => setToastMessage(null), 3000);
-  };
+  const [activeSite, setActiveSite] = useState<typeof destinations[0] | null>(null);
+  const [showSplash, setShowSplash] = useState(true);
 
   useEffect(() => {
-    fetchData();
-    checkAdminStatus();
+    const timer = setTimeout(() => {
+      setShowSplash(false);
+    }, 2500);
+    return () => clearTimeout(timer);
   }, []);
 
-  const checkAdminStatus = async () => {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (user) {
-      const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
-      if (profile && ['national_admin', 'governorate_admin', 'site_manager'].includes(profile.role)) {
-        setIsAdmin(true);
-      }
-    }
-  };
-
-  const fetchData = async () => {
-    setLoading(true);
-    try {
-      const [attrRes, vrRes] = await Promise.all([
-        supabase.from('attractions').select('id, name_en, city').eq('verified', true).order('name_en'),
-        supabase.from('vr_experiences').select('*').eq('verified', true)
-      ]);
-
-      if (attrRes.data) setAttractions(attrRes.data);
-      if (vrRes.data) {
-        const vrMap: Record<string, VrExperience> = {};
-        vrRes.data.forEach(vr => {
-          vrMap[vr.attraction_id] = vr;
-        });
-        setVrAssets(vrMap);
-      }
-    } catch (err) {
-      console.error('Error fetching VR data:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleAddSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setSaving(true);
-    try {
-      const res = await fetch('/api/vr-experiences', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(addForm)
-      });
-      if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.error || 'Failed to add');
-      }
-      setShowAddModal(false);
-      setAddForm({ attraction_id: '', asset_url: '', source: '', license: '', creator: '' });
-      fetchData(); // Refresh data
-    } catch (err: any) {
-      alert(err.message);
-    } finally {
-      setSaving(false);
-    }
-  };
-
-  // Basic CSS Pan/Zoom wrapper state for the viewer
-  const [isDragging, setIsDragging] = useState(false);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [startPos, setStartPos] = useState({ x: 0, y: 0 });
-
-  const handlePointerDown = (e: React.PointerEvent) => {
-    setIsDragging(true);
-    setStartPos({ x: e.clientX - position.x, y: e.clientY - position.y });
-    (e.target as HTMLElement).setPointerCapture(e.pointerId);
-  };
-
-  const handlePointerMove = (e: React.PointerEvent) => {
-    if (!isDragging) return;
-    setPosition({ x: e.clientX - startPos.x, y: e.clientY - startPos.y });
-  };
-
-  const handlePointerUp = (e: React.PointerEvent) => {
-    setIsDragging(false);
-    (e.target as HTMLElement).releasePointerCapture(e.pointerId);
-  };
-
   return (
-    <div className="min-h-screen bg-[#030712] text-white pt-24 pb-16 font-sans">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 border-b border-white/10 pb-6">
-          <div>
-            <h1 className="text-4xl md:text-5xl font-bold text-[#C9A84C] uppercase tracking-wide flex items-center gap-4 mb-4">
-              <Globe className="w-10 h-10" />
-              VR Egypt
-            </h1>
-            <p className="text-gray-400 font-medium tracking-wider max-w-2xl text-lg">
-              Immersive 360° virtual tours of ancient wonders. Drag to look around in available panoramas.
-            </p>
-          </div>
-          {isAdmin && (
-            <button
-              onClick={() => setShowAddModal(true)}
-              className="px-6 py-3 bg-[#1B6B93] hover:bg-[#1B6B93]/80 text-white font-bold rounded-xl transition-colors flex items-center gap-2 shrink-0 border border-[#4CC9F0]/30 shadow-[0_0_15px_rgba(27,107,147,0.5)]"
-            >
-              <Plus className="w-5 h-5" />
-              Add VR Asset (Admin)
-            </button>
-          )}
-        </div>
-
-        {loading ? (
-          <div className="flex justify-center py-32">
-            <Loader2 className="w-10 h-10 text-[#C9A84C] animate-spin" />
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {attractions.map((attr, idx) => {
-              const vr = vrAssets[attr.id];
-              return (
-                <motion.div
-                  key={attr.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: idx * 0.05 }}
-                  className={`relative rounded-3xl p-6 border transition-all bg-white/5 cursor-pointer group hover:bg-white/10 ${
-                    vr ? 'border-[#C9A84C]/40 hover:border-[#C9A84C]' : 'border-white/10 hover:border-white/20'
-                  }`}
-                  onClick={() => {
-                    if (vr) {
-                      setActiveVr(vr);
-                    } else {
-                      showToast('VR experience not yet available for this site.');
-                    }
-                  }}
-                >
-                  {/* Subtle badge for unavailable VR */}
-                  {!vr && (
-                    <div className="absolute top-4 right-4 text-gray-500 bg-black/20 p-1.5 rounded-full border border-white/5">
-                      <Lock className="w-3.5 h-3.5" />
-                    </div>
-                  )}
-
-                  <div className="mb-4">
-                    <h3 className="text-xl font-bold text-white group-hover:text-[#C9A84C] transition-colors mb-1 pr-8">{attr.name_en}</h3>
-                    <p className="text-sm text-gray-400 flex items-center gap-1"><MapPin className="w-3.5 h-3.5"/> {attr.city}</p>
-                  </div>
-
-                  {vr ? (
-                    <div className="flex items-center gap-2 text-[#4CC9F0] font-medium text-sm mt-8">
-                      <ImageIcon className="w-4 h-4" /> 360° Panorama Available
-                    </div>
-                  ) : null}
-                </motion.div>
-              );
-            })}
-          </div>
-        )}
-      </div>
-
-      {/* VR Viewer Modal */}
+    <div className="min-h-screen bg-[#030712] text-white font-sans overflow-x-hidden relative">
+      {/* Intro Splash Screen */}
       <AnimatePresence>
-        {activeVr && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black">
-            <button 
-              onClick={() => { setActiveVr(null); setPosition({x:0, y:0}); }}
-              className="absolute top-6 right-6 z-50 p-2 bg-black/50 hover:bg-white/20 text-white rounded-full transition-colors backdrop-blur-md"
-            >
-              <X className="w-8 h-8" />
-            </button>
-            
-            <div className="absolute top-6 left-6 z-50 bg-black/60 backdrop-blur-md p-4 rounded-2xl border border-white/10 max-w-sm">
-              <h3 className="text-[#C9A84C] font-bold text-lg mb-1 flex items-center gap-2">
-                <Globe className="w-5 h-5"/> 360° View
-              </h3>
-              <p className="text-xs text-gray-300">Drag to look around</p>
-              {(activeVr.source || activeVr.creator) && (
-                <div className="mt-3 pt-3 border-t border-white/10 text-[10px] text-gray-500">
-                  {activeVr.creator && <p>Credit: {activeVr.creator}</p>}
-                  {activeVr.source && <p>Source: {activeVr.source}</p>}
-                </div>
-              )}
-            </div>
-
-            {/* Simple CSS drag-to-pan equirectangular viewer fallback */}
-            <div 
-              className="w-full h-full overflow-hidden relative cursor-grab active:cursor-grabbing"
-              onPointerDown={handlePointerDown}
-              onPointerMove={handlePointerMove}
-              onPointerUp={handlePointerUp}
-              onPointerCancel={handlePointerUp}
-              style={{ touchAction: 'none' }}
-            >
-              <div 
-                className="absolute inset-0 flex items-center justify-center transition-transform duration-75 ease-out will-change-transform"
-                style={{ transform: `translate(${position.x}px, ${position.y}px)` }}
-              >
-                <img 
-                  src={activeVr.asset_url} 
-                  alt="360 Panorama" 
-                  className="max-w-none max-h-[150vh] min-w-[150vw] object-cover select-none pointer-events-none"
-                  draggable={false}
-                />
-              </div>
-            </div>
-          </div>
-        )}
-      </AnimatePresence>
-
-      {/* Admin Add Modal */}
-      <AnimatePresence>
-        {showAddModal && isAdmin && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-            <motion.div 
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              className="absolute inset-0 bg-black/80 backdrop-blur-sm"
-              onClick={() => setShowAddModal(false)}
-            />
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }}
-              className="relative w-full max-w-xl bg-[#0A1628] border border-[#1B6B93]/50 rounded-2xl shadow-2xl p-8"
-            >
-              <button 
-                onClick={() => setShowAddModal(false)}
-                className="absolute top-4 right-4 text-gray-400 hover:text-white"
-              >
-                <X className="w-5 h-5" />
-              </button>
-              
-              <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
-                <Globe className="w-6 h-6 text-[#4CC9F0]" /> Add VR Experience
-              </h2>
-
-              <form onSubmit={handleAddSubmit} className="space-y-4">
-                <div>
-                  <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Attraction</label>
-                  <select
-                    required
-                    value={addForm.attraction_id} onChange={e => setAddForm({...addForm, attraction_id: e.target.value})}
-                    className="w-full bg-[#030712] border border-white/10 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-[#4CC9F0]"
-                  >
-                    <option value="">-- Select Attraction --</option>
-                    {attractions.map(a => (
-                      <option key={a.id} value={a.id}>{a.name_en}</option>
-                    ))}
-                  </select>
-                </div>
-                
-                <div>
-                  <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Asset URL (Equirectangular Image Link)</label>
-                  <input 
-                    type="url" required
-                    value={addForm.asset_url} onChange={e => setAddForm({...addForm, asset_url: e.target.value})}
-                    className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-[#4CC9F0]"
-                    placeholder="https://example.com/panorama.jpg"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Source URL (Optional)</label>
-                  <input 
-                    type="text"
-                    value={addForm.source} onChange={e => setAddForm({...addForm, source: e.target.value})}
-                    className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-[#4CC9F0]"
-                  />
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Creator/Credit</label>
-                    <input 
-                      type="text"
-                      value={addForm.creator} onChange={e => setAddForm({...addForm, creator: e.target.value})}
-                      className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-[#4CC9F0]"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">License</label>
-                    <input 
-                      type="text"
-                      value={addForm.license} onChange={e => setAddForm({...addForm, license: e.target.value})}
-                      className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-[#4CC9F0]"
-                    />
-                  </div>
-                </div>
-
-                <div className="pt-6 flex justify-end gap-3">
-                  <button type="button" onClick={() => setShowAddModal(false)} className="px-5 py-2 text-gray-400 hover:text-white font-medium">Cancel</button>
-                  <button type="submit" disabled={saving} className="px-6 py-2 bg-[#1B6B93] hover:bg-[#4CC9F0] text-white font-bold rounded-lg disabled:opacity-50 flex items-center gap-2 transition-colors">
-                    {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Save Experience'}
-                  </button>
-                </div>
-              </form>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
-
-      {/* Toast Notification */}
-      <AnimatePresence>
-        {toastMessage && (
+        {showSplash && (
           <motion.div
-            initial={{ opacity: 0, y: 50, x: '-50%' }}
-            animate={{ opacity: 1, y: 0, x: '-50%' }}
-            exit={{ opacity: 0, y: 20, x: '-50%' }}
-            className="fixed bottom-8 left-1/2 z-50 bg-[#0A1628] border border-[#1B6B93]/50 text-white px-6 py-3 rounded-full shadow-[0_0_20px_rgba(27,107,147,0.3)] backdrop-blur-md font-medium text-sm flex items-center gap-2 whitespace-nowrap"
+            key="splash"
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0, transition: { duration: 1.2, ease: "easeInOut" } }}
+            className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#030712]"
           >
-            <Lock className="w-4 h-4 text-[#C9A84C]" />
-            {toastMessage}
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0, filter: 'blur(10px)' }}
+              animate={{ scale: 1, opacity: 1, filter: 'blur(0px)' }}
+              transition={{ duration: 1.5, ease: "easeOut" }}
+              className="text-center"
+            >
+              <div className="flex justify-center mb-6">
+                <Sparkles className="w-12 h-12 text-[#C9A84C] animate-pulse" />
+              </div>
+              <h1 className="text-4xl md:text-6xl font-extrabold tracking-[0.2em] text-transparent bg-clip-text bg-gradient-to-b from-[#E2CB85] to-[#C9A84C] mb-4">
+                Ancient Egyptian<br />Civilization
+              </h1>
+              <div className="h-0.5 w-32 mx-auto bg-[#C9A84C] opacity-50 rounded-full mt-8"></div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Background ambient glow */}
+      <div className="fixed inset-0 pointer-events-none z-0">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#C9A84C]/5 blur-[120px] rounded-full"></div>
+        <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-[#1B6B93]/5 blur-[100px] rounded-full"></div>
+      </div>
+
+      <div className="relative z-10 max-w-[1400px] mx-auto px-6 py-12 min-h-screen flex flex-col justify-center">
+        {/* Header Section */}
+        <AnimatePresence mode="wait">
+          {!activeSite && !showSplash && (
+            <motion.div 
+              key="header"
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="text-center mb-16"
+            >
+              <div className="flex justify-center items-center gap-3 mb-4">
+                <Globe className="w-10 h-10 text-[#C9A84C]" />
+                <h1 className="text-4xl md:text-5xl font-extrabold tracking-widest text-[#C9A84C]">
+                  VR EGYPT
+                </h1>
+              </div>
+              <p className="text-gray-400 max-w-2xl mx-auto text-lg">
+                Immersive 360° virtual tours of ancient wonders. Drag to look around in available panoramas.
+              </p>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Dynamic State: Grid vs Video Player */}
+        <AnimatePresence mode="wait">
+          {!activeSite ? (
+            /* Grid Layout */
+            !showSplash && (
+              <motion.div
+                key="grid"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0, scale: 1.1, filter: 'blur(10px)' }}
+                transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+              >
+                {destinations.map((dest, i) => (
+                  <motion.div
+                    key={dest.id}
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.4 + i * 0.1 }}
+                    onClick={() => setActiveSite(dest)}
+                    className="group relative cursor-pointer overflow-hidden rounded-3xl bg-white/[0.02] border border-white/10 hover:border-[#C9A84C]/50 transition-all duration-500 backdrop-blur-md shadow-[0_0_30px_rgba(0,0,0,0.5)] hover:shadow-[0_0_40px_rgba(201,168,76,0.15)]"
+                  >
+                    <div className="absolute top-5 right-5 z-20">
+                      <div className="bg-black/50 backdrop-blur-md p-2.5 rounded-full border border-white/10 group-hover:bg-[#C9A84C]/20 group-hover:border-[#C9A84C]/50 transition-all">
+                        <Lock className="w-4 h-4 text-gray-400 group-hover:text-[#C9A84C]" />
+                      </div>
+                    </div>
+
+                    <div 
+                      className="aspect-[4/3] bg-cover bg-center flex items-center justify-center relative overflow-hidden" 
+                      style={{ backgroundImage: "url('/images/ChatGPT Image Sep 25, 2026, 09_32_14 PM.png')" }}
+                    >
+                      <div className="absolute inset-0 bg-[#030712]/60 group-hover:bg-[#030712]/40 transition-colors duration-500"></div>
+                      <div className="absolute inset-0 opacity-20 group-hover:opacity-40 transition-opacity duration-700 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#C9A84C] via-transparent to-transparent mix-blend-screen"></div>
+                      <PlayCircle className="w-14 h-14 text-white/50 group-hover:text-[#C9A84C] group-hover:scale-125 transition-all duration-700 z-10 group-hover:shadow-[0_0_30px_rgba(201,168,76,0.5)] rounded-full bg-black/20 backdrop-blur-sm" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#030712] via-transparent to-transparent"></div>
+                    </div>
+
+                    <div className="absolute bottom-0 left-0 w-full p-6 translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
+                      <h3 className="text-2xl font-bold text-white mb-2 tracking-wide group-hover:text-[#C9A84C] transition-colors">{dest.title}</h3>
+                      <div className="flex items-center gap-1.5 text-sm text-gray-400">
+                        <MapPin className="w-4 h-4 text-[#C9A84C]" />
+                        <span className="uppercase tracking-widest">{dest.city}</span>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </motion.div>
+            )
+          ) : (
+            /* Immersive Portal Video Player State */
+            <motion.div
+              key="player"
+              initial={{ opacity: 0, scale: 0.8, filter: 'blur(20px)' }}
+              animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+              exit={{ opacity: 0, scale: 0.9, filter: 'blur(10px)' }}
+              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+              className="w-full flex flex-col items-center justify-center min-h-screen fixed inset-0 z-50 bg-[#030712]"
+            >
+              {/* Back Button */}
+              <div className="absolute top-8 left-8 z-[60]">
+                <button 
+                  onClick={() => setActiveSite(null)}
+                  className="flex items-center gap-2 px-5 py-2.5 bg-black/50 hover:bg-[#C9A84C]/20 border border-white/20 hover:border-[#C9A84C] rounded-full text-sm font-medium transition-all backdrop-blur-md group"
+                >
+                  <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" /> Back to Discover
+                </button>
+              </div>
+
+              {/* Edge-to-Edge / Massive Rounded Video Player */}
+              <div className="w-[95vw] h-[75vh] md:w-[90vw] md:h-[80vh] rounded-[40px] overflow-hidden border border-white/10 shadow-[0_0_100px_rgba(201,168,76,0.15)] relative bg-black mt-8">
+                {/* CSS to ensure controls are completely hidden, plus HTML attributes */}
+                <video 
+                  src={activeSite.videoSrc}
+                  className="w-full h-full object-cover pointer-events-none"
+                  autoPlay 
+                  loop 
+                  muted 
+                  playsInline
+                  controls={false}
+                  disablePictureInPicture
+                  controlsList="nodownload nofullscreen noremoteplayback"
+                />
+                
+                {/* Embedded Typography inside the bottom of the video container for maximum immersion */}
+                <div className="absolute bottom-0 left-0 w-full p-12 bg-gradient-to-t from-black via-black/80 to-transparent">
+                  <motion.div 
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 0.5 }}
+                    className="max-w-4xl"
+                  >
+                    <div className="flex items-center gap-2 mb-3">
+                      <MapPin className="w-5 h-5 text-[#C9A84C]" />
+                      <span className="text-[#C9A84C] uppercase tracking-widest font-semibold">{activeSite.city}</span>
+                    </div>
+                    <h2 className="text-4xl md:text-6xl font-extrabold mb-4 text-white tracking-tight drop-shadow-lg">
+                      {activeSite.title}
+                    </h2>
+                    <p className="text-lg md:text-xl leading-relaxed text-gray-300 font-light drop-shadow-md max-w-3xl">
+                      {activeSite.description}
+                    </p>
+                  </motion.div>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
     </div>
   );
 }

@@ -15,12 +15,12 @@ export default function Home() {
       <Navbar />
       <HeroSection />
       <FourPillarsSection />
-      <SmartMobilitySection />
       <SmartTourismSection />
       <DestinationsSection />
       <EcosystemSection />
       <FutureEcosystemSection />
       <CTASection />
+      <SmartMobilitySection />
       <Footer />
     </main>
   );
