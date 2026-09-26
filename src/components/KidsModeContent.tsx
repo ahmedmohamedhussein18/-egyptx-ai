@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import { useLanguage } from '@/context/LanguageContext';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '@/context/AuthContext';
@@ -19,6 +20,7 @@ interface KidsBadge {
 }
 
 export default function KidsModeContent() {
+  const { t } = useLanguage();
   const { user, loading: authLoading } = useAuth();
   const router = useRouter();
   const supabase = createClient();

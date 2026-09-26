@@ -3,8 +3,10 @@
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
+import { useLanguage } from '@/context/LanguageContext';
 
 const HeroSection = () => {
+  const { t } = useLanguage();
   const { user } = useAuth();
   const router = useRouter();
 
@@ -40,8 +42,7 @@ const HeroSection = () => {
       >
         {user && (
           <motion.div variants={staggerItem} className="mb-4">
-            <span className="inline-block px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-white/80 text-sm font-medium backdrop-blur-md">
-              Welcome back, <span className="text-[#C9A84C] font-bold">{user.name.split(' ')[0]}</span> 👋
+            <span className="inline-block px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-white/80 text-sm font-medium backdrop-blur-md">{t('home.welcomeBack')} <span className="text-[#C9A84C] font-bold">{user.name.split(' ')[0]}</span> 👋
             </span>
           </motion.div>
         )}
@@ -49,7 +50,7 @@ const HeroSection = () => {
         {/* Badge */}
         <motion.div variants={staggerItem} className="mb-6 md:mb-8 inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#C9A84C]/30 bg-white/5 backdrop-blur-md">
           <span className="text-lg md:text-xl">🏛️</span>
-          <span className="text-[#C9A84C] text-xs md:text-sm font-medium tracking-wide">National Smart Tourism Ecosystem</span>
+          <span className="text-[#C9A84C] text-xs md:text-sm font-medium tracking-wide">{t('home.badge')}</span>
         </motion.div>
 
         {/* Title */}
@@ -70,24 +71,18 @@ const HeroSection = () => {
 
         {/* Buttons */}
         <motion.div variants={staggerItem} className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto mb-12 md:mb-16">
-          <button onClick={() => router.push('/planner')} className="w-full sm:w-auto px-6 md:px-8 py-3 md:py-4 bg-[#C9A84C] hover:bg-[#D5B965] text-black font-semibold rounded-lg shadow-[0_0_20px_rgba(201,168,76,0.3)] transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(201,168,76,0.5)]">
-            Plan My Journey
-          </button>
-          <button onClick={() => router.push('/explore')} className="w-full sm:w-auto px-6 md:px-8 py-3 md:py-4 border border-[#C9A84C] text-[#C9A84C] hover:bg-[#C9A84C]/10 font-semibold rounded-lg transition-all duration-300 hover:scale-105">
-            Explore Egypt
-          </button>
-          <button onClick={() => router.push('/vr-egypt')} className="w-full sm:w-auto px-6 md:px-8 py-3 md:py-4 border border-[#1B6B93] text-[#1B6B93] hover:bg-[#1B6B93]/10 font-semibold rounded-lg transition-all duration-300 hover:scale-105">
-            Virtual Egypt
-          </button>
+          <button onClick={() => router.push('/planner')} className="w-full sm:w-auto px-6 md:px-8 py-3 md:py-4 bg-[#C9A84C] hover:bg-[#D5B965] text-black font-semibold rounded-lg shadow-[0_0_20px_rgba(201,168,76,0.3)] transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(201,168,76,0.5)]">{t('home.planBtn')}</button>
+          <button onClick={() => router.push('/explore')} className="w-full sm:w-auto px-6 md:px-8 py-3 md:py-4 border border-[#C9A84C] text-[#C9A84C] hover:bg-[#C9A84C]/10 font-semibold rounded-lg transition-all duration-300 hover:scale-105">{t('home.exploreBtn')}</button>
+          <button onClick={() => router.push('/vr-egypt')} className="w-full sm:w-auto px-6 md:px-8 py-3 md:py-4 border border-[#1B6B93] text-[#1B6B93] hover:bg-[#1B6B93]/10 font-semibold rounded-lg transition-all duration-300 hover:scale-105">{t('home.virtualEgypt')}</button>
         </motion.div>
 
         {/* Stats */}
         <motion.div variants={staggerItem} className="flex items-center gap-3 md:gap-4 text-xs md:text-sm text-white/40 font-mono">
-          <span>50+ Sites</span>
+          <span>{t('home.sitesCount')}</span>
           <span className="w-1 md:w-1.5 h-1 md:h-1.5 rounded-full bg-[#1B6B93]"></span>
-          <span>AI-Powered</span>
+          <span>{t('home.aiPowered')}</span>
           <span className="w-1 md:w-1.5 h-1 md:h-1.5 rounded-full bg-[#C9A84C]"></span>
-          <span>Real-Time</span>
+          <span>{t('home.realTime')}</span>
         </motion.div>
       </motion.div>
 
@@ -98,7 +93,7 @@ const HeroSection = () => {
         animate={{ opacity: 1 }}
         transition={{ delay: 2, duration: 1 }}
       >
-        <span className="text-[10px] md:text-xs uppercase tracking-widest font-semibold">Scroll to explore</span>
+        <span className="text-[10px] md:text-xs uppercase tracking-widest font-semibold">{t('home.scroll')}</span>
         <motion.svg 
           width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
           className="md:w-6 md:h-6"

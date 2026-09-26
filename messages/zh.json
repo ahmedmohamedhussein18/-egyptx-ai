@@ -1,0 +1,203 @@
+{
+  "nav": {
+    "home": "主页",
+    "aiPlanner": "人工智能规划师",
+    "exploreEgypt": "探索埃及",
+    "hiddenEgypt": "隐藏的埃及",
+    "crafts": "工艺品",
+    "touristPassport": "旅游护照",
+    "news": "新闻",
+    "login": "登录",
+    "logout": "登出",
+    "command": "指挥中心"
+  },
+  "home": {
+    "title": "EgyptX AI",
+    "subtitle": "国家智能旅游生态系统",
+    "slogan": "探索埃及。体验历史。塑造未来。",
+    "planBtn": "规划我的旅程",
+    "exploreBtn": "探索埃及",
+    "virtualEgypt": "虚拟埃及",
+    "sitesCount": "50多个景点",
+    "aiPowered": "人工智能驱动",
+    "realTime": "实时",
+    "welcomeBack": "欢迎,",
+    "badge": "国家生态系统",
+    "scroll": "向下滚动探索"
+  },
+  "planner": {
+    "title": "规划您的埃及之旅",
+    "prompt": "告诉我们您的梦想之旅...",
+    "whereFrom": "您来自哪里？",
+    "targetGov": "目标省份",
+    "anywhere": "埃及任何地方",
+    "travelers": "游客",
+    "pace": "喜欢的节奏",
+    "paceRelaxed": "轻松",
+    "paceBalanced": "平衡",
+    "pacePacked": "紧凑",
+    "duration": "旅行时间",
+    "budget": "预算",
+    "interests": "您对什么感兴趣？",
+    "style": "旅行风格",
+    "constraints": "额外限制",
+    "accessibility": "无障碍需求",
+    "avoid": "要避免的地方",
+    "lessCrowded": "倾向于不拥挤的地方",
+    "generateBtn": "生成我的埃及之旅",
+    "loading1": "正在分析您的偏好...",
+    "loading2": "正在构建您的旅程...",
+    "itineraryTitle": "您的个性化行程",
+    "day": "第",
+    "morning": "早上",
+    "afternoon": "下午",
+    "evening": "晚上",
+    "modifyBtn": "修改计划",
+    "selectCountry": "选择国家",
+    "egTravelers": "例如：2个成年人",
+    "egDuration": "例如：7天",
+    "egBudget": "例如：2000美元",
+    "egInterests": "例如：金字塔",
+    "egStyle": "例如：豪华",
+    "egAccess": "例如：轮椅",
+    "egAvoid": "例如：无长途车",
+    "errCountry": "请选择国家",
+    "errTravelers": "请输入人数",
+    "errDuration": "请输入时长",
+    "errBudget": "请输入预算",
+    "errInterests": "请输入兴趣",
+    "saved": "已保存！"
+  },
+  "explore": {
+    "title": "探索埃及",
+    "subtitle": "从古代奇迹到隐藏的绿洲",
+    "map": "交互式地图",
+    "noRating": "暂无评分",
+    "noCrowd": "人群数据不可用",
+    "exploreDest": "探索目的地"
+  },
+  "passport": {
+    "title": "我的 EgyptX 护照",
+    "journey": "游客的旅程",
+    "totalStamps": "邮票总数",
+    "status": "状态：已验证",
+    "visited": "游览过的地方",
+    "achievements": "成就与徽章",
+    "start": "开始探索以收集您的第一枚邮票",
+    "planned": "我的计划旅行"
+  },
+  "emergency": {
+    "title": "紧急助手",
+    "hospital": "寻找最近的医院",
+    "police": "寻找最近的警察局",
+    "disclaimer": "EgyptX AI 不取代官方紧急服务"
+  },
+  "common": {
+    "loading": "加载中...",
+    "error": "错误",
+    "wrong": "发生了一些错误",
+    "tryAgain": "再试一次",
+    "dataUnavailable": "数据不可用",
+    "awaitingData": "等待验证的数据源",
+    "back": "返回",
+    "save": "保存",
+    "cancel": "取消",
+    "close": "关闭",
+    "search": "搜索",
+    "submit": "提交",
+    "footer": "国家智能旅游生态系统"
+  },
+  "aiGuide": {
+    "title": "AI视觉指南",
+    "snap": "拍摄任何纪念碑的照片...",
+    "identify": "用AI识别",
+    "high": "高置信度",
+    "med": "中等置信度",
+    "low": "低置信度",
+    "desc": "通用AI描述",
+    "verified": "已验证的位置",
+    "viewFull": "查看完整详情"
+  },
+  "news": {
+    "title": "埃及旅游新闻",
+    "learnMore": "了解更多",
+    "source": "来源："
+  },
+  "memories": {
+    "title": "我的埃及记忆",
+    "add": "添加记忆",
+    "story": "你的埃及故事从这里开始",
+    "upload": "上传照片",
+    "select": "选择地点",
+    "caption": "标题"
+  },
+  "expenses": {
+    "title": "旅行费用",
+    "add": "添加费用",
+    "noExpenses": "暂无费用记录"
+  },
+  "exploreDest": "探索 &rarr;",
+  "destinations": {
+    "giza": {
+      "name": "吉萨",
+      "tagline": "奇迹",
+      "highlights": "金字塔",
+      "desc": "吉萨..."
+    },
+    "luxor": {
+      "name": "卢克索",
+      "tagline": "博物馆",
+      "highlights": "帝王谷",
+      "desc": "卢克索..."
+    },
+    "aswan": {
+      "name": "阿斯旺",
+      "tagline": "尼罗河",
+      "highlights": "菲莱",
+      "desc": "阿斯旺..."
+    },
+    "siwa": {
+      "name": "锡瓦",
+      "tagline": "绿洲",
+      "highlights": "盐湖",
+      "desc": "锡瓦..."
+    },
+    "fayoum": {
+      "name": "法尤姆",
+      "tagline": "宝石",
+      "highlights": "鲸鱼谷",
+      "desc": "法尤姆..."
+    },
+    "hurghada": {
+      "name": "赫尔格达",
+      "tagline": "天堂",
+      "highlights": "珊瑚",
+      "desc": "赫尔格达..."
+    }
+  },
+  "footer": {
+    "title": "EgyptX AI",
+    "subtitle": "国家智能旅游生态系统。",
+    "explore": "探索",
+    "home": "首页",
+    "aiPlanner": "AI规划师",
+    "exploreEgypt": "探索埃及",
+    "smartSites": "智能景点",
+    "experience": "体验",
+    "museumAi": "AI博物馆",
+    "hiddenEgypt": "隐藏的埃及",
+    "emergency": "紧急助手",
+    "touristPassport": "旅游护照",
+    "ecosystem": "生态系统",
+    "commandCenter": "指挥中心",
+    "businessPortal": "商业门户",
+    "government": "政府",
+    "partners": "合作伙伴",
+    "discover": "发现",
+    "egyptianCrafts": "埃及工艺品",
+    "about": "关于EgyptX",
+    "technology": "技术",
+    "terms": "条款与隐私",
+    "copy": "© 2026 EgyptX AI。国家智能旅游生态系统。"
+  }
+}

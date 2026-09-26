@@ -1,0 +1,203 @@
+{
+  "nav": {
+    "home": "Home",
+    "aiPlanner": "AI Planner",
+    "exploreEgypt": "Explore Egypt",
+    "hiddenEgypt": "Hidden Egypt",
+    "crafts": "Crafts",
+    "touristPassport": "Tourist Passport",
+    "news": "News",
+    "login": "Login",
+    "logout": "Logout",
+    "command": "Command"
+  },
+  "home": {
+    "title": "EgyptX AI",
+    "subtitle": "The National Smart Tourism Ecosystem",
+    "slogan": "Discover Egypt. Experience History. Shape the Future.",
+    "planBtn": "Plan My Journey",
+    "exploreBtn": "Explore Egypt",
+    "virtualEgypt": "Virtual Egypt",
+    "sitesCount": "50+ Sites",
+    "aiPowered": "AI-Powered",
+    "realTime": "Real-Time",
+    "welcomeBack": "Welcome back,",
+    "badge": "National Smart Tourism Ecosystem",
+    "scroll": "Scroll to explore"
+  },
+  "planner": {
+    "title": "Plan Your Egypt Journey",
+    "prompt": "Tell us about your dream trip...",
+    "whereFrom": "Where are you from?",
+    "targetGov": "Target Governorate",
+    "anywhere": "Anywhere in Egypt",
+    "travelers": "Travelers",
+    "pace": "Preferred Pace",
+    "paceRelaxed": "Relaxed",
+    "paceBalanced": "Balanced",
+    "pacePacked": "Packed",
+    "duration": "Trip Duration",
+    "budget": "Budget",
+    "interests": "What interests you?",
+    "style": "Travel Style",
+    "constraints": "Additional Constraints",
+    "accessibility": "Accessibility Needs",
+    "avoid": "Places to Avoid",
+    "lessCrowded": "Prefer less crowded locations",
+    "generateBtn": "Generate My Egypt Journey",
+    "loading1": "Analyzing your preferences...",
+    "loading2": "Building your journey...",
+    "itineraryTitle": "Your Personalized Itinerary",
+    "day": "Day",
+    "morning": "Morning",
+    "afternoon": "Afternoon",
+    "evening": "Evening",
+    "modifyBtn": "Modify Plan",
+    "selectCountry": "Select your country",
+    "egTravelers": "e.g., 2 adults, 1 child",
+    "egDuration": "e.g., 7 Days",
+    "egBudget": "e.g., $2000 total",
+    "egInterests": "e.g., Pyramids, diving, local food",
+    "egStyle": "e.g., Luxury, backpacking, family",
+    "egAccess": "e.g., Wheelchair access needed",
+    "egAvoid": "e.g., No long bus rides",
+    "errCountry": "Please select a country",
+    "errTravelers": "Please enter travelers",
+    "errDuration": "Please enter duration",
+    "errBudget": "Please enter budget",
+    "errInterests": "Please tell us your interests",
+    "saved": "Saved!"
+  },
+  "explore": {
+    "title": "Explore Egypt",
+    "subtitle": "From ancient wonders to hidden oases",
+    "map": "Interactive Map",
+    "noRating": "Rating unavailable",
+    "noCrowd": "Crowd data unavailable",
+    "exploreDest": "Explore Destination"
+  },
+  "passport": {
+    "title": "My EgyptX Passport",
+    "journey": "Tourist's Journey",
+    "totalStamps": "Total Stamps",
+    "status": "Status: Verified",
+    "visited": "Visited Places",
+    "achievements": "Achievements & Badges",
+    "start": "Start exploring to collect your first stamp",
+    "planned": "My Planned Trips"
+  },
+  "emergency": {
+    "title": "Emergency Assistant",
+    "hospital": "Find Nearest Hospital",
+    "police": "Find Nearest Police Station",
+    "disclaimer": "EgyptX AI does not replace official emergency services"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "wrong": "Something went wrong",
+    "tryAgain": "Try Again",
+    "dataUnavailable": "Data unavailable",
+    "awaitingData": "Awaiting verified data source",
+    "back": "Back",
+    "save": "Save",
+    "cancel": "Cancel",
+    "close": "Close",
+    "search": "Search",
+    "submit": "Submit",
+    "footer": "The National Smart Tourism Ecosystem"
+  },
+  "aiGuide": {
+    "title": "AI Vision Guide",
+    "snap": "Snap a photo of any monument...",
+    "identify": "Identify with AI",
+    "high": "HIGH CONFIDENCE",
+    "med": "MEDIUM CONFIDENCE",
+    "low": "LOW CONFIDENCE",
+    "desc": "General AI Description",
+    "verified": "Verified Location",
+    "viewFull": "View Full Details"
+  },
+  "news": {
+    "title": "Egypt Tourism News",
+    "learnMore": "Learn More",
+    "source": "Source:"
+  },
+  "memories": {
+    "title": "My Egypt Memories",
+    "add": "Add Memory",
+    "story": "Your Egypt story starts here",
+    "upload": "Upload Photo",
+    "select": "Select Place",
+    "caption": "Caption"
+  },
+  "expenses": {
+    "title": "Trip Expenses",
+    "add": "Add Expense",
+    "noExpenses": "No expenses recorded yet"
+  },
+  "exploreDest": "Explore &rarr;",
+  "destinations": {
+    "giza": {
+      "name": "Giza",
+      "tagline": "The Eternal Wonders",
+      "highlights": "Great Pyramids • Sphinx • Sound & Light",
+      "desc": "Home to the last surviving wonder of the ancient world, the Great Pyramid of Giza stands as humanity's greatest architectural achievement. The iconic Sphinx guards the plateau alongside three magnificent pyramids built for pharaohs Khufu, Khafre, and Menkaure. Experience the legendary Sound and Light Show that brings 4,500 years of history to life every evening."
+    },
+    "luxor": {
+      "name": "Luxor",
+      "tagline": "The World's Greatest Open-Air Museum",
+      "highlights": "Valley of Kings • Karnak • Luxor Temple",
+      "desc": "Luxor is the world's greatest open-air museum, built on the ruins of ancient Thebes, once the most powerful city on Earth. The Valley of the Kings holds 63 royal tombs including Tutankhamun's, while Karnak Temple complex remains the largest ancient religious site ever built. Every stone in Luxor tells a story of pharaohs, gods, and eternal life."
+    },
+    "aswan": {
+      "name": "Aswan",
+      "tagline": "Where the Nile Begins",
+      "highlights": "Philae Temple • Nubian Villages • Felucca Rides",
+      "desc": "Where the Nile meets Nubian culture, Aswan offers Egypt's most serene and colorful experience. The magnificent Philae Temple, dedicated to goddess Isis, sits on its own island in the Nile. Sail a traditional felucca past granite islands, visit authentic Nubian villages, and witness the engineering marvel of the High Dam that reshaped modern Egypt."
+    },
+    "siwa": {
+      "name": "Siwa",
+      "tagline": "The Desert Oasis",
+      "highlights": "Oracle Temple • Salt Lakes • Stargazing",
+      "desc": "Siwa Oasis is Egypt's most remote and magical destination, a hidden world of palm groves and salt lakes deep in the Western Desert. Alexander the Great made the legendary journey here to consult the Oracle of Amun and was declared son of a god. Today, Siwa offers crystal-clear springs, ancient ruins, and some of the world's best stargazing far from city lights."
+    },
+    "fayoum": {
+      "name": "Fayoum",
+      "tagline": "Nature's Hidden Gem",
+      "highlights": "Wadi El Rayan • Whale Valley • Lake Qarun",
+      "desc": "Fayoum is Egypt's best-kept secret — a lush oasis of waterfalls, lakes, and prehistoric wonders just 100km from Cairo. The Wadi El-Hitan (Valley of the Whales) is a UNESCO World Heritage Site where 40-million-year-old whale fossils reveal the Sahara was once a tropical sea. Lake Qarun, one of Egypt's oldest natural lakes, draws migratory birds from three continents."
+    },
+    "hurghada": {
+      "name": "Hurghada",
+      "tagline": "Red Sea Paradise",
+      "highlights": "Coral Reefs • Marine Life • Desert Safari",
+      "desc": "Hurghada transformed from a small fishing village into one of the world's top Red Sea resort destinations. Its crystal-clear waters hide some of the most spectacular coral reefs on the planet, home to over 1,000 species of marine life. Whether you dive, snorkel, or simply relax on pristine beaches, Hurghada offers Egypt's most vibrant coastal experience."
+    }
+  },
+  "footer": {
+    "title": "EgyptX AI",
+    "subtitle": "The National Smart Tourism Ecosystem.",
+    "explore": "Explore",
+    "home": "Home",
+    "aiPlanner": "AI Planner",
+    "exploreEgypt": "Explore Egypt",
+    "smartSites": "Smart Sites",
+    "experience": "Experience",
+    "museumAi": "Museum AI",
+    "hiddenEgypt": "Hidden Egypt",
+    "emergency": "Emergency Assistant",
+    "touristPassport": "Tourist Passport",
+    "ecosystem": "Ecosystem",
+    "commandCenter": "Command Center",
+    "businessPortal": "Business Portal",
+    "government": "Government",
+    "partners": "Partners",
+    "discover": "Discover",
+    "egyptianCrafts": "Egyptian Crafts",
+    "about": "About EgyptX",
+    "technology": "Technology",
+    "terms": "Terms & Privacy",
+    "copy": "© 2026 EgyptX AI. The National Smart Tourism Ecosystem."
+  }
+}

@@ -87,7 +87,7 @@ const egyptNews = [
     date: "2025-03-15",
     source: "National Geographic",
     sourceUrl: "https://www.nationalgeographic.com",
-    image: '/news/white-desert.jpg'
+    image: '/images/White Desertt.jpg'
   },
   {
     id: 10,
@@ -117,7 +117,7 @@ const egyptNews = [
     date: "2025-05-20",
     source: "UNWTO",
     sourceUrl: "https://www.unwto.org",
-    image: '/news/siwa.jpg'
+    image: '/images/Fantasy-Island-egypt-siwaa-oasis.jpg'
   }
 ];
 

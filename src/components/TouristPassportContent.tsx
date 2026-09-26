@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import { useLanguage } from '@/context/LanguageContext';
 import { motion } from 'framer-motion';
 import { 
   User, MapPin, Award, Lock, Gift, Coins, 
@@ -11,6 +12,7 @@ import { trackEvent } from '@/lib/analytics';
 import { useRouter } from 'next/navigation';
 
 export default function TouristPassportContent() {
+  const { t } = useLanguage();
   const [userProfile, setUserProfile] = useState<any>(null);
   const [checkins, setCheckins] = useState<any[]>([]);
   const [explored, setExplored] = useState<any[]>([]);
@@ -177,7 +179,7 @@ export default function TouristPassportContent() {
                 
                 <div className="grid grid-cols-2 gap-4 mt-6">
                   <div className="bg-white/5 rounded-lg p-3 border border-white/5">
-                    <p className="text-[10px] text-gray-500 uppercase font-bold tracking-wider mb-1">Total Stamps</p>
+                    <p className="text-[10px] text-gray-500 uppercase font-bold tracking-wider mb-1">{t('passport.totalStamps')}</p>
                     <p className="font-mono text-[#4CC9F0] text-sm">{totalStamps} زيارات موتقة | {explored.length} رحلات مخطهة</p>
                   </div>
                   <div className="bg-white/5 rounded-lg p-3 border border-white/5">
@@ -280,7 +282,7 @@ export default function TouristPassportContent() {
         <div>
           <div className="flex items-center gap-3 mb-8">
             <Award className="w-6 h-6 text-[#1B6B93]" />
-            <h2 className="text-2xl font-bold text-white uppercase tracking-wider">Achievements & Badges</h2>
+            <h2 className="text-2xl font-bold text-white uppercase tracking-wider">{t('passport.achievements')}</h2>
             <div className="h-px bg-white/10 flex-1 ml-4" />
           </div>
 

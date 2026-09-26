@@ -3,7 +3,7 @@ import { generateContentWithFallback } from '@/lib/groq';
 
 export async function POST(req: Request) {
   try {
-    const { messages, context } = await req.json();
+    const { messages, context, language } = await req.json();
 
     if (!messages || !Array.isArray(messages)) {
       return NextResponse.json({ error: 'Invalid messages format' }, { status: 400 });
@@ -27,7 +27,7 @@ CRITICAL INSTRUCTIONS:
 2. If the user asks a question you do not have reliable, documented historical facts to answer, you MUST respond exactly with: "${fallbackMessage}"
 3. Do NOT fabricate dates, figures, stories, or historical events.
 4. If the user tries to chat about unrelated topics, politely steer them back to the artifact/monument.
-5. Provide your answers in English unless the user explicitly speaks in another language. Maintain a premium, professional, and welcoming tone.`;
+5. CRITICAL: You must answer entirely in the language corresponding to language code: ${language || 'en'}. Do not use any other language. Maintain a premium, professional, and welcoming tone.`;
 
     const groqMessages = [
       { role: 'system', content: groundingContext },

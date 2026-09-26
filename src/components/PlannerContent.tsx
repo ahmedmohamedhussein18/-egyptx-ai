@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { trackEvent } from '@/lib/analytics';
 import React from 'react';
+import { useLanguage } from '@/context/LanguageContext';
 import { createClient } from '@/lib/supabase/client';
 
 /* ─────────────────── DATA ─────────────────── */
@@ -171,6 +172,7 @@ function LoadingAnimation({ isRegenerating = false }: { isRegenerating?: boolean
 /* ─────────────────── MAIN PAGE ─────────────────── */
 
 export default function PlannerContent() {
+  const { t } = useLanguage();
   const supabase = createClient();
   
   // Existing Form state
@@ -423,7 +425,7 @@ export default function PlannerContent() {
             transition={{ delay: 0.2 }}
             className="text-white/50 text-lg max-w-2xl mx-auto"
           >
-            Tell us about your dream trip, and our AI will craft a personalized itinerary across Egypt&apos;s most breathtaking destinations.
+            {t('planner.prompt')}
           </motion.p>
         </div>
       </div>
@@ -444,14 +446,14 @@ export default function PlannerContent() {
                 {/* ── Country ── */}
                 <div className="bg-[#0A1628]/60 backdrop-blur-md rounded-2xl p-6 md:p-8 border border-[#C9A84C]/10">
                   <label className="block text-sm font-semibold text-white/70 mb-3 uppercase tracking-wider">
-                    Where are you from? *
+                    {t('planner.whereFrom')} *
                   </label>
                   <select
                     value={country}
                     onChange={(e) => setCountry(e.target.value)}
                     className="w-full bg-[#060E1A] border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#C9A84C]/50 transition-colors appearance-none cursor-pointer"
                   >
-                    <option value="">Select your country</option>
+                    <option value="">{t('planner.selectCountry')}</option>
                     {COUNTRIES.map(c => (
                       <option key={c.code} value={c.code}>{c.flag} {c.name}</option>
                     ))}
@@ -461,14 +463,14 @@ export default function PlannerContent() {
                 {/* ── Governorate ── */}
                 <div className="bg-[#0A1628]/60 backdrop-blur-md rounded-2xl p-6 md:p-8 border border-[#C9A84C]/10">
                   <label className="block text-sm font-semibold text-white/70 mb-3 uppercase tracking-wider">
-                    Target Governorate (Optional)
+                    {t('planner.targetGov')} (Optional)
                   </label>
                   <select
                     value={governorateId}
                     onChange={(e) => setGovernorateId(e.target.value)}
                     className="w-full bg-[#060E1A] border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#C9A84C]/50 transition-colors appearance-none cursor-pointer"
                   >
-                    <option value="">Anywhere in Egypt</option>
+                    <option value="">{t('planner.anywhere')}</option>
                     {governorates.map(g => (
                       <option key={g.id} value={g.id}>{g.name_en}</option>
                     ))}
@@ -480,7 +482,7 @@ export default function PlannerContent() {
                 {/* ── Travelers ── */}
                 <div className="bg-[#0A1628]/60 backdrop-blur-md rounded-2xl p-6 border border-[#C9A84C]/10">
                   <label className="block text-sm font-semibold text-white/70 mb-3 uppercase tracking-wider">
-                    Travelers *
+                    {t('planner.travelers')} *
                   </label>
                   <input
                     type="number"
@@ -540,7 +542,7 @@ export default function PlannerContent() {
               {/* ── Interests ── */}
               <div className="bg-[#0A1628]/60 backdrop-blur-md rounded-2xl p-6 md:p-8 border border-[#C9A84C]/10">
                 <label className="block text-sm font-semibold text-white/70 mb-4 uppercase tracking-wider">
-                  What interests you? * <span className="text-white/30 normal-case">(select multiple)</span>
+                  {t('planner.interests')} * <span className="text-white/30 normal-case">(select multiple)</span>
                 </label>
                 <div className="flex flex-wrap gap-3">
                   {INTERESTS.map(i => {
@@ -597,7 +599,7 @@ export default function PlannerContent() {
                 </label>
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-xs text-white/50 mb-1">Accessibility Needs</label>
+                    <label className="block text-xs text-white/50 mb-1">{t('planner.accessibility')}</label>
                     <input
                       type="text" placeholder="e.g. wheelchair accessible, avoiding stairs"
                       value={accessibility} onChange={(e) => setAccessibility(e.target.value)}
@@ -605,7 +607,7 @@ export default function PlannerContent() {
                     />
                   </div>
                   <div>
-                    <label className="block text-xs text-white/50 mb-1">Places to Avoid</label>
+                    <label className="block text-xs text-white/50 mb-1">{t('planner.avoid')}</label>
                     <input
                       type="text" placeholder="e.g. Alexandria, tight spaces"
                       value={avoidPlaces} onChange={(e) => setAvoidPlaces(e.target.value)}
@@ -619,7 +621,7 @@ export default function PlannerContent() {
                       onChange={(e) => setAvoidCrowds(e.target.checked)}
                       className="w-5 h-5 accent-[#C9A84C] bg-[#060E1A] border-white/10"
                     />
-                    <span className="text-white/80">Prefer less crowded locations</span>
+                    <span className="text-white/80">{t('planner.lessCrowded')}</span>
                   </label>
                 </div>
               </div>
@@ -686,7 +688,7 @@ export default function PlannerContent() {
               {/* Result header */}
               <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-8 gap-4">
                 <div>
-                  <h2 className="text-2xl md:text-3xl font-bold text-white mb-1">Your Personalized Itinerary</h2>
+                  <h2 className="text-2xl md:text-3xl font-bold text-white mb-1">{t('planner.itineraryTitle')}</h2>
                   <p className="text-white/40">{duration} days &middot; {travelers} traveler(s) &middot; {budget} budget</p>
                 </div>
                 <div className="flex gap-3">

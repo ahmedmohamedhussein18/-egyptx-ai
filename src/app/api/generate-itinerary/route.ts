@@ -15,7 +15,8 @@ export async function POST(req: Request) {
       pace,
       accessibility,
       avoidPlaces,
-      avoidCrowds
+      avoidCrowds,
+      language
     } = body;
 
     // Validate inputs

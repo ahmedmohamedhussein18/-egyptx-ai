@@ -4,66 +4,68 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useLanguage } from '@/context/LanguageContext';
 
-const destinations = [
+const getDestinations = (t: any) => [
   {
     id: 'giza',
-    name: 'Giza',
-    tagline: 'The Eternal Wonders',
-    highlights: 'Great Pyramids • Sphinx • Sound & Light',
+    name: t('destinations.giza.name'),
+    tagline: t('destinations.giza.tagline'),
+    highlights: t('destinations.giza.highlights'),
     image: '/images/giza.jpg',
     video: '/videos/giza.mp4',
-    description: "Home to the last surviving wonder of the ancient world, the Great Pyramid of Giza stands as humanity's greatest architectural achievement. The iconic Sphinx guards the plateau alongside three magnificent pyramids built for pharaohs Khufu, Khafre, and Menkaure. Experience the legendary Sound and Light Show that brings 4,500 years of history to life every evening.",
+    description: t('destinations.giza.desc'),
   },
   {
     id: 'luxor',
-    name: 'Luxor',
-    tagline: 'The World\'s Greatest Open-Air Museum',
-    highlights: 'Valley of Kings • Karnak • Luxor Temple',
+    name: t('destinations.luxor.name'),
+    tagline: t('destinations.luxor.tagline'),
+    highlights: t('destinations.luxor.highlights'),
     image: '/images/luxor.jpg',
     video: '/videos/luxor.mp4',
-    description: "Luxor is the world's greatest open-air museum, built on the ruins of ancient Thebes, once the most powerful city on Earth. The Valley of the Kings holds 63 royal tombs including Tutankhamun's, while Karnak Temple complex remains the largest ancient religious site ever built. Every stone in Luxor tells a story of pharaohs, gods, and eternal life.",
+    description: t('destinations.luxor.desc'),
   },
   {
     id: 'aswan',
-    name: 'Aswan',
-    tagline: 'Where the Nile Begins',
-    highlights: 'Philae Temple • Nubian Villages • Felucca Rides',
+    name: t('destinations.aswan.name'),
+    tagline: t('destinations.aswan.tagline'),
+    highlights: t('destinations.aswan.highlights'),
     image: '/images/aswan.jpg',
     video: '/videos/aswan.mp4',
-    description: "Where the Nile meets Nubian culture, Aswan offers Egypt's most serene and colorful experience. The magnificent Philae Temple, dedicated to goddess Isis, sits on its own island in the Nile. Sail a traditional felucca past granite islands, visit authentic Nubian villages, and witness the engineering marvel of the High Dam that reshaped modern Egypt.",
+    description: t('destinations.aswan.desc'),
   },
   {
     id: 'siwa',
-    name: 'Siwa',
-    tagline: 'The Desert Oasis',
-    highlights: 'Oracle Temple • Salt Lakes • Stargazing',
-    image: '/images/siwa.jpg',
+    name: t('destinations.siwa.name'),
+    tagline: t('destinations.siwa.tagline'),
+    highlights: t('destinations.siwa.highlights'),
+    image: '/images/Siwa Oasisss.jpg',
     video: '/videos/siwa.mp4',
-    description: "Siwa Oasis is Egypt's most remote and magical destination, a hidden world of palm groves and salt lakes deep in the Western Desert. Alexander the Great made the legendary journey here to consult the Oracle of Amun and was declared son of a god. Today, Siwa offers crystal-clear springs, ancient ruins, and some of the world's best stargazing far from city lights.",
+    description: t('destinations.siwa.desc'),
   },
   {
     id: 'fayoum',
-    name: 'Fayoum',
-    tagline: 'Nature\'s Hidden Gem',
-    highlights: 'Wadi El Rayan • Whale Valley • Lake Qarun',
-    image: '/images/fayoum.jpg',
+    name: t('destinations.fayoum.name'),
+    tagline: t('destinations.fayoum.tagline'),
+    highlights: t('destinations.fayoum.highlights'),
+    image: '/images/Fayoum Oasisss.jpg',
     video: '/videos/fayoum.mp4',
-    description: "Fayoum is Egypt's best-kept secret — a lush oasis of waterfalls, lakes, and prehistoric wonders just 100km from Cairo. The Wadi El-Hitan (Valley of the Whales) is a UNESCO World Heritage Site where 40-million-year-old whale fossils reveal the Sahara was once a tropical sea. Lake Qarun, one of Egypt's oldest natural lakes, draws migratory birds from three continents.",
+    description: t('destinations.fayoum.desc'),
   },
   {
     id: 'hurghada',
-    name: 'Hurghada',
-    tagline: 'Red Sea Paradise',
-    highlights: 'Coral Reefs • Marine Life • Desert Safari',
+    name: t('destinations.hurghada.name'),
+    tagline: t('destinations.hurghada.tagline'),
+    highlights: t('destinations.hurghada.highlights'),
     image: '/images/hurghada.jpg',
     video: '/videos/hurghada.mp4',
-    description: "Hurghada transformed from a small fishing village into one of the world's top Red Sea resort destinations. Its crystal-clear waters hide some of the most spectacular coral reefs on the planet, home to over 1,000 species of marine life. Whether you dive, snorkel, or simply relax on pristine beaches, Hurghada offers Egypt's most vibrant coastal experience.",
+    description: t('destinations.hurghada.desc'),
   },
 ];
 
 export default function DestinationsSection() {
-  const [selectedDestination, setSelectedDestination] = useState<typeof destinations[0] | null>(null);
+  const { t } = useLanguage();
+  const [selectedDestination, setSelectedDestination] = useState<any | null>(null);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -109,18 +111,14 @@ export default function DestinationsSection() {
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.6 }}
             className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-[#C9A84C] via-[#E8D08D] to-[#C9A84C] bg-clip-text text-transparent inline-block mb-4"
-          >
-            Featured Destinations
-          </motion.h2>
+          >{t('explore.title')}</motion.h2>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.6, delay: 0.1 }}
             className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto"
-          >
-            From ancient wonders to hidden oases
-          </motion.p>
+          >{t('explore.subtitle')}</motion.p>
         </div>
 
         <motion.div 
@@ -130,7 +128,7 @@ export default function DestinationsSection() {
           viewport={{ once: true, amount: 0.1 }}
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
         >
-          {destinations.map((dest) => (
+          {getDestinations(t).map((dest) => (
             <motion.div 
               key={dest.id}
               variants={itemVariants}
@@ -162,7 +160,7 @@ export default function DestinationsSection() {
                 </div>
                 
                 <div className="flex items-center text-sm font-medium text-white group-hover:text-[#C9A84C] transition-colors">
-                  <span className="transform transition-transform duration-300 group-hover:translate-x-1">Explore &rarr;</span>
+                  <span className="transform transition-transform duration-300 group-hover:translate-x-1">{t('exploreDest')}</span>
                 </div>
               </div>
             </motion.div>

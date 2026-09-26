@@ -14,15 +14,19 @@ import Image from 'next/image';
 function getHiddenSvg(name_en: string) {
   const name = name_en.toLowerCase();
   if (name.includes('siwa')) {
-    return <Image src="/images/siwa.jpg" alt={name_en} fill className="object-cover" />;
+    return <Image src="/images/Siwa Oasisss.jpg" alt={name_en} fill className="object-cover" />;
   }
   
   if (name.includes('fayoum')) {
-    return <Image src="/images/fayoum.jpg" alt={name_en} fill className="object-cover" />;
+    return <Image src="/images/Fayoum Oasisss.jpg" alt={name_en} fill className="object-cover" />;
   }
 
   if (name.includes('white desert')) {
-    return <Image src="/images/white-desert.jpg" alt={name_en} fill className="object-cover" />;
+    return <Image src="/images/White Deserttt.webp" alt={name_en} fill className="object-cover" />;
+  }
+
+  if (name.includes('wadi el hitan')) {
+    return <Image src="/images/Wadi El Hitannn.webp" alt={name_en} fill className="object-cover" />;
   }
 
   if (name.includes('ras mohammed')) {

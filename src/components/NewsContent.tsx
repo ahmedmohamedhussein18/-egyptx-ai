@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { useLanguage } from '@/context/LanguageContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ExternalLink, Calendar, Newspaper, Landmark, Map, BookOpen, Compass, Tent } from 'lucide-react';
 import Navbar from '@/components/Navbar';
@@ -42,6 +43,7 @@ const getCategoryIcon = (category: string) => {
 };
 
 export default function NewsContent() {
+  const { t } = useLanguage();
   const [articles, setArticles] = useState<Article[]>([]);
   const [activeCategory, setActiveCategory] = useState('All');
   const [loading, setLoading] = useState(true);
@@ -174,7 +176,7 @@ export default function NewsContent() {
                   
                   <div className="pt-4 border-t border-white/10 mt-auto flex flex-col gap-4">
                     <div className="flex items-center justify-between text-xs text-gray-500 font-medium">
-                      <span>Source:</span>
+                      <span>{t('news.source')}</span>
                       <span className="text-gray-300 truncate max-w-[150px]">{article.source}</span>
                     </div>
                     

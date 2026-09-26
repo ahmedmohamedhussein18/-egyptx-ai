@@ -1,0 +1,203 @@
+{
+  "nav": {
+    "home": "Startseite",
+    "aiPlanner": "KI-Planer",
+    "exploreEgypt": "Entdecke Ägypten",
+    "hiddenEgypt": "Verstecktes Ägypten",
+    "crafts": "Handwerk",
+    "touristPassport": "Touristenpass",
+    "news": "Nachrichten",
+    "login": "Anmelden",
+    "logout": "Abmelden",
+    "command": "Kommandozentrum"
+  },
+  "home": {
+    "title": "EgyptX KI",
+    "subtitle": "Das nationale smarte Tourismus-Ökosystem",
+    "slogan": "Entdecke Ägypten. Erlebe Geschichte. Gestalte die Zukunft.",
+    "planBtn": "Meine Reise planen",
+    "exploreBtn": "Entdecke Ägypten",
+    "virtualEgypt": "Virtuelles Ägypten",
+    "sitesCount": "50+ Orte",
+    "aiPowered": "KI-gesteuert",
+    "realTime": "Echtzeit",
+    "welcomeBack": "Willkommen zurück,",
+    "badge": "Nationales Smart-Ökosystem",
+    "scroll": "Scrollen zum Entdecken"
+  },
+  "planner": {
+    "title": "Planen Sie Ihre Ägypten-Reise",
+    "prompt": "Erzählen Sie uns von Ihrer Traumreise...",
+    "whereFrom": "Woher kommen Sie?",
+    "targetGov": "Zielgouvernement",
+    "anywhere": "Überall in Ägypten",
+    "travelers": "Reisende",
+    "pace": "Bevorzugtes Tempo",
+    "paceRelaxed": "Entspannt",
+    "paceBalanced": "Ausgewogen",
+    "pacePacked": "Vollgepackt",
+    "duration": "Reisedauer",
+    "budget": "Budget",
+    "interests": "Was interessiert Sie?",
+    "style": "Reisestil",
+    "constraints": "Zusätzliche Einschränkungen",
+    "accessibility": "Anforderungen an die Barrierefreiheit",
+    "avoid": "Zu meidende Orte",
+    "lessCrowded": "Weniger überfüllte Orte bevorzugen",
+    "generateBtn": "Meine Ägypten-Reise generieren",
+    "loading1": "Analysiere Ihre Präferenzen...",
+    "loading2": "Erstelle Ihre Reise...",
+    "itineraryTitle": "Ihr persönlicher Reiseplan",
+    "day": "Tag",
+    "morning": "Morgen",
+    "afternoon": "Nachmittag",
+    "evening": "Abend",
+    "modifyBtn": "Plan ändern",
+    "selectCountry": "Land auswählen",
+    "egTravelers": "z.B. 2 Erw.",
+    "egDuration": "z.B. 7 Tage",
+    "egBudget": "z.B. 2000$",
+    "egInterests": "z.B. Pyramiden",
+    "egStyle": "z.B. Luxus",
+    "egAccess": "z.B. Rollstuhl",
+    "egAvoid": "z.B. Keine Busse",
+    "errCountry": "Bitte Land wählen",
+    "errTravelers": "Reisende eingeben",
+    "errDuration": "Dauer eingeben",
+    "errBudget": "Budget eingeben",
+    "errInterests": "Interessen eingeben",
+    "saved": "Gespeichert!"
+  },
+  "explore": {
+    "title": "Entdecke Ägypten",
+    "subtitle": "Von antiken Wundern zu versteckten Oasen",
+    "map": "Interaktive Karte",
+    "noRating": "Bewertung nicht verfügbar",
+    "noCrowd": "Besucherdaten nicht verfügbar",
+    "exploreDest": "Zielort erkunden"
+  },
+  "passport": {
+    "title": "Mein EgyptX Pass",
+    "journey": "Die Reise des Touristen",
+    "totalStamps": "Gesamtstempel",
+    "status": "Status: Verifiziert",
+    "visited": "Besuchte Orte",
+    "achievements": "Erfolge und Abzeichen",
+    "start": "Beginnen Sie mit der Erkundung, um Ihren ersten Stempel zu sammeln",
+    "planned": "Meine geplanten Reisen"
+  },
+  "emergency": {
+    "title": "Notfallassistent",
+    "hospital": "Nächstes Krankenhaus finden",
+    "police": "Nächste Polizeiwache finden",
+    "disclaimer": "EgyptX KI ersetzt keine offiziellen Notfalldienste"
+  },
+  "common": {
+    "loading": "Wird geladen...",
+    "error": "Fehler",
+    "wrong": "Etwas ist schief gelaufen",
+    "tryAgain": "Erneut versuchen",
+    "dataUnavailable": "Daten nicht verfügbar",
+    "awaitingData": "Warte auf verifizierte Datenquelle",
+    "back": "Zurück",
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "close": "Schließen",
+    "search": "Suchen",
+    "submit": "Einreichen",
+    "footer": "Das nationale smarte Tourismus-Ökosystem"
+  },
+  "aiGuide": {
+    "title": "KI-Vision-Leitfaden",
+    "snap": "Machen Sie ein Foto von einem beliebigen Denkmal...",
+    "identify": "Mit KI identifizieren",
+    "high": "HOHE ZUVERSICHT",
+    "med": "MITTLERE ZUVERSICHT",
+    "low": "GERINGE ZUVERSICHT",
+    "desc": "Allgemeine KI-Beschreibung",
+    "verified": "Verifizierter Standort",
+    "viewFull": "Alle Details anzeigen"
+  },
+  "news": {
+    "title": "Ägypten Tourismus Nachrichten",
+    "learnMore": "Mehr erfahren",
+    "source": "Quelle:"
+  },
+  "memories": {
+    "title": "Meine Ägypten-Erinnerungen",
+    "add": "Erinnerung hinzufügen",
+    "story": "Ihre Ägypten-Geschichte beginnt hier",
+    "upload": "Foto hochladen",
+    "select": "Ort auswählen",
+    "caption": "Bildunterschrift"
+  },
+  "expenses": {
+    "title": "Reisekosten",
+    "add": "Ausgabe hinzufügen",
+    "noExpenses": "Noch keine Ausgaben erfasst"
+  },
+  "exploreDest": "Erkunden &rarr;",
+  "destinations": {
+    "giza": {
+      "name": "Gizeh",
+      "tagline": "Die ewigen Wunder",
+      "highlights": "Pyramiden • Sphinx",
+      "desc": "Die große Pyramide..."
+    },
+    "luxor": {
+      "name": "Luxor",
+      "tagline": "Größtes Freilichtmuseum",
+      "highlights": "Tal der Könige",
+      "desc": "Luxor ist das größte..."
+    },
+    "aswan": {
+      "name": "Assuan",
+      "tagline": "Wo der Nil beginnt",
+      "highlights": "Philae Tempel",
+      "desc": "Assuan bietet..."
+    },
+    "siwa": {
+      "name": "Siwa",
+      "tagline": "Die Wüstenoase",
+      "highlights": "Salzseen",
+      "desc": "Die Oase Siwa ist..."
+    },
+    "fayoum": {
+      "name": "Fayyum",
+      "tagline": "Verstecktes Juwel",
+      "highlights": "Tal der Wale",
+      "desc": "Fayyum ist..."
+    },
+    "hurghada": {
+      "name": "Hurghada",
+      "tagline": "Rotes Meer Paradies",
+      "highlights": "Korallenriffe",
+      "desc": "Hurghada wurde..."
+    }
+  },
+  "footer": {
+    "title": "EgyptX KI",
+    "subtitle": "Das nationale Smart-Tourismus-Ökosystem.",
+    "explore": "Erkunden",
+    "home": "Startseite",
+    "aiPlanner": "KI-Planer",
+    "exploreEgypt": "Ägypten erkunden",
+    "smartSites": "Smart-Stätten",
+    "experience": "Erlebnis",
+    "museumAi": "KI-Museum",
+    "hiddenEgypt": "Verborgenes Ägypten",
+    "emergency": "Notfallassistent",
+    "touristPassport": "Touristenpass",
+    "ecosystem": "Ökosystem",
+    "commandCenter": "Kommandozentrale",
+    "businessPortal": "Unternehmensportal",
+    "government": "Regierung",
+    "partners": "Partner",
+    "discover": "Entdecken",
+    "egyptianCrafts": "Ägyptisches Kunsthandwerk",
+    "about": "Über EgyptX",
+    "technology": "Technologie",
+    "terms": "AGB & Datenschutz",
+    "copy": "© 2026 EgyptX KI. Das nationale Smart-Tourismus-Ökosystem."
+  }
+}

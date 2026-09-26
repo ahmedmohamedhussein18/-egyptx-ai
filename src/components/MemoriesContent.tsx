@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import { useLanguage } from '@/context/LanguageContext';
 import { useRouter } from 'next/navigation';
 import jsPDF from 'jspdf';
 import dynamic from 'next/dynamic';
@@ -41,6 +42,7 @@ interface Attraction {
 }
 
 export default function MemoriesContent() {
+  const { t } = useLanguage();
   const { user, loading: authLoading } = useAuth();
   const router = useRouter();
   const supabase = createClient();
@@ -499,7 +501,7 @@ export default function MemoriesContent() {
                 </div>
 
                 <div className="pt-4 flex justify-end gap-3">
-                  <button type="button" onClick={() => setIsJournalModalOpen(false)} className="px-5 py-2 text-gray-400 hover:text-white">Cancel</button>
+                  <button type="button" onClick={() => setIsJournalModalOpen(false)} className="px-5 py-2 text-gray-400 hover:text-white">{t('common.cancel')}</button>
                   <button type="submit" disabled={saving} className="px-6 py-2 bg-[#0A1628] border border-[#C9A84C] text-[#C9A84C] hover:bg-[#C9A84C]/10 font-bold rounded-lg disabled:opacity-50 flex items-center gap-2">
                     {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Save Journal'}
                   </button>
@@ -530,7 +532,7 @@ export default function MemoriesContent() {
                 <X className="w-5 h-5" />
               </button>
               
-              <h2 className="text-2xl font-bold text-white mb-6">Upload Photo</h2>
+              <h2 className="text-2xl font-bold text-white mb-6">{t('memories.upload')}</h2>
 
               <form onSubmit={savePhoto} className="space-y-4">
                 
@@ -596,7 +598,7 @@ export default function MemoriesContent() {
                 </div>
 
                 <div className="pt-4 flex justify-end gap-3">
-                  <button type="button" onClick={() => setIsPhotoModalOpen(false)} className="px-5 py-2 text-gray-400 hover:text-white">Cancel</button>
+                  <button type="button" onClick={() => setIsPhotoModalOpen(false)} className="px-5 py-2 text-gray-400 hover:text-white">{t('common.cancel')}</button>
                   <button type="submit" disabled={saving || !selectedFile} className="px-6 py-2 bg-[#C9A84C] hover:bg-[#E3C973] text-[#0A1628] font-bold rounded-lg disabled:opacity-50 flex items-center gap-2">
                     {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Upload Photo'}
                   </button>

@@ -1,57 +1,56 @@
+'use client';
 import React from 'react';
+import { useLanguage } from '@/context/LanguageContext';
 import Link from 'next/link';
 
 export default function Footer() {
+  const { t } = useLanguage();
   return (
     <footer className="bg-[#060E1A] border-t border-[#D4AF37]/20 pt-20 pb-10">
       <div className="container mx-auto px-6 max-w-7xl">
         
         <div className="mb-16">
           <Link href="/" className="inline-block">
-            <h2 className="text-3xl font-bold bg-gradient-to-r from-[#FFDF73] via-[#D4AF37] to-[#B8860B] bg-clip-text text-transparent">
-              EgyptX AI
-            </h2>
+            <h2 className="text-3xl font-bold bg-gradient-to-r from-[#FFDF73] via-[#D4AF37] to-[#B8860B] bg-clip-text text-transparent">{t('footer.title')}</h2>
           </Link>
-          <p className="text-white/50 mt-2 text-sm tracking-wide">
-            The National Smart Tourism Ecosystem.
-          </p>
+          <p className="text-white/50 mt-2 text-sm tracking-wide">{t('footer.subtitle')}</p>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-16">
           {/* Column 1 */}
           <div className="flex flex-col space-y-4">
-            <h3 className="text-white/70 uppercase text-xs tracking-[0.2em] font-semibold mb-2">Explore</h3>
-            <Link href="#" className="text-white/40 hover:text-[#D4AF37] transition-colors text-sm">Home</Link>
-            <Link href="#" className="text-white/40 hover:text-[#D4AF37] transition-colors text-sm">AI Planner</Link>
-            <Link href="#" className="text-white/40 hover:text-[#D4AF37] transition-colors text-sm">Explore Egypt</Link>
-            <Link href="#" className="text-white/40 hover:text-[#D4AF37] transition-colors text-sm">Smart Sites</Link>
+            <h3 className="text-white/70 uppercase text-xs tracking-[0.2em] font-semibold mb-2">{t('footer.explore')}</h3>
+            <Link href="#" className="text-white/40 hover:text-[#D4AF37] transition-colors text-sm">{t('footer.home')}</Link>
+            <Link href="#" className="text-white/40 hover:text-[#D4AF37] transition-colors text-sm">{t('footer.aiPlanner')}</Link>
+            <Link href="#" className="text-white/40 hover:text-[#D4AF37] transition-colors text-sm">{t('footer.exploreEgypt')}</Link>
+            <Link href="#" className="text-white/40 hover:text-[#D4AF37] transition-colors text-sm">{t('footer.smartSites')}</Link>
           </div>
 
           {/* Column 2 */}
           <div className="flex flex-col space-y-4">
-            <h3 className="text-white/70 uppercase text-xs tracking-[0.2em] font-semibold mb-2">Experience</h3>
-            <Link href="/museum-ai" className="text-white/40 hover:text-[#D4AF37] transition-colors text-sm">Museum AI</Link>
-            <Link href="/hidden-egypt" className="text-white/40 hover:text-[#D4AF37] transition-colors text-sm">Hidden Egypt</Link>
-            <Link href="/emergency" className="text-white/40 hover:text-[#D4AF37] transition-colors text-sm">Emergency Assistant</Link>
-            <Link href="/tourist-passport" className="text-white/40 hover:text-[#D4AF37] transition-colors text-sm">Tourist Passport</Link>
+            <h3 className="text-white/70 uppercase text-xs tracking-[0.2em] font-semibold mb-2">{t('footer.experience')}</h3>
+            <Link href="/museum-ai" className="text-white/40 hover:text-[#D4AF37] transition-colors text-sm">{t('footer.museumAi')}</Link>
+            <Link href="/hidden-egypt" className="text-white/40 hover:text-[#D4AF37] transition-colors text-sm">{t('footer.hiddenEgypt')}</Link>
+            <Link href="/emergency" className="text-white/40 hover:text-[#D4AF37] transition-colors text-sm">{t('footer.emergency')}</Link>
+            <Link href="/tourist-passport" className="text-white/40 hover:text-[#D4AF37] transition-colors text-sm">{t('footer.touristPassport')}</Link>
           </div>
 
           {/* Column 3 */}
           <div className="flex flex-col space-y-4">
-            <h3 className="text-white/70 uppercase text-xs tracking-[0.2em] font-semibold mb-2">Ecosystem</h3>
-            <Link href="#" className="text-white/40 hover:text-[#D4AF37] transition-colors text-sm">Command Center</Link>
-            <Link href="#" className="text-white/40 hover:text-[#D4AF37] transition-colors text-sm">Business Portal</Link>
-            <Link href="#" className="text-white/40 hover:text-[#D4AF37] transition-colors text-sm">Government</Link>
-            <Link href="#" className="text-white/40 hover:text-[#D4AF37] transition-colors text-sm">Partners</Link>
+            <h3 className="text-white/70 uppercase text-xs tracking-[0.2em] font-semibold mb-2">{t('footer.ecosystem')}</h3>
+            <Link href="#" className="text-white/40 hover:text-[#D4AF37] transition-colors text-sm">{t('footer.commandCenter')}</Link>
+            <Link href="#" className="text-white/40 hover:text-[#D4AF37] transition-colors text-sm">{t('footer.businessPortal')}</Link>
+            <Link href="#" className="text-white/40 hover:text-[#D4AF37] transition-colors text-sm">{t('footer.government')}</Link>
+            <Link href="#" className="text-white/40 hover:text-[#D4AF37] transition-colors text-sm">{t('footer.partners')}</Link>
           </div>
 
           {/* Column 4 */}
           <div className="flex flex-col space-y-4">
-            <h3 className="text-white/70 uppercase text-xs tracking-[0.2em] font-semibold mb-2">Discover</h3>
-            <Link href="/crafts" className="text-white/40 hover:text-[#D4AF37] transition-colors text-sm">Egyptian Crafts</Link>
-            <Link href="#" className="text-white/40 hover:text-[#D4AF37] transition-colors text-sm">About EgyptX</Link>
-            <Link href="#" className="text-white/40 hover:text-[#D4AF37] transition-colors text-sm">Technology</Link>
-            <Link href="#" className="text-white/40 hover:text-[#D4AF37] transition-colors text-sm">Terms & Privacy</Link>
+            <h3 className="text-white/70 uppercase text-xs tracking-[0.2em] font-semibold mb-2">{t('footer.discover')}</h3>
+            <Link href="/crafts" className="text-white/40 hover:text-[#D4AF37] transition-colors text-sm">{t('footer.egyptianCrafts')}</Link>
+            <Link href="#" className="text-white/40 hover:text-[#D4AF37] transition-colors text-sm">{t('footer.about')}</Link>
+            <Link href="#" className="text-white/40 hover:text-[#D4AF37] transition-colors text-sm">{t('footer.technology')}</Link>
+            <Link href="#" className="text-white/40 hover:text-[#D4AF37] transition-colors text-sm">{t('footer.terms')}</Link>
           </div>
         </div>
 
@@ -65,9 +64,7 @@ export default function Footer() {
 
         {/* Bottom Bar */}
         <div className="text-center">
-          <p className="text-white/30 text-xs tracking-wider">
-            &copy; 2026 EgyptX AI. The National Smart Tourism Ecosystem.
-          </p>
+          <p className="text-white/30 text-xs tracking-wider">{t('footer.copy')}</p>
         </div>
 
       </div>

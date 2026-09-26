@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { useLanguage } from '@/context/LanguageContext';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { Star, MapPin, Users, Calendar, Clock, ArrowRight, Cloud, Loader2, AlertCircle, Thermometer } from 'lucide-react';
@@ -107,6 +108,7 @@ function WeatherBadge({ lat, lon }: { lat: number, lon: number }) {
 const categories: Category[] = ['All', 'Ancient', 'Museum', 'Nature', 'Beach', 'Hidden'];
 
 export default function ExploreContent() {
+  const { t } = useLanguage();
   const [activeCategory, setActiveCategory] = useState<Category>('All');
   const [attractions, setAttractions] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -337,11 +339,11 @@ export default function ExploreContent() {
                         </div>
                         <div className="flex items-center gap-2 text-sm text-gray-300">
                           <Star className="w-4 h-4 text-[#C9A84C]" />
-                          <span className="italic text-gray-500">Rating unavailable</span>
+                          <span className="italic text-gray-500">{t('explore.noRating')}</span>
                         </div>
                         <div className="flex items-center gap-2 text-sm text-gray-500 col-span-2">
                           <Users className="w-4 h-4 text-gray-600" />
-                          <span className="italic">Crowd data unavailable</span>
+                          <span className="italic">{t('explore.noCrowd')}</span>
                         </div>
                       </div>
 

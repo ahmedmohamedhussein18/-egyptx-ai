@@ -9,6 +9,8 @@ export interface User {
   email: string;
   country?: string;
   language?: string;
+  role?: string;
+  governorate_id?: string;
 }
 
 interface AuthContextType {
@@ -28,11 +30,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     // Get initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session?.user) {
+        
+      // Fetch profile to get role
+      supabase.from('profiles').select('role, governorate_id').eq('id', session.user.id).single().then(({ data: profile }) => {
         setUser({
           id: session.user.id,
           name: session.user.user_metadata?.full_name || session.user.email?.split('@')[0] || 'User',
           email: session.user.email || '',
+          role: profile?.role || 'tourist',
+          governorate_id: profile?.governorate_id
         });
+      });
+  
       }
       setLoading(false);
     });

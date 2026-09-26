@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
+import { useLanguage } from '@/context/LanguageContext';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { Camera, Upload, Loader2, Sparkles, AlertCircle, MapPin, ExternalLink, ArrowRight, Send } from 'lucide-react';
@@ -9,6 +10,7 @@ import { trackEvent } from '@/lib/analytics';
 import Link from 'next/link';
 
 export default function AIGuideContent() {
+  const { t } = useLanguage();
   const { user, loading: authLoading } = useAuth();
   const router = useRouter();
   
@@ -268,7 +270,7 @@ const fileInputRef = useRef<HTMLInputElement>(null);
                       <div className="mt-auto bg-white/5 border border-white/10 rounded-xl p-4 flex items-start gap-3">
                         <AlertCircle className="w-5 h-5 text-gray-400 shrink-0 mt-0.5" />
                         <p className="text-xs text-gray-400">
-                          <span className="font-bold text-gray-300">General AI Description</span> — Not from EgyptX verified database.
+                          <span className="font-bold text-gray-300">{t('aiGuide.desc')}</span> — Not from EgyptX verified database.
                         </p>
                       </div>
                     )}
@@ -278,7 +280,7 @@ const fileInputRef = useRef<HTMLInputElement>(null);
                         <div className="bg-[#1B6B93]/10 border border-[#1B6B93]/30 rounded-xl p-4 mb-4">
                           <div className="flex items-center gap-2 mb-2 text-[#4CC9F0]">
                             <MapPin className="w-4 h-4" />
-                            <span className="text-sm font-bold uppercase tracking-wider">Verified Location</span>
+                            <span className="text-sm font-bold uppercase tracking-wider">{t('aiGuide.verified')}</span>
                           </div>
                           <p className="text-white font-bold">{result.db_match.name_en}</p>
                           <p className="text-gray-400 text-sm mt-1">{result.db_match.city} • {result.db_match.category}</p>

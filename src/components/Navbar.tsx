@@ -1,23 +1,87 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import { useLanguage } from '@/context/LanguageContext';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '@/context/AuthContext';
 import { logoutAction } from '@/app/actions/auth';
 import { Sparkles } from 'lucide-react';
 
-const navItems = [
-  { name: 'Home', href: '/' },
-  { name: 'AI Planner', href: '/planner' },
-  { name: 'Explore Egypt', href: '/explore' },
-  { name: 'Hidden Egypt', href: '/hidden-egypt' },
-  { name: 'Crafts', href: '/crafts' },
-  { name: 'Tourist Passport', href: '/tourist-passport' },
-  { name: 'News', href: '/news' }
+const getNavItems = (t: any) => [
+  { name: t('nav.home'), href: '/' },
+  { name: t('nav.aiPlanner'), href: '/planner' },
+  { name: t('nav.exploreEgypt'), href: '/explore' },
+  { name: t('nav.hiddenEgypt'), href: '/hidden-egypt' },
+  { name: t('nav.crafts'), href: '/crafts' },
+  { name: t('nav.touristPassport'), href: '/tourist-passport' },
+  { name: t('nav.news'), href: '/news' }
 ];
 
+
+// --- Language Selector ---
+const languages = [
+  { code: 'en', label: 'English', flag: '🇬🇧' },
+  { code: 'ar', label: 'العربية', flag: '🇪🇬' },
+  { code: 'fr', label: 'Français', flag: '🇫🇷' },
+  { code: 'de', label: 'Deutsch', flag: '🇩🇪' },
+  { code: 'it', label: 'Italiano', flag: '🇮🇹' },
+  { code: 'es', label: 'Español', flag: '🇪🇸' },
+  { code: 'zh', label: '中文', flag: '🇨🇳' },
+  { code: 'ru', label: 'Русский', flag: '🇷🇺' }
+];
+
+function LanguageSelector({ locale, setLocale }: { locale: string, setLocale: (loc: string) => void }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  const current = languages.find(l => l.code === locale) || languages[0];
+
+  useEffect(() => {
+    const handleClick = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, []);
+
+  return (
+    <div className="relative" ref={ref}>
+      <button 
+        onClick={() => setOpen(!open)}
+        className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium bg-white/5 hover:bg-white/10 border border-white/10 rounded-full transition-colors text-white"
+      >
+        <span>{current.flag}</span>
+        <span className="uppercase">{current.code}</span>
+      </button>
+      
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10 }}
+            className="absolute right-0 mt-2 w-32 bg-[#0A1628] border border-[#C9A84C]/20 rounded-xl shadow-xl overflow-hidden z-50"
+          >
+            {languages.map(lang => (
+              <button
+                key={lang.code}
+                onClick={() => { setLocale(lang.code); setOpen(false); }}
+                className={`w-full text-left px-4 py-2 text-sm transition-colors hover:bg-[#C9A84C]/10 flex items-center gap-2 ${locale === lang.code ? 'text-[#C9A84C]' : 'text-white'}`}
+              >
+                <span>{lang.flag}</span>
+                <span>{lang.label}</span>
+              </button>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+// -------------------------
+
 export default function Navbar() {
+  const { t, locale, setLocale } = useLanguage();
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -71,7 +135,7 @@ export default function Navbar() {
 
           {/* Desktop Navigation */}
           <nav className="hidden xl:flex items-center gap-5">
-            {navItems.map((item) => (
+            {getNavItems(t).map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
@@ -95,12 +159,11 @@ export default function Navbar() {
 
           {/* Right side buttons */}
           <div className="hidden lg:flex items-center gap-4">
+            <LanguageSelector locale={locale} setLocale={setLocale} />
             <Link
               href="/command-center"
               className="px-4 py-2 text-sm font-medium text-white/90 border border-[#C9A84C]/50 rounded hover:bg-[#C9A84C]/10 hover:border-[#C9A84C] transition-colors"
-            >
-              Command
-            </Link>
+            >{t('nav.command')}</Link>
             
             {user ? (
               <div className="relative" ref={dropdownRef}>
@@ -130,17 +193,13 @@ export default function Navbar() {
                         href="/tourist-passport"
                         onClick={() => setDropdownOpen(false)}
                         className="block px-4 py-2 text-sm text-white/80 hover:bg-white/5 hover:text-[#C9A84C]"
-                      >
-                        Profile & Passport
-                      </Link>
+                      >{t('nav.touristPassport')}</Link>
                   <form action={logoutAction} className="block w-full">
                     <button
                       type="submit"
                       onClick={() => setDropdownOpen(false)}
                       className="block w-full text-left px-4 py-2 text-sm text-white/80 hover:bg-white/5 hover:text-red-400"
-                    >
-                      Log Out
-                    </button>
+                    >{t('nav.logout')}</button>
                   </form>
                 </motion.div>
               )}
@@ -194,7 +253,7 @@ export default function Navbar() {
               </div>
             </div>
           )}
-          {navItems.map((item) => (
+          {getNavItems(t).map((item) => (
             <Link
               key={item.name}
               href={item.href}
@@ -228,9 +287,7 @@ export default function Navbar() {
                   type="submit"
                   onClick={() => setMobileMenuOpen(false)}
                   className="block w-full px-4 py-3 text-center text-sm font-medium text-[#0A1628] bg-red-400 rounded-md hover:bg-red-300 transition-colors"
-                >
-                  Log Out
-                </button>
+                >{t('nav.logout')}</button>
               </form>
             ) : (
               <Link

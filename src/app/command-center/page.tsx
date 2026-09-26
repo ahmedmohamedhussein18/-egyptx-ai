@@ -6,7 +6,7 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
-  title: "Command Center | EgyptX AI",
+  title: "مركز القيادة الوطني - جمهورية مصر العربية | EgyptX AI",
   description: "National Tourism Intelligence Platform and Command Center.",
 };
 
@@ -18,8 +18,6 @@ export default async function CommandCenterPage() {
     redirect("/login");
   }
 
-  // Using Service Role Client here to bypass a known infinite recursion bug 
-  // in the profiles RLS policy until the database is patched.
   const { createClient: createAdminClient } = await import("@supabase/supabase-js");
   const supabaseAdmin = createAdminClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -32,11 +30,16 @@ export default async function CommandCenterPage() {
     .eq("id", user.id)
     .single();
 
+  if (profileError || !profile) {
+    redirect("/login");
+  }
 
+  if (profile.role === 'governorate_admin') {
+    redirect("/government/dashboard");
+  }
 
-  const allowedRoles = ['national_admin', 'governorate_admin', 'governorate_analyst', 'site_manager'];
-  if (!profile || !allowedRoles.includes(profile.role)) {
-    redirect("/?error=unauthorized");
+  if (profile.role !== 'national_admin') {
+    redirect("/login");
   }
 
   return (

@@ -1,0 +1,203 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "aiPlanner": "Planificador IA",
+    "exploreEgypt": "Explorar Egipto",
+    "hiddenEgypt": "Egipto Oculto",
+    "crafts": "Artesanías",
+    "touristPassport": "Pasaporte Turístico",
+    "news": "Noticias",
+    "login": "Iniciar sesión",
+    "logout": "Cerrar sesión",
+    "command": "Comando"
+  },
+  "home": {
+    "title": "EgyptX IA",
+    "subtitle": "El Ecosistema Nacional de Turismo Inteligente",
+    "slogan": "Descubre Egipto. Vive la historia. Da forma al futuro.",
+    "planBtn": "Planificar mi viaje",
+    "exploreBtn": "Explorar Egipto",
+    "virtualEgypt": "Egipto Virtual",
+    "sitesCount": "Más de 50 sitios",
+    "aiPowered": "Impulsado por IA",
+    "realTime": "En tiempo real",
+    "welcomeBack": "Bienvenido,",
+    "badge": "Ecosistema Nacional",
+    "scroll": "Desplázate para explorar"
+  },
+  "planner": {
+    "title": "Planifica tu viaje a Egipto",
+    "prompt": "Cuéntanos sobre tu viaje soñado...",
+    "whereFrom": "¿De dónde eres?",
+    "targetGov": "Gobernación objetivo",
+    "anywhere": "Cualquier lugar en Egipto",
+    "travelers": "Viajeros",
+    "pace": "Ritmo preferido",
+    "paceRelaxed": "Relajado",
+    "paceBalanced": "Equilibrado",
+    "pacePacked": "Lleno",
+    "duration": "Duración del viaje",
+    "budget": "Presupuesto",
+    "interests": "¿Qué te interesa?",
+    "style": "Estilo de viaje",
+    "constraints": "Restricciones adicionales",
+    "accessibility": "Necesidades de accesibilidad",
+    "avoid": "Lugares a evitar",
+    "lessCrowded": "Preferir lugares menos concurridos",
+    "generateBtn": "Generar mi viaje a Egipto",
+    "loading1": "Analizando tus preferencias...",
+    "loading2": "Construyendo tu viaje...",
+    "itineraryTitle": "Tu itinerario personalizado",
+    "day": "Día",
+    "morning": "Mañana",
+    "afternoon": "Tarde",
+    "evening": "Noche",
+    "modifyBtn": "Modificar plan",
+    "selectCountry": "Selecciona",
+    "egTravelers": "ej: 2 adultos",
+    "egDuration": "ej: 7 Días",
+    "egBudget": "ej: 2000$",
+    "egInterests": "ej: Pirámides",
+    "egStyle": "ej: Lujo",
+    "egAccess": "ej: Silla de ruedas",
+    "egAvoid": "ej: Sin autobuses",
+    "errCountry": "Selecciona país",
+    "errTravelers": "Ingresa viajeros",
+    "errDuration": "Ingresa duración",
+    "errBudget": "Ingresa presupuesto",
+    "errInterests": "Ingresa intereses",
+    "saved": "¡Guardado!"
+  },
+  "explore": {
+    "title": "Explorar Egipto",
+    "subtitle": "De maravillas antiguas a oasis ocultos",
+    "map": "Mapa interactivo",
+    "noRating": "Calificación no disponible",
+    "noCrowd": "Datos de afluencia no disponibles",
+    "exploreDest": "Explorar destino"
+  },
+  "passport": {
+    "title": "Mi pasaporte EgyptX",
+    "journey": "El viaje del turista",
+    "totalStamps": "Total de sellos",
+    "status": "Estado: Verificado",
+    "visited": "Lugares visitados",
+    "achievements": "Logros y Medallas",
+    "start": "Empieza a explorar para coleccionar tu primer sello",
+    "planned": "Mis viajes planeados"
+  },
+  "emergency": {
+    "title": "Asistente de emergencia",
+    "hospital": "Buscar el hospital más cercano",
+    "police": "Buscar la comisaría más cercana",
+    "disclaimer": "EgyptX IA no reemplaza a los servicios de emergencia oficiales"
+  },
+  "common": {
+    "loading": "Cargando...",
+    "error": "Error",
+    "wrong": "Algo salió mal",
+    "tryAgain": "Inténtalo de nuevo",
+    "dataUnavailable": "Datos no disponibles",
+    "awaitingData": "Esperando fuente de datos verificada",
+    "back": "Atrás",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "close": "Cerrar",
+    "search": "Buscar",
+    "submit": "Enviar",
+    "footer": "El Ecosistema Nacional de Turismo Inteligente"
+  },
+  "aiGuide": {
+    "title": "Guía de visión IA",
+    "snap": "Toma una foto de cualquier monumento...",
+    "identify": "Identificar con IA",
+    "high": "ALTA CONFIANZA",
+    "med": "CONFIANZA MEDIA",
+    "low": "BAJA CONFIANZA",
+    "desc": "Descripción general de la IA",
+    "verified": "Ubicación verificada",
+    "viewFull": "Ver detalles completos"
+  },
+  "news": {
+    "title": "Noticias de turismo en Egipto",
+    "learnMore": "Aprender más",
+    "source": "Fuente:"
+  },
+  "memories": {
+    "title": "Mis recuerdos de Egipto",
+    "add": "Agregar recuerdo",
+    "story": "Tu historia en Egipto comienza aquí",
+    "upload": "Subir foto",
+    "select": "Seleccionar lugar",
+    "caption": "Leyenda"
+  },
+  "expenses": {
+    "title": "Gastos de viaje",
+    "add": "Agregar gasto",
+    "noExpenses": "Aún no se han registrado gastos"
+  },
+  "exploreDest": "Explorar &rarr;",
+  "destinations": {
+    "giza": {
+      "name": "Giza",
+      "tagline": "Maravillas",
+      "highlights": "Pirámides",
+      "desc": "Giza desc..."
+    },
+    "luxor": {
+      "name": "Luxor",
+      "tagline": "Museo",
+      "highlights": "Valle",
+      "desc": "Luxor desc..."
+    },
+    "aswan": {
+      "name": "Asuán",
+      "tagline": "Nilo",
+      "highlights": "Philae",
+      "desc": "Asuán desc..."
+    },
+    "siwa": {
+      "name": "Siwa",
+      "tagline": "Oasis",
+      "highlights": "Lagos",
+      "desc": "Siwa desc..."
+    },
+    "fayoum": {
+      "name": "Fayún",
+      "tagline": "Joya",
+      "highlights": "Ballenas",
+      "desc": "Fayún desc..."
+    },
+    "hurghada": {
+      "name": "Hurghada",
+      "tagline": "Paraíso",
+      "highlights": "Corales",
+      "desc": "Hurghada desc..."
+    }
+  },
+  "footer": {
+    "title": "EgyptX IA",
+    "subtitle": "El Ecosistema Nacional de Turismo Inteligente.",
+    "explore": "Explorar",
+    "home": "Inicio",
+    "aiPlanner": "Planificador IA",
+    "exploreEgypt": "Explorar Egipto",
+    "smartSites": "Sitios Inteligentes",
+    "experience": "Experiencia",
+    "museumAi": "Museo IA",
+    "hiddenEgypt": "Egipto Oculto",
+    "emergency": "Asistente de Emergencia",
+    "touristPassport": "Pasaporte Turístico",
+    "ecosystem": "Ecosistema",
+    "commandCenter": "Centro de Mando",
+    "businessPortal": "Portal Empresarial",
+    "government": "Gobierno",
+    "partners": "Socios",
+    "discover": "Descubrir",
+    "egyptianCrafts": "Artesanías Egipcias",
+    "about": "Acerca de EgyptX",
+    "technology": "Tecnología",
+    "terms": "Términos y Privacidad",
+    "copy": "© 2026 EgyptX IA. El Ecosistema Nacional de Turismo Inteligente."
+  }
+}
