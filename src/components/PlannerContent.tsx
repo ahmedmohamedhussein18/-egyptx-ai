@@ -262,12 +262,21 @@ export default function PlannerContent() {
       }
     };
 
+    const handleSliderUpdate = (e: any) => {
+      const val = Number(e.detail);
+      if (val && !isNaN(val)) {
+        setDuration(Math.min(Math.max(val, 1), 14));
+      }
+    };
+
     window.addEventListener('voice-fill-planner', handleVoiceFill);
     window.addEventListener('fill-ai-planner', handleVoiceFill);
+    window.addEventListener('update-duration-slider', handleSliderUpdate);
 
     return () => {
       window.removeEventListener('voice-fill-planner', handleVoiceFill);
       window.removeEventListener('fill-ai-planner', handleVoiceFill);
+      window.removeEventListener('update-duration-slider', handleSliderUpdate);
     };
   }, []);
 

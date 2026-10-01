@@ -124,3 +124,50 @@ body {
 .hieroglyphic-pattern {
   background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23C9A84C' fill-opacity='0.03'%3E%3Cpath d='M30 5l5 10h-10l5-10zm0 40l5 10h-10l5-10zM5 30l10-5v10L5 30zm40 0l10-5v10l-10-5z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 }
+
+/* Soundwave animation for voice status */
+@keyframes soundwave {
+  0%, 100% {
+    height: 4px;
+    opacity: 0.5;
+  }
+  50% {
+    height: 16px;
+    opacity: 1;
+  }
+}
+
+/* Fluid Siri/Gemini Morphing Blob Keyframes */
+@keyframes morphBlob {
+  0%, 100% {
+    border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
+    transform: rotate(0deg) scale(1);
+  }
+  33% {
+    border-radius: 70% 30% 46% 54% / 30% 29% 71% 70%;
+    transform: rotate(120deg) scale(1.08);
+  }
+  66% {
+    border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%;
+    transform: rotate(240deg) scale(0.95);
+  }
+}
+
+@keyframes morphBlobInner {
+  0%, 100% {
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    transform: rotate(360deg) scale(1);
+  }
+  50% {
+    border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+    transform: rotate(180deg) scale(1.12);
+  }
+}
+
+.animate-morph-blob {
+  animation: morphBlob 8s ease-in-out infinite;
+}
+
+.animate-morph-blob-inner {
+  animation: morphBlobInner 6s ease-in-out infinite reverse;
+}
