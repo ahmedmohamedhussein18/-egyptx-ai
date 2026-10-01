@@ -277,7 +277,7 @@ export default function MemoriesContent() {
               className="px-5 py-2.5 bg-[#C9A84C] hover:bg-[#E3C973] text-[#0A1628] font-bold rounded-lg transition-colors flex items-center gap-2 shadow-[0_0_15px_rgba(201,168,76,0.3)]"
             >
               <ImageIcon className="w-4 h-4" />
-              Upload Photo
+              {t('memories.upload')}
             </button>
             <button
               onClick={openJournalModal}
@@ -564,7 +564,7 @@ export default function MemoriesContent() {
                 />
 
                 <div>
-                  <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Caption (Optional)</label>
+                  <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">{t('memories.caption')} (Optional)</label>
                   <input 
                     type="text" maxLength={150}
                     value={photoForm.caption} onChange={e => setPhotoForm({...photoForm, caption: e.target.value})}

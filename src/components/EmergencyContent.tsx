@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useLanguage } from '@/context/LanguageContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   AlertTriangle, Phone, MapPin, Copy, CheckCircle2, 
@@ -37,6 +38,7 @@ const PHRASES = [
 ];
 
 export default function EmergencyContent() {
+  const { t } = useLanguage();
   const [locationState, setLocationState] = useState<'idle' | 'requesting' | 'granted' | 'denied'>('idle');
   const [coords, setCoords] = useState<{lat: number, lng: number} | null>(null);
   const [copied, setCopied] = useState(false);
@@ -46,6 +48,7 @@ export default function EmergencyContent() {
   }, []);
 
   const requestLocation = () => {
+  const { t } = useLanguage();
     setLocationState('requesting');
     if (!navigator.geolocation) {
       setLocationState('denied');
@@ -97,7 +100,7 @@ export default function EmergencyContent() {
           <div>
             <h2 className="text-xl font-bold text-red-100 mb-1">Emergency Disclaimer</h2>
             <p className="text-red-200/80 text-sm leading-relaxed">
-              EgyptX AI does not replace official emergency services. In case of an immediate life-threatening situation, use the official numbers below to contact local authorities directly.
+              {t('emergency.disclaimer')}. In case of an immediate life-threatening situation, use the official numbers below to contact local authorities directly.
             </p>
           </div>
         </motion.div>
@@ -249,7 +252,7 @@ export default function EmergencyContent() {
                         rel="noopener noreferrer"
                         className="mt-auto inline-flex w-full py-2.5 bg-[#1B6B93]/20 hover:bg-[#1B6B93]/40 border border-[#1B6B93]/50 text-[#4CC9F0] rounded-lg text-sm font-medium transition-colors items-center justify-center gap-2"
                       >
-                        Find Nearest Hospital
+                        {t('emergency.hospital')}
                       </a>
                     </div>
                     <div className="p-5 bg-white/5 border border-white/10 rounded-xl flex flex-col">
@@ -266,7 +269,7 @@ export default function EmergencyContent() {
                         rel="noopener noreferrer"
                         className="mt-auto inline-flex w-full py-2.5 bg-[#1B6B93]/20 hover:bg-[#1B6B93]/40 border border-[#1B6B93]/50 text-[#4CC9F0] rounded-lg text-sm font-medium transition-colors items-center justify-center gap-2"
                       >
-                        Find Nearest Police Station
+                        {t('emergency.police')}
                       </a>
                     </div>
                   </div>

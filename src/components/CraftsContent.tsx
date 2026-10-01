@@ -4,27 +4,29 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { AlertCircle, Filter, Store } from 'lucide-react';
+import { useLanguage } from '@/context/LanguageContext';
 
-const CATEGORIES = ['All', 'Pottery', 'Papyrus', 'Textiles', 'Jewelry', 'Wood Crafts', 'Traditional Crafts'];
+const getCategories = (t: any) => [{id: 'All', label: t('crafts.cat.all')}, {id: 'Pottery', label: t('crafts.cat.pottery')}, {id: 'Papyrus', label: t('crafts.cat.papyrus')}, {id: 'Textiles', label: t('crafts.cat.textiles')}, {id: 'Jewelry', label: t('crafts.cat.jewelry')}, {id: 'Wood Crafts', label: t('crafts.cat.wood')}, {id: 'Traditional Crafts', label: t('crafts.cat.traditional')}];
 
-const DEMO_PRODUCTS = [
-  { id: 1, title: 'Hand-Painted Fayoum Pottery Bowl', category: 'Pottery', price: '450 EGP', image: '/crafts/pottery.jpg' },
-  { id: 2, title: 'Authentic Painted Papyrus Scroll', category: 'Papyrus', price: '350 EGP', image: '/crafts/papyrus.jpg' },
-  { id: 3, title: 'Akhmim Handwoven Textile', category: 'Textiles', price: '800 EGP', image: '/crafts/textiles.jpg' },
-  { id: 4, title: 'Silver Lotus Flower Pendant', category: 'Jewelry', price: '1,200 EGP', image: '/crafts/jewelry.jpg' },
-  { id: 5, title: 'Mother of Pearl Inlaid Box', category: 'Wood Crafts', price: '650 EGP', image: '/crafts/wood-crafts.jpg' },
-  { id: 6, title: 'Traditional Alabaster Vase', category: 'Traditional Crafts', price: '550 EGP', image: '/crafts/traditional-crafts.jpg' },
-  { id: 7, title: 'Nubian Handwoven Basket', category: 'Traditional Crafts', price: '280 EGP', image: '/crafts/baskets.jpg' },
-  { id: 8, title: 'Gold Cartouche Pendant', category: 'Jewelry', price: '2,500 EGP', image: '/crafts/cartouche.jpg' },
+const getProducts = (t: any) => [
+  { id: 1, title: t('crafts.prod.1'), category: 'Pottery', price: '450 EGP', image: '/crafts/pottery.jpg' },
+  { id: 2, title: t('crafts.prod.2'), category: 'Papyrus', price: '350 EGP', image: '/crafts/papyrus.jpg' },
+  { id: 3, title: t('crafts.prod.3'), category: 'Textiles', price: '800 EGP', image: '/crafts/textiles.jpg' },
+  { id: 4, title: t('crafts.prod.4'), category: 'Jewelry', price: '1,200 EGP', image: '/crafts/jewelry.jpg' },
+  { id: 5, title: t('crafts.prod.5'), category: 'Wood Crafts', price: '650 EGP', image: '/crafts/wood-crafts.jpg' },
+  { id: 6, title: t('crafts.prod.6'), category: 'Traditional Crafts', price: '550 EGP', image: '/crafts/traditional-crafts.jpg' },
+  { id: 7, title: t('crafts.prod.7'), category: 'Traditional Crafts', price: '280 EGP', image: '/crafts/baskets.jpg' },
+  { id: 8, title: t('crafts.prod.8'), category: 'Jewelry', price: '2,500 EGP', image: '/crafts/cartouche.jpg' },
 ];
 
 export default function CraftsContent() {
+  const { t } = useLanguage();
   const [activeCategory, setActiveCategory] = useState('All');
   const router = useRouter();
 
   const filteredProducts = activeCategory === 'All' 
-    ? DEMO_PRODUCTS 
-    : DEMO_PRODUCTS.filter(p => p.category === activeCategory);
+    ? getProducts(t) 
+    : getProducts(t).filter((p: any) => p.category === activeCategory);
 
   return (
     <div className="min-h-screen bg-[#030712] pt-24 pb-16 px-4 sm:px-6 lg:px-8">
@@ -49,18 +51,16 @@ export default function CraftsContent() {
               <Filter className="w-5 h-5 text-[#C9A84C]" /> Categories
             </h2>
             <div className="flex flex-col gap-2">
-              {CATEGORIES.map(category => (
+              {getCategories(t).map((category: any) => (
                 <button
-                  key={category}
-                  onClick={() => setActiveCategory(category)}
+                  key={category.id}
+                  onClick={() => setActiveCategory(category.id)}
                   className={`text-left px-4 py-3 rounded-xl font-medium transition-colors ${
-                    activeCategory === category 
+                    activeCategory === category.id 
                     ? 'bg-[#C9A84C] text-[#0A1628]' 
                     : 'text-gray-400 hover:bg-white/5 hover:text-white'
                   }`}
-                >
-                  {category}
-                </button>
+                >{category.label}</button>
               ))}
             </div>
 

@@ -1,37 +1,40 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useLanguage } from '@/context/LanguageContext';
 import { motion } from 'framer-motion';
 import { Plane, Car, Bus, Ship, CheckCircle, Loader2 } from 'lucide-react';
 
-const MOBILITY_SERVICES = [
+const getMobilityServices = (t: (k: string) => string) => [
   {
     id: 'airport',
-    title: 'Airport Transfers',
-    description: 'Seamless transfers from Cairo, Sphinx, and Luxor international airports.',
+    title: t('home.mobility.airport.title'),
+    description: t('home.mobility.airport.desc'),
     icon: <Plane className="w-8 h-8 text-[#C9A84C]" />
   },
   {
     id: 'city',
-    title: 'City Transport',
-    description: 'On-demand smart vehicles for safe and verified inner-city travel.',
+    title: t('home.mobility.city.title'),
+    description: t('home.mobility.city.desc'),
     icon: <Car className="w-8 h-8 text-[#4CC9F0]" />
   },
   {
     id: 'buses',
-    title: 'Tourist Buses',
-    description: 'Intercity eco-friendly buses connecting major governorates and attractions.',
+    title: t('home.mobility.buses.title'),
+    description: t('home.mobility.buses.desc'),
     icon: <Bus className="w-8 h-8 text-purple-400" />
   },
   {
     id: 'nile',
-    title: 'Nile Cruises',
-    description: 'Integrated booking for authenticated smart cruises along the Nile.',
+    title: t('home.mobility.nile.title'),
+    description: t('home.mobility.nile.desc'),
     icon: <Ship className="w-8 h-8 text-green-400" />
   }
 ];
 
 export default function SmartMobilitySection() {
+  const { t } = useLanguage();
+  const MOBILITY_SERVICES = getMobilityServices(t);
   const [email, setEmail] = useState('');
   const [activeService, setActiveService] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -73,7 +76,7 @@ export default function SmartMobilitySection() {
             viewport={{ once: true }}
             className="text-3xl md:text-5xl font-bold text-white uppercase tracking-widest mb-4"
           >
-            Smart Mobility
+            {t('home.mobility.title')}
           </motion.h2>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
@@ -82,7 +85,7 @@ export default function SmartMobilitySection() {
             transition={{ delay: 0.1 }}
             className="text-[#C9A84C] font-medium tracking-widest uppercase text-sm"
           >
-            Connected transport ecosystem
+            {t('home.mobility.subtitle')}
           </motion.p>
         </div>
 
@@ -119,14 +122,14 @@ export default function SmartMobilitySection() {
                 {successMsg === service.id ? (
                   <div className="flex items-center justify-center gap-2 text-green-400 py-2">
                     <CheckCircle className="w-4 h-4" />
-                    <span className="text-xs font-bold uppercase">Added to list!</span>
+                    <span className="text-xs font-bold uppercase">{t('home.mobility.added')}</span>
                   </div>
                 ) : (
                   <form onSubmit={(e) => handleNotify(service.id, e)} className="flex flex-col gap-2">
                     <input
                       type="email"
                       required
-                      placeholder="Enter email to get notified"
+                      placeholder={t('home.mobility.notifyPlaceholder')}
                       value={activeService === service.id ? email : ''}
                       onChange={(e) => {
                         setEmail(e.target.value);
@@ -140,7 +143,7 @@ export default function SmartMobilitySection() {
                       disabled={loading && activeService === service.id}
                       className="w-full py-2 bg-[#1B6B93]/20 hover:bg-[#1B6B93]/40 border border-[#1B6B93] text-white font-bold rounded-lg transition-colors text-xs uppercase flex items-center justify-center"
                     >
-                      {loading && activeService === service.id ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Notify Me'}
+                      {loading && activeService === service.id ? <Loader2 className="w-4 h-4 animate-spin" /> : t('home.mobility.notifyBtn')}
                     </button>
                   </form>
                 )}

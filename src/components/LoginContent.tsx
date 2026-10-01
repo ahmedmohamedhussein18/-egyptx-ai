@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useLanguage } from '@/context/LanguageContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
@@ -23,6 +24,7 @@ const COUNTRIES = [
 ];
 
 export default function LoginContent() {
+  const { t } = useLanguage();
   const [isLogin, setIsLogin] = useState(true);
   const router = useRouter();
   const supabase = createClient();
@@ -72,6 +74,7 @@ export default function LoginContent() {
   };
 
   const toggleView = () => {
+  const { t } = useLanguage();
     setIsLogin(!isLogin);
     setName('');
     setEmail('');
@@ -99,7 +102,7 @@ export default function LoginContent() {
             <p className="text-white/50 text-sm">
               {isLogin 
                 ? 'Enter your credentials to access your EgyptX AI dashboard.' 
-                : 'Join the National Smart Tourism Ecosystem today.'}
+                : `Join the ${t('login.subtitle')} today.`}
             </p>
           </div>
 

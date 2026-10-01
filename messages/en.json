@@ -9,7 +9,8 @@
     "news": "News",
     "login": "Login",
     "logout": "Logout",
-    "command": "Command"
+    "command": "Command",
+    "brand": "EGYPTX AI"
   },
   "home": {
     "title": "EgyptX AI",
@@ -23,7 +24,121 @@
     "realTime": "Real-Time",
     "welcomeBack": "Welcome back,",
     "badge": "National Smart Tourism Ecosystem",
-    "scroll": "Scroll to explore"
+    "scroll": "Scroll to explore",
+    "smartTourism": {
+      "title": "Smart Tourism Overview",
+      "subtitle": "Revolutionizing how the world experiences Egypt",
+      "aiPowered": {
+        "title": "AI-Powered Tourism",
+        "desc": "Personalized AI journey planning that understands your preferences, pace, and passions to craft the perfect Egyptian adventure.",
+        "tag": "MACHINE LEARNING"
+      },
+      "smartHeritage": {
+        "title": "Smart Heritage",
+        "desc": "Digital preservation and AR-enhanced experiences at Egypt's most treasured archaeological sites and monuments.",
+        "tag": "DIGITAL TWIN"
+      },
+      "distribution": {
+        "title": "Intelligent Tourism Distribution",
+        "desc": "AI-driven crowd management and smart routing that ensures sustainable tourism while maximizing visitor experience.",
+        "tag": "REAL-TIME ANALYTICS"
+      }
+    },
+    "ecosystem": {
+      "title1": "Expanding the ",
+      "title2": "Ecosystem",
+      "subtitle": "EgyptX AI is continuously evolving. Here's what's coming next.",
+      "features": {
+        "vrEgypt": {
+          "title": "VR Egypt",
+          "desc": "Immersive 360° virtual tours of ancient wonders"
+        },
+        "kidsMode": {
+          "title": "Kids Mode",
+          "desc": "A magical, educational experience for young explorers"
+        },
+        "emergency": {
+          "title": "Emergency Assistant",
+          "desc": "24/7 instant multilingual emergency support and location sharing"
+        },
+        "aiMemories": {
+          "title": "AI Memories",
+          "desc": "Auto-generated story of your journey with photos and highlights"
+        },
+        "treasureHunt": {
+          "title": "Treasure Hunt",
+          "desc": "Gamified exploration challenges with real rewards"
+        },
+        "sustainability": {
+          "title": "Sustainability Dashboard",
+          "desc": "Tracking Egypt's environmental impact and progress"
+        },
+        "researchHub": {
+          "title": "Research Hub",
+          "desc": "AI-powered access to Egypt's historical and archaeological data"
+        }
+      },
+      "tourists": "Tourists",
+      "businesses": "Businesses",
+      "data": "Data",
+      "heritage": "Heritage",
+      "comingSoon": "Coming Soon",
+      "stats": {
+        "systems": "7 Integrated Systems",
+        "realTime": "Real-time Data Flow",
+        "insights": "AI-Powered Insights",
+        "coverage": "National Coverage"
+      }
+    },
+    "mobility": {
+      "title": "SMART MOBILITY",
+      "subtitle": "CONNECTED TRANSPORT ECOSYSTEM",
+      "airport": {
+        "title": "Airport Transfers",
+        "desc": "Seamless transfers from Cairo, Sphinx, and Luxor International airports."
+      },
+      "city": {
+        "title": "City Transport",
+        "desc": "On-demand smart vehicles for safe and verified inner-city travel."
+      },
+      "buses": {
+        "title": "Tourist Buses",
+        "desc": "Intercity eco-friendly buses connecting major governorates and attractions."
+      },
+      "nile": {
+        "title": "Nile Cruises",
+        "desc": "Integrated booking for authenticated smart cruises along the Nile."
+      },
+      "integration": "INTEGRATION IN PROGRESS",
+      "notifyPlaceholder": "Enter email to get notified",
+      "notifyBtn": "NOTIFY ME",
+      "added": "Added to waitlist",
+      "comingSoon": "Coming Soon"
+    },
+    "fourPillars": {
+      "title": "THE FOUR CORE PILLARS",
+      "subtitle": "A seamless digital experience from planning to memories",
+      "aiPlanning": {
+        "title": "AI Planning",
+        "desc": "Generate personalized itineraries in seconds based on your preferences, budget, and travel style.",
+        "action": "Plan a Trip"
+      },
+      "smartSites": {
+        "title": "Smart Sites",
+        "desc": "AR-enhanced exploration and real-time AI hieroglyph translation.",
+        "action": "Scan Sites"
+      },
+      "vrEgypt": {
+        "title": "VR Egypt",
+        "desc": "Virtual access to restricted tombs and monuments worldwide.",
+        "action": "Enter VR"
+      },
+      "aiMemories": {
+        "title": "AI Memories",
+        "desc": "Automatically organize and enhance your trip photos with AI.",
+        "action": "View Memories"
+      }
+    }
   },
   "planner": {
     "title": "Plan Your Egypt Journey",
@@ -66,7 +181,23 @@
     "errDuration": "Please enter duration",
     "errBudget": "Please enter budget",
     "errInterests": "Please tell us your interests",
-    "saved": "Saved!"
+    "saved": "Saved!",
+    "intAncient": "Ancient Ruins",
+    "intBeaches": "Beaches",
+    "intAdventure": "Adventure",
+    "intFood": "Local Food",
+    "intCulture": "Culture",
+    "intNature": "Nature",
+    "styleSolo": "Solo",
+    "styleCouple": "Couple",
+    "styleFamily": "Family",
+    "styleGroup": "Group",
+    "planYour": "Plan Your",
+    "journey": "Egypt Journey",
+    "paceTitle": "Preferred Pace",
+    "tryAgain": "Try Again",
+    "routeMap": "Route Map",
+    "exploreAll": "Explore All Destinations"
   },
   "explore": {
     "title": "Explore Egypt",
@@ -74,7 +205,22 @@
     "map": "Interactive Map",
     "noRating": "Rating unavailable",
     "noCrowd": "Crowd data unavailable",
-    "exploreDest": "Explore Destination"
+    "exploreDest": "Explore Destination",
+    "catAll": "All",
+    "catAncient": "Ancient Sites",
+    "catMuseum": "Museums",
+    "catNature": "Nature",
+    "catBeach": "Red Sea & Beaches",
+    "catHidden": "Hidden Egypt",
+    "exploreDetails": "Explore Details",
+    "cat": {
+      "all": "All",
+      "ancient": "Ancient Sites",
+      "hidden": "Hidden Egypt",
+      "nature": "Nature",
+      "museum": "Museums",
+      "beach": "Red Sea & Beaches"
+    }
   },
   "passport": {
     "title": "My EgyptX Passport",
@@ -84,7 +230,30 @@
     "visited": "Visited Places",
     "achievements": "Achievements & Badges",
     "start": "Start exploring to collect your first stamp",
-    "planned": "My Planned Trips"
+    "planned": "My Planned Trips",
+    "verified": "Verified",
+    "badges": {
+      "pharaoh": {
+        "title": "Pharaoh Explorer",
+        "desc": "Visited 3+ ancient sites"
+      },
+      "desert": {
+        "title": "Desert Explorer",
+        "desc": "Explored a hidden oasis"
+      },
+      "heritage": {
+        "title": "Heritage Hunter",
+        "desc": "Collected 5+ digital stamps"
+      },
+      "culture": {
+        "title": "Culture Seeker",
+        "desc": "Experienced local Egyptian cuisine (Pending)"
+      },
+      "nile": {
+        "title": "Nile Navigator",
+        "desc": "Take a Nile cruise (Pending)"
+      }
+    }
   },
   "emergency": {
     "title": "Emergency Assistant",
@@ -119,9 +288,42 @@
     "viewFull": "View Full Details"
   },
   "news": {
-    "title": "Egypt Tourism News",
-    "learnMore": "Learn More",
-    "source": "Source:"
+    "title": "EGYPT TOURISM & HERITAGE",
+    "learnMore": "LEARN MORE",
+    "source": "Source:",
+    "badge": "LATEST NEWS",
+    "subtitle": "Stay updated with the latest discoveries, events, and tourism news.",
+    "filters": {
+      "all": "ALL",
+      "archaeology": "ARCHAEOLOGY",
+      "tourism": "TOURISM",
+      "heritage": "HERITAGE",
+      "museums": "MUSEUMS",
+      "history": "HISTORY"
+    },
+    "items": {
+      "gem": {
+        "title": "Grand Egyptian Museum Opens to the World",
+        "desc": "The Grand Egyptian Museum (GEM) in Giza, the world's largest archaeological museum, officially opened in 2023. It houses over 100,000 artifacts including the complete treasures of Tutankhamun displayed together for the first time in history."
+      },
+      "luxor": {
+        "title": "New Tomb Discovered in Luxor's Valley of the Kings",
+        "desc": "Egyptian archaeologists discovered a new tomb in the Valley of the Kings in Luxor, designated KV65. The discovery adds to our understanding of the New Kingdom period and the burial practices of ancient Egyptian nobles."
+      },
+      "tourism2024": {
+        "title": "Egypt Records 15 Million Tourist Arrivals in 2024",
+        "desc": "Egypt's tourism sector achieved a record 15 million tourist arrivals in 2024, generating $14.9 billion in revenues. The country aims to attract 30 million tourists annually by 2028 as part of its national tourism development strategy."
+      },
+      "unesco": {
+        "title": "UNESCO Launches Digital Heritage Preservation Project",
+        "desc": "A new joint initiative between UNESCO and the Egyptian Ministry of Antiquities will create high-fidelity 3D digital twins of threatened monuments, starting with Islamic Cairo and historic Alexandria."
+      },
+      "alexandria": {
+        "title": "Bibliotheca Alexandrina Announces New Manuscript Exhibition",
+        "desc": "The modern Library of Alexandria will host a rare exhibition of newly restored Islamic and Coptic manuscripts, showcasing the incredible diversity of Egypt's intellectual history through the centuries."
+      }
+    },
+    "noArticles": "No articles found"
   },
   "memories": {
     "title": "My Egypt Memories",
@@ -173,7 +375,9 @@
       "tagline": "Red Sea Paradise",
       "highlights": "Coral Reefs • Marine Life • Desert Safari",
       "desc": "Hurghada transformed from a small fishing village into one of the world's top Red Sea resort destinations. Its crystal-clear waters hide some of the most spectacular coral reefs on the planet, home to over 1,000 species of marine life. Whether you dive, snorkel, or simply relax on pristine beaches, Hurghada offers Egypt's most vibrant coastal experience."
-    }
+    },
+    "featured": "Featured Destinations",
+    "subtitle": "From ancient wonders to hidden oases"
   },
   "footer": {
     "title": "EgyptX AI",
@@ -199,5 +403,87 @@
     "technology": "Technology",
     "terms": "Terms & Privacy",
     "copy": "© 2026 EgyptX AI. The National Smart Tourism Ecosystem."
+  },
+  "cta": {
+    "title": "Experience Egypt, Intelligently.",
+    "subtitle": "Let AI guide your journey through 5000 years of civilization",
+    "btn": "Plan My Journey",
+    "poweredBy": "Powered by Egyptian Intelligence"
+  },
+  "hidden": {
+    "title": "Hidden Egypt",
+    "subtitle": "Discover the untold stories of Egypt's most mysterious locations.",
+    "exploreBtn": "Explore Hidden Sites",
+    "mission": "Our Mission",
+    "reducedCrowding": "Reduced Crowding",
+    "loading": "Loading Hidden Sites...",
+    "noData": "No hidden sites found for this category.",
+    "aiRec": "AI Recommended",
+    "missionDesc": "Discover less-crowded, unique sites recommended by our AI.",
+    "noAi": "No AI recommendation available."
+  },
+  "kids": {
+    "title": "Kids Mode",
+    "subtitle": "A magical, educational experience for young explorers",
+    "playBtn": "Play & Learn",
+    "start": "Start Your Adventure",
+    "games": "Educational Games"
+  },
+  "login": {
+    "title": "Welcome Back",
+    "subtitle": "Log in to your account",
+    "email": "Email Address",
+    "pass": "Password",
+    "btn": "Log In",
+    "register": "Create an Account",
+    "signIn": "Sign In",
+    "access": "Access your account",
+    "demoTourist": "Demo Tourist Account",
+    "demoBusiness": "Demo Business Account",
+    "govLogin": "Government Login"
+  },
+  "crafts": {
+    "title": "Egyptian Crafts",
+    "subtitle": "Authentic, handcrafted souvenirs from local artisans.",
+    "shopBtn": "Shop Now",
+    "empty": "No products found.",
+    "registerBtn": "Register as Vendor",
+    "viewDetails": "View Details",
+    "cat": {
+      "all": "All",
+      "pottery": "Pottery & Ceramics",
+      "jewelry": "Jewelry",
+      "textiles": "Textiles",
+      "woodwork": "Woodwork",
+      "glass": "Glass",
+      "leather": "Leather",
+      "papyrus": "Papyrus",
+      "wood": "Woodwork",
+      "traditional": "Traditional"
+    },
+    "prod": {
+      "1": "Hand-painted Fayoum Pottery",
+      "2": "Authentic Papyrus Scroll",
+      "3": "Akhmim Woven Tapestry",
+      "4": "Silver Lotus Pendant",
+      "5": "Mother of Pearl Inlaid Box",
+      "6": "Traditional Alabaster Vase",
+      "7": "Handwoven Nubian Basket",
+      "8": "Gold Cartouche",
+      "fayoum": "Fayoum Pottery Plate",
+      "scarab": "Silver Scarab Pendant",
+      "khayamiya": "Khayamiya Tapestry",
+      "alabaster": "Alabaster Vase",
+      "papyrus": "Hand-painted Papyrus",
+      "copper": "Engraved Copper Tray",
+      "desc": {
+        "fayoum": "Handcrafted plate from Fayoum",
+        "scarab": "Traditional silver pendant",
+        "khayamiya": "Authentic tentmaker appliqué",
+        "alabaster": "Hand-carved vase from Luxor",
+        "papyrus": "Ancient art replica on authentic papyrus",
+        "copper": "Intricate Mamluk style copper tray"
+      }
+    }
   }
 }

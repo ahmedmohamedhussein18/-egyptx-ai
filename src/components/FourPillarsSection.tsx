@@ -1,40 +1,42 @@
 'use client';
 
 import React from 'react';
+import { useLanguage } from '@/context/LanguageContext';
 import { motion } from 'framer-motion';
 import { Compass, Camera, Map, Headphones } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 export default function FourPillarsSection() {
+  const { t } = useLanguage();
   const router = useRouter();
   
-  const pillars = [
+  const getPillars = (t: any) => [
     {
-      title: "AI Planning",
-      description: "Generate personalized itineraries in seconds based on your preferences, budget, and travel style.",
       icon: <Compass className="w-8 h-8 text-[#C9A84C]" />,
-      action: "Plan Trip",
+      title: t('home.fourPillars.aiPlanning.title'),
+      description: t('home.fourPillars.aiPlanning.desc'),
+      action: t('home.fourPillars.aiPlanning.action'),
       link: "/planner"
     },
     {
-      title: "VR Egypt",
-      description: "Explore the Pyramids and ancient temples from your home before you even arrive.",
-      icon: <Headphones className="w-8 h-8 text-[#4CC9F0]" />,
-      action: "Launch VR",
+      icon: <Map className="w-8 h-8 text-[#C9A84C]" />,
+      title: t('home.fourPillars.smartSites.title'),
+      description: t('home.fourPillars.smartSites.desc'),
+      action: t('home.fourPillars.smartSites.action'),
+      link: "/smart-site"
+    },
+    {
+      icon: <Headphones className="w-8 h-8 text-[#C9A84C]" />,
+      title: t('home.fourPillars.vrEgypt.title'),
+      description: t('home.fourPillars.vrEgypt.desc'),
+      action: t('home.fourPillars.vrEgypt.action'),
       link: "/vr-egypt"
     },
     {
-      title: "Tourist Passport",
-      description: "Scan QR codes at historical sites to collect digital stamps and earn real-world rewards.",
-      icon: <Map className="w-8 h-8 text-purple-400" />,
-      action: "View Passport",
-      link: "/tourist-passport"
-    },
-    {
-      title: "Memory Photos",
-      description: "Upload your best moments to an interactive AI timeline and export beautiful travel cards.",
-      icon: <Camera className="w-8 h-8 text-green-400" />,
-      action: "See Memories",
+      icon: <Camera className="w-8 h-8 text-[#C9A84C]" />,
+      title: t('home.fourPillars.aiMemories.title'),
+      description: t('home.fourPillars.aiMemories.desc'),
+      action: t('home.fourPillars.aiMemories.action'),
       link: "/memories"
     }
   ];
@@ -51,7 +53,7 @@ export default function FourPillarsSection() {
             viewport={{ once: true }}
             className="text-3xl md:text-5xl font-bold text-white uppercase tracking-widest mb-4"
           >
-            The Four Core Pillars
+            {t('home.fourPillars.title')}
           </motion.h2>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
@@ -60,12 +62,12 @@ export default function FourPillarsSection() {
             transition={{ delay: 0.1 }}
             className="text-[#C9A84C] font-medium tracking-widest uppercase text-sm"
           >
-            A seamless digital experience from planning to memories
+            {t('home.fourPillars.subtitle')}
           </motion.p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {pillars.map((pillar, idx) => (
+          {getPillars(t).map((pillar, idx) => (
             <motion.div
               key={idx}
               initial={{ opacity: 0, y: 30 }}

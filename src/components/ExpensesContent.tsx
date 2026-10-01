@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { useLanguage } from '@/context/LanguageContext';
 import { createClient } from '@/lib/supabase/client';
 import { motion } from 'framer-motion';
 import { Loader2, Plus, AlertCircle, PieChart as PieChartIcon, Receipt, Calendar as CalendarIcon, Tag } from 'lucide-react';
@@ -13,6 +14,7 @@ const CURRENCIES = ['EGP', 'USD', 'EUR', 'GBP'];
 const COLORS = ['#4CC9F0', '#F72585', '#4361EE', '#3A0CA3', '#7209B7', '#F8961E', '#90BE6D'];
 
 export default function ExpensesContent() {
+  const { t } = useLanguage();
   const [expenses, setExpenses] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
@@ -298,7 +300,7 @@ export default function ExpensesContent() {
               {expenses.length === 0 ? (
                 <div className="text-center py-12 bg-white/5 rounded-2xl border border-white/5">
                   <Receipt className="w-12 h-12 text-gray-600 mx-auto mb-4" />
-                  <p className="text-gray-400 text-lg">No expenses recorded yet.</p>
+                  <p className="text-gray-400 text-lg">{t('expenses.noExpenses')}.</p>
                   <p className="text-gray-500 mt-2">Start tracking your Egypt journey spending.</p>
                 </div>
               ) : (

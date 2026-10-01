@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { useLanguage } from '@/context/LanguageContext';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { 
@@ -8,56 +9,57 @@ import {
   Camera, Leaf, Search, Lock 
 } from 'lucide-react';
 
-const UPCOMING_FEATURES = [
+const getUpcomingFeatures = (t: any) => [
   {
     id: 1,
-    title: 'VR Egypt',
-    desc: 'Immersive 360° virtual tours of ancient wonders',
+    title: t('home.ecosystem.features.vrEgypt.title'),
+    desc: t('home.ecosystem.features.vrEgypt.desc'),
     icon: Globe,
     href: '/vr-egypt',
   },
   {
     id: 2,
-    title: 'Kids Mode',
-    desc: 'A magical, educational experience for young explorers',
+    title: t('home.ecosystem.features.kidsMode.title'),
+    desc: t('home.ecosystem.features.kidsMode.desc'),
     icon: Smile,
     href: '/kids',
   },
   {
     id: 3,
-    title: 'Emergency Assistant',
-    desc: '24/7 instant multilingual emergency support and location sharing',
+    title: t('home.ecosystem.features.emergency.title'),
+    desc: t('home.ecosystem.features.emergency.desc'),
     icon: Siren,
     href: '/emergency',
   },
   {
     id: 4,
-    title: 'AI Memories',
-    desc: 'Auto-generated story of your journey with photos and highlights',
+    title: t('home.ecosystem.features.aiMemories.title'),
+    desc: t('home.ecosystem.features.aiMemories.desc'),
     icon: Camera,
     href: '/memories',
   },
   {
     id: 5,
-    title: 'Treasure Hunt',
-    desc: 'Gamified exploration challenges with real rewards',
+    title: t('home.ecosystem.features.treasureHunt.title'),
+    desc: t('home.ecosystem.features.treasureHunt.desc'),
     icon: Map,
   },
   {
     id: 6,
-    title: 'Sustainability Dashboard',
-    desc: 'Tracking Egypt\'s environmental impact and progress',
+    title: t('home.ecosystem.features.sustainability.title'),
+    desc: t('home.ecosystem.features.sustainability.desc'),
     icon: Leaf,
   },
   {
     id: 7,
-    title: 'Research Hub',
-    desc: 'AI-powered access to Egypt\'s historical and archaeological data',
+    title: t('home.ecosystem.features.researchHub.title'),
+    desc: t('home.ecosystem.features.researchHub.desc'),
     icon: Search,
   },
 ];
 
 export default function FutureEcosystemSection() {
+  const { t } = useLanguage();
   return (
     <section className="relative w-full py-24 bg-[#030712] overflow-hidden border-t border-white/5">
       {/* Background Glow */}
@@ -73,7 +75,7 @@ export default function FutureEcosystemSection() {
             viewport={{ once: true }}
             className="text-3xl md:text-5xl font-bold text-white mb-4"
           >
-            Expanding the <span className="text-[#C9A84C]">Ecosystem</span>
+            {t('home.ecosystem.title1')}<span className="text-[#C9A84C]">{t('home.ecosystem.title2')}</span>
           </motion.h2>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
@@ -82,18 +84,18 @@ export default function FutureEcosystemSection() {
             transition={{ delay: 0.1 }}
             className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto"
           >
-            EgyptX AI is continuously evolving. Here&apos;s what&apos;s coming next.
+            {t('home.ecosystem.subtitle')}
           </motion.p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {UPCOMING_FEATURES.map((feature, idx) => {
+          {getUpcomingFeatures(t).map((feature: any, idx: number) => {
             const CardContent = (
               <>
                 {/* Coming Soon Badge - Only show if no href */}
                 {!feature.href && (
                   <div className="absolute top-4 right-4 px-2 py-1 bg-[#1B6B93]/20 border border-[#1B6B93]/40 rounded text-[10px] uppercase font-bold text-[#4CC9F0] flex items-center gap-1">
-                    <Lock className="w-3 h-3" /> Coming Soon
+                    <Lock className="w-3 h-3" /> {t('home.ecosystem.comingSoon')}
                   </div>
                 )}
 

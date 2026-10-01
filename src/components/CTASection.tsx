@@ -2,8 +2,10 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function CTASection() {
+  const { t } = useLanguage();
   return (
     <section className="relative w-full py-32 bg-[#0a1128] overflow-hidden flex items-center justify-center">
       {/* Background Gradient */}
@@ -45,11 +47,11 @@ export default function CTASection() {
             }}
             style={{ backgroundSize: '200% auto' }}
           >
-            Experience Egypt, Intelligently.
+            {t('cta.title')}
           </motion.h2>
           
           <p className="text-xl md:text-2xl text-white/60 mb-12">
-            Let AI guide your journey through 5,000 years of civilization
+            {t('cta.subtitle')}
           </p>
 
           <motion.button
@@ -57,11 +59,11 @@ export default function CTASection() {
             whileTap={{ scale: 0.95 }}
             className="relative px-8 py-4 bg-gradient-to-r from-[#D4AF37] to-[#B8860B] text-[#0a1128] font-bold text-lg rounded-full shadow-[0_0_20px_rgba(212,175,55,0.4)] hover:shadow-[0_0_30px_rgba(212,175,55,0.6)] transition-shadow duration-300 mb-6"
           >
-            Plan My Journey
+            {t('cta.btn')}
           </motion.button>
           
           <p className="text-sm text-white/40 tracking-wider flex items-center gap-2">
-            <span className="text-[#D4AF37]">✦</span> Powered by Egyptian Intelligence
+            <span className="text-[#D4AF37]">✦</span> {t('cta.poweredBy')}
           </p>
         </motion.div>
       </div>

@@ -23,7 +23,121 @@
     "realTime": "实时",
     "welcomeBack": "欢迎,",
     "badge": "国家生态系统",
-    "scroll": "向下滚动探索"
+    "scroll": "向下滚动探索",
+    "fourPillars": {
+      "title": "四大核心支柱",
+      "subtitle": "从规划到回忆的无缝数字体验",
+      "aiPlanning": {
+        "title": "AI规划",
+        "desc": "根据偏好、预算和旅行风格，在几秒内生成个性化行程。",
+        "action": "规划旅程"
+      },
+      "smartSites": {
+        "title": "智慧景点",
+        "desc": "AR增强探索和AI即时翻译象形文字。",
+        "action": "扫描景点"
+      },
+      "vrEgypt": {
+        "title": "VR埃及",
+        "desc": "虚拟访问全球受限制的陵墓和古迹。",
+        "action": "进入VR"
+      },
+      "aiMemories": {
+        "title": "AI记忆",
+        "desc": "自动整理和优化您的旅行照片。",
+        "action": "查看回忆"
+      }
+    },
+    "smartTourism": {
+      "title": "智慧旅游概览",
+      "subtitle": "彻底改变世界体验埃及的方式",
+      "aiPowered": {
+        "title": "AI驱动旅游",
+        "desc": "个性化AI旅行规划，理解您的偏好、节奏和激情，打造完美埃及之旅。",
+        "tag": "机器学习"
+      },
+      "smartHeritage": {
+        "title": "智慧遗产",
+        "desc": "在埃及最珍贵的考古遗址进行数字保护和AR增强体验。",
+        "tag": "数字孪生"
+      },
+      "distribution": {
+        "title": "智能旅游分配",
+        "desc": "AI驱动的人群管理和智能路线规划，确保可持续旅游并最大化游客体验。",
+        "tag": "实时分析"
+      }
+    },
+    "ecosystem": {
+      "tourists": "游客",
+      "businesses": "企业",
+      "data": "数据",
+      "heritage": "遗产",
+      "stats": {
+        "systems": "7个集成系统",
+        "realTime": "实时数据流",
+        "insights": "AI洞察",
+        "coverage": "全国覆盖"
+      },
+      "title1": "扩展",
+      "title2": "生态系统",
+      "subtitle": "EgyptX AI持续进化。以下是即将推出的内容。",
+      "comingSoon": "即将推出",
+      "features": {
+        "vrEgypt": {
+          "title": "VR埃及",
+          "desc": "360°沉浸式古代奇迹虚拟之旅"
+        },
+        "kidsMode": {
+          "title": "儿童模式",
+          "desc": "为年轻探险家打造的神奇教育体验"
+        },
+        "emergency": {
+          "title": "紧急助手",
+          "desc": "24/7即时多语言紧急支持和位置共享"
+        },
+        "aiMemories": {
+          "title": "AI记忆",
+          "desc": "自动生成的旅程故事，附带照片和精彩时刻"
+        },
+        "treasureHunt": {
+          "title": "寻宝游戏",
+          "desc": "游戏化探索挑战，获得真实奖励"
+        },
+        "sustainability": {
+          "title": "可持续发展仪表板",
+          "desc": "追踪埃及的环境影响和进展"
+        },
+        "researchHub": {
+          "title": "研究中心",
+          "desc": "AI驱动访问埃及历史和考古数据"
+        }
+      }
+    },
+    "mobility": {
+      "title": "智能出行",
+      "subtitle": "互联交通生态系统",
+      "comingSoon": "即将推出",
+      "integration": "集成进行中",
+      "notifyPlaceholder": "输入邮箱获取通知",
+      "notifyBtn": "通知我",
+      "added": "已添加到列表！",
+      "airport": {
+        "title": "机场接送",
+        "desc": "无缝对接开罗、斯芬克斯和卢克索国际机场。"
+      },
+      "city": {
+        "title": "城市交通",
+        "desc": "按需智能车辆，提供安全可靠的市内出行。"
+      },
+      "buses": {
+        "title": "旅游巴士",
+        "desc": "环保城际巴士，连接各省和主要景点。"
+      },
+      "nile": {
+        "title": "尼罗河游轮",
+        "desc": "集成预订经认证的智能尼罗河游轮。"
+      }
+    }
   },
   "planner": {
     "title": "规划您的埃及之旅",
@@ -33,18 +147,18 @@
     "anywhere": "埃及任何地方",
     "travelers": "游客",
     "pace": "喜欢的节奏",
-    "paceRelaxed": "轻松",
-    "paceBalanced": "平衡",
-    "pacePacked": "紧凑",
-    "duration": "旅行时间",
-    "budget": "预算",
+    "paceRelaxed": "Relaxed",
+    "paceBalanced": "Balanced",
+    "pacePacked": "Packed",
+    "duration": "Trip Duration",
+    "budget": "Budget",
     "interests": "您对什么感兴趣？",
     "style": "旅行风格",
     "constraints": "额外限制",
     "accessibility": "无障碍需求",
     "avoid": "要避免的地方",
     "lessCrowded": "倾向于不拥挤的地方",
-    "generateBtn": "生成我的埃及之旅",
+    "generateBtn": "Generate My Egypt Journey",
     "loading1": "正在分析您的偏好...",
     "loading2": "正在构建您的旅程...",
     "itineraryTitle": "您的个性化行程",
@@ -52,7 +166,7 @@
     "morning": "早上",
     "afternoon": "下午",
     "evening": "晚上",
-    "modifyBtn": "修改计划",
+    "modifyBtn": "Modify Plan",
     "selectCountry": "选择国家",
     "egTravelers": "例如：2个成年人",
     "egDuration": "例如：7天",
@@ -66,25 +180,73 @@
     "errDuration": "请输入时长",
     "errBudget": "请输入预算",
     "errInterests": "请输入兴趣",
-    "saved": "已保存！"
+    "saved": "已保存！",
+    "intAncient": "Ancient Egypt",
+    "intBeaches": "Beaches",
+    "intAdventure": "Adventure",
+    "intFood": "Food",
+    "intCulture": "Culture",
+    "intNature": "Nature",
+    "styleSolo": "Solo",
+    "styleCouple": "Couple",
+    "styleFamily": "Family",
+    "styleGroup": "Group",
+    "planYour": "规划您的",
+    "journey": "埃及之旅",
+    "paceTitle": "偏好节奏",
+    "tryAgain": "重试",
+    "routeMap": "路线图",
+    "exploreAll": "探索所有目的地"
   },
   "explore": {
     "title": "探索埃及",
-    "subtitle": "从古代奇迹到隐藏的绿洲",
+    "subtitle": "发现经过验证的历史遗迹、隐藏的宝石和自然奇观。",
     "map": "交互式地图",
     "noRating": "暂无评分",
     "noCrowd": "人群数据不可用",
-    "exploreDest": "探索目的地"
+    "exploreDest": "探索目的地",
+    "exploreDetails": "探索详情",
+    "cat": {
+      "all": "全部",
+      "ancient": "古代",
+      "museum": "博物馆",
+      "nature": "自然",
+      "beach": "海滩",
+      "hidden": "隐藏"
+    }
   },
   "passport": {
     "title": "我的 EgyptX 护照",
     "journey": "游客的旅程",
     "totalStamps": "邮票总数",
-    "status": "状态：已验证",
+    "status": "状态",
     "visited": "游览过的地方",
     "achievements": "成就与徽章",
     "start": "开始探索以收集您的第一枚邮票",
-    "planned": "我的计划旅行"
+    "planned": "我的计划旅行",
+    "verified": "已验证",
+    "badges": {
+      "pharaoh": {
+        "title": "法老探险家",
+        "desc": "参观了3个以上古迹"
+      },
+      "desert": {
+        "title": "沙漠探险家",
+        "desc": "探索了隐藏的绿洲"
+      },
+      "heritage": {
+        "title": "遗产猎人",
+        "desc": "收集了5个以上数字邮票"
+      },
+      "culture": {
+        "title": "文化寻求者",
+        "desc": "体验当地美食（待定）"
+      },
+      "nile": {
+        "title": "尼罗河航海家",
+        "desc": "尼罗河游轮（待定）"
+      }
+    }
   },
   "emergency": {
     "title": "紧急助手",
@@ -119,9 +281,42 @@
     "viewFull": "查看完整详情"
   },
   "news": {
-    "title": "埃及旅游新闻",
+    "title": "埃及旅游与遗产",
     "learnMore": "了解更多",
-    "source": "来源："
+    "source": "来源：",
+    "noArticles": "未找到文章",
+    "badge": "最新消息",
+    "subtitle": "随时了解最新的考古发现、活动和旅游新闻。",
+    "filters": {
+      "all": "全部",
+      "archaeology": "考古",
+      "tourism": "旅游",
+      "heritage": "遗产",
+      "museums": "博物馆",
+      "history": "历史"
+    },
+    "items": {
+      "gem": {
+        "title": "大埃及博物馆向世界开放",
+        "desc": "位于吉萨的大埃及博物馆（GEM）是世界上最大的考古博物馆，于2023年正式开放。它收藏了超过10万件文物，包括历史上首次一起展出的图坦卡蒙的完整宝藏。"
+      },
+      "luxor": {
+        "title": "卢克索帝王谷发现新墓穴",
+        "desc": "埃及考古学家在卢克索的帝王谷发现了一座编号为KV65的新墓。这一发现加深了我们对新王国时期和古埃及贵族埋葬习俗的了解。"
+      },
+      "tourism2024": {
+        "title": "2024年埃及入境游客达到1500万人次",
+        "desc": "埃及旅游业在2024年创下1500万游客入境的纪录，创造了149亿美元的收入。作为国家旅游发展战略的一部分，该国目标到2028年每年吸引3000万游客。"
+      },
+      "unesco": {
+        "title": "联合国教科文组织启动数字遗产保护项目",
+        "desc": "联合国教科文组织和埃及文物部之间的一项新联合倡议将为受威胁的古迹创建高保真3D数字孪生，从伊斯兰开罗和历史悠久的亚历山大开始。"
+      },
+      "alexandria": {
+        "title": "亚历山大图书馆宣布举办选手稿展览",
+        "desc": "亚历山大现代图书馆将举办罕见的新修复的伊斯兰和科普特手稿展览，展示埃及几个世纪以来令人难以置信的知识历史多样性。"
+      }
+    }
   },
   "memories": {
     "title": "我的埃及记忆",
@@ -199,5 +394,44 @@
     "technology": "技术",
     "terms": "条款与隐私",
     "copy": "© 2026 EgyptX AI。国家智能旅游生态系统。"
+  },
+  "hidden": {
+    "mission": "National Impact Mission",
+    "reducedCrowding": "Reduced Crowding",
+    "loading": "Loading hidden gems...",
+    "noData": "Platform visit data unavailable",
+    "aiRec": "AI Recommendation"
+  },
+  "cta": {
+    "title": "智能体验埃及。",
+    "subtitle": "让AI引导您穿越5000年的文明旅程",
+    "btn": "规划我的旅程",
+    "poweredBy": "由埃及智能提供支持"
+  },
+  "crafts": {
+    "title": "正宗埃及工艺品",
+    "subtitle": "支持当地工匠。所有商品均经过正品验证。",
+    "empty": "未找到产品。",
+    "registerBtn": "注册为工匠",
+    "viewDetails": "查看详情",
+    "cat": {
+      "all": "全部",
+      "pottery": "陶器",
+      "papyrus": "纸莎草",
+      "textiles": "纺织品",
+      "jewelry": "珠宝",
+      "wood": "木工艺品",
+      "traditional": "传统工艺"
+    },
+    "prod": {
+      "1": "手绘法尤姆陶碗",
+      "2": "正宗彩绘纸莎草卷轴",
+      "3": "阿赫米姆手工纺织品",
+      "4": "银质莲花吊坠",
+      "5": "珍珠母镶嵌盒",
+      "6": "传统雪花石膏花瓶",
+      "7": "努比亚手工编织篮",
+      "8": "金质椭圆形吊坠"
+    }
   }
 }

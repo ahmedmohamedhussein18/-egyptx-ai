@@ -9,7 +9,8 @@
     "news": "Actualités",
     "login": "Connexion",
     "logout": "Déconnexion",
-    "command": "Commande"
+    "command": "Commande",
+    "brand": "EgyptX AI"
   },
   "home": {
     "title": "EgyptX IA",
@@ -23,10 +24,124 @@
     "realTime": "En temps réel",
     "welcomeBack": "Bon retour,",
     "badge": "Écosystème National",
-    "scroll": "Faites défiler"
+    "scroll": "Faites défiler",
+    "fourPillars": {
+      "title": "Les Quatre Piliers Fondamentaux",
+      "subtitle": "Une expérience numérique fluide de la planification aux souvenirs",
+      "aiPlanning": {
+        "title": "Planification IA",
+        "desc": "Génération d'itinéraires personnalisés en secondes selon vos préférences, budget et style de voyage.",
+        "action": "Planifier un Voyage"
+      },
+      "smartSites": {
+        "title": "Sites Intelligents",
+        "desc": "Exploration assistée par AR et traduction instantanée des hiéroglyphes par IA.",
+        "action": "Scanner les Sites"
+      },
+      "vrEgypt": {
+        "title": "Égypte VR",
+        "desc": "Accès virtuel aux tombes et monuments restreints dans le monde entier.",
+        "action": "Entrer en VR"
+      },
+      "aiMemories": {
+        "title": "Souvenirs IA",
+        "desc": "Organisez et améliorez automatiquement les photos de votre voyage.",
+        "action": "Voir les Souvenirs"
+      }
+    },
+    "smartTourism": {
+      "title": "Aperçu du Tourisme Intelligent",
+      "subtitle": "Révolutionner la façon dont le monde découvre l'Égypte",
+      "aiPowered": {
+        "title": "Tourisme propulsé par l'IA",
+        "desc": "Planification de voyage IA personnalisée qui comprend vos préférences, votre rythme et vos passions pour créer l'aventure égyptienne parfaite.",
+        "tag": "Apprentissage automatique"
+      },
+      "smartHeritage": {
+        "title": "Patrimoine Intelligent",
+        "desc": "Préservation numérique et expériences AR aux sites archéologiques et monuments les plus précieux d'Égypte.",
+        "tag": "Jumeau Numérique"
+      },
+      "distribution": {
+        "title": "Distribution Touristique Intelligente",
+        "desc": "Gestion des foules par IA et routage intelligent garantissant un tourisme durable tout en maximisant l'expérience des visiteurs.",
+        "tag": "Analyses en Temps Réel"
+      }
+    },
+    "ecosystem": {
+      "tourists": "Touristes",
+      "businesses": "Entreprises",
+      "data": "Données",
+      "heritage": "Patrimoine",
+      "stats": {
+        "systems": "7 Systèmes Intégrés",
+        "realTime": "Flux de Données en Temps Réel",
+        "insights": "Analyses IA",
+        "coverage": "Couverture Nationale"
+      },
+      "title1": "Expansion de l'",
+      "title2": "Écosystème",
+      "subtitle": "EgyptX AI évolue en permanence. Voici ce qui arrive.",
+      "comingSoon": "BIENTÔT",
+      "features": {
+        "vrEgypt": {
+          "title": "Égypte VR",
+          "desc": "Visites virtuelles immersives à 360° des merveilles antiques"
+        },
+        "kidsMode": {
+          "title": "Mode Enfants",
+          "desc": "Une expérience éducative magique pour les jeunes explorateurs"
+        },
+        "emergency": {
+          "title": "Assistant d'urgence",
+          "desc": "Support d'urgence multilingue instantané 24h/24 et partage de localisation"
+        },
+        "aiMemories": {
+          "title": "Souvenirs IA",
+          "desc": "Histoire générée automatiquement de votre voyage avec photos et moments forts"
+        },
+        "treasureHunt": {
+          "title": "Chasse au trésor",
+          "desc": "Défis d'exploration ludiques avec de vraies récompenses"
+        },
+        "sustainability": {
+          "title": "Tableau de bord durabilité",
+          "desc": "Suivi de l'impact environnemental et des progrès de l'Égypte"
+        },
+        "researchHub": {
+          "title": "Pôle de recherche",
+          "desc": "Accès propulsé par l'IA aux données historiques et archéologiques de l'Égypte"
+        }
+      }
+    },
+    "mobility": {
+      "title": "Mobilité Intelligente",
+      "subtitle": "Écosystème de transport connecté",
+      "comingSoon": "Bientôt Disponible",
+      "integration": "Intégration en Cours",
+      "notifyPlaceholder": "Entrez votre e-mail pour être notifié",
+      "notifyBtn": "Me Notifier",
+      "added": "Ajouté à la liste !",
+      "airport": {
+        "title": "Transferts Aéroport",
+        "desc": "Transferts fluides depuis les aéroports internationaux du Caire, Sphinx et Louxor."
+      },
+      "city": {
+        "title": "Transport Urbain",
+        "desc": "Véhicules intelligents à la demande pour des déplacements sûrs et vérifiés en ville."
+      },
+      "buses": {
+        "title": "Bus Touristiques",
+        "desc": "Bus écologiques interurbains reliant les principales gouvernorats et attractions."
+      },
+      "nile": {
+        "title": "Croisières sur le Nil",
+        "desc": "Réservation intégrée pour des croisières intelligentes et authentifiées sur le Nil."
+      }
+    }
   },
   "planner": {
-    "title": "Planifiez votre voyage en Égypte",
+    "title": "Planifiez Votre Voyage en Égypte",
     "prompt": "Parlez-nous de votre voyage de rêve...",
     "whereFrom": "D'où venez-vous ?",
     "targetGov": "Gouvernorat cible",
@@ -35,8 +150,8 @@
     "pace": "Rythme préféré",
     "paceRelaxed": "Détendu",
     "paceBalanced": "Équilibré",
-    "pacePacked": "Chargé",
-    "duration": "Durée du voyage",
+    "pacePacked": "Intense",
+    "duration": "Durée du Voyage",
     "budget": "Budget",
     "interests": "Qu'est-ce qui vous intéresse ?",
     "style": "Style de voyage",
@@ -44,15 +159,15 @@
     "accessibility": "Besoins d'accessibilité",
     "avoid": "Endroits à éviter",
     "lessCrowded": "Préférer les endroits moins fréquentés",
-    "generateBtn": "Générer mon voyage en Égypte",
+    "generateBtn": "Générer Mon Voyage en Égypte",
     "loading1": "Analyse de vos préférences...",
     "loading2": "Construction de votre voyage...",
-    "itineraryTitle": "Votre itinéraire personnalisé",
+    "itineraryTitle": "Votre Itinéraire Personnalisé",
     "day": "Jour",
     "morning": "Matin",
     "afternoon": "Après-midi",
     "evening": "Soirée",
-    "modifyBtn": "Modifier le plan",
+    "modifyBtn": "Modifier le Plan",
     "selectCountry": "Choisissez votre pays",
     "egTravelers": "ex: 2 adultes",
     "egDuration": "ex: 7 Jours",
@@ -66,31 +181,85 @@
     "errDuration": "Entrez durée",
     "errBudget": "Entrez budget",
     "errInterests": "Entrez intérêts",
-    "saved": "Enregistré!"
+    "saved": "Enregistré!",
+    "intAncient": "Égypte Antique",
+    "intBeaches": "Plages",
+    "intAdventure": "Aventure",
+    "intFood": "Nourriture",
+    "intCulture": "Culture",
+    "intNature": "Nature",
+    "styleSolo": "Solo",
+    "styleCouple": "Couple",
+    "styleFamily": "Famille",
+    "styleGroup": "Groupe",
+    "planYour": "Planifiez Votre",
+    "journey": "Voyage en Égypte",
+    "paceTitle": "Rythme préféré",
+    "tryAgain": "Réessayer",
+    "routeMap": "Carte de l'itinéraire",
+    "exploreAll": "Explorer toutes les destinations"
   },
   "explore": {
-    "title": "Explorer l'Égypte",
-    "subtitle": "Des merveilles antiques aux oasis cachées",
-    "map": "Carte interactive",
-    "noRating": "Note indisponible",
-    "noCrowd": "Données d'affluence indisponibles",
-    "exploreDest": "Explorer la destination"
+    "title": "Explorez l'Égypte",
+    "subtitle": "Découvrez des sites historiques vérifiés, des joyaux cachés et des merveilles naturelles.",
+    "map": "Carte Interactive",
+    "noRating": "Évaluation non disponible",
+    "noCrowd": "Données d'affluence non disponibles",
+    "exploreDest": "Explorer la Destination",
+    "catAll": "Tout",
+    "catAncient": "Antique",
+    "catMuseum": "Musées",
+    "catNature": "Nature",
+    "catBeach": "Plages",
+    "catHidden": "Caché",
+    "exploreDetails": "Voir les détails",
+    "cat": {
+      "all": "Tout",
+      "ancient": "Ancien",
+      "museum": "Musée",
+      "nature": "Nature",
+      "beach": "Plage",
+      "hidden": "Caché"
+    }
   },
   "passport": {
-    "title": "Mon passeport EgyptX",
-    "journey": "Le voyage du touriste",
-    "totalStamps": "Total des tampons",
-    "status": "Statut : Vérifié",
-    "visited": "Lieux visités",
-    "achievements": "Réalisations et badges",
+    "title": "Passeport Touristique",
+    "journey": "Votre Parcours",
+    "totalStamps": "Total des Tampons",
+    "status": "Statut",
+    "visited": "Lieux Visités",
+    "achievements": "Réalisations et Badges",
     "start": "Commencez à explorer pour collecter votre premier tampon",
-    "planned": "Mes voyages prévus"
+    "planned": "Mes Voyages Prévus",
+    "verified": "Vérifié",
+    "badges": {
+      "pharaoh": {
+        "title": "Explorateur Pharaon",
+        "desc": "Visité plus de 3 sites antiques"
+      },
+      "desert": {
+        "title": "Explorateur du Désert",
+        "desc": "Exploré une oasis cachée"
+      },
+      "heritage": {
+        "title": "Chasseur de Patrimoine",
+        "desc": "Collectionné plus de 5 timbres numériques"
+      },
+      "culture": {
+        "title": "Chercheur de Culture",
+        "desc": "Testé la cuisine locale (À venir)"
+      },
+      "nile": {
+        "title": "Navigateur du Nil",
+        "desc": "Fait une croisière sur le Nil (À venir)"
+      }
+    }
   },
   "emergency": {
-    "title": "Assistant d'urgence",
-    "hospital": "Trouver l'hôpital le plus proche",
-    "police": "Trouver le poste de police le plus proche",
-    "disclaimer": "EgyptX IA ne remplace pas les services d'urgence officiels"
+    "title": "Assistant d'Urgence",
+    "hospital": "Trouver l'Hôpital le Plus Proche",
+    "police": "Trouver le Commissariat le Plus Proche",
+    "disclaimer": "EgyptX AI ne remplace pas les services d'urgence officiels"
   },
   "common": {
     "loading": "Chargement...",
@@ -108,32 +277,65 @@
     "footer": "L'écosystème National du Tourisme Intelligent"
   },
   "aiGuide": {
-    "title": "Guide de vision IA",
+    "title": "Guide de Vision IA",
     "snap": "Prenez une photo de n'importe quel monument...",
     "identify": "Identifier avec l'IA",
-    "high": "HAUTE CONFIANCE",
+    "high": "CONFIANCE ÉLEVÉE",
     "med": "CONFIANCE MOYENNE",
-    "low": "FAIBLE CONFIANCE",
-    "desc": "Description générale de l'IA",
-    "verified": "Emplacement vérifié",
-    "viewFull": "Voir tous les détails"
+    "low": "CONFIANCE FAIBLE",
+    "desc": "Description Générale de l'IA",
+    "verified": "Lieu Vérifié",
+    "viewFull": "Voir les Détails Complets"
   },
   "news": {
-    "title": "Actualités du tourisme en Égypte",
-    "learnMore": "En savoir plus",
-    "source": "Source :"
+    "title": "TOURISME ET PATRIMOINE EN ÉGYPTE",
+    "learnMore": "EN SAVOIR PLUS",
+    "source": "Source :",
+    "noArticles": "Aucun article trouvé",
+    "badge": "DERNIÈRES NOUVELLES",
+    "subtitle": "Restez informé des dernières découvertes, événements et actualités touristiques.",
+    "filters": {
+      "all": "TOUT",
+      "archaeology": "ARCHÉOLOGIE",
+      "tourism": "TOURISME",
+      "heritage": "PATRIMOINE",
+      "museums": "MUSÉES",
+      "history": "HISTOIRE"
+    },
+    "items": {
+      "gem": {
+        "title": "Le Grand Musée Égyptien s'ouvre au monde",
+        "desc": "Le Grand Musée Égyptien (GEM) à Gizeh, le plus grand musée archéologique du monde, a officiellement ouvert en 2023. Il abrite plus de 100 000 artefacts, dont les trésors complets de Toutankhamon exposés ensemble pour la première fois."
+      },
+      "luxor": {
+        "title": "Nouvelle tombe découverte dans la Vallée des Rois à Louxor",
+        "desc": "Des archéologues égyptiens ont découvert une nouvelle tombe dans la Vallée des Rois, désignée KV65. Cette découverte enrichit notre compréhension de la période du Nouvel Empire et des pratiques funéraires des nobles."
+      },
+      "tourism2024": {
+        "title": "L'Égypte enregistre 15 millions de touristes en 2024",
+        "desc": "Le secteur du tourisme égyptien a atteint un record de 15 millions d'arrivées en 2024, générant 14,9 milliards de dollars de revenus. Le pays vise 30 millions de touristes d'ici 2028."
+      },
+      "unesco": {
+        "title": "L'UNESCO lance un projet de préservation du patrimoine numérique",
+        "desc": "Une nouvelle initiative conjointe créera des jumeaux numériques 3D haute fidélité des monuments menacés, en commençant par le Caire islamique et l'Alexandrie historique."
+      },
+      "alexandria": {
+        "title": "La Bibliotheca Alexandrina annonce une nouvelle exposition de manuscrits",
+        "desc": "La Bibliothèque d'Alexandrie accueillera une exposition rare de manuscrits islamiques et coptes récemment restaurés, illustrant l'incroyable diversité de l'histoire intellectuelle de l'Égypte."
+      }
+    }
   },
   "memories": {
-    "title": "Mes souvenirs d'Égypte",
-    "add": "Ajouter un souvenir",
-    "story": "Votre histoire en Égypte commence ici",
-    "upload": "Télécharger une photo",
-    "select": "Sélectionner le lieu",
+    "title": "Mes Souvenirs d'Égypte",
+    "add": "Ajouter un Souvenir",
+    "story": "Votre histoire égyptienne commence ici",
+    "upload": "Télécharger une Photo",
+    "select": "Sélectionner un Lieu",
     "caption": "Légende"
   },
   "expenses": {
-    "title": "Dépenses de voyage",
-    "add": "Ajouter une dépense",
+    "title": "Dépenses du Voyage",
+    "add": "Ajouter une Dépense",
     "noExpenses": "Aucune dépense enregistrée pour le moment"
   },
   "exploreDest": "Explorer &rarr;",
@@ -173,7 +375,9 @@
       "tagline": "Paradis de la mer Rouge",
       "highlights": "Récifs coralliens",
       "desc": "Hurghada s'est transformée..."
-    }
+    },
+    "featured": "Destinations Phares",
+    "subtitle": "Des merveilles antiques aux oasis cachées"
   },
   "footer": {
     "title": "EgyptX IA",
@@ -199,5 +403,62 @@
     "technology": "Technologie",
     "terms": "Conditions & Confidentialité",
     "copy": "© 2026 EgyptX IA. L'écosystème national du tourisme intelligent."
+  },
+  "hidden": {
+    "mission": "Mission d'Impact National",
+    "reducedCrowding": "Moins de Foule",
+    "loading": "Chargement des joyaux cachés...",
+    "noData": "Données de visite non disponibles",
+    "aiRec": "Recommandation de l'IA",
+    "title": "L'Égypte Cachée",
+    "subtitle": "Découvrez les histoires inédites",
+    "missionDesc": "En explorant ces joyaux cachés vérifiés, vous aidez activement à répartir le tourisme à travers l'Égypte, protégeant nos sites patrimoniaux majeurs de la surpopulation.",
+    "noAi": "Aperçu de l'IA non disponible"
+  },
+  "kids": {
+    "title": "Mode Enfants",
+    "subtitle": "Découvrez l'Égypte antique à travers des jeux et des faits amusants",
+    "start": "Commencer l'Aventure",
+    "games": "Jouer aux Jeux"
+  },
+  "login": {
+    "subtitle": "L'Écosystème National du Tourisme Intelligent",
+    "signIn": "Se Connecter / S'inscrire",
+    "access": "Accédez à votre passeport, vos voyages et votre guide intelligent.",
+    "demoTourist": "Connexion en tant que Touriste Démo",
+    "demoBusiness": "Connexion en tant qu'Entreprise Démo",
+    "govLogin": "Connexion Gouvernementale"
+  },
+  "cta": {
+    "title": "Vivez l'Égypte, Intelligemment.",
+    "subtitle": "Laissez l'IA guider votre voyage à travers 5 000 ans de civilisation",
+    "btn": "Planifier Mon Voyage",
+    "poweredBy": "Propulsé par l'Intelligence Égyptienne"
+  },
+  "crafts": {
+    "title": "Artisanat Égyptien Authentique",
+    "subtitle": "Soutenez les artisans locaux. Tous les articles sont certifiés authentiques.",
+    "empty": "Aucun produit trouvé.",
+    "registerBtn": "S'inscrire comme artisan",
+    "viewDetails": "Voir les détails",
+    "cat": {
+      "all": "Tout",
+      "pottery": "Poterie",
+      "papyrus": "Papyrus",
+      "textiles": "Textiles",
+      "jewelry": "Bijoux",
+      "wood": "Bois",
+      "traditional": "Traditionnel"
+    },
+    "prod": {
+      "1": "Bol en poterie du Fayoum",
+      "2": "Parchemin de papyrus authentique",
+      "3": "Textile tissé main d'Akhmim",
+      "4": "Pendentif fleur de lotus en argent",
+      "5": "Boîte incrustée de nacre",
+      "6": "Vase traditionnel en albâtre",
+      "7": "Panier nubien tressé main",
+      "8": "Pendentif cartouche en or"
+    }
   }
 }

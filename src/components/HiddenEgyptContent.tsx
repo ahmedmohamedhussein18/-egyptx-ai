@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { useLanguage } from '@/context/LanguageContext';
 import { motion } from 'framer-motion';
 import { 
   ArrowRight, Users, Maximize, Target, 
@@ -91,6 +92,7 @@ function getHiddenSvg(name_en: string) {
 }
 
 export default function HiddenEgyptContent() {
+  const { t } = useLanguage();
   const [attractions, setAttractions] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -156,14 +158,14 @@ export default function HiddenEgyptContent() {
               <Target className="w-8 h-8 text-[#C9A84C]" />
             </div>
             <div className="flex-1 text-center md:text-left">
-              <h2 className="text-2xl font-bold text-white mb-2 uppercase tracking-wide">National Impact Mission</h2>
+              <h2 className="text-2xl font-bold text-white mb-2 uppercase tracking-wide">{t('hidden.mission')}</h2>
               <p className="text-lg text-gray-300">
                 Redirecting tourists to these destinations reduces congestion at major monuments while boosting local economies in underserved regions. Data models for impact are currently awaiting verified data sources.
               </p>
             </div>
             <div className="hidden lg:flex items-center gap-4 text-[#C9A84C] font-bold">
               <TrendingDown className="w-8 h-8" />
-              <span>Reduced<br/>Crowding</span>
+              <span>{t('hidden.reducedCrowding')}</span>
             </div>
           </div>
         </motion.div>
@@ -172,7 +174,7 @@ export default function HiddenEgyptContent() {
         {loading ? (
           <div className="flex flex-col items-center justify-center py-20 text-[#C9A84C]">
             <Loader2 className="w-10 h-10 animate-spin mb-4" />
-            <p>Loading hidden gems...</p>
+            <p>{t('hidden.loading')}</p>
           </div>
         ) : error ? (
           <div className="flex flex-col items-center justify-center py-20 text-red-400">
@@ -215,11 +217,11 @@ export default function HiddenEgyptContent() {
                   {/* Stats & Capacity Bar - Removed Fake Data */}
                   <div className="bg-[#0A1628] rounded-xl p-4 mb-6 border border-white/5 flex flex-col items-center justify-center min-h-[80px]">
                     <p className="text-sm text-gray-500 font-semibold italic flex items-center gap-2">
-                      <Users className="w-4 h-4" /> Platform visit data unavailable
+                      <Users className="w-4 h-4" /> {t('hidden.noData')}
                     </p>
                   </div>
 
-                  {/* AI Recommendation Callout */}
+                  {/* {t('hidden.aiRec')} Callout */}
                   <div className="bg-[#1B6B93]/10 border border-[#1B6B93]/30 rounded-xl p-4 mb-6 flex-grow">
                     <h4 className="text-[#4CC9F0] text-xs font-bold uppercase tracking-wider mb-2 flex items-center gap-1">
                       <Sparkles className="w-4 h-4" /> AI Recommendation

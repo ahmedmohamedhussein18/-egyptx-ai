@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useLanguage } from '@/context/LanguageContext';
 import { motion } from 'framer-motion';
 
 // SVG Icons
@@ -84,31 +85,33 @@ const Icons = {
   ),
 };
 
-const nodes = [
-  { id: 'Tourists', label: 'Tourists', icon: Icons.Tourists },
-  { id: 'Businesses', label: 'Businesses', icon: Icons.Businesses },
-  { id: 'Data', label: 'Data', icon: Icons.Data },
-  { id: 'Heritage', label: 'Heritage', icon: Icons.Heritage },
+const getNodes = (t: (k: string) => string) => [
+  { id: 'Tourists', label: t('home.ecosystem.tourists'), icon: Icons.Tourists },
+  { id: 'Businesses', label: t('home.ecosystem.businesses'), icon: Icons.Businesses },
+  { id: 'Data', label: t('home.ecosystem.data'), icon: Icons.Data },
+  { id: 'Heritage', label: t('home.ecosystem.heritage'), icon: Icons.Heritage },
 ];
 
 // Pre-compute node positions so they're consistent between server and client
 const DIAGRAM_CENTER = 300;
 const RADIUS = 220;
-const nodePositions = nodes.map((_, index) => {
-  const angle = (index * (360 / nodes.length) - 90) * (Math.PI / 180); // Start from top (-90°)
-  return {
-    x: DIAGRAM_CENTER + RADIUS * Math.cos(angle),
-    y: DIAGRAM_CENTER + RADIUS * Math.sin(angle),
-  };
-});
 
 export default function EcosystemSection() {
+  const { t } = useLanguage();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
+  const nodes = getNodes(t);
+  const nodePositions = nodes.map((_, index) => {
+    const angle = (index * (360 / nodes.length) - 90) * (Math.PI / 180);
+    return {
+      x: DIAGRAM_CENTER + RADIUS * Math.cos(angle),
+      y: DIAGRAM_CENTER + RADIUS * Math.sin(angle),
+    };
+  });
   if (!mounted) return null;
 
   return (
@@ -320,10 +323,10 @@ export default function EcosystemSection() {
         {/* Stats Row */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {[
-            { label: '7 Integrated Systems', icon: Icons.Systems },
-            { label: 'Real-Time Data Flow', icon: Icons.RealTime },
-            { label: 'AI-Driven Insights', icon: Icons.Insights },
-            { label: 'Nationwide Coverage', icon: Icons.Coverage },
+            { label: t('home.ecosystem.stats.systems'), icon: Icons.Systems },
+            { label: t('home.ecosystem.stats.realTime'), icon: Icons.RealTime },
+            { label: t('home.ecosystem.stats.insights'), icon: Icons.Insights },
+            { label: t('home.ecosystem.stats.coverage'), icon: Icons.Coverage },
           ].map((stat, index) => (
             <motion.div
               key={index}

@@ -38,26 +38,26 @@ const COUNTRIES = [
   { code: 'AR', flag: '🇦🇷', name: 'Argentina' },
 ];
 
-const INTERESTS = [
-  { id: 'ancient', label: 'Ancient Egypt', emoji: '🏛️' },
-  { id: 'beaches', label: 'Beaches', emoji: '🏖️' },
-  { id: 'adventure', label: 'Adventure', emoji: '🏜️' },
-  { id: 'food', label: 'Food', emoji: '🍽️' },
-  { id: 'culture', label: 'Culture', emoji: '🎭' },
-  { id: 'nature', label: 'Nature', emoji: '🌿' },
+const getInterests = (t: any) => [
+  { id: 'ancient', label: t('planner.intAncient'), emoji: '🏛️' },
+  { id: 'beaches', label: t('planner.intBeaches'), emoji: '🏖️' },
+  { id: 'adventure', label: t('planner.intAdventure'), emoji: '🏜️' },
+  { id: 'food', label: t('planner.intFood'), emoji: '🍽️' },
+  { id: 'culture', label: t('planner.intCulture'), emoji: '🎭' },
+  { id: 'nature', label: t('planner.intNature'), emoji: '🌿' },
 ];
 
-const TRAVEL_STYLES = [
-  { id: 'solo', label: 'Solo', emoji: '🧑', desc: 'Independent explorer' },
-  { id: 'couple', label: 'Couple', emoji: '💑', desc: 'Romantic getaway' },
-  { id: 'family', label: 'Family', emoji: '👨‍👩‍👧‍👦', desc: 'Kid-friendly fun' },
-  { id: 'group', label: 'Group', emoji: '👥', desc: 'Friends & tours' },
+const getTravelStyles = (t: any) => [
+  { id: 'solo', label: t('planner.styleSolo'), emoji: '🧑', desc: 'Independent explorer' },
+  { id: 'couple', label: t('planner.styleCouple'), emoji: '💑', desc: 'Romantic getaway' },
+  { id: 'family', label: t('planner.styleFamily'), emoji: '👨‍👩‍👧‍👦', desc: 'Kid-friendly fun' },
+  { id: 'group', label: t('planner.styleGroup'), emoji: '👥', desc: 'Friends & tours' },
 ];
 
-const PACES = [
-  { id: 'relaxed', label: 'Relaxed (1-2 activities/day)' },
-  { id: 'balanced', label: 'Balanced (3-4 activities/day)' },
-  { id: 'packed', label: 'Packed (5+ activities/day)' },
+const getPaces = (t: any) => [
+  { id: 'relaxed', label: t('planner.paceRelaxed') + ' (1-2 activities/day)' },
+  { id: 'balanced', label: t('planner.paceBalanced') + ' (3-4 activities/day)' },
+  { id: 'packed', label: t('planner.pacePacked') + ' (5+ activities/day)' },
 ];
 
 interface Activity {
@@ -206,6 +206,69 @@ export default function PlannerContent() {
   useEffect(() => {
     trackEvent('page_view');
     fetchGovernorates();
+
+    // ── Voice AI Smart Form Listener (Optimized) ──
+    const handleVoiceFill = (e: any) => {
+      const { country: extractedCountry, days, budget: extractedBudget } = e.detail || {};
+
+      // 1. Duration (days)
+      if (days && typeof days === 'number' && days > 0) {
+        setDuration(Math.min(Math.max(days, 1), 14));
+      }
+
+      // 2. Budget
+      if (extractedBudget) {
+        setBudget(`$${extractedBudget}`);
+      }
+
+      // 3. Country Matching (Multi-lingual)
+      if (extractedCountry) {
+        const countryNorm = String(extractedCountry).toLowerCase().trim();
+        const countryMapAr: Record<string, string> = {
+          'أمريكا': 'US', 'امريكا': 'US', 'الولايات المتحدة': 'US',
+          'بريطانيا': 'GB', 'إنجلترا': 'GB', 'انجلترا': 'GB', 'المملكة المتحدة': 'GB',
+          'ألمانيا': 'DE', 'المانيا': 'DE',
+          'فرنسا': 'FR',
+          'إيطاليا': 'IT', 'ايطاليا': 'IT',
+          'إسبانيا': 'ES', 'اسبانيا': 'ES',
+          'اليابان': 'JP',
+          'الصين': 'CN',
+          'كوريا': 'KR',
+          'الهند': 'IN',
+          'البرازيل': 'BR',
+          'أستراليا': 'AU', 'استراليا': 'AU',
+          'كندا': 'CA',
+          'روسيا': 'RU',
+          'السعودية': 'SA', 'المملكة العربية السعودية': 'SA',
+          'الإمارات': 'AE', 'الامارات': 'AE',
+          'مصر': 'EG',
+          'تركيا': 'TR'
+        };
+
+        let matchedCode = countryMapAr[countryNorm];
+
+        if (!matchedCode) {
+          const directMatch = COUNTRIES.find(c =>
+            c.name.toLowerCase().includes(countryNorm) ||
+            countryNorm.includes(c.name.toLowerCase()) ||
+            c.code.toLowerCase() === countryNorm
+          );
+          if (directMatch) matchedCode = directMatch.code;
+        }
+
+        if (matchedCode) {
+          setCountry(matchedCode);
+        }
+      }
+    };
+
+    window.addEventListener('voice-fill-planner', handleVoiceFill);
+    window.addEventListener('fill-ai-planner', handleVoiceFill);
+
+    return () => {
+      window.removeEventListener('voice-fill-planner', handleVoiceFill);
+      window.removeEventListener('fill-ai-planner', handleVoiceFill);
+    };
   }, []);
 
   const fetchGovernorates = async () => {
@@ -416,8 +479,8 @@ export default function PlannerContent() {
             transition={{ delay: 0.1 }}
             className="text-4xl md:text-6xl font-bold mb-4"
           >
-            <span className="bg-gradient-to-r from-[#C9A84C] via-[#E2CB85] to-[#C9A84C] bg-clip-text text-transparent">Plan Your</span>{' '}
-            <span className="text-white">Egypt Journey</span>
+            <span className="bg-gradient-to-r from-[#C9A84C] via-[#E2CB85] to-[#C9A84C] bg-clip-text text-transparent">{t('planner.planYour')}</span>{' '}
+            <span className="text-white">{t('planner.journey')}</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -497,14 +560,14 @@ export default function PlannerContent() {
                 {/* ── Pace ── */}
                 <div className="bg-[#0A1628]/60 backdrop-blur-md rounded-2xl p-6 border border-[#C9A84C]/10">
                   <label className="block text-sm font-semibold text-white/70 mb-3 uppercase tracking-wider">
-                    Preferred Pace
+                    {t('planner.paceTitle')}
                   </label>
                   <select
                     value={pace}
                     onChange={(e) => setPace(e.target.value)}
                     className="w-full bg-[#060E1A] border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#C9A84C]/50 transition-colors appearance-none cursor-pointer"
                   >
-                    {PACES.map(p => (
+                    {getPaces(t).map(p => (
                       <option key={p.id} value={p.id}>{p.label}</option>
                     ))}
                   </select>
@@ -515,7 +578,7 @@ export default function PlannerContent() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="bg-[#0A1628]/60 backdrop-blur-md rounded-2xl p-6 md:p-8 border border-[#C9A84C]/10">
                   <label className="block text-sm font-semibold text-white/70 mb-1 uppercase tracking-wider">
-                    Trip Duration
+                    {t('planner.duration')}
                   </label>
                   <p className="text-3xl font-bold text-[#C9A84C] mb-4">{duration} {duration === 1 ? 'Day' : 'Days'}</p>
                   <input
@@ -545,7 +608,7 @@ export default function PlannerContent() {
                   {t('planner.interests')} * <span className="text-white/30 normal-case">(select multiple)</span>
                 </label>
                 <div className="flex flex-wrap gap-3">
-                  {INTERESTS.map(i => {
+                  {getInterests(t).map(i => {
                     const active = interests.includes(i.id);
                     return (
                       <button
@@ -571,7 +634,7 @@ export default function PlannerContent() {
                   Travel Style *
                 </label>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  {TRAVEL_STYLES.map(s => {
+                  {getTravelStyles(t).map(s => {
                     const active = travelStyle === s.id;
                     return (
                       <button
@@ -637,7 +700,7 @@ export default function PlannerContent() {
                       : 'bg-white/10 text-white/30 cursor-not-allowed'
                   }`}
                 >
-                  ✨ Generate My Egypt Journey
+                  ✨ {t('planner.generateBtn')}
                 </button>
                 {!isFormValid && (
                   <p className="text-white/30 text-sm mt-3">Please fill in all required fields (*) to continue</p>
@@ -661,7 +724,7 @@ export default function PlannerContent() {
                 onClick={() => setError(null)}
                 className="px-8 py-3 rounded-xl bg-red-500/20 text-red-200 border border-red-500/30 hover:bg-red-500/30 transition-colors font-semibold"
               >
-                Try Again
+                {t('planner.tryAgain')}
               </button>
             </motion.div>
           )}
@@ -696,7 +759,7 @@ export default function PlannerContent() {
                     onClick={() => { setItinerary(null); setSaveSuccess(false); }}
                     className="px-5 py-2.5 rounded-lg border border-[#C9A84C]/40 text-[#C9A84C] text-sm font-medium hover:bg-[#C9A84C]/10 transition-colors"
                   >
-                    ← Modify Plan
+                    ← {t('planner.modifyBtn')}
                   </button>
                   <button
                     onClick={handleSaveTrip}
@@ -713,7 +776,7 @@ export default function PlannerContent() {
                 {/* Map */}
                 <div className="lg:col-span-1">
                   <div className="sticky top-24 bg-[#0A1628]/60 backdrop-blur-md rounded-2xl border border-[#C9A84C]/10 p-4">
-                    <h3 className="text-sm font-semibold text-white/50 uppercase tracking-wider mb-4 text-center">Route Map</h3>
+                    <h3 className="text-sm font-semibold text-white/50 uppercase tracking-wider mb-4 text-center">{t('planner.routeMap')}</h3>
                     <div className="w-full" style={{ maxHeight: '500px' }}>
                       <EgyptMap cities={itinerary.map(d => d.city)} />
                     </div>
@@ -808,7 +871,7 @@ export default function PlannerContent() {
                       href="/"
                       className="inline-block px-8 py-3 rounded-xl bg-gradient-to-r from-[#C9A84C] to-[#E2CB85] text-[#030712] font-bold hover:shadow-[0_0_30px_rgba(201,168,76,0.3)] transition-shadow"
                     >
-                      Explore All Destinations
+                      {t('planner.exploreAll')}
                     </Link>
                   </div>
                 </div>

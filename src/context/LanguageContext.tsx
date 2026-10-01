@@ -31,7 +31,11 @@ const LanguageContext = createContext<LanguageContextType>({
 export const useLanguage = () => useContext(LanguageContext);
 
 export const LanguageProvider = ({ children }: { children: React.ReactNode }) => {
-  const [locale, setLocaleState] = useState('en');
+  const getInitialLocale = () => {
+  if (typeof window === 'undefined') return 'en';
+  return localStorage.getItem('egyptx-locale') || 'en';
+};
+  const [locale, setLocaleState] = useState(getInitialLocale);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -70,7 +74,18 @@ export const LanguageProvider = ({ children }: { children: React.ReactNode }) =>
     return typeof val === 'string' ? val : key;
   };
 
-  if (!mounted) return null;
+  
+
+  
+  if (!mounted) {
+    return (
+      <LanguageContext.Provider value={{ locale: 'en', setLocale, t }}>
+        <IntlProvider locale="en" messages={messagesMap['en']}>
+          {children}
+        </IntlProvider>
+      </LanguageContext.Provider>
+    );
+  }
 
   return (
     <LanguageContext.Provider value={{ locale, setLocale, t }}>

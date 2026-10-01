@@ -61,12 +61,12 @@ const HeroSection = () => {
 
         {/* Subtitle */}
         <motion.h2 variants={staggerItem} className="text-base md:text-2xl lg:text-3xl font-light text-white mb-4 md:mb-6 tracking-[0.15em] md:tracking-[0.2em] uppercase">
-          The National Smart Tourism Ecosystem
+          {t('home.subtitle')}
         </motion.h2>
 
         {/* Tagline */}
         <motion.p variants={staggerItem} className="text-base md:text-xl text-white/60 mb-10 md:mb-12 max-w-2xl font-light">
-          Discover Egypt. Experience History. Shape the Future.
+          {t('home.slogan')}
         </motion.p>
 
         {/* Buttons */}

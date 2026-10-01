@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { useLanguage } from '@/context/LanguageContext';
 import { motion } from 'framer-motion';
 
 const BrainIcon = () => (
@@ -40,28 +41,29 @@ const NetworkIcon = () => (
   </svg>
 );
 
-const cards = [
+const getCards = (t: any) => [
   {
-    title: 'AI-Powered Tourism',
+    title: t('home.smartTourism.aiPowered.title'),
     icon: <BrainIcon />,
-    description: 'Personalized AI journey planning that understands your preferences, pace, and passions to craft the perfect Egyptian adventure.',
-    tag: 'Machine Learning',
+    description: t('home.smartTourism.aiPowered.desc'),
+    tag: t('home.smartTourism.aiPowered.tag'),
   },
   {
-    title: 'Smart Heritage',
+    title: t('home.smartTourism.smartHeritage.title'),
     icon: <TempleIcon />,
-    description: 'Digital preservation and AR-enhanced experiences at Egypt\'s most treasured archaeological sites and monuments.',
-    tag: 'Digital Twin',
+    description: t('home.smartTourism.smartHeritage.desc'),
+    tag: t('home.smartTourism.smartHeritage.tag'),
   },
   {
-    title: 'Intelligent Tourism Distribution',
+    title: t('home.smartTourism.distribution.title'),
     icon: <NetworkIcon />,
-    description: 'AI-driven crowd management and smart routing that ensures sustainable tourism while maximizing visitor experience.',
-    tag: 'Real-Time Analytics',
+    description: t('home.smartTourism.distribution.desc'),
+    tag: t('home.smartTourism.distribution.tag'),
   },
 ];
 
 export default function SmartTourismSection() {
+  const { t } = useLanguage();
   return (
     <section className="relative w-full py-24 md:py-32 bg-[#050B14] overflow-hidden">
       {/* Background Gradient */}
@@ -82,17 +84,17 @@ export default function SmartTourismSection() {
             <div className="w-24 h-1 bg-gradient-to-r from-transparent via-[#C9A84C] to-transparent mb-6 rounded-full" />
             
             <h2 className="text-4xl md:text-5xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-[#C9A84C] via-[#E6D089] to-[#C9A84C]">
-              Smart Tourism Overview
+              {t('home.smartTourism.title')}
             </h2>
             <p className="text-lg md:text-xl text-white/70 max-w-2xl mx-auto font-light">
-              Revolutionizing how the world experiences Egypt
+              {t('home.smartTourism.subtitle')}
             </p>
           </motion.div>
         </div>
 
         {/* Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {cards.map((card, index) => (
+          {getCards(t).map((card: any, index: number) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 40 }}

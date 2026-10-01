@@ -23,7 +23,121 @@
     "realTime": "Echtzeit",
     "welcomeBack": "Willkommen zurück,",
     "badge": "Nationales Smart-Ökosystem",
-    "scroll": "Scrollen zum Entdecken"
+    "scroll": "Scrollen zum Entdecken",
+    "fourPillars": {
+      "title": "Die Vier Grundpfeiler",
+      "subtitle": "Ein nahtloses digitales Erlebnis von der Planung bis zu den Erinnerungen",
+      "aiPlanning": {
+        "title": "KI-Planung",
+        "desc": "Personalisierte Reiserouten in Sekunden basierend auf Ihren Präferenzen, Budget und Reisestil.",
+        "action": "Reise planen"
+      },
+      "smartSites": {
+        "title": "Smarte Stätten",
+        "desc": "AR-gestützte Erkundung und sofortige KI-Übersetzung von Hieroglyphen.",
+        "action": "Stätten scannen"
+      },
+      "vrEgypt": {
+        "title": "VR Ägypten",
+        "desc": "Virtueller Zugang zu gesperrten Gräbern und Denkmälern weltweit.",
+        "action": "In VR eintreten"
+      },
+      "aiMemories": {
+        "title": "KI-Erinnerungen",
+        "desc": "Reisefotografien automatisch organisieren und aufwerten.",
+        "action": "Erinnerungen ansehen"
+      }
+    },
+    "smartTourism": {
+      "title": "Smart-Tourismus-Übersicht",
+      "subtitle": "Revolutionierung der Art und Weise, wie die Welt Ägypten erlebt",
+      "aiPowered": {
+        "title": "KI-gestützter Tourismus",
+        "desc": "Personalisierte KI-Reiseplanung, die Ihre Präferenzen, Ihr Tempo und Ihre Leidenschaften versteht, um das perfekte ägyptische Abenteuer zu gestalten.",
+        "tag": "Maschinelles Lernen"
+      },
+      "smartHeritage": {
+        "title": "Smartes Erbe",
+        "desc": "Digitale Konservierung und AR-erweiterte Erlebnisse an Ägyptens wertvollsten archäologischen Stätten.",
+        "tag": "Digitaler Zwilling"
+      },
+      "distribution": {
+        "title": "Intelligente Tourismusverteilung",
+        "desc": "KI-gesteuerte Besucherlenkung und intelligentes Routing für nachhaltigen Tourismus.",
+        "tag": "Echtzeit-Analysen"
+      }
+    },
+    "ecosystem": {
+      "tourists": "Touristen",
+      "businesses": "Unternehmen",
+      "data": "Daten",
+      "heritage": "Kulturerbe",
+      "stats": {
+        "systems": "7 Integrierte Systeme",
+        "realTime": "Echtzeit-Datenstrom",
+        "insights": "KI-Erkenntnisse",
+        "coverage": "Landesweite Abdeckung"
+      },
+      "title1": "Erweiterung des ",
+      "title2": "Ökosystems",
+      "subtitle": "EgyptX AI entwickelt sich ständig weiter. Hier ist, was als nächstes kommt.",
+      "comingSoon": "DEMNÄCHST",
+      "features": {
+        "vrEgypt": {
+          "title": "VR Ägypten",
+          "desc": "Immersive 360°-Virtualtouren antiker Wunder"
+        },
+        "kidsMode": {
+          "title": "Kindermodus",
+          "desc": "Ein magisches, lehrreiches Erlebnis für junge Entdecker"
+        },
+        "emergency": {
+          "title": "Notfallassistent",
+          "desc": "24/7 sofortiger mehrsprachiger Notfallsupport und Standortfreigabe"
+        },
+        "aiMemories": {
+          "title": "KI-Erinnerungen",
+          "desc": "Automatisch generierte Geschichte Ihrer Reise mit Fotos und Highlights"
+        },
+        "treasureHunt": {
+          "title": "Schatzsuche",
+          "desc": "Spielerische Erkundungsherausforderungen mit echten Belohnungen"
+        },
+        "sustainability": {
+          "title": "Nachhaltigkeits-Dashboard",
+          "desc": "Verfolgung der Umweltauswirkungen und des Fortschritts Ägyptens"
+        },
+        "researchHub": {
+          "title": "Forschungszentrum",
+          "desc": "KI-gestützter Zugang zu Ägyptens historischen und archäologischen Daten"
+        }
+      }
+    },
+    "mobility": {
+      "title": "Intelligente Mobilität",
+      "subtitle": "Vernetztes Transportökosystem",
+      "comingSoon": "Demnächst",
+      "integration": "Integration in Arbeit",
+      "notifyPlaceholder": "E-Mail für Benachrichtigungen eingeben",
+      "notifyBtn": "Benachrichtigen",
+      "added": "Zur Liste hinzugefügt!",
+      "airport": {
+        "title": "Flughafentransfers",
+        "desc": "Nahtlose Transfers von den internationalen Flughäfen Kairo, Sphinx und Luxor."
+      },
+      "city": {
+        "title": "Stadtverkehr",
+        "desc": "Intelligente On-Demand-Fahrzeuge für sichere innerstädtische Fahrten."
+      },
+      "buses": {
+        "title": "Touristenbusse",
+        "desc": "Umweltfreundliche Überlandbusse zwischen Gouvernoraten und Sehenswürdigkeiten."
+      },
+      "nile": {
+        "title": "Nilkreuzfahrten",
+        "desc": "Integrierte Buchung für authentifizierte smarte Kreuzfahrten auf dem Nil."
+      }
+    }
   },
   "planner": {
     "title": "Planen Sie Ihre Ägypten-Reise",
@@ -33,10 +147,10 @@
     "anywhere": "Überall in Ägypten",
     "travelers": "Reisende",
     "pace": "Bevorzugtes Tempo",
-    "paceRelaxed": "Entspannt",
-    "paceBalanced": "Ausgewogen",
-    "pacePacked": "Vollgepackt",
-    "duration": "Reisedauer",
+    "paceRelaxed": "Relaxed",
+    "paceBalanced": "Balanced",
+    "pacePacked": "Packed",
+    "duration": "Trip Duration",
     "budget": "Budget",
     "interests": "Was interessiert Sie?",
     "style": "Reisestil",
@@ -44,7 +158,7 @@
     "accessibility": "Anforderungen an die Barrierefreiheit",
     "avoid": "Zu meidende Orte",
     "lessCrowded": "Weniger überfüllte Orte bevorzugen",
-    "generateBtn": "Meine Ägypten-Reise generieren",
+    "generateBtn": "Generate My Egypt Journey",
     "loading1": "Analysiere Ihre Präferenzen...",
     "loading2": "Erstelle Ihre Reise...",
     "itineraryTitle": "Ihr persönlicher Reiseplan",
@@ -52,7 +166,7 @@
     "morning": "Morgen",
     "afternoon": "Nachmittag",
     "evening": "Abend",
-    "modifyBtn": "Plan ändern",
+    "modifyBtn": "Modify Plan",
     "selectCountry": "Land auswählen",
     "egTravelers": "z.B. 2 Erw.",
     "egDuration": "z.B. 7 Tage",
@@ -66,25 +180,73 @@
     "errDuration": "Dauer eingeben",
     "errBudget": "Budget eingeben",
     "errInterests": "Interessen eingeben",
-    "saved": "Gespeichert!"
+    "saved": "Gespeichert!",
+    "intAncient": "Ancient Egypt",
+    "intBeaches": "Beaches",
+    "intAdventure": "Adventure",
+    "intFood": "Food",
+    "intCulture": "Culture",
+    "intNature": "Nature",
+    "styleSolo": "Solo",
+    "styleCouple": "Couple",
+    "styleFamily": "Family",
+    "styleGroup": "Group",
+    "planYour": "Planen Sie Ihre",
+    "journey": "Ägypten-Reise",
+    "paceTitle": "Bevorzugtes Tempo",
+    "tryAgain": "Erneut versuchen",
+    "routeMap": "Routenkarte",
+    "exploreAll": "Alle Reiseziele erkunden"
   },
   "explore": {
     "title": "Entdecke Ägypten",
-    "subtitle": "Von antiken Wundern zu versteckten Oasen",
+    "subtitle": "Entdecken Sie verifizierte historische Stätten, versteckte Juwelen und Naturwunder.",
     "map": "Interaktive Karte",
     "noRating": "Bewertung nicht verfügbar",
     "noCrowd": "Besucherdaten nicht verfügbar",
-    "exploreDest": "Zielort erkunden"
+    "exploreDest": "Zielort erkunden",
+    "exploreDetails": "Details ansehen",
+    "cat": {
+      "all": "Alle",
+      "ancient": "Antike",
+      "museum": "Museum",
+      "nature": "Natur",
+      "beach": "Strand",
+      "hidden": "Versteckt"
+    }
   },
   "passport": {
     "title": "Mein EgyptX Pass",
     "journey": "Die Reise des Touristen",
     "totalStamps": "Gesamtstempel",
-    "status": "Status: Verifiziert",
+    "status": "Status",
     "visited": "Besuchte Orte",
     "achievements": "Erfolge und Abzeichen",
     "start": "Beginnen Sie mit der Erkundung, um Ihren ersten Stempel zu sammeln",
-    "planned": "Meine geplanten Reisen"
+    "planned": "Meine geplanten Reisen",
+    "verified": "Verifiziert",
+    "badges": {
+      "pharaoh": {
+        "title": "Pharao-Entdecker",
+        "desc": "3+ antike Stätten besucht"
+      },
+      "desert": {
+        "title": "Wüstenentdecker",
+        "desc": "Eine versteckte Oase erkundet"
+      },
+      "heritage": {
+        "title": "Erbe-Jäger",
+        "desc": "5+ digitale Stempel gesammelt"
+      },
+      "culture": {
+        "title": "Kultur-Sucher",
+        "desc": "Lokale Küche probiert (Ausstehend)"
+      },
+      "nile": {
+        "title": "Nil-Navigator",
+        "desc": "Nilkreuzfahrt gemacht (Ausstehend)"
+      }
+    }
   },
   "emergency": {
     "title": "Notfallassistent",
@@ -119,9 +281,42 @@
     "viewFull": "Alle Details anzeigen"
   },
   "news": {
-    "title": "Ägypten Tourismus Nachrichten",
-    "learnMore": "Mehr erfahren",
-    "source": "Quelle:"
+    "title": "ÄGYPTEN TOURISMUS & KULTURERBE",
+    "learnMore": "MEHR ERFAHREN",
+    "source": "Quelle:",
+    "noArticles": "Keine Artikel gefunden",
+    "badge": "AKTUELLE NACHRICHTEN",
+    "subtitle": "Bleiben Sie über die neuesten Entdeckungen, Veranstaltungen und Tourismusnachrichten informiert.",
+    "filters": {
+      "all": "ALLE",
+      "archaeology": "ARCHÄOLOGIE",
+      "tourism": "TOURISMUS",
+      "heritage": "KULTURERBE",
+      "museums": "MUSEEN",
+      "history": "GESCHICHTE"
+    },
+    "items": {
+      "gem": {
+        "title": "Das Große Ägyptische Museum öffnet sich der Welt",
+        "desc": "Das Große Ägyptische Museum (GEM) in Gizeh, das größte archäologische Museum der Welt, wurde 2023 offiziell eröffnet. Es beherbergt über 100.000 Artefakte, darunter die kompletten Schätze des Tutanchamun."
+      },
+      "luxor": {
+        "title": "Neues Grab im Tal der Könige in Luxor entdeckt",
+        "desc": "Ägyptische Archäologen haben ein neues Grab (KV65) im Tal der Könige entdeckt. Die Entdeckung erweitert unser Verständnis der Zeit des Neuen Reiches und der Bestattungspraktiken ägyptischer Adliger."
+      },
+      "tourism2024": {
+        "title": "Ägypten verzeichnet 15 Millionen Touristenankünfte im Jahr 2024",
+        "desc": "Der ägyptische Tourismussektor erzielte 2024 einen Rekord von 15 Millionen Touristenankünften mit Einnahmen von 14,9 Milliarden US-Dollar. Das Land strebt bis 2028 jährlich 30 Millionen Touristen an."
+      },
+      "unesco": {
+        "title": "UNESCO startet Projekt zur digitalen Erhaltung des Kulturerbes",
+        "desc": "Eine neue gemeinsame Initiative von UNESCO und dem ägyptischen Antikenministerium wird hochpräzise digitale 3D-Zwillinge gefährdeter Denkmäler erstellen."
+      },
+      "alexandria": {
+        "title": "Bibliotheca Alexandrina kündigt neue Manuskriptausstellung an",
+        "desc": "Die moderne Bibliothek von Alexandria wird eine seltene Ausstellung kürzlich restaurierter islamischer und koptischer Manuskripte veranstalten."
+      }
+    }
   },
   "memories": {
     "title": "Meine Ägypten-Erinnerungen",
@@ -199,5 +394,44 @@
     "technology": "Technologie",
     "terms": "AGB & Datenschutz",
     "copy": "© 2026 EgyptX KI. Das nationale Smart-Tourismus-Ökosystem."
+  },
+  "hidden": {
+    "mission": "National Impact Mission",
+    "reducedCrowding": "Reduced Crowding",
+    "loading": "Loading hidden gems...",
+    "noData": "Platform visit data unavailable",
+    "aiRec": "AI Recommendation"
+  },
+  "cta": {
+    "title": "Erleben Sie Ägypten, intelligent.",
+    "subtitle": "Lassen Sie die KI Ihre Reise durch 5.000 Jahre Zivilisation führen",
+    "btn": "Meine Reise planen",
+    "poweredBy": "Unterstützt durch ägyptische Intelligenz"
+  },
+  "crafts": {
+    "title": "Authentisches ägyptisches Kunsthandwerk",
+    "subtitle": "Unterstützen Sie lokale Handwerker. Alle Artikel sind auf Echtheit geprüft.",
+    "empty": "Keine Produkte in dieser Kategorie gefunden.",
+    "registerBtn": "Als Handwerker registrieren",
+    "viewDetails": "Details ansehen",
+    "cat": {
+      "all": "Alle",
+      "pottery": "Töpferei",
+      "papyrus": "Papyrus",
+      "textiles": "Textilien",
+      "jewelry": "Schmuck",
+      "wood": "Holzkunst",
+      "traditional": "Traditionell"
+    },
+    "prod": {
+      "1": "Handbemalte Fayoum-Tonschale",
+      "2": "Authentische bemalte Papyrusrolle",
+      "3": "Handgewebtes Akhmim-Textil",
+      "4": "Silberner Lotusblüten-Anhänger",
+      "5": "Perlmuttverzierte Box",
+      "6": "Traditionelle Alabastervase",
+      "7": "Handgeflochtener nubischer Korb",
+      "8": "Goldener Kartuschen-Anhänger"
+    }
   }
 }

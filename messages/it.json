@@ -23,7 +23,121 @@
     "realTime": "In Tempo Reale",
     "welcomeBack": "Bentornato,",
     "badge": "Ecosistema Nazionale",
-    "scroll": "Scorri per esplorare"
+    "scroll": "Scorri per esplorare",
+    "fourPillars": {
+      "title": "I Quattro Pilastri Fondamentali",
+      "subtitle": "Un'esperienza digitale senza interruzioni dalla pianificazione ai ricordi",
+      "aiPlanning": {
+        "title": "Pianificazione IA",
+        "desc": "Itinerari personalizzati in pochi secondi basati su preferenze, budget e stile di viaggio.",
+        "action": "Pianifica un Viaggio"
+      },
+      "smartSites": {
+        "title": "Siti Intelligenti",
+        "desc": "Esplorazione con AR e traduzione istantanea dei geroglifici tramite IA.",
+        "action": "Scansiona i Siti"
+      },
+      "vrEgypt": {
+        "title": "Egitto VR",
+        "desc": "Accesso virtuale a tombe e monumenti riservati in tutto il mondo.",
+        "action": "Entra in VR"
+      },
+      "aiMemories": {
+        "title": "Ricordi IA",
+        "desc": "Organizza e migliora automaticamente le foto del tuo viaggio.",
+        "action": "Vedi i Ricordi"
+      }
+    },
+    "smartTourism": {
+      "title": "Panoramica del Turismo Intelligente",
+      "subtitle": "Rivoluzionare il modo in cui il mondo vive l'Egitto",
+      "aiPowered": {
+        "title": "Turismo Alimentato dall'IA",
+        "desc": "Pianificazione di viaggi IA personalizzata che comprende le tue preferenze per creare l'avventura egiziana perfetta.",
+        "tag": "Apprendimento Automatico"
+      },
+      "smartHeritage": {
+        "title": "Patrimonio Intelligente",
+        "desc": "Conservazione digitale ed esperienze AR nei siti archeologici più preziosi d'Egitto.",
+        "tag": "Gemello Digitale"
+      },
+      "distribution": {
+        "title": "Distribuzione Turistica Intelligente",
+        "desc": "Gestione della folla tramite IA e instradamento intelligente per un turismo sostenibile.",
+        "tag": "Analisi in Tempo Reale"
+      }
+    },
+    "ecosystem": {
+      "tourists": "Turisti",
+      "businesses": "Imprese",
+      "data": "Dati",
+      "heritage": "Patrimonio",
+      "stats": {
+        "systems": "7 Sistemi Integrati",
+        "realTime": "Flusso di Dati in Tempo Reale",
+        "insights": "Analisi IA",
+        "coverage": "Copertura Nazionale"
+      },
+      "title1": "Espansione dell'",
+      "title2": "Ecosistema",
+      "subtitle": "EgyptX AI è in continua evoluzione. Ecco cosa sta arrivando.",
+      "comingSoon": "PROSSIMAMENTE",
+      "features": {
+        "vrEgypt": {
+          "title": "Egitto VR",
+          "desc": "Tour virtuali immersivi a 360° delle meraviglie antiche"
+        },
+        "kidsMode": {
+          "title": "Modalità Bambini",
+          "desc": "Un'esperienza educativa magica per i giovani esploratori"
+        },
+        "emergency": {
+          "title": "Assistente di emergenza",
+          "desc": "Supporto di emergenza multilingue immediato 24/7 con condivisione della posizione"
+        },
+        "aiMemories": {
+          "title": "Ricordi AI",
+          "desc": "Storia del viaggio generata automaticamente con foto e momenti salienti"
+        },
+        "treasureHunt": {
+          "title": "Caccia al tesoro",
+          "desc": "Sfide di esplorazione gamificate con ricompense reali"
+        },
+        "sustainability": {
+          "title": "Dashboard sostenibilità",
+          "desc": "Monitoraggio dell'impatto ambientale e dei progressi dell'Egitto"
+        },
+        "researchHub": {
+          "title": "Hub di ricerca",
+          "desc": "Accesso basato sull'IA ai dati storici e archeologici dell'Egitto"
+        }
+      }
+    },
+    "mobility": {
+      "title": "Mobilità Intelligente",
+      "subtitle": "Ecosistema di trasporto connesso",
+      "comingSoon": "Prossimamente",
+      "integration": "Integrazione in Corso",
+      "notifyPlaceholder": "Inserisci email per essere notificato",
+      "notifyBtn": "Avvisami",
+      "added": "Aggiunto alla lista!",
+      "airport": {
+        "title": "Trasferimenti Aeroportuali",
+        "desc": "Trasferimenti fluidi dagli aeroporti internazionali del Cairo, Sphinx e Luxor."
+      },
+      "city": {
+        "title": "Trasporto Urbano",
+        "desc": "Veicoli intelligenti su richiesta per spostamenti sicuri in città."
+      },
+      "buses": {
+        "title": "Bus Turistici",
+        "desc": "Autobus ecologici interurbani che collegano i principali governatorati e attrazioni."
+      },
+      "nile": {
+        "title": "Crociere sul Nilo",
+        "desc": "Prenotazione integrata per crociere intelligenti e autenticate sul Nilo."
+      }
+    }
   },
   "planner": {
     "title": "Pianifica il tuo viaggio in Egitto",
@@ -33,10 +147,10 @@
     "anywhere": "Ovunque in Egitto",
     "travelers": "Viaggiatori",
     "pace": "Ritmo preferito",
-    "paceRelaxed": "Rilassato",
-    "paceBalanced": "Equilibrato",
-    "pacePacked": "Intenso",
-    "duration": "Durata del viaggio",
+    "paceRelaxed": "Relaxed",
+    "paceBalanced": "Balanced",
+    "pacePacked": "Packed",
+    "duration": "Trip Duration",
     "budget": "Budget",
     "interests": "Cosa ti interessa?",
     "style": "Stile di viaggio",
@@ -44,7 +158,7 @@
     "accessibility": "Esigenze di accessibilità",
     "avoid": "Luoghi da evitare",
     "lessCrowded": "Preferisci luoghi meno affollati",
-    "generateBtn": "Genera il mio viaggio in Egitto",
+    "generateBtn": "Generate My Egypt Journey",
     "loading1": "Analisi delle tue preferenze...",
     "loading2": "Costruzione del tuo viaggio...",
     "itineraryTitle": "Il tuo itinerario personalizzato",
@@ -52,7 +166,7 @@
     "morning": "Mattina",
     "afternoon": "Pomeriggio",
     "evening": "Sera",
-    "modifyBtn": "Modifica piano",
+    "modifyBtn": "Modify Plan",
     "selectCountry": "Seleziona",
     "egTravelers": "es: 2 adulti",
     "egDuration": "es: 7 Giorni",
@@ -66,25 +180,73 @@
     "errDuration": "Inserisci durata",
     "errBudget": "Inserisci budget",
     "errInterests": "Inserisci interessi",
-    "saved": "Salvato!"
+    "saved": "Salvato!",
+    "intAncient": "Ancient Egypt",
+    "intBeaches": "Beaches",
+    "intAdventure": "Adventure",
+    "intFood": "Food",
+    "intCulture": "Culture",
+    "intNature": "Nature",
+    "styleSolo": "Solo",
+    "styleCouple": "Couple",
+    "styleFamily": "Family",
+    "styleGroup": "Group",
+    "planYour": "Pianifica il Tuo",
+    "journey": "Viaggio in Egitto",
+    "paceTitle": "Ritmo Preferito",
+    "tryAgain": "Riprova",
+    "routeMap": "Mappa del Percorso",
+    "exploreAll": "Esplora tutte le destinazioni"
   },
   "explore": {
     "title": "Esplora l'Egitto",
-    "subtitle": "Dalle antiche meraviglie alle oasi nascoste",
+    "subtitle": "Scopri siti storici verificati, gemme nascoste e meraviglie naturali.",
     "map": "Mappa interattiva",
     "noRating": "Valutazione non disponibile",
     "noCrowd": "Dati sull'affollamento non disponibili",
-    "exploreDest": "Esplora destinazione"
+    "exploreDest": "Esplora destinazione",
+    "exploreDetails": "Esplora Dettagli",
+    "cat": {
+      "all": "Tutto",
+      "ancient": "Antico",
+      "museum": "Museo",
+      "nature": "Natura",
+      "beach": "Spiaggia",
+      "hidden": "Nascosto"
+    }
   },
   "passport": {
     "title": "Il mio passaporto EgyptX",
     "journey": "Il viaggio del turista",
     "totalStamps": "Totale Timbri",
-    "status": "Stato: Verificato",
+    "status": "Stato",
     "visited": "Luoghi visitati",
     "achievements": "Risultati e Distintivi",
     "start": "Inizia a esplorare per collezionare il tuo primo timbro",
-    "planned": "I miei viaggi pianificati"
+    "planned": "I miei viaggi pianificati",
+    "verified": "Verificato",
+    "badges": {
+      "pharaoh": {
+        "title": "Esploratore Faraone",
+        "desc": "Visitati 3+ siti antichi"
+      },
+      "desert": {
+        "title": "Esploratore del Deserto",
+        "desc": "Esplorata un'oasi nascosta"
+      },
+      "heritage": {
+        "title": "Cacciatore di Patrimonio",
+        "desc": "Raccolti 5+ francobolli digitali"
+      },
+      "culture": {
+        "title": "Cercatore di Cultura",
+        "desc": "Cucina locale (In attesa)"
+      },
+      "nile": {
+        "title": "Navigatore del Nilo",
+        "desc": "Crociera sul Nilo (In attesa)"
+      }
+    }
   },
   "emergency": {
     "title": "Assistente di emergenza",
@@ -119,9 +281,42 @@
     "viewFull": "Visualizza i dettagli completi"
   },
   "news": {
-    "title": "Notizie sul turismo in Egitto",
-    "learnMore": "Scopri di più",
-    "source": "Fonte:"
+    "title": "TURISMO E PATRIMONIO IN EGITTO",
+    "learnMore": "SCOPRI DI PIÙ",
+    "source": "Fonte:",
+    "noArticles": "Nessun articolo trovato",
+    "badge": "ULTIME NOTIZIE",
+    "subtitle": "Rimani aggiornato con le ultime scoperte, eventi e notizie sul turismo.",
+    "filters": {
+      "all": "TUTTO",
+      "archaeology": "ARCHEOLOGIA",
+      "tourism": "TURISMO",
+      "heritage": "PATRIMONIO",
+      "museums": "MUSEI",
+      "history": "STORIA"
+    },
+    "items": {
+      "gem": {
+        "title": "Il Grande Museo Egizio apre al mondo",
+        "desc": "Il Grande Museo Egizio (GEM) di Giza, il più grande museo archeologico del mondo, ha aperto ufficialmente nel 2023. Ospita oltre 100.000 manufatti tra cui i tesori completi di Tutankhamon."
+      },
+      "luxor": {
+        "title": "Nuova tomba scoperta nella Valle dei Re a Luxor",
+        "desc": "Gli archeologi egiziani hanno scoperto una nuova tomba nella Valle dei Re a Luxor, designata KV65. La scoperta arricchisce la nostra comprensione del periodo del Nuovo Regno."
+      },
+      "tourism2024": {
+        "title": "L'Egitto registra 15 milioni di arrivi turistici nel 2024",
+        "desc": "Il settore turistico egiziano ha raggiunto il record di 15 milioni di arrivi nel 2024, generando 14,9 miliardi di dollari. L'obiettivo è di 30 milioni di turisti all'anno entro il 2028."
+      },
+      "unesco": {
+        "title": "L'UNESCO lancia un progetto di conservazione digitale",
+        "desc": "Una nuova iniziativa congiunta tra l'UNESCO e il Ministero delle Antichità creerà gemelli digitali 3D ad alta fedeltà di monumenti minacciati."
+      },
+      "alexandria": {
+        "title": "La Bibliotheca Alexandrina annuncia una nuova mostra",
+        "desc": "La Biblioteca di Alessandria ospiterà una rara mostra di manoscritti islamici e copti appena restaurati, mostrando l'incredibile diversità della storia intellettuale egiziana."
+      }
+    }
   },
   "memories": {
     "title": "I miei ricordi d'Egitto",
@@ -199,5 +394,44 @@
     "technology": "Tecnologia",
     "terms": "Termini e Privacy",
     "copy": "© 2026 EgyptX IA. L'Ecosistema Nazionale del Turismo Intelligente."
+  },
+  "hidden": {
+    "mission": "National Impact Mission",
+    "reducedCrowding": "Reduced Crowding",
+    "loading": "Loading hidden gems...",
+    "noData": "Platform visit data unavailable",
+    "aiRec": "AI Recommendation"
+  },
+  "cta": {
+    "title": "Vivi l'Egitto, Intelligente.",
+    "subtitle": "Lascia che l'IA guidi il tuo viaggio attraverso 5.000 anni di civiltà",
+    "btn": "Pianifica il Mio Viaggio",
+    "poweredBy": "Alimentato dall'Intelligenza Egiziana"
+  },
+  "crafts": {
+    "title": "Artigianato Egiziano Autentico",
+    "subtitle": "Sostieni gli artigiani locali. Tutti gli articoli sono verificati.",
+    "empty": "Nessun prodotto trovato.",
+    "registerBtn": "Registrati come artigiano",
+    "viewDetails": "Vedi Dettagli",
+    "cat": {
+      "all": "Tutto",
+      "pottery": "Ceramica",
+      "papyrus": "Papiro",
+      "textiles": "Tessili",
+      "jewelry": "Gioielli",
+      "wood": "Legno",
+      "traditional": "Tradizionale"
+    },
+    "prod": {
+      "1": "Ciotola in ceramica Fayoum",
+      "2": "Rotolo di papiro autentico",
+      "3": "Tessuto a mano di Akhmim",
+      "4": "Ciondolo fiore di loto in argento",
+      "5": "Scatola intarsiata di madreperla",
+      "6": "Vaso in alabastro tradizionale",
+      "7": "Cesto nubiano intrecciato a mano",
+      "8": "Ciondolo cartiglio in oro"
+    }
   }
 }

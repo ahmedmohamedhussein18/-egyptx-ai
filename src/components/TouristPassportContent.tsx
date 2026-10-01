@@ -115,12 +115,12 @@ export default function TouristPassportContent() {
   const isDesert = checkins.some(c => c.icon === Tent);
   const isHeritage = totalStamps >= 5;
 
-  const BADGES = [
-    { id: 'pharaoh', title: 'Pharaoh Explorer', desc: 'Visited 3+ ancient sites', icon: Crown, locked: !isPharaoh },
-    { id: 'desert', title: 'Desert Explorer', desc: 'Explored a hidden oasis', icon: Tent, locked: !isDesert },
-    { id: 'heritage', title: 'Heritage Hunter', desc: 'Collected 5+ digital stamps', icon: Compass, locked: !isHeritage },
-    { id: 'culture', title: 'Culture Seeker', desc: 'Experienced local Egyptian cuisine (Pending)', icon: Star, locked: true },
-    { id: 'nile', title: 'Nile Navigator', desc: 'Take a Nile cruise (Pending)', icon: Ship, locked: true },
+  const getBadges = (t: any, isPharaoh: boolean, isDesert: boolean, isHeritage: boolean) => [
+    { id: 'pharaoh', title: t('passport.badges.pharaoh.title'), desc: t('passport.badges.pharaoh.desc'), icon: Crown, locked: !isPharaoh },
+    { id: 'desert', title: t('passport.badges.desert.title'), desc: t('passport.badges.desert.desc'), icon: Tent, locked: !isDesert },
+    { id: 'heritage', title: t('passport.badges.heritage.title'), desc: t('passport.badges.heritage.desc'), icon: Compass, locked: !isHeritage },
+    { id: 'culture', title: t('passport.badges.culture.title'), desc: t('passport.badges.culture.desc'), icon: Star, locked: true },
+    { id: 'nile', title: t('passport.badges.nile.title'), desc: t('passport.badges.nile.desc'), icon: Ship, locked: true },
   ];
 
   if (loading) {
@@ -183,7 +183,7 @@ export default function TouristPassportContent() {
                     <p className="font-mono text-[#4CC9F0] text-sm">{totalStamps} زيارات موتقة | {explored.length} رحلات مخطهة</p>
                   </div>
                   <div className="bg-white/5 rounded-lg p-3 border border-white/5">
-                    <p className="text-[10px] text-gray-500 uppercase font-bold tracking-wider mb-1">Status</p>
+                    <p className="text-[10px] text-gray-500 uppercase font-bold tracking-wider mb-1">{t('passport.status')}</p>
                     <p className="font-mono text-green-400 text-sm flex items-center gap-1 justify-center md:justify-start">
                       <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" /> Verified
                     </p>
@@ -194,7 +194,7 @@ export default function TouristPassportContent() {
           </motion.div>
         </div>
 
-        {/* Visited Places (Stamps) */}
+        {/* {t('passport.visited')} (Stamps) */}
         <div>
           <div className="flex items-center gap-3 mb-8">
             <MapPin className="w-6 h-6 text-[#1B6B93]" />
@@ -231,7 +231,7 @@ export default function TouristPassportContent() {
               ))
             ) : (
               <div className="col-span-full py-10 text-center text-gray-400 italic bg-white/5 border border-white/10 rounded-2xl w-full p-8">
-                <p className="mb-2">Start exploring to collect your first stamp.</p>
+                <p className="mb-2">{t('passport.start')}.</p>
                 <p className="text-sm">Visit Smart Sites and check in with QR codes.</p>
               </div>
             )}
@@ -287,7 +287,7 @@ export default function TouristPassportContent() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {BADGES.map((badge, idx) => (
+            {getBadges(t, isPharaoh, isDesert, isHeritage).map((badge, idx) => (
               <motion.div
                 key={badge.id}
                 initial={{ opacity: 0, y: 20 }}

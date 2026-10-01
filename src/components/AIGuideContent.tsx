@@ -199,7 +199,7 @@ const fileInputRef = useRef<HTMLInputElement>(null);
                   {analyzing ? (
                     <><Loader2 className="w-5 h-5 animate-spin" /> Analyzing Image...</>
                   ) : (
-                    <><Sparkles className="w-5 h-5" /> Identify with AI</>
+                    <><Sparkles className="w-5 h-5" /> {t('aiGuide.identify')}</>
                   )}
                 </button>
               </div>
@@ -287,7 +287,7 @@ const fileInputRef = useRef<HTMLInputElement>(null);
                         </div>
                         <Link href={`/destination/${result.db_match.id}`}>
                           <button className="w-full py-3 bg-[#1B6B93]/20 hover:bg-[#1B6B93]/40 border border-[#1B6B93] text-[#4CC9F0] font-bold rounded-xl transition-colors flex items-center justify-center gap-2 uppercase text-sm tracking-wider">
-                            View Full Details <ArrowRight className="w-4 h-4" />
+                            {t('aiGuide.viewFull')} <ArrowRight className="w-4 h-4" />
                           </button>
                         </Link>
                       </div>

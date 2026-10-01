@@ -105,7 +105,7 @@ function WeatherBadge({ lat, lon }: { lat: number, lon: number }) {
   );
 }
 
-const categories: Category[] = ['All', 'Ancient', 'Museum', 'Nature', 'Beach', 'Hidden'];
+const getCategories = (t: any): {id: Category, label: string}[] => [{id: 'All', label: t('explore.cat.all')}, {id: 'Ancient', label: t('explore.cat.ancient')}, {id: 'Museum', label: t('explore.cat.museum')}, {id: 'Nature', label: t('explore.cat.nature')}, {id: 'Beach', label: t('explore.cat.beach')}, {id: 'Hidden', label: t('explore.cat.hidden')}];
 
 export default function ExploreContent() {
   const { t } = useLanguage();
@@ -230,7 +230,7 @@ export default function ExploreContent() {
             animate={{ opacity: 1, y: 0 }}
             className="text-4xl md:text-5xl font-bold text-[#C9A84C] mb-4"
           >
-            Explore Egypt
+            {t('explore.title')}
           </motion.h1>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
@@ -244,18 +244,16 @@ export default function ExploreContent() {
 
         {/* Categories Filter */}
         <div className="flex flex-wrap justify-center gap-4 mb-12">
-          {categories.map((category) => (
+          {getCategories(t).map((category: any) => (
             <button
-              key={category}
-              onClick={() => setActiveCategory(category)}
+              key={category.id}
+              onClick={() => setActiveCategory(category.id)}
               className={`px-6 py-2 rounded-full border transition-all duration-300 ${
-                activeCategory === category
+                activeCategory === category.id.id
                   ? 'bg-[#C9A84C] text-[#030712] border-[#C9A84C] font-semibold'
                   : 'bg-white/5 text-gray-300 border-[#C9A84C]/30 hover:border-[#C9A84C] hover:text-white'
               }`}
-            >
-              {category}
-            </button>
+            >{category.label}</button>
           ))}
         </div>
 
@@ -351,7 +349,7 @@ export default function ExploreContent() {
                         onClick={() => router.push(`/destination/${dest.id}`)}
                         className="w-full mt-6 py-2.5 bg-transparent border border-[#C9A84C]/50 hover:bg-[#C9A84C] hover:text-[#0A1628] text-[#C9A84C] font-bold rounded-lg transition-all flex items-center justify-center gap-2"
                       >
-                        Explore Details <ArrowRight className="w-4 h-4" />
+                        {t('explore.exploreDetails')} <ArrowRight className="w-4 h-4" />
                       </button>
                     </div>
                   </motion.div>
