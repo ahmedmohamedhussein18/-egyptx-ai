@@ -48,7 +48,6 @@ export default function EmergencyContent() {
   }, []);
 
   const requestLocation = () => {
-  const { t } = useLanguage();
     setLocationState('requesting');
     if (!navigator.geolocation) {
       setLocationState('denied');

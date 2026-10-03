@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useLanguage } from '@/context/LanguageContext';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
@@ -23,6 +23,19 @@ type Category = 'All' | 'Ancient' | 'Museum' | 'Nature' | 'Beach' | 'Hidden';
 
 
 // Helper to get SVG based on category or specific name
+
+const FALLBACK_ATTRACTIONS: any[] = [
+  { id: '1', name_en: 'Great Pyramid of Giza', name_ar: 'أهرامات الجيزة', category: 'Ancient', city: 'Giza', latitude: 29.9792, longitude: 31.1342, description_en: 'The last surviving Wonder of the Ancient World, built during the 4th Dynasty.' },
+  { id: '2', name_en: 'Egyptian Museum Cairo', name_ar: 'المتحف المصري', category: 'Museum', city: 'Cairo', latitude: 30.0478, longitude: 31.2336, description_en: 'Historic neoclassical repository of over 120,000 pharaonic antiquities.' },
+  { id: '3', name_en: 'Karnak Temple', name_ar: 'معبد الكرنك', category: 'Ancient', city: 'Luxor', latitude: 25.7188, longitude: 32.6573, description_en: 'The largest religious complex ever built by human hands.' },
+  { id: '4', name_en: 'Abu Simbel Temples', name_ar: 'معابد أبو سمبل', category: 'Ancient', city: 'Aswan', latitude: 22.3372, longitude: 31.6258, description_en: 'Towering rock-cut colossi of Ramesses II guarding Lake Nasser.' },
+  { id: '5', name_en: 'Valley of the Kings', name_ar: 'وادي الملوك', category: 'Ancient', city: 'Luxor', latitude: 25.7402, longitude: 32.6014, description_en: 'Royal necropolis carved into the Theban hills.' },
+  { id: '6', name_en: 'Siwa Oasis', name_ar: 'واحة سيوة', category: 'Nature', city: 'Matrouh', latitude: 29.2032, longitude: 25.5195, description_en: 'Surreal desert oasis with emerald salt lakes and ancient oracle temples.' },
+  { id: '7', name_en: 'Alexandria Library', name_ar: 'مكتبة الإسكندرية', category: 'Museum', city: 'Alexandria', latitude: 31.2089, longitude: 29.9092, description_en: 'Monumental modern revival of the ancient world greatest library.' },
+  { id: '8', name_en: 'Red Sea Coast Hurghada', name_ar: 'الغردقة', category: 'Beach', city: 'Red Sea', latitude: 27.2579, longitude: 33.8116, description_en: 'Crystal clear waters, vibrant coral reefs, and year-round diving.' },
+  { id: '9', name_en: 'Wadi El Hitan', name_ar: 'وادي الحيتان', category: 'Hidden', city: 'Fayoum', latitude: 29.2708, longitude: 30.0436, description_en: 'UNESCO World Heritage valley containing 40-million-year-old whale fossils.' }
+];
+
 const exactImageMap: Record<string, string> = {
   "Great Pyramid of Giza": "Great Pyramid of Giza.jpg",
   "Egyptian Museum Cairo": "Egyptian Museum Cairo.webp",
@@ -114,7 +127,7 @@ export default function ExploreContent() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [selectedMapId, setSelectedMapId] = useState<string | null>(null);
-  const supabase = createClient();
+  const supabase = useMemo(() => createClient(), []);
   const router = useRouter();
 
   useEffect(() => {
@@ -130,7 +143,7 @@ export default function ExploreContent() {
           .select('*')
           .eq('verified', true);
 
-                if (error) throw error;
+        const listData = (!error && data && data.length > 0) ? data : FALLBACK_ATTRACTIONS;
         
         const strictOrder = [
   "great pyramid of giza",
@@ -189,18 +202,19 @@ export default function ExploreContent() {
           return 999;
         };
 
-        const sortedData = (data || []).sort((a, b) => getSortIndex(a.name_en) - getSortIndex(b.name_en));
+        const sortedData = (listData || []).sort((a, b) => getSortIndex(a.name_en) - getSortIndex(b.name_en));
 
         setAttractions(sortedData);
         trackEvent('page_view');
       } catch (err: any) {
-        setError(err.message || 'Failed to fetch attractions');
+        console.warn('Supabase fetch failed, using fallback:', err);
+        setAttractions(FALLBACK_ATTRACTIONS);
       } finally {
         setLoading(false);
       }
     }
     fetchAttractions();
-  }, [supabase]);
+  }, []);
 
   const filteredDestinations = attractions.filter((dest) => {
     if (activeCategory === 'All') return true;
@@ -249,7 +263,7 @@ export default function ExploreContent() {
               key={category.id}
               onClick={() => setActiveCategory(category.id)}
               className={`px-6 py-2 rounded-full border transition-all duration-300 ${
-                activeCategory === category.id.id
+                activeCategory === category.id
                   ? 'bg-[#C9A84C] text-[#030712] border-[#C9A84C] font-semibold'
                   : 'bg-white/5 text-gray-300 border-[#C9A84C]/30 hover:border-[#C9A84C] hover:text-white'
               }`}
@@ -340,7 +354,7 @@ export default function ExploreContent() {
                           <span className="italic text-gray-500">{t('explore.noRating')}</span>
                         </div>
                         <div className="flex items-center gap-2 text-sm text-gray-500 col-span-2">
-                          <Users className="w-4 h-4 text-gray-600" />
+                          <Users className="w-4 h-4 text-gray-500" />
                           <span className="italic">{t('explore.noCrowd')}</span>
                         </div>
                       </div>

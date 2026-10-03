@@ -1,105 +1,89 @@
 const fs = require('fs');
+let content = fs.readFileSync('src/components/PlannerContent.tsx', 'utf8');
 
-// ==== 1. FourPillarsSection.tsx ====
-let fp = fs.readFileSync('src/components/FourPillarsSection.tsx', 'utf8');
+// 1. Fix TripAssistant 'e' type
+content = content.replace(/const sendMsg = \(e\) =>/g, 'const sendMsg = (e: React.FormEvent) =>');
 
-fp = fp.replace(/const getPillars = \(t: any\) => \[\s*\{[\s\S]*?\}\s*\];/m, `const getPillars = (t: any) => [
-    {
-      icon: <Compass className="w-8 h-8 text-[#C9A84C]" />,
-      title: t('home.fourPillars.aiPlanning.title'),
-      description: t('home.fourPillars.aiPlanning.desc'),
-      action: t('home.fourPillars.aiPlanning.action'),
-      link: "/planner"
-    },
-    {
-      icon: <Map className="w-8 h-8 text-[#C9A84C]" />,
-      title: t('home.fourPillars.smartSites.title'),
-      description: t('home.fourPillars.smartSites.desc'),
-      action: t('home.fourPillars.smartSites.action'),
-      link: "/smart-site"
-    },
-    {
-      icon: <Headphones className="w-8 h-8 text-[#C9A84C]" />,
-      title: t('home.fourPillars.vrEgypt.title'),
-      description: t('home.fourPillars.vrEgypt.desc'),
-      action: t('home.fourPillars.vrEgypt.action'),
-      link: "/vr-egypt"
-    },
-    {
-      icon: <Camera className="w-8 h-8 text-[#C9A84C]" />,
-      title: t('home.fourPillars.aiMemories.title'),
-      description: t('home.fourPillars.aiMemories.desc'),
-      action: t('home.fourPillars.aiMemories.action'),
-      link: "/memories"
+// 2. Fix destinations type
+content = content.replace(/const \[destinations, setDestinations\] = useState\(\[\]\);/, 'const [destinations, setDestinations] = useState<string[]>([]);');
+
+// 3. Fix Date math
+content = content.replace(/new Date\(e\.target\.value\) - new Date\(startDate\)/, 'new Date(e.target.value).getTime() - new Date(startDate).getTime()');
+
+// 4. Fix LoadingAnimation usage for regenerating day
+content = content.replace(/<LoadingAnimation isRegenerating=\{true\} \/>/, '<CinematicLoading />');
+
+// 5. Restore Parental Verification & handleTravelStyleChange if missing
+if (!content.includes('const handleTravelStyleChange')) {
+  const handler = `
+  const handleTravelStyleChange = (id: string) => {
+    if (id === 'family') {
+      const verified = sessionStorage.getItem('isParentVerified');
+      if (!verified) {
+        setShowParentModal(true);
+        return;
+      }
     }
-  ];`);
+    setTravelStyle(id);
+  };
+  const handleVerifyParent = () => {
+    if (!parentEmail || !/^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$/.test(parentEmail)) {
+      setParentError('Invalid email address');
+      return;
+    }
+    if (!parentId || !/^\\d{14}$/.test(parentId)) {
+      setParentError('National ID must be exactly 14 digits (الرقم القومي)');
+      return;
+    }
+    sessionStorage.setItem('isParentVerified', 'true');
+    setShowParentModal(false);
+    setTravelStyle('family');
+    setParentError('');
+  };
+  `;
+  content = content.replace(/const getPayload = \(\) => \(\{/, handler + '\\n  const getPayload = () => ({');
+}
 
-fs.writeFileSync('src/components/FourPillarsSection.tsx', fp);
+// Ensure parental state exists
+if (!content.includes('showParentModal')) {
+  const parentalState = `
+  const [showParentModal, setShowParentModal] = useState(false);
+  const [parentEmail, setParentEmail] = useState('');
+  const [parentId, setParentId] = useState('');
+  const [parentError, setParentError] = useState('');
+  `;
+  content = content.replace(/const \[destinations, setDestinations\] = useState<string\[\]>\(\[\]\);/, 'const [destinations, setDestinations] = useState<string[]>([]);' + parentalState);
+}
 
-// ==== 2. FutureEcosystemSection.tsx ====
-let eco = fs.readFileSync('src/components/FutureEcosystemSection.tsx', 'utf8');
+// Add the Parental Modal to the DOM if missing
+if (!content.includes('Parental Verification')) {
+  const modalUI = `
+      {showParentModal && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+          <div className="bg-[#0A1628] border border-[#C9A84C]/30 rounded-2xl p-6 max-w-sm w-full shadow-2xl">
+            <h3 className="text-xl font-bold text-white mb-2">Parental Verification</h3>
+            <p className="text-sm text-white/60 mb-6">Kids/Family mode requires adult verification.</p>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm text-white/80 mb-1">Parent's Email</label>
+                <input type="email" value={parentEmail} onChange={(e) => setParentEmail(e.target.value)} className="w-full bg-[#060E1A] border border-white/10 rounded-lg px-4 py-2 text-white" />
+              </div>
+              <div>
+                <label className="block text-sm text-white/80 mb-1">Egyptian National ID</label>
+                <input type="text" maxLength={14} value={parentId} onChange={(e) => setParentId(e.target.value)} className="w-full bg-[#060E1A] border border-white/10 rounded-lg px-4 py-2 text-white" />
+              </div>
+              {parentError && <p className="text-red-400 text-sm">{parentError}</p>}
+              <div className="flex gap-3 pt-2">
+                <button onClick={() => setShowParentModal(false)} className="flex-1 py-2 rounded-lg border border-white/10 text-white/70 hover:bg-white/5">Cancel</button>
+                <button onClick={handleVerifyParent} className="flex-1 py-2 rounded-lg bg-[#C9A84C] text-[#030712] font-bold hover:bg-[#E2CB85]">Verify & Proceed</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+  `;
+  content = content.replace(/<div className="min-h-screen bg-\[#030712\] text-white">/, '<div className="min-h-screen bg-[#030712] text-white">\\n' + modalUI);
+}
 
-// Replace UPCOMING_FEATURES completely
-eco = eco.replace(/const UPCOMING_FEATURES = \[\s*\{[\s\S]*?\}\s*\];/m, `const getUpcomingFeatures = (t: any) => [
-  {
-    id: 1,
-    title: t('home.ecosystem.features.vrEgypt.title'),
-    desc: t('home.ecosystem.features.vrEgypt.desc'),
-    icon: Globe,
-    href: '/vr-egypt',
-  },
-  {
-    id: 2,
-    title: t('home.ecosystem.features.kidsMode.title'),
-    desc: t('home.ecosystem.features.kidsMode.desc'),
-    icon: Smile,
-    href: '/kids',
-  },
-  {
-    id: 3,
-    title: t('home.ecosystem.features.emergency.title'),
-    desc: t('home.ecosystem.features.emergency.desc'),
-    icon: Siren,
-    href: '/emergency',
-  },
-  {
-    id: 4,
-    title: t('home.ecosystem.features.aiMemories.title'),
-    desc: t('home.ecosystem.features.aiMemories.desc'),
-    icon: Camera,
-    href: '/memories',
-  },
-  {
-    id: 5,
-    title: t('home.ecosystem.features.treasureHunt.title'),
-    desc: t('home.ecosystem.features.treasureHunt.desc'),
-    icon: Map,
-  },
-  {
-    id: 6,
-    title: t('home.ecosystem.features.sustainability.title'),
-    desc: t('home.ecosystem.features.sustainability.desc'),
-    icon: Leaf,
-  },
-  {
-    id: 7,
-    title: t('home.ecosystem.features.researchHub.title'),
-    desc: t('home.ecosystem.features.researchHub.desc'),
-    icon: Search,
-  },
-];`);
-
-// Fix type errors
-eco = eco.replace(/getUpcomingFeatures\(t\)\.map\(\(feature, idx\)/, "getUpcomingFeatures(t).map((feature: any, idx: number)");
-
-fs.writeFileSync('src/components/FutureEcosystemSection.tsx', eco);
-
-
-// ==== 3. SmartTourismSection.tsx ====
-let st = fs.readFileSync('src/components/SmartTourismSection.tsx', 'utf8');
-
-st = st.replace(/getCards\(t\)\.map\(\(card, index\)/, "getCards(t).map((card: any, index: number)");
-
-fs.writeFileSync('src/components/SmartTourismSection.tsx', st);
-
-console.log('Fixed syntax and type errors.');
+fs.writeFileSync('src/components/PlannerContent.tsx', content, 'utf8');
+console.log('Fixed types and state.');

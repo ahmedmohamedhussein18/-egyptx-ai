@@ -5,7 +5,7 @@ export async function POST(req: Request) {
   try {
     const supabase = await createClient();
     
-    const { image } = await req.json();
+    const { image, language } = await req.json();
 
     if (!image) {
       return NextResponse.json({ error: 'No image provided' }, { status: 400 });
@@ -29,6 +29,10 @@ export async function POST(req: Request) {
     try {
       console.log(`[AI Guide] Trying model: qwen/qwen3.8-27b`);
       
+      const langInstruction = language && language !== 'en' 
+        ? ` Provide identified_name and ai_description in the language code: "${language}".` 
+        : '';
+
       const response = await groq.chat.completions.create({
         model: 'qwen/qwen3.8-27b',
         messages: [
@@ -41,7 +45,7 @@ export async function POST(req: Request) {
               },
               {
                 type: 'text',
-                text: 'You are an expert Egyptian heritage guide. Identify this monument, artifact, or landmark. Provide: name, historical period, location in Egypt, and a brief 2-3 sentence description. If you cannot identify it with confidence, say so honestly. Never invent information.\n\nYou must respond ONLY with a valid JSON object matching this schema exactly:\n{\n  "identified_name": "The exact name of the monument/artifact (or empty string if unable)",\n  "confidence_level": "high" | "medium" | "low" | "unable",\n  "ai_description": "A 2-3 sentence accurate description. If unable to identify, provide a helpful message here explaining why."\n}'
+                text: `You are an expert Egyptian heritage guide. Identify this monument, artifact, or landmark. Provide: name, historical period, location in Egypt, and a brief 2-3 sentence description. If you cannot identify it with confidence, say so honestly. Never invent information.${langInstruction}\n\nYou must respond ONLY with a valid JSON object matching this schema exactly:\n{\n  "identified_name": "The exact name of the monument/artifact (or empty string if unable)",\n  "confidence_level": "high" | "medium" | "low" | "unable",\n  "ai_description": "A 2-3 sentence accurate description. If unable to identify, provide a helpful message here explaining why."\n}`
               }
             ]
           }

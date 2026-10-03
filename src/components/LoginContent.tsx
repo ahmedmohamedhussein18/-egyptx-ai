@@ -5,15 +5,15 @@ import { useLanguage } from '@/context/LanguageContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
-import Link from 'next/link';
+import { AlertCircle, Loader2 } from 'lucide-react';
 
 const COUNTRIES = [
+  { code: 'EG', flag: '🇪🇬', name: 'Egypt' },
   { code: 'US', flag: '🇺🇸', name: 'United States' },
   { code: 'GB', flag: '🇬🇧', name: 'United Kingdom' },
   { code: 'DE', flag: '🇩🇪', name: 'Germany' },
   { code: 'FR', flag: '🇫🇷', name: 'France' },
   { code: 'IT', flag: '🇮🇹', name: 'Italy' },
-  { code: 'EG', flag: '🇪🇬', name: 'Egypt' },
   { code: 'SA', flag: '🇸🇦', name: 'Saudi Arabia' },
   { code: 'AE', flag: '🇦🇪', name: 'UAE' },
   { code: 'IN', flag: '🇮🇳', name: 'India' },
@@ -40,42 +40,89 @@ export default function LoginContent() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email || !password) return;
-    if (!isLogin && (!name || !country)) return;
+    setErrorMsg('');
+
+    const cleanEmail = email.trim().toLowerCase();
+    const cleanPassword = password.trim();
+
+    // Explicit validation with clear user-facing messages
+    if (!cleanEmail) {
+      setErrorMsg('Please enter your email address.');
+      return;
+    }
+
+    if (!cleanPassword) {
+      setErrorMsg('Please enter your password.');
+      return;
+    }
+
+    if (!isLogin) {
+      const cleanName = name.trim();
+      if (!cleanName) {
+        setErrorMsg('Please enter your full name.');
+        return;
+      }
+      if (!country) {
+        setErrorMsg('Please select your country.');
+        return;
+      }
+      if (cleanPassword.length < 6) {
+        setErrorMsg('Password must be at least 6 characters long.');
+        return;
+      }
+    }
 
     setLoading(true);
-    setErrorMsg('');
 
     try {
       if (isLogin) {
         const { error } = await supabase.auth.signInWithPassword({
-          email,
-          password,
+          email: cleanEmail,
+          password: cleanPassword,
         });
         if (error) throw error;
       } else {
-        const { error } = await supabase.auth.signUp({
-          email,
-          password,
+        const { data, error } = await supabase.auth.signUp({
+          email: cleanEmail,
+          password: cleanPassword,
           options: {
-            data: { full_name: name, country }
+            data: { 
+              full_name: name.trim(), 
+              country,
+              language 
+            }
           }
         });
         if (error) throw error;
+
+        // Try upserting to public.profiles table if user ID was generated
+        if (data?.user) {
+          try {
+            await supabase.from('profiles').upsert({
+              id: data.user.id,
+              full_name: name.trim(),
+              email: cleanEmail,
+              country,
+              role: 'tourist',
+            });
+          } catch {
+            // ignore if database trigger already handled it
+          }
+        }
       }
       
       router.refresh();
       router.push('/');
     } catch (err: any) {
-      setErrorMsg(err.message);
+      console.error('[Auth Error]:', err);
+      setErrorMsg(err.message || 'An authentication error occurred. Please try again.');
     } finally {
       setLoading(false);
     }
   };
 
   const toggleView = () => {
-  const { t } = useLanguage();
-    setIsLogin(!isLogin);
+    setIsLogin((prev) => !prev);
     setName('');
     setEmail('');
     setPassword('');
@@ -107,9 +154,14 @@ export default function LoginContent() {
           </div>
 
           {errorMsg && (
-            <div className="mb-6 p-4 bg-red-500/10 border border-red-500/50 rounded-xl text-red-400 text-sm">
-              {errorMsg}
-            </div>
+            <motion.div
+              initial={{ opacity: 0, y: -5 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mb-6 p-4 bg-red-500/15 border border-red-500/50 rounded-xl text-red-300 text-sm flex items-start gap-2.5"
+            >
+              <AlertCircle className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
+              <span>{errorMsg}</span>
+            </motion.div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -122,12 +174,17 @@ export default function LoginContent() {
                   className="space-y-4"
                 >
                   <div>
-                    <label className="block text-xs font-semibold text-white/70 mb-1 uppercase tracking-wider">Full Name</label>
+                    <label className="block text-xs font-semibold text-white/70 mb-1 uppercase tracking-wider">
+                      Full Name *
+                    </label>
                     <input
                       type="text"
                       required={!isLogin}
                       value={name}
-                      onChange={(e) => setName(e.target.value)}
+                      onChange={(e) => {
+                        setName(e.target.value);
+                        if (errorMsg) setErrorMsg('');
+                      }}
                       placeholder="e.g. Ahmed Hassan"
                       className="w-full bg-[#030712]/50 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-[#C9A84C]/50 transition-colors"
                     />
@@ -135,28 +192,37 @@ export default function LoginContent() {
                   
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs font-semibold text-white/70 mb-1 uppercase tracking-wider">Country</label>
+                      <label className="block text-xs font-semibold text-white/70 mb-1 uppercase tracking-wider">
+                        Country *
+                      </label>
                       <select
                         required={!isLogin}
                         value={country}
-                        onChange={(e) => setCountry(e.target.value)}
-                        className="w-full bg-[#030712]/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#C9A84C]/50 transition-colors appearance-none cursor-pointer text-sm"
+                        onChange={(e) => {
+                          setCountry(e.target.value);
+                          if (errorMsg) setErrorMsg('');
+                        }}
+                        className="w-full bg-[#030712]/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#C9A84C]/50 transition-colors cursor-pointer text-sm"
                       >
-                        <option value="">Select</option>
+                        <option value="" className="bg-[#0A1628] text-white">Select Country</option>
                         {COUNTRIES.map(c => (
-                          <option key={c.code} value={c.code}>{c.flag} {c.name}</option>
+                          <option key={c.code} value={c.code} className="bg-[#0A1628] text-white">
+                            {c.flag} {c.name}
+                          </option>
                         ))}
                       </select>
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold text-white/70 mb-1 uppercase tracking-wider">Language</label>
+                      <label className="block text-xs font-semibold text-white/70 mb-1 uppercase tracking-wider">
+                        Language
+                      </label>
                       <select
                         value={language}
                         onChange={(e) => setLanguage(e.target.value)}
-                        className="w-full bg-[#030712]/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#C9A84C]/50 transition-colors appearance-none cursor-pointer text-sm"
+                        className="w-full bg-[#030712]/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#C9A84C]/50 transition-colors cursor-pointer text-sm"
                       >
-                        <option value="English">English</option>
-                        <option value="Arabic">Arabic</option>
+                        <option value="English" className="bg-[#0A1628] text-white">English</option>
+                        <option value="Arabic" className="bg-[#0A1628] text-white">Arabic</option>
                       </select>
                     </div>
                   </div>
@@ -165,24 +231,34 @@ export default function LoginContent() {
             </AnimatePresence>
 
             <div>
-              <label className="block text-xs font-semibold text-white/70 mb-1 uppercase tracking-wider">Email Address</label>
+              <label className="block text-xs font-semibold text-white/70 mb-1 uppercase tracking-wider">
+                Email Address *
+              </label>
               <input
                 type="email"
                 required
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  if (errorMsg) setErrorMsg('');
+                }}
                 placeholder="tourist@example.com"
                 className="w-full bg-[#030712]/50 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-[#C9A84C]/50 transition-colors"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-white/70 mb-1 uppercase tracking-wider">Password</label>
+              <label className="block text-xs font-semibold text-white/70 mb-1 uppercase tracking-wider">
+                Password *
+              </label>
               <input
                 type="password"
                 required
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  if (errorMsg) setErrorMsg('');
+                }}
                 placeholder="••••••••"
                 className="w-full bg-[#030712]/50 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-[#C9A84C]/50 transition-colors"
               />
@@ -191,16 +267,36 @@ export default function LoginContent() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full mt-6 px-6 py-4 rounded-xl bg-gradient-to-r from-[#C9A84C] to-[#E2CB85] text-[#030712] font-bold text-sm hover:shadow-[0_0_20px_rgba(201,168,76,0.3)] transition-all hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full mt-6 px-6 py-4 rounded-xl bg-gradient-to-r from-[#C9A84C] to-[#E2CB85] text-[#030712] font-bold text-sm hover:shadow-[0_0_20px_rgba(201,168,76,0.3)] transition-all hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer flex items-center justify-center gap-2"
             >
-              {loading ? 'Processing...' : (isLogin ? 'Login' : 'Create Account')}
+              {loading ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin text-[#030712]" />
+                  <span>{isLogin ? 'Signing In...' : 'Creating Account...'}</span>
+                </>
+              ) : (
+                <span>{isLogin ? 'Login' : 'Sign Up'}</span>
+              )}
             </button>
 
             {!isLogin && (
               <button
                 type="button"
-                onClick={handleSubmit} // Fakes a google login by just submitting
-                className="w-full mt-3 px-6 py-4 rounded-xl bg-white/5 border border-white/10 text-white font-semibold text-sm hover:bg-white/10 transition-colors flex items-center justify-center gap-3"
+                onClick={async () => {
+                  try {
+                    setErrorMsg('');
+                    const { error } = await supabase.auth.signInWithOAuth({
+                      provider: 'google',
+                      options: {
+                        redirectTo: typeof window !== 'undefined' ? `${window.location.origin}/auth/callback` : undefined,
+                      },
+                    });
+                    if (error) throw error;
+                  } catch (err: any) {
+                    setErrorMsg(err.message || 'Failed to authenticate with Google.');
+                  }
+                }}
+                className="w-full mt-3 px-6 py-4 rounded-xl bg-white/5 border border-white/10 text-white font-semibold text-sm hover:bg-white/10 transition-colors flex items-center justify-center gap-3 cursor-pointer"
               >
                 <svg className="w-5 h-5" viewBox="0 0 24 24">
                   <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
@@ -217,8 +313,9 @@ export default function LoginContent() {
             <p className="text-white/50 text-sm">
               {isLogin ? "Don't have an account? " : "Already have an account? "}
               <button 
+                type="button"
                 onClick={toggleView}
-                className="text-[#C9A84C] font-semibold hover:underline"
+                className="text-[#C9A84C] font-semibold hover:underline cursor-pointer ml-1"
               >
                 {isLogin ? 'Sign Up' : 'Login'}
               </button>

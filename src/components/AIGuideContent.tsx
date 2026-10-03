@@ -4,13 +4,15 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useLanguage } from '@/context/LanguageContext';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
-import { Camera, Upload, Loader2, Sparkles, AlertCircle, MapPin, ExternalLink, ArrowRight, Send } from 'lucide-react';
+import { Camera, Upload, Loader2, Sparkles, AlertCircle, MapPin, ExternalLink, ArrowRight, Send, Phone } from 'lucide-react';
+import AIGuideVoiceCall from './AIGuideVoiceCall';
 import { useAuth } from '@/context/AuthContext';
 import { trackEvent } from '@/lib/analytics';
 import Link from 'next/link';
 
 export default function AIGuideContent() {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
+  const [isVoiceCallOpen, setIsVoiceCallOpen] = useState(false);
   const { user, loading: authLoading } = useAuth();
   const router = useRouter();
   
@@ -384,6 +386,33 @@ const fileInputRef = useRef<HTMLInputElement>(null);
 
         </div>
       </div>
+      {/* ── Floating "Call AI Guide" Button (Bottom-Left) ────────────────── */}
+      <motion.button
+        type="button"
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        onClick={() => setIsVoiceCallOpen(true)}
+        className="fixed bottom-6 left-6 z-[90] flex items-center gap-2.5 px-4 py-3 rounded-full bg-gradient-to-r from-[#C9A84C] via-[#E2CB85] to-[#C9A84C] text-[#0A1628] font-extrabold shadow-[0_0_25px_rgba(201,168,76,0.6)] border border-white/40 hover:shadow-[0_0_35px_rgba(201,168,76,0.8)] transition-all duration-300 group cursor-pointer animate-pulse"
+        title={locale === 'ar' ? 'تحدث مع AI' : 'Call AI'}
+      >
+        <span className="relative flex h-3 w-3">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
+          <span className="relative inline-flex rounded-full h-3 w-3 bg-red-600"></span>
+        </span>
+        <div className="flex items-center gap-1.5">
+          <Phone className="w-4 h-4 text-[#0A1628] group-hover:rotate-12 transition-transform" />
+          <Sparkles className="w-3.5 h-3.5 text-[#0A1628]" />
+        </div>
+        <span className="text-xs md:text-sm font-black tracking-wide">
+          {locale === 'ar' ? 'تحدث مع AI' : 'Call AI'}
+        </span>
+      </motion.button>
+
+      {/* ── Fullscreen Voice Call Overlay ─────────────────────────────────── */}
+      <AIGuideVoiceCall
+        isOpen={isVoiceCallOpen}
+        onClose={() => setIsVoiceCallOpen(false)}
+      />
     </div>
   );
 }

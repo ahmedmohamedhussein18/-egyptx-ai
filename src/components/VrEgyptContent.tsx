@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Globe, MapPin, Lock, ArrowLeft, PlayCircle, Sparkles } from 'lucide-react';
 
@@ -10,48 +11,62 @@ const destinations = [
     title: "Abu Simbel Temples",
     city: "Aswan",
     description: "Carved out of a mountainside in the 13th century BC, the Abu Simbel temples stand as a testament to the grandeur of Ramesses II. Experience the majestic colossal statues that guard the entrance to one of ancient Egypt's most awe-inspiring monuments, preserved for eternity on the banks of Lake Nasser.",
-    videoSrc: "/videos/vr1.mp4"
+    videoSrc: "/videos/vr1.mp4",
+    vrPortalUrl: "https://www.google.com/maps/embed?pb=!4v1538055014192!6m8!1m7!1sCdK2TtrqrFuNrPbBhDPIoA!2m2!1d22.33726!2d31.62578!3f0!4f0!5f0.7820865974627469"
   },
   {
     id: 2,
     title: "Al-Azhar Mosque",
     city: "Cairo",
     description: "Founded in 970 AD, Al-Azhar Mosque is a masterpiece of Fatimid architecture and the heart of Islamic learning in Egypt. Wander virtually through its expansive marble courtyards and admire the intricate stucco work and historic minarets that have overlooked Cairo for over a millennium.",
-    videoSrc: "/videos/vr2.mp4" 
+    videoSrc: "/videos/vr2.mp4",
+    vrPortalUrl: "https://www.google.com/maps/embed?pb=!4v1538055014192!6m8!1m7!1sCdK2TtrqrFuNrPbBhDPIoA!2m2!1d30.04644!2d31.26274!3f180!4f0!5f0.7820865974627469"
   },
   {
     id: 3,
     title: "Al-Azhar Park",
     city: "Cairo",
     description: "A lush, green oasis in the center of historic Cairo. Al-Azhar Park offers breathtaking panoramic views of the city's ancient skyline. Stroll through the beautifully manicured Islamic gardens, serene water features, and enjoy a virtual moment of peace above the bustling metropolis.",
-    videoSrc: "/videos/vr3.mp4"
+    videoSrc: "/videos/vr3.mp4",
+    vrPortalUrl: "https://www.google.com/maps/embed?pb=!4v1538055014192!6m8!1m7!1sCdK2TtrqrFuNrPbBhDPIoA!2m2!1d30.04066!2d31.26514!3f0!4f0!5f0.7820865974627469"
   },
   {
     id: 4,
     title: "Al-Rifa'i Mosque",
     city: "Cairo",
     description: "Constructed in two phases between 1869 and 1912, this monumental mosque stands opposite the Mosque of Sultan Hassan. Step inside to marvel at its soaring ceilings, lavish gold-leaf decorations, and the grand tombs of the Egyptian royal family resting in absolute architectural splendor.",
-    videoSrc: "/videos/vr4.mp4"
+    videoSrc: "/videos/vr4.mp4",
+    vrPortalUrl: "https://www.google.com/maps/embed?pb=!4v1538055014192!6m8!1m7!1sCdK2TtrqrFuNrPbBhDPIoA!2m2!1d30.03918!2d31.25831!3f0!4f0!5f0.7820865974627469"
   },
   {
     id: 5,
     title: "Alexandria Library",
     city: "Alexandria",
     description: "The Bibliotheca Alexandrina is a striking architectural homage to the ancient Library of Alexandria. Explore the vast, sunlit main reading room which cascades down towards the sea, and admire the majestic granite walls carved with characters from 120 different human scripts.",
-    videoSrc: "/videos/vr5.mp4"
+    videoSrc: "/videos/vr5.mp4",
+    vrPortalUrl: "https://www.google.com/maps/embed?pb=!4v1538055014192!6m8!1m7!1sCdK2TtrqrFuNrPbBhDPIoA!2m2!1d31.20889!2d29.90916!3f0!4f0!5f0.7820865974627469"
   },
   {
     id: 6,
     title: "Amr ibn al-As Mosque",
     city: "Cairo",
     description: "Originally built in 642 AD, it was the first mosque ever constructed in Egypt and the whole of Africa. Experience the vast, serene interior where wooden columns support an expansive wooden roof, offering a profound sense of history and spiritual tranquility.",
-    videoSrc: "/videos/vr6.mp4"
+    videoSrc: "/videos/vr6.mp4",
+    vrPortalUrl: "https://www.google.com/maps/embed?pb=!4v1538055014192!6m8!1m7!1sCdK2TtrqrFuNrPbBhDPIoA!2m2!1d30.00695!2d31.23069!3f0!4f0!5f0.7820865974627469"
   }
 ];
 
 export default function VrEgyptContent() {
   const [activeSite, setActiveSite] = useState<typeof destinations[0] | null>(null);
   const [showSplash, setShowSplash] = useState(true);
+  const [vrPortalSite, setVrPortalSite] = useState<typeof destinations[0] | null>(null);
+  const [hasDeviceMotion, setHasDeviceMotion] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && typeof window.DeviceOrientationEvent !== 'undefined') {
+      setHasDeviceMotion(true);
+    }
+  }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -160,9 +175,33 @@ export default function VrEgyptContent() {
 
                     <div className="absolute bottom-0 left-0 w-full p-6 translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
                       <h3 className="text-2xl font-bold text-white mb-2 tracking-wide group-hover:text-[#C9A84C] transition-colors">{dest.title}</h3>
-                      <div className="flex items-center gap-1.5 text-sm text-gray-400">
+                      <div className="flex items-center gap-1.5 text-sm text-gray-400 mb-4">
                         <MapPin className="w-4 h-4 text-[#C9A84C]" />
                         <span className="uppercase tracking-widest">{dest.city}</span>
+                      </div>
+                      <div className="flex gap-2">
+                        <Link
+                          href={`/vr-tour/${dest.id}`}
+                          onClick={(e) => e.stopPropagation()}
+                          className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 bg-gradient-to-r from-[#C9A84C] to-[#E2CB85] text-[#0A1628] rounded-full text-xs font-bold hover:scale-105 transition-all shadow-md"
+                        >
+                          <span>Tour Details →</span>
+                        </Link>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setVrPortalSite(dest);
+                            const visited = JSON.parse(localStorage.getItem('egyptx-vr-visited') || '[]');
+                            if (!visited.includes(dest.title)) {
+                              visited.push(dest.title);
+                              localStorage.setItem('egyptx-vr-visited', JSON.stringify(visited));
+                            }
+                          }}
+                          className="px-3.5 py-2 bg-[#030712] border border-[#C9A84C] text-[#C9A84C] rounded-full text-xs font-semibold hover:bg-[#C9A84C] hover:text-[#030712] transition-colors shadow-lg"
+                          title="Launch 360° View"
+                        >
+                          <Globe className="w-4 h-4 inline mr-1" /> 360°
+                        </button>
                       </div>
                     </div>
                   </motion.div>
@@ -229,6 +268,57 @@ export default function VrEgyptContent() {
           )}
         </AnimatePresence>
       </div>
+
+      {/* Immersive 360 VR Portal Modal */}
+      <AnimatePresence>
+        {vrPortalSite && (
+          <motion.div
+            key="vr-portal"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[200] bg-[#030712] flex flex-col items-center justify-center p-4 md:p-8"
+          >
+            {/* Top Bar */}
+            <div className="w-full max-w-6xl flex justify-between items-center mb-6">
+              <div>
+                <h2 className="text-2xl font-bold text-white">{vrPortalSite.title}</h2>
+                <div className="flex items-center gap-1.5 text-sm text-gray-400">
+                  <MapPin className="w-4 h-4 text-[#C9A84C]" />
+                  <span className="uppercase tracking-widest">{vrPortalSite.city}</span>
+                </div>
+              </div>
+              <div className="flex items-center gap-4">
+                {hasDeviceMotion && (
+                  <span className="hidden md:inline-flex items-center gap-2 text-xs font-semibold px-3 py-1 bg-[#C9A84C]/10 text-[#C9A84C] border border-[#C9A84C]/30 rounded-full">
+                    📱 Move your device to look around!
+                  </span>
+                )}
+                <button
+                  onClick={() => setVrPortalSite(null)}
+                  className="p-2 hover:bg-white/10 rounded-full transition-colors"
+                >
+                  <span className="text-white text-2xl">✕</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Iframe */}
+            <iframe
+              src={vrPortalSite.vrPortalUrl}
+              allowFullScreen
+              allow="accelerometer; gyroscope"
+              title={`${vrPortalSite.title} VR Tour`}
+              className="w-full max-w-6xl h-[75vh] rounded-2xl border border-[#C9A84C]/20 shadow-2xl"
+            />
+
+            {/* Bottom Note */}
+            <div className="mt-6 text-gray-400 text-sm flex items-center gap-2">
+              <Globe className="w-4 h-4 text-[#C9A84C]" /> Powered by Google Street View · Drag to explore 360°
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

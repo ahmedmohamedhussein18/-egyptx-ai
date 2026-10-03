@@ -4,11 +4,11 @@ import { createClient } from '@/lib/supabase/server';
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { 
-      country, 
-      duration, 
-      budget, 
-      interests, 
+    const {
+      country,
+      duration,
+      budget,
+      interests,
       travelStyle,
       travelers,
       governorateId,
@@ -16,7 +16,8 @@ export async function POST(req: Request) {
       accessibility,
       avoidPlaces,
       avoidCrowds,
-      language
+      routePreference,
+      destinations,
     } = body;
 
     // Validate inputs
@@ -27,56 +28,74 @@ export async function POST(req: Request) {
 
     const parsedTravelers = parseInt(travelers, 10) || 1;
 
-    // Grounding: Fetch real attractions
+    // Grounding: Fetch real attractions from Supabase
     const supabase = await createClient();
-    let query = supabase.from('attractions').select('id, name_en, city, category, description_en').eq('verified', true);
-    
+    let query = supabase
+      .from('attractions')
+      .select('id, name_en, city, category, description_en')
+      .eq('verified', true);
+
     if (governorateId) {
       query = query.eq('governorate_id', governorateId);
     }
-    
-    const { data: attractions, error: dbError } = await query.limit(100);
 
+    const { data: attractions, error: dbError } = await query.limit(150);
     if (dbError) {
       console.error('Database Error:', dbError);
       return NextResponse.json({ error: 'Failed to fetch attractions data.' }, { status: 500 });
     }
 
-    // Prepare context string of attractions
-    const attractionsContext = attractions && attractions.length > 0 
-      ? attractions.map(a => `- ${a.name_en} (${a.city}) [Category: ${a.category}]: ${a.description_en || 'No description'}`).join('\n')
-      : 'No verified attractions available in the database for this selection.';
+    const attractionsContext =
+      attractions && attractions.length > 0
+        ? attractions
+            .map(
+              (a) =>
+                `- ${a.name_en} | City: ${a.city} | Category: ${a.category} | ${a.description_en || 'Historic site'}`
+            )
+            .join('\n')
+        : 'No verified attractions in database — use general knowledge of Egypt.';
 
-    // Construct Pace instruction
-    let paceInstruction = '';
-    if (pace === 'relaxed') paceInstruction = '1-2 activities per day.';
-    else if (pace === 'balanced') paceInstruction = '3-4 activities per day.';
-    else if (pace === 'packed') paceInstruction = '5+ activities per day.';
+    // Build pace instruction
+    const paceInstruction =
+      pace === 'relaxed'
+        ? 'Schedule 2 activities per day with generous free time.'
+        : pace === 'packed'
+        ? 'Schedule 5+ activities per day.'
+        : 'Schedule exactly 3 activities per day.';
 
-    const interestsString = Array.isArray(interests) ? interests.join(', ') : '';
+    const interestsString = Array.isArray(interests) ? interests.join(', ') : 'general sightseeing';
+    const destinationsConstraint =
+      destinations && destinations.length > 0 ? destinations.join(', ') : 'Cairo';
 
-    const prompt = `You are an expert Egypt travel planner. Create a realistic, day-by-day itinerary in Egypt for a traveler from ${country || 'abroad'}.
-Trip Details:
-- Duration: ${parsedDuration} days
-- Budget: $${budget} (Total for ${parsedTravelers} traveler(s). That's $${(budget / parsedTravelers).toFixed(2)} per person. Keep this in mind!)
-- Travelers: ${parsedTravelers}
-- Interests: ${interestsString || 'general'}
-- Travel Style: ${travelStyle || 'standard'}
-- Pace: ${paceInstruction || 'Balanced pace.'}
-${accessibility ? `- Accessibility Needs: ${accessibility}` : ''}
-${avoidPlaces ? `- Places to Avoid: ${avoidPlaces}` : ''}
-${avoidCrowds ? `- Preference: Avoid crowded places.` : ''}
+    // ── ULTRA-STRICT SYSTEM PROMPT ──────────────────────────────────────────
+    const systemPrompt = `You are EgyptX AI, the world's leading Egypt travel itinerary generator.
 
-REAL ATTRACTIONS DATABASE:
-You MUST ONLY select places from the following list. DO NOT invent or hallucinate any place names. If a venue is very small and there are many travelers, deprioritize it.
-${attractionsContext}
+ABSOLUTE RULES — VIOLATING ANY RULE MAKES YOUR OUTPUT WORTHLESS:
+1. You MUST return ONLY raw JSON — no markdown, no code fences, no comments, no extra text.
+2. You MUST generate EXACTLY ${parsedDuration} days. Not ${parsedDuration - 1}. Not ${parsedDuration + 1}. EXACTLY ${parsedDuration}.
+3. EVERY single day MUST have AT LEAST 3 complete activities. NEVER leave a day empty. NEVER write "No activities planned".
+4. EVERY activity MUST include ALL 7 required fields: time, title, description, imagePath, transport, cost, historicalFact.
+5. imagePath MUST follow exactly this format: /destinations/[city-in-lowercase]-main.jpg
+   Examples: /destinations/cairo-main.jpg, /destinations/luxor-main.jpg, /destinations/aswan-main.jpg
+6. You MUST ONLY use destinations from this list: ${destinationsConstraint}
+7. Use ONLY real attractions from the VERIFIED DATABASE below. If the database has insufficient data, supplement with real, well-known Egyptian landmarks.
 
-IMPORTANT INSTRUCTIONS:
-- You MUST return exactly ${parsedDuration} days.
-- Distribute activities logically, accounting for travel times between cities.
-- Use ONLY the real attractions provided above.
-- If there are not enough real attractions to fill the days logically, include fewer activities, but NEVER invent places.
-- Your response MUST be strictly valid JSON matching this exact structure:
+VERIFIED ATTRACTIONS DATABASE:
+${attractionsContext}`;
+
+    // ── USER PROMPT ──────────────────────────────────────────────────────────
+    const userPrompt = `Generate a ${parsedDuration}-day Egypt itinerary with these exact parameters:
+- Traveler origin: ${country || 'International'}
+- Total budget: $${budget} for ${parsedTravelers} traveler(s)
+- Interests: ${interestsString}
+- Travel style: ${travelStyle || 'standard'}
+- Pace: ${paceInstruction}
+${accessibility ? `- Accessibility needs: ${accessibility}` : ''}
+${avoidPlaces ? `- Avoid: ${avoidPlaces}` : ''}
+${avoidCrowds ? `- Prefer: avoid crowded locations` : ''}
+${routePreference === 'shortest-distance' ? `- Route: shortest distance, group nearby cities` : ''}
+
+Return ONLY this exact JSON structure (no other text):
 
 {
   "days": [
@@ -85,130 +104,155 @@ IMPORTANT INSTRUCTIONS:
       "city": "Cairo",
       "activities": [
         {
-          "time": "09:00",
-          "category": "ancient",
-          "title": "Exact Name from Database",
-          "description": "Short description of the activity and why it fits their budget/style."
+          "time": "09:00 AM",
+          "title": "Great Pyramids of Giza",
+          "description": "Stand before the last surviving wonder of the ancient world. Marvel at the colossal limestone structures built 4,500 years ago by Pharaoh Khufu. Walk among the three main pyramids and visit the iconic Great Sphinx.",
+          "imagePath": "/destinations/cairo-main.jpg",
+          "transport": "🚕 Taxi - 30 mins from downtown",
+          "cost": "$$ Moderate",
+          "historicalFact": "The Great Pyramid was the tallest man-made structure on Earth for over 3,800 years."
+        },
+        {
+          "time": "02:00 PM",
+          "title": "Egyptian Museum of Antiquities",
+          "description": "Explore the world's largest collection of ancient Egyptian artifacts. Witness the golden death mask of Tutankhamun, royal mummies, and priceless treasures spanning 5,000 years of civilization.",
+          "imagePath": "/destinations/cairo-main.jpg",
+          "transport": "🚕 Taxi - 15 mins from Giza",
+          "cost": "$ Budget-friendly",
+          "historicalFact": "The museum houses over 120,000 artifacts, including 5,000 items from Tutankhamun's tomb."
+        },
+        {
+          "time": "07:00 PM",
+          "title": "Khan el-Khalili Night Market",
+          "description": "Wander through Cairo's most famous medieval bazaar. Browse hand-crafted jewelry, spices, perfumes, and traditional crafts. Sip authentic Egyptian tea at the historic El Fishawi café.",
+          "imagePath": "/destinations/cairo-main.jpg",
+          "transport": "🚶 Walking - 10 mins from museum",
+          "cost": "💸 Free entry (shopping optional)",
+          "historicalFact": "Khan el-Khalili was established in 1382 by Emir Jarkas el-Khalili as a caravanserai."
         }
       ]
     }
-  ],
-  "message": "Optional message (e.g. if limited attractions available)"
+  ]
 }
 
-Only return the JSON. No markdown formatting blocks or extra text.`;
+REMINDER: Generate ALL ${parsedDuration} days. Each day needs AT LEAST 3 activities. ALL 7 fields required for every activity. Return ONLY JSON.`;
 
-    // Call Groq API with validation and retry
+    // ── GROQ CALL WITH RETRY ─────────────────────────────────────────────────
     let formattedData: any = null;
-    let errorStatus = 500;
     let errorMessage = '';
+    let errorStatus = 500;
+    const maxAttempts = 3;
 
-    const maxAttempts = 3; // Initial + 2 retries
     for (let attempt = 1; attempt <= maxAttempts; attempt++) {
-      let currentPrompt = prompt;
-      
-      if (attempt > 1) {
-        currentPrompt += `\n\nCRITICAL VALIDATION FAILURE ON PREVIOUS ATTEMPT:
-${errorMessage}
-
-The application has already determined the requested duration.
-requestedDays = ${parsedDuration}
-
-You MUST generate exactly ${parsedDuration} itinerary days.
-Do not decide a different duration.
-Do not omit days.
-Do not merge days.
-Do not create extra days.
-Do not duplicate days.
-The days MUST be sequentially numbered from 1 to ${parsedDuration}.`;
-      }
+      const retryNote =
+        attempt > 1
+          ? `\n\nPREVIOUS ATTEMPT FAILED: ${errorMessage}\nYou MUST fix this. Generate exactly ${parsedDuration} days with at least 3 activities each. Return ONLY raw JSON.`
+          : '';
 
       try {
         const { generateContentWithFallback } = await import('@/lib/groq');
         const groqData = await generateContentWithFallback({
-          messages: [{ role: 'user', content: currentPrompt }],
+          messages: [
+            { role: 'system', content: systemPrompt },
+            { role: 'user', content: userPrompt + retryNote },
+          ],
           config: {
-            response_format: { type: "json_object" },
-            // Slightly increase temperature on retry to encourage different outputs
-            temperature: attempt === 1 ? 0.2 : 0.4
-          }
+            response_format: { type: 'json_object' },
+            temperature: attempt === 1 ? 0.1 : 0.3,
+            max_tokens: 8000,
+          },
         });
-        
-        const text = groqData.choices[0]?.message?.content || '';
 
-        let data;
+        const rawText = groqData.choices[0]?.message?.content || '';
+
+        let parsed: any;
         try {
-          data = JSON.parse(text);
-        } catch (parseError) {
-          const cleanedText = text.replace(/```json/gi, '').replace(/```/g, '').trim();
-          data = JSON.parse(cleanedText);
+          parsed = JSON.parse(rawText);
+        } catch {
+          const cleaned = rawText
+            .replace(/```json/gi, '')
+            .replace(/```/g, '')
+            .trim();
+          parsed = JSON.parse(cleaned);
         }
 
-        if (!data || !Array.isArray(data.days)) {
-          throw new Error('AI returned an invalid structure. Missing "days" array.');
+        if (!parsed || !Array.isArray(parsed.days)) {
+          throw new Error('Response missing "days" array.');
         }
 
-        // 1. Validate total day count
-        if (data.days.length !== parsedDuration) {
-          throw new Error(`Expected exactly ${parsedDuration} days, but received ${data.days.length} days.`);
+        if (parsed.days.length !== parsedDuration) {
+          throw new Error(
+            `Expected ${parsedDuration} days, got ${parsed.days.length}.`
+          );
         }
 
-        // 2. Validate sequential day numbers
+        // Validate sequential day numbers
         for (let i = 0; i < parsedDuration; i++) {
-          const expectedDayNumber = i + 1;
-          const actualDayNumber = data.days[i].dayNumber || data.days[i].day;
-          
-          if (actualDayNumber !== expectedDayNumber) {
-            throw new Error(`Expected day ${expectedDayNumber} at index ${i}, but found day ${actualDayNumber}. Days must be strictly sequential starting from 1.`);
+          const dayNum = parsed.days[i].dayNumber ?? parsed.days[i].day;
+          if (dayNum !== i + 1) {
+            throw new Error(
+              `Day numbering broken: index ${i} has dayNumber ${dayNum}, expected ${i + 1}.`
+            );
           }
         }
 
-        // If validation passes, construct formattedData
-        formattedData = data.days.map((d: any) => ({
-          day: d.dayNumber || d.day, 
+        // Map API response → internal Activity shape (supports both old & new fields)
+        formattedData = parsed.days.map((d: any) => ({
+          day: d.dayNumber ?? d.day,
           city: d.city || 'Egypt',
           activities: (d.activities || []).map((a: any) => ({
-            time: a.time || '10:00',
-            type: a.category || 'general',
-            name: a.title || 'Activity',
-            description: a.description || ''
-          }))
+            time: a.time || '09:00 AM',
+            name: a.title || a.name || 'Activity',
+            description: a.description || '',
+            type: a.category || a.type || 'sightseeing',
+            // ── new rich fields ──
+            imagePath: a.imagePath || `/destinations/${(d.city || 'cairo').toLowerCase().replace(/\s+/g, '-')}-main.jpg`,
+            transport: a.transport || '🚕 Taxi',
+            cost: a.cost || '$ Moderate',
+            tip: a.tip || null,
+            fact: a.historicalFact || a.fact || null,
+          })),
         }));
 
-        console.log(`[Planner] requestedDays=${parsedDuration} generatedDays=${formattedData.length} validation=SUCCESS retry=${attempt-1}`);
-        break; // Success!
-
+        console.log(
+          `[Planner] SUCCESS attempt=${attempt} days=${formattedData.length}`
+        );
+        break;
       } catch (err: any) {
-        console.error(`[Planner] Attempt ${attempt} failed validation/fetch:`, err.message);
         errorMessage = err.message || String(err);
-        
-        if (errorMessage.includes('429')) errorStatus = 429;
-        if (errorMessage.includes('503') || errorMessage.includes('504')) errorStatus = 503;
-        
-        // Only stop early if it's an API rate limit or hard timeout
-        if (errorStatus === 429 || errorStatus === 503 || errorStatus === 504) {
-          break;
-        }
+        console.error(`[Planner] Attempt ${attempt} failed:`, errorMessage);
 
-        console.log(`[Planner] requestedDays=${parsedDuration} validation=FAILED retry=${attempt}`);
-        
-        // Add a small delay before retrying
+        if (errorMessage.includes('429')) errorStatus = 429;
+        if (errorMessage.includes('503') || errorMessage.includes('504'))
+          errorStatus = 503;
+
+        if (errorStatus === 429 || errorStatus === 503) break;
+
         if (attempt < maxAttempts) {
-          await new Promise(res => setTimeout(res, 1000 * attempt));
+          await new Promise((r) => setTimeout(r, 1200 * attempt));
         }
       }
     }
 
     if (!formattedData) {
       if (errorStatus === 429) {
-        return NextResponse.json({ error: 'AI is currently busy (rate limit). Please try again in a moment.' }, { status: 429 });
+        return NextResponse.json(
+          { error: 'AI is busy (rate limit). Please try again in a moment.' },
+          { status: 429 }
+        );
       }
-      return NextResponse.json({ error: 'Unable to generate a valid itinerary for the requested duration. Please try again.' }, { status: 422 });
+      return NextResponse.json(
+        { error: 'Unable to generate a valid itinerary. Please try again.' },
+        { status: 422 }
+      );
     }
 
     return NextResponse.json(formattedData);
   } catch (error) {
     console.error('Generate Itinerary Route Error:', error);
-    return NextResponse.json({ error: 'An unexpected error occurred while planning your journey.' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'An unexpected error occurred while planning your journey.' },
+      { status: 500 }
+    );
   }
 }

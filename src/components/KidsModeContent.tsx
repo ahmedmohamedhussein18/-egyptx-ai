@@ -7,7 +7,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '@/context/AuthContext';
 import { createClient } from '@/lib/supabase/client';
 import { KIDS_FACTS, KIDS_QUIZZES, QuizTopic } from '@/data/kids-content';
-import { Smile, Star, Award, ChevronRight, CheckCircle2, XCircle, Loader2, Sparkles, Play, Pause, Volume2, VolumeX } from 'lucide-react';
+import { Smile, Star, Award, ChevronRight, CheckCircle2, XCircle, Loader2, Sparkles, Play, Pause, Volume2, VolumeX, Lock } from 'lucide-react';
+import KidsModeVerificationModal from '@/components/KidsModeVerificationModal';
 
 interface KidsProfile {
   id: string;
@@ -24,6 +25,10 @@ export default function KidsModeContent() {
   const { user, loading: authLoading } = useAuth();
   const router = useRouter();
   const supabase = createClient();
+
+  // Parental verification gate
+  const [isVerified, setIsVerified] = useState(false);
+  const [showVerificationModal, setShowVerificationModal] = useState(false);
 
   const [profile, setProfile] = useState<KidsProfile | null>(null);
   const [badges, setBadges] = useState<string[]>([]);
@@ -76,6 +81,16 @@ export default function KidsModeContent() {
       router.push('/login?redirectTo=/kids');
     }
   }, [user, authLoading, router]);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const verified = localStorage.getItem('isKidsModeVerified') === 'true';
+      setIsVerified(verified);
+      if (!verified) {
+        setShowVerificationModal(true);
+      }
+    }
+  }, []);
 
   useEffect(() => {
     if (user) {
@@ -212,6 +227,43 @@ export default function KidsModeContent() {
     return (
       <div className="min-h-screen bg-[#0A1628] flex items-center justify-center">
         <Loader2 className="w-8 h-8 text-[#C9A84C] animate-spin" />
+      </div>
+    );
+  }
+
+  // --- PARENTAL VERIFICATION LOCK SCREEN ---
+  if (!isVerified) {
+    return (
+      <div className="min-h-screen bg-[#030712] flex flex-col items-center justify-center p-4 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(201,168,76,0.15),transparent_70%)] pointer-events-none" />
+        <div className="relative z-10 text-center max-w-md p-8 rounded-3xl bg-[#0B1120]/80 border border-[#C9A84C]/30 backdrop-blur-xl shadow-2xl">
+          <div className="w-16 h-16 rounded-2xl bg-[#C9A84C]/15 border border-[#C9A84C]/40 flex items-center justify-center mx-auto mb-4 text-[#C9A84C]">
+            <Lock className="w-8 h-8" />
+          </div>
+          <h2 className="text-2xl font-bold text-white mb-2">Kids Mode Protected</h2>
+          <p className="text-sm text-white/60 mb-6">
+            Parental email verification is required to unlock educational games, pharaoh avatars, and interactive quizzes safely.
+          </p>
+          <button
+            onClick={() => setShowVerificationModal(true)}
+            className="w-full py-3 bg-[#C9A84C] hover:bg-[#E2CB85] text-[#030712] font-bold rounded-xl transition-all shadow-[0_0_20px_rgba(201,168,76,0.3)] text-sm uppercase tracking-wider"
+          >
+            Enter Verification Code
+          </button>
+        </div>
+
+        <KidsModeVerificationModal
+          isOpen={showVerificationModal}
+          onClose={() => {
+            setShowVerificationModal(false);
+            router.push('/');
+          }}
+          userEmail={user?.email}
+          onSuccess={() => {
+            setIsVerified(true);
+            setShowVerificationModal(false);
+          }}
+        />
       </div>
     );
   }
@@ -508,6 +560,22 @@ export default function KidsModeContent() {
 
         </div>
       </div>
+
+      {/* Parental Email Verification Modal Gate */}
+      <KidsModeVerificationModal
+        isOpen={showVerificationModal}
+        onClose={() => {
+          setShowVerificationModal(false);
+          if (!isVerified) {
+            router.push('/');
+          }
+        }}
+        userEmail={user?.email}
+        onSuccess={() => {
+          setIsVerified(true);
+          setShowVerificationModal(false);
+        }}
+      />
     </div>
   );
 }

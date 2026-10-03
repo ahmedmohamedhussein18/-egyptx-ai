@@ -2,8 +2,11 @@
 
 import React from 'react';
 import { useLanguage } from '@/context/LanguageContext';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/context/AuthContext';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import KidsModeVerificationModal from '@/components/KidsModeVerificationModal';
 import { 
   Globe, Map, Smile, Siren, 
   Camera, Leaf, Search, Lock 
@@ -60,6 +63,22 @@ const getUpcomingFeatures = (t: any) => [
 
 export default function FutureEcosystemSection() {
   const { t } = useLanguage();
+  const { user } = useAuth();
+  const router = useRouter();
+  const [isKidsModalOpen, setIsKidsModalOpen] = React.useState(false);
+
+  const handleCardClick = (feature: any, e: React.MouseEvent) => {
+    if (feature.href === '/kids') {
+      e.preventDefault();
+      const isVerified = typeof window !== 'undefined' && localStorage.getItem('isKidsModeVerified') === 'true';
+      if (isVerified) {
+        router.push('/kids');
+      } else {
+        setIsKidsModalOpen(true);
+      }
+    }
+  };
+
   return (
     <section className="relative w-full py-24 bg-[#030712] overflow-hidden border-t border-white/5">
       {/* Background Glow */}
@@ -126,7 +145,11 @@ export default function FutureEcosystemSection() {
                 transition={{ delay: idx * 0.05 }}
               >
                 {feature.href ? (
-                  <Link href={feature.href} className={`block h-full ${cardClasses}`}>
+                  <Link 
+                    href={feature.href} 
+                    onClick={(e) => handleCardClick(feature, e)}
+                    className={`block h-full ${cardClasses}`}
+                  >
                     {CardContent}
                   </Link>
                 ) : (
@@ -140,6 +163,17 @@ export default function FutureEcosystemSection() {
         </div>
         
       </div>
+
+      {/* Parental Email Verification Modal for Kids Mode */}
+      <KidsModeVerificationModal
+        isOpen={isKidsModalOpen}
+        onClose={() => setIsKidsModalOpen(false)}
+        userEmail={user?.email}
+        onSuccess={() => {
+          setIsKidsModalOpen(false);
+          router.push('/kids');
+        }}
+      />
     </section>
   );
 }
