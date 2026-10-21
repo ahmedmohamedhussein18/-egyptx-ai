@@ -26,31 +26,31 @@ export const KIDS_FACTS: Fact[] = [
     id: 'f1',
     title: 'The Great Pyramid',
     description: 'The Great Pyramid of Giza was built for King Khufu and was the tallest building in the world for over 3,800 years!',
-    emoji: '🔺'
+    emoji: ''
   },
   {
     id: 'f2',
     title: 'The Nile River',
     description: 'The Nile is the longest river in the world. Ancient Egyptians relied on its annual floods to grow their crops.',
-    emoji: '🌊'
+    emoji: ''
   },
   {
     id: 'f3',
     title: 'Hieroglyphs',
     description: 'Ancient Egyptians used a writing system called hieroglyphs, which used over 700 different pictures as letters and words.',
-    emoji: '👁️'
+    emoji: '️'
   },
   {
     id: 'f4',
     title: 'Tutankhamun',
     description: 'King Tut became a pharaoh when he was only 9 years old! His nearly intact tomb was discovered in 1922.',
-    emoji: '👑'
+    emoji: ''
   },
   {
     id: 'f5',
     title: 'Mummification',
     description: 'Mummification was a special process used to preserve bodies. It could take up to 70 days to make a mummy!',
-    emoji: '🤕'
+    emoji: ''
   }
 ];
 
@@ -60,7 +60,7 @@ export const KIDS_QUIZZES: QuizTopic[] = [
     title: 'Pharaohs & Pyramids',
     badgeKey: 'badge_pyramids',
     badgeName: 'Pyramid Builder',
-    badgeIcon: '🔺',
+    badgeIcon: '',
     questions: [
       {
         id: 'q1-1',
@@ -87,7 +87,7 @@ export const KIDS_QUIZZES: QuizTopic[] = [
     title: 'Daily Life & Nature',
     badgeKey: 'badge_nile',
     badgeName: 'Nile Explorer',
-    badgeIcon: '🌊',
+    badgeIcon: '',
     questions: [
       {
         id: 'q2-1',

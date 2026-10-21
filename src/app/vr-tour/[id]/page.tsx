@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: VrTourPageProps): Promise<Met
 
   return {
     title: `${monument.title} | Immersive 360° VR Tour | EgyptX AI`,
-    description: `Experience the ancient wonder of ${monument.title} in ${monument.city}, Egypt with interactive 360° photogrammetry and ElevenLabs HD Audio.`,
+    description: `Experience the ancient wonder of ${monument.title} in ${monument.city}, Egypt with interactive 360° photogrammetry and immersive HD audio narration.`,
   };
 }
 

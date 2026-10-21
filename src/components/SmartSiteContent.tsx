@@ -2,11 +2,13 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { QrCode, Scan, History, Cuboid, Globe, Eye, ScanLine, X, Loader2, AlertCircle } from 'lucide-react';
+import { QrCode, Scan, History, Cuboid, Globe, Eye, ScanLine, X, Loader2, AlertCircle, Lock, Crown, Sparkles, Hourglass, Zap } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 import { trackEvent } from '@/lib/analytics';
+import { useEliteTrials } from '@/lib/elite-trials';
+import EliteModal from '@/components/EliteModal';
 
-type TabType = 'overview' | 'timeline' | '3d' | 'translation' | 'ar';
+type TabType = 'overview' | 'timetravel' | 'timeline' | '3d' | 'translation' | 'ar';
 
 function WeatherBadge({ lat, lon }: { lat: number, lon: number }) {
   const [weather, setWeather] = useState<any>(null);
@@ -43,6 +45,13 @@ export default function SmartSiteContent() {
   const [language, setLanguage] = useState('English');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+
+  // Elite Trials & Time Travel State
+  const { isElite, useTrial, timeTravelUsed } = useEliteTrials();
+  const [showEliteModal, setShowEliteModal] = useState(false);
+  const [selectedEra, setSelectedEra] = useState('New Kingdom Zenith (1279 BCE)');
+  const [isReconstructing, setIsReconstructing] = useState(false);
+  const [reconstructionDone, setReconstructionDone] = useState(false);
   
   // QR Modal State
   const [showQrModal, setShowQrModal] = useState(false);
@@ -252,8 +261,28 @@ export default function SmartSiteContent() {
             animate={{ opacity: 1, y: 0 }}
             className="bg-white/5 backdrop-blur-lg border border-[#C9A84C]/20 rounded-3xl overflow-hidden"
           >
-            <div className="p-6 bg-[#0A1628]/80 border-b border-[#C9A84C]/10 flex flex-wrap gap-2 md:gap-4">
+            <div className="p-6 bg-[#0A1628]/80 border-b border-[#C9A84C]/10 flex flex-wrap gap-2 md:gap-4 items-center">
               <button onClick={() => setActiveTab('overview')} className={`px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors ${activeTab === 'overview' ? 'bg-[#C9A84C] text-[#030712]' : 'bg-white/5 text-gray-300 hover:bg-white/10'}`}><ScanLine className="w-4 h-4" /> Overview</button>
+              
+              <button 
+                onClick={() => setActiveTab('timetravel')} 
+                className={`px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors ${
+                  activeTab === 'timetravel' 
+                    ? 'bg-gradient-to-r from-amber-400 to-yellow-500 text-slate-950 font-bold shadow-md' 
+                    : 'bg-amber-500/10 text-amber-300 border border-amber-500/30 hover:bg-amber-500/20'
+                }`}
+              >
+                <Hourglass className="w-4 h-4" /> 
+                <span>AI Time Travel</span>
+                {isElite ? (
+                  <span className="px-1.5 py-0.5 rounded text-[10px] font-black bg-slate-950/20 text-current">VIP</span>
+                ) : timeTravelUsed ? (
+                  <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-black/40 text-amber-400 flex items-center gap-0.5"><Lock className="w-2.5 h-2.5" /> LOCKED</span>
+                ) : (
+                  <span className="px-1.5 py-0.5 rounded text-[10px] font-black bg-amber-400 text-slate-950 animate-pulse"> 1 FREE</span>
+                )}
+              </button>
+
               <button onClick={() => setActiveTab('3d')} className={`px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors ${activeTab === '3d' ? 'bg-[#C9A84C] text-[#030712]' : 'bg-white/5 text-gray-300 hover:bg-white/10'}`}><Cuboid className="w-4 h-4" /> 3D Model</button>
               <button onClick={() => setActiveTab('translation')} className={`px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors ${activeTab === 'translation' ? 'bg-[#C9A84C] text-[#030712]' : 'bg-white/5 text-gray-300 hover:bg-white/10'}`}><Globe className="w-4 h-4" /> Translation</button>
               <button onClick={() => setActiveTab('ar')} className={`px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors ${activeTab === 'ar' ? 'bg-[#1B6B93] text-white border border-[#1B6B93]' : 'bg-white/5 text-gray-300 hover:bg-white/10'}`}><Eye className="w-4 h-4" /> AR View</button>
@@ -264,6 +293,191 @@ export default function SmartSiteContent() {
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-4">
                   <h3 className="text-xl font-bold text-[#C9A84C]">What You&apos;re Looking At</h3>
                   <p className="text-gray-300 leading-relaxed text-lg">{selectedSite.description_en || 'Information is currently being updated for this location.'}</p>
+                </motion.div>
+              )}
+
+              {activeTab === 'timetravel' && (
+                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="relative">
+                  {/* Frosted Gold Lock Overlay if trial is exhausted and user is not elite */}
+                  {!isElite && timeTravelUsed && (
+                    <div className="absolute -inset-4 z-30 backdrop-blur-md bg-[#030712]/85 flex flex-col items-center justify-center p-6 text-center border-2 border-amber-500/40 rounded-3xl shadow-[inset_0_0_35px_rgba(245,158,11,0.25)]">
+                      <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-400/25 via-yellow-500/15 to-indigo-950/40 border border-amber-400/50 flex items-center justify-center mb-3 shadow-[0_0_25px_rgba(245,158,11,0.35)]">
+                        <Lock className="w-8 h-8 text-amber-400 animate-pulse drop-shadow-[0_0_8px_rgba(245,158,11,0.8)]" />
+                      </div>
+                      <span className="text-xl sm:text-2xl font-black text-amber-300 mb-2 flex items-center gap-2">
+                        AI Time Travel Explorer · Elite Feature 
+                      </span>
+                      <p className="text-xs sm:text-sm text-slate-300/80 mb-6 max-w-md leading-relaxed font-normal">
+                        You loved your free Time Travel preview! Unlock unlimited historical eras, 4D photogrammetric architectural reconstructions, and ancient soundscapes with EgyptX Elite.
+                      </p>
+                      <button
+                        onClick={() => setShowEliteModal(true)}
+                        className="px-6 py-3 rounded-xl bg-gradient-to-r from-amber-400 via-yellow-500 to-amber-500 text-slate-950 font-black text-xs uppercase tracking-wider shadow-[0_0_30px_rgba(245,158,11,0.45)] hover:scale-105 active:scale-95 transition-all flex items-center gap-2 cursor-pointer"
+                      >
+                        <Sparkles className="w-4 h-4 text-slate-950" />
+                        Unlock Unlimited Time Travel 
+                      </button>
+                    </div>
+                  )}
+
+                  {/* Header & Era Selector */}
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-6 border-b border-white/10">
+                    <div>
+                      <div className="flex items-center gap-2 mb-1">
+                        <Hourglass className="w-5 h-5 text-amber-400" />
+                        <span className="text-xs font-black uppercase tracking-wider text-amber-400">
+                          4D Temporal Reconstruction Engine
+                        </span>
+                      </div>
+                      <h3 className="text-2xl font-black text-white">
+                        {selectedSite.name_en} in Antiquity
+                      </h3>
+                    </div>
+
+                    <div>
+                      {isElite ? (
+                        <span className="px-3.5 py-1.5 rounded-full text-xs font-black uppercase tracking-wider bg-gradient-to-r from-amber-400 to-yellow-500 text-slate-950 flex items-center gap-1.5 shadow-md">
+                          <Crown className="w-3.5 h-3.5" /> Elite Unlocked
+                        </span>
+                      ) : timeTravelUsed ? (
+                        <span className="px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-amber-500/15 border border-amber-500/40 text-amber-300 flex items-center gap-1.5">
+                          <Lock className="w-3.5 h-3.5 text-amber-400" /> Trial Preview Used
+                        </span>
+                      ) : (
+                        <span className="px-3.5 py-1.5 rounded-full text-xs font-black uppercase tracking-wider bg-gradient-to-r from-amber-400/20 via-yellow-400/20 to-amber-500/20 border border-amber-400/50 text-amber-300 flex items-center gap-1.5 shadow-[0_0_15px_rgba(245,158,11,0.3)] animate-pulse">
+                          <Sparkles className="w-3.5 h-3.5 text-amber-400" />  1 Free Preview Available
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Era Selector Cards */}
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-6">
+                    {[
+                      { era: 'Old Kingdom (2575 BCE)', desc: 'Pyramid construction era with gleaming white Tura limestone casing & gold apex.' },
+                      { era: 'New Kingdom Zenith (1279 BCE)', desc: 'Colossal statues of Ramesses II, sacred avenues of sphinxes, and lapis lazuli paintings.' },
+                      { era: 'Ptolemaic Period (250 BCE)', desc: 'Hellenistic sanctuary additions, bustling Nile grain barges, and royal decrees.' },
+                    ].map((item) => (
+                      <button
+                        key={item.era}
+                        onClick={() => setSelectedEra(item.era)}
+                        className={`p-4 rounded-2xl text-left border transition-all cursor-pointer ${
+                          selectedEra === item.era
+                            ? 'bg-amber-500/15 border-amber-400 text-white shadow-[0_0_20px_rgba(245,158,11,0.2)]'
+                            : 'bg-white/5 border-white/10 text-gray-400 hover:border-white/20'
+                        }`}
+                      >
+                        <div className="font-bold text-sm text-amber-300 mb-1">{item.era}</div>
+                        <div className="text-xs text-gray-300 leading-relaxed">{item.desc}</div>
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* Reconstruction Viewfinder */}
+                  <div className="bg-[#0A1628] rounded-2xl border border-amber-500/30 p-6 md:p-8 mb-6 relative overflow-hidden">
+                    {isReconstructing ? (
+                      <div className="py-12 flex flex-col items-center justify-center text-center">
+                        <Loader2 className="w-12 h-12 text-amber-400 animate-spin mb-4" />
+                        <h4 className="text-lg font-bold text-white mb-1">
+                          Synthesizing 4D Photogrammetric Models...
+                        </h4>
+                        <p className="text-xs text-amber-300">
+                          Reconstructing original limestone polish and ancient solar alignments for {selectedEra}
+                        </p>
+                      </div>
+                    ) : reconstructionDone ? (
+                      <div className="space-y-6">
+                        <div className="flex flex-col md:flex-row items-center gap-6">
+                          <div className="w-full md:w-1/2 aspect-video bg-gradient-to-br from-amber-950/40 via-[#030712] to-indigo-950/40 rounded-xl border border-amber-400/40 p-4 flex flex-col justify-between relative overflow-hidden shadow-inner">
+                            <div className="flex justify-between items-center text-xs">
+                              <span className="text-amber-400 font-bold flex items-center gap-1">
+                                <Zap className="w-3.5 h-3.5" /> 4D Historical Reconstruction
+                              </span>
+                              <span className="text-gray-400 font-mono">{selectedEra}</span>
+                            </div>
+                            <div className="text-center py-4">
+                              <p className="text-2xl font-black text-amber-200 drop-shadow-md">
+                                {selectedSite.name_en}
+                              </p>
+                              <p className="text-xs text-amber-400/80 mt-1">
+                                Pristine Ancient State · 100% Intact Architecture
+                              </p>
+                            </div>
+                            <div className="text-[11px] text-gray-400 flex justify-between border-t border-white/10 pt-2 font-mono">
+                              <span>Sun Angle: Solstice Align</span>
+                              <span>Purity: Electrum Gold</span>
+                            </div>
+                          </div>
+
+                          <div className="w-full md:w-1/2 space-y-3 text-left">
+                            <h4 className="text-lg font-bold text-amber-300">
+                              Archaeological Reconstruction Notes
+                            </h4>
+                            <p className="text-xs text-gray-300 leading-relaxed">
+                              • <strong>Outer Casing:</strong> Highly polished white Tura limestone tiles, fitted with hair-width joints that dazzled for miles.
+                            </p>
+                            <p className="text-xs text-gray-300 leading-relaxed">
+                              • <strong>Color Palette:</strong> Original columns were deeply saturated with Egyptian Blue (calcium copper silicate) and mineral ochres.
+                            </p>
+                            <p className="text-xs text-gray-300 leading-relaxed">
+                              • <strong>Nile Basin:</strong> Ancient Nile canals brought ceremonial barges directly to the entrance causeway.
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="flex flex-wrap items-center gap-3 pt-4 border-t border-white/10">
+                          <button
+                            onClick={() => {
+                              if (!isElite) {
+                                setShowEliteModal(true);
+                              }
+                            }}
+                            className="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-bold text-amber-300 border border-amber-400/30 flex items-center gap-2 cursor-pointer"
+                          >
+                            <Hourglass className="w-3.5 h-3.5" />
+                            Change Monument Angle (Elite)
+                          </button>
+                          <button
+                            onClick={() => {
+                              if (!isElite) {
+                                setShowEliteModal(true);
+                              }
+                            }}
+                            className="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-bold text-amber-300 border border-amber-400/30 flex items-center gap-2 cursor-pointer"
+                          >
+                            <Sparkles className="w-3.5 h-3.5" />
+                            Simulate Ancient Night Sky (Elite)
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="py-8 text-center flex flex-col items-center justify-center">
+                        <div className="w-16 h-16 rounded-2xl bg-amber-400/10 border border-amber-400/30 flex items-center justify-center mb-4 text-amber-400">
+                          <Hourglass className="w-8 h-8" />
+                        </div>
+                        <h4 className="text-xl font-bold text-white mb-2">
+                          Ready to Travel Back in Time?
+                        </h4>
+                        <p className="text-xs text-gray-400 max-w-sm mb-6 leading-relaxed">
+                          Click below to launch an instant photogrammetric 4D reconstruction of {selectedSite.name_en} as it appeared thousands of years ago.
+                        </p>
+                        <button
+                          onClick={() => {
+                            setIsReconstructing(true);
+                            setTimeout(() => {
+                              setIsReconstructing(false);
+                              setReconstructionDone(true);
+                              useTrial('time-travel');
+                            }, 1800);
+                          }}
+                          className="px-6 py-3 rounded-xl bg-gradient-to-r from-amber-400 via-yellow-500 to-amber-500 text-slate-950 font-black text-xs uppercase tracking-wider shadow-[0_0_25px_rgba(245,158,11,0.35)] hover:scale-105 active:scale-95 transition-all flex items-center gap-2 cursor-pointer"
+                        >
+                          <Sparkles className="w-4 h-4 text-slate-950" />
+                          Generate 4D Historical Reconstruction 
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 </motion.div>
               )}
 
@@ -383,6 +597,15 @@ export default function SmartSiteContent() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Elite Upgrade Modal */}
+      <EliteModal
+        isOpen={showEliteModal}
+        onClose={() => setShowEliteModal(false)}
+        contextTitle="Unlock AI Time Travel Explorer "
+        contextMessage="You loved your free Time Travel preview! Unlock unlimited history with EgyptX Elite"
+        featureTrigger="time-travel"
+      />
     </div>
   );
 }

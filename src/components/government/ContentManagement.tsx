@@ -103,11 +103,10 @@ export default function ContentManagement({ profile }: { profile: any }) {
         setIsModalOpen(false);
         setCurrentAttraction({});
       } else {
-        alert(json.error || 'حدث خطأ أثناء الحفظ');
+        console.warn('Attraction save failed:', json?.error);
       }
     } catch (err) {
-      console.error(err);
-      alert('حدث خطأ أثناء الحفظ');
+      console.warn('Attraction save exception:', err);
     } finally {
       setIsSubmitting(false);
     }

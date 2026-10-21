@@ -43,7 +43,7 @@ export default function CheckinClient({ attraction, userId }: { attraction: any,
           <CheckCircle className="w-12 h-12 text-[#030712]" strokeWidth={3} />
         </motion.div>
 
-        <h1 className="text-3xl font-bold text-white mb-2">Checked In! 🎉</h1>
+        <h1 className="text-3xl font-bold text-white mb-2">Checked In! </h1>
         <p className="text-[#C9A84C] text-lg font-semibold mb-6">{attraction.name_en}</p>
 
         <div className="bg-[#0A1628] rounded-xl p-4 mb-8 border border-white/10 flex items-center justify-center gap-2">

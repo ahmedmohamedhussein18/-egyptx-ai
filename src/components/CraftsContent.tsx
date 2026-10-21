@@ -35,7 +35,7 @@ export default function CraftsContent() {
         <div className="flex items-start sm:items-center gap-4">
           <AlertCircle className="w-6 h-6 shrink-0 mt-1 sm:mt-0" />
           <p className="font-bold text-sm sm:text-base">
-            🏺 DEMO MARKETPLACE — Illustrative Demo Only. Real verified artisan vendors coming soon.
+             DEMO MARKETPLACE — Illustrative Demo Only. Real verified artisan vendors coming soon.
           </p>
         </div>
         <p className="font-bold text-sm sm:text-base whitespace-nowrap" dir="rtl">

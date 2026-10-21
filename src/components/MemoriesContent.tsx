@@ -11,6 +11,7 @@ import AddToCollectionButton from './AddToCollectionButton';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '@/context/AuthContext';
 import { createClient } from '@/lib/supabase/client';
+import { resolvePhotoSignedUrls, extractMemoryPhotoPath } from '@/lib/memory-photos';
 import { 
   Camera, Plus, Calendar, MapPin, Sparkles, 
   Trash2, Edit2, X, Loader2, BookOpen, Image as ImageIcon, Upload
@@ -94,7 +95,11 @@ export default function MemoriesContent() {
       ]);
 
       if (memRes.data) setJournals(memRes.data.map((d: any) => ({ ...d, type: 'journal' })));
-      if (photoRes.data) setPhotos(photoRes.data.map((d: any) => ({ ...d, type: 'photo' })));
+      if (photoRes.data) {
+        const rawPhotos = photoRes.data.map((d: any) => ({ ...d, type: 'photo' }));
+        const resolvedPhotos = await resolvePhotoSignedUrls(supabase, rawPhotos);
+        setPhotos(resolvedPhotos);
+      }
       if (attrRes.data) setAttractions(attrRes.data);
     } catch (err) {
       console.error(err);
@@ -149,38 +154,45 @@ export default function MemoriesContent() {
     if (!user || !selectedFile) return;
     setSaving(true);
     try {
-      // 1. Upload to Storage
-      const fileExt = selectedFile.name.split('.').pop();
-      const fileName = `${user.id}-${Math.random().toString(36).substring(2)}-${Date.now()}.${fileExt}`;
+      // 1. Upload to Storage with user.id/ prefix required by RLS
+      const fileExt = selectedFile.name.split('.').pop()?.toLowerCase() || 'webp';
+      const cleanExt = fileExt.replace(/[^a-z0-9]/g, '') || 'webp';
+      const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 9)}.${cleanExt}`;
       const filePath = `${user.id}/${fileName}`;
       
-      const { error: uploadError, data: uploadData } = await supabase.storage
+      const { error: uploadError } = await supabase.storage
         .from('memory-photos')
-        .upload(filePath, selectedFile);
+        .upload(filePath, selectedFile, {
+          cacheControl: '3600',
+          upsert: false
+        });
         
       if (uploadError) throw uploadError;
 
-      // Get public URL
-      const { data: { publicUrl } } = supabase.storage
+      // 2. Generate signed URL since memory-photos bucket is private
+      const { data: signedData, error: signError } = await supabase.storage
         .from('memory-photos')
-        .getPublicUrl(filePath);
+        .createSignedUrl(filePath, 3600);
 
-      // 2. Insert into memory_photos
+      if (signError) throw signError;
+      const photoUrl = signedData?.signedUrl || filePath;
+
+      // 3. Insert into memory_photos
       const payload = {
         user_id: user.id,
-        photo_url: publicUrl,
-        caption: photoForm.caption,
-        memory_date: photoForm.memory_date || null,
+        photo_url: photoUrl,
+        caption: photoForm.caption || '',
+        memory_date: photoForm.memory_date || new Date().toISOString(),
         attraction_id: photoForm.attraction_id || null
       };
 
-      await supabase.from('memory_photos').insert(payload);
+      const { error: insertError } = await supabase.from('memory_photos').insert(payload);
+      if (insertError) throw insertError;
       
       setIsPhotoModalOpen(false);
-      fetchData();
-    } catch (err) {
-      console.error('Photo save failed:', err);
-      alert('Failed to upload photo. Ensure you created the memory-photos bucket and enabled RLS policies.');
+      await fetchData();
+    } catch (err: any) {
+      console.warn('Photo save failed:', err?.message || err);
     } finally {
       setSaving(false);
     }
@@ -199,6 +211,13 @@ export default function MemoriesContent() {
   const deletePhoto = async (id: string) => {
     if (!confirm('Are you sure you want to delete this photo memory?')) return;
     try {
+      const targetPhoto = photos.find(p => p.id === id);
+      if (targetPhoto) {
+        const path = extractMemoryPhotoPath(targetPhoto.photo_url);
+        if (path) {
+          await supabase.storage.from('memory-photos').remove([path]);
+        }
+      }
       await supabase.from('memory_photos').delete().eq('id', id);
       fetchData();
     } catch (err) {

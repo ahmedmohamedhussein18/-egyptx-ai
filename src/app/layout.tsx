@@ -16,6 +16,8 @@ export const metadata: Metadata = {
   title: "EgyptX AI — The National Smart Tourism Ecosystem",
   description:
     "Discover Egypt. Experience History. Shape the Future. EgyptX AI is Egypt's National Smart Tourism Ecosystem powered by Artificial Intelligence.",
+  manifest: "/manifest.json",
+  themeColor: "#0A1628",
   keywords: [
     "Egypt",
     "Tourism",
@@ -50,17 +52,27 @@ export default function RootLayout({
                   document.documentElement.classList.add('light');
                   document.documentElement.classList.remove('dark');
                   document.documentElement.setAttribute('data-theme', 'light');
+                  document.documentElement.style.colorScheme = 'light';
                 } else {
                   document.documentElement.classList.add('dark');
                   document.documentElement.classList.remove('light');
                   document.documentElement.setAttribute('data-theme', 'dark');
+                  document.documentElement.style.colorScheme = 'dark';
+                }
+                var savedLoc = localStorage.getItem('egyptx-locale');
+                if (savedLoc === 'ar') {
+                  document.documentElement.dir = 'rtl';
+                  document.documentElement.lang = 'ar';
+                } else if (savedLoc) {
+                  document.documentElement.dir = 'ltr';
+                  document.documentElement.lang = savedLoc;
                 }
               } catch (e) {}
             `,
           }}
         />
       </head>
-      <body className="min-h-full flex flex-col bg-background text-foreground">
+      <body className="min-h-full flex flex-col bg-[#FDFBF7] text-[#1A2332] dark:bg-[#0B0F19] dark:text-[#F8FAFC]">
         <Providers>
           {children}
         </Providers>

@@ -37,15 +37,27 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const applyTheme = (t: Theme) => {
+    if (typeof document === 'undefined') return;
     const root = document.documentElement;
+    const body = document.body;
     if (t === 'light') {
       root.classList.add('light');
       root.classList.remove('dark');
       root.setAttribute('data-theme', 'light');
+      root.style.colorScheme = 'light';
+      if (body) {
+        body.classList.add('light');
+        body.classList.remove('dark');
+      }
     } else {
       root.classList.add('dark');
       root.classList.remove('light');
       root.setAttribute('data-theme', 'dark');
+      root.style.colorScheme = 'dark';
+      if (body) {
+        body.classList.add('dark');
+        body.classList.remove('light');
+      }
     }
   };
 

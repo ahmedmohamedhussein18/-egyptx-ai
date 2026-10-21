@@ -80,9 +80,9 @@ export default function FutureEcosystemSection() {
   };
 
   return (
-    <section className="relative w-full py-24 bg-[#030712] overflow-hidden border-t border-white/5">
+    <section className="relative w-full py-24 bg-[#FDFBF7] dark:bg-[#0B0F19] overflow-hidden border-t border-slate-200/60 dark:border-white/5 transition-colors duration-200">
       {/* Background Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl h-[400px] bg-[#1B6B93]/5 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl h-[400px] bg-sky-500/5 dark:bg-[#1B6B93]/5 rounded-full blur-[120px] pointer-events-none" />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
@@ -92,16 +92,16 @@ export default function FutureEcosystemSection() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-3xl md:text-5xl font-bold text-white mb-4"
+            className="text-3xl md:text-5xl font-serif-editorial font-bold text-slate-900 dark:text-gray-100 mb-4"
           >
-            {t('home.ecosystem.title1')}<span className="text-[#C9A84C]">{t('home.ecosystem.title2')}</span>
+            {t('home.ecosystem.title1')}<span className="text-yellow-600 dark:text-[#D4AF37]">{t('home.ecosystem.title2')}</span>
           </motion.h2>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto"
+            className="text-lg md:text-xl text-slate-600 dark:text-gray-300 max-w-2xl mx-auto font-light"
           >
             {t('home.ecosystem.subtitle')}
           </motion.p>
@@ -113,28 +113,28 @@ export default function FutureEcosystemSection() {
               <>
                 {/* Coming Soon Badge - Only show if no href */}
                 {!feature.href && (
-                  <div className="absolute top-4 right-4 px-2 py-1 bg-[#1B6B93]/20 border border-[#1B6B93]/40 rounded text-[10px] uppercase font-bold text-[#4CC9F0] flex items-center gap-1">
+                  <div className="absolute top-4 right-4 px-2 py-1 bg-slate-100 dark:bg-[#1B6B93]/20 border border-slate-200 dark:border-[#1B6B93]/40 rounded text-[10px] uppercase font-bold text-sky-700 dark:text-[#4CC9F0] flex items-center gap-1">
                     <Lock className="w-3 h-3" /> {t('home.ecosystem.comingSoon')}
                   </div>
                 )}
 
-                <div className="w-12 h-12 rounded-xl bg-gray-800 border border-gray-700 flex items-center justify-center mb-4">
-                  <feature.icon className="w-6 h-6 text-gray-400 group-hover:text-[#C9A84C] transition-colors" />
+                <div className="w-12 h-12 rounded-xl bg-[#FDFBF7] dark:bg-white/5 border border-slate-200 dark:border-white/10 flex items-center justify-center mb-4">
+                  <feature.icon className="w-6 h-6 text-slate-600 dark:text-gray-400 group-hover:text-yellow-600 dark:group-hover:text-yellow-400 transition-colors" />
                 </div>
                 
-                <h3 className="text-xl font-bold text-gray-300 mb-2 group-hover:text-white transition-colors">
+                <h3 className="text-xl font-bold text-[#1A2332] dark:text-gray-100 mb-2 group-hover:text-yellow-600 dark:group-hover:text-white transition-colors">
                   {feature.title}
                 </h3>
-                <p className="text-sm text-gray-500 group-hover:text-gray-400 transition-colors">
+                <p className="text-sm text-slate-600 dark:text-gray-400 font-light leading-relaxed">
                   {feature.desc}
                 </p>
                 
                 {/* Shimmer line */}
-                <div className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-[#C9A84C]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-[#D4AF37]/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
               </>
             );
 
-            const cardClasses = "relative bg-white/5 backdrop-blur border border-white/10 rounded-2xl p-6 flex flex-col items-start overflow-hidden group transition-all duration-500 " + (feature.href ? "hover:border-[#C9A84C]/50 hover:bg-white/10" : "grayscale-[50%] opacity-80 hover:grayscale-0 hover:opacity-100");
+            const cardClasses = "relative bg-[#F8F3E9] dark:bg-[#131A2A] border border-slate-200/80 dark:border-white/5 shadow-sm dark:shadow-none hover:shadow-md rounded-2xl p-6 flex flex-col items-start overflow-hidden group transition-all duration-300 " + (feature.href ? "hover:border-[#D4AF37]/50" : "opacity-85 hover:opacity-100");
 
             return (
               <motion.div

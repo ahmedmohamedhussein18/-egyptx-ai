@@ -108,7 +108,7 @@ Return ONLY this exact JSON structure (no other text):
           "title": "Great Pyramids of Giza",
           "description": "Stand before the last surviving wonder of the ancient world. Marvel at the colossal limestone structures built 4,500 years ago by Pharaoh Khufu. Walk among the three main pyramids and visit the iconic Great Sphinx.",
           "imagePath": "/destinations/cairo-main.jpg",
-          "transport": "🚕 Taxi - 30 mins from downtown",
+          "transport": " Taxi - 30 mins from downtown",
           "cost": "$$ Moderate",
           "historicalFact": "The Great Pyramid was the tallest man-made structure on Earth for over 3,800 years."
         },
@@ -117,7 +117,7 @@ Return ONLY this exact JSON structure (no other text):
           "title": "Egyptian Museum of Antiquities",
           "description": "Explore the world's largest collection of ancient Egyptian artifacts. Witness the golden death mask of Tutankhamun, royal mummies, and priceless treasures spanning 5,000 years of civilization.",
           "imagePath": "/destinations/cairo-main.jpg",
-          "transport": "🚕 Taxi - 15 mins from Giza",
+          "transport": " Taxi - 15 mins from Giza",
           "cost": "$ Budget-friendly",
           "historicalFact": "The museum houses over 120,000 artifacts, including 5,000 items from Tutankhamun's tomb."
         },
@@ -126,8 +126,8 @@ Return ONLY this exact JSON structure (no other text):
           "title": "Khan el-Khalili Night Market",
           "description": "Wander through Cairo's most famous medieval bazaar. Browse hand-crafted jewelry, spices, perfumes, and traditional crafts. Sip authentic Egyptian tea at the historic El Fishawi café.",
           "imagePath": "/destinations/cairo-main.jpg",
-          "transport": "🚶 Walking - 10 mins from museum",
-          "cost": "💸 Free entry (shopping optional)",
+          "transport": " Walking - 10 mins from museum",
+          "cost": " Free entry (shopping optional)",
           "historicalFact": "Khan el-Khalili was established in 1382 by Emir Jarkas el-Khalili as a caravanserai."
         }
       ]
@@ -207,7 +207,7 @@ REMINDER: Generate ALL ${parsedDuration} days. Each day needs AT LEAST 3 activit
             type: a.category || a.type || 'sightseeing',
             // ── new rich fields ──
             imagePath: a.imagePath || `/destinations/${(d.city || 'cairo').toLowerCase().replace(/\s+/g, '-')}-main.jpg`,
-            transport: a.transport || '🚕 Taxi',
+            transport: a.transport || ' Taxi',
             cost: a.cost || '$ Moderate',
             tip: a.tip || null,
             fact: a.historicalFact || a.fact || null,

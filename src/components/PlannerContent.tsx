@@ -1,7 +1,26 @@
 'use client';
 
 import React, { useState, useEffect, useRef, useMemo } from 'react';
-import { Sparkles, MapPin, Compass, Search } from 'lucide-react';
+import {
+  Sparkles,
+  MapPin,
+  Compass,
+  Search,
+  Landmark,
+  Palmtree,
+  Mountain,
+  Utensils,
+  Theater,
+  Trees,
+  User,
+  Heart,
+  Users,
+  MessageSquare,
+  Bot,
+  AlertTriangle,
+  RotateCw,
+  CreditCard
+} from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { trackEvent } from '@/lib/analytics';
@@ -251,13 +270,13 @@ const DEST_KNOWLEDGE: DestKnowledge[] = [
 ];
 
 const QUICK_AI_PROMPTS = [
-  { label: '🏛️ أبو سمبل (Abu Simbel)', query: 'أبو سمبل' },
-  { label: '⛰️ Temple carved in the mountain', query: 'temple carved in the mountain' },
-  { label: '🔺 Great Pyramids & Sphinx', query: 'great pyramids and sphinx' },
-  { label: '👑 Valley of the Kings', query: 'valley of the kings tombs' },
-  { label: '🤿 Blue Hole & Bedouin vibe', query: 'blue hole and bedouin' },
-  { label: '🏜️ Desert Salt Lakes', query: 'salt lakes desert oasis' },
-  { label: '🌊 Ageeba White Sands', query: 'ageeba white sand beach' },
+  { label: 'Abu Simbel (أبو سمبل)', query: 'أبو سمبل' },
+  { label: 'Temple carved in the mountain', query: 'temple carved in the mountain' },
+  { label: 'Great Pyramids & Sphinx', query: 'great pyramids and sphinx' },
+  { label: 'Valley of the Kings', query: 'valley of the kings tombs' },
+  { label: 'Blue Hole & Bedouin vibe', query: 'blue hole and bedouin' },
+  { label: 'Desert Salt Lakes', query: 'salt lakes desert oasis' },
+  { label: 'Ageeba White Sands', query: 'ageeba white sand beach' },
 ];
 
 const DESTINATIONS_DATA = [
@@ -273,14 +292,14 @@ const generateMockItinerary = (duration: number, dests: string[]) => {
   const safeDests = dests.length > 0 ? dests : ['Cairo'];
   const mock = [];
   const pool = [
-    { name: 'Great Pyramids of Giza', description: 'Explore the last remaining wonder of the ancient world. Take a camel ride into the desert for panoramic views.', type: 'history', cost: '$ Moderate', tip: '👟 Wear comfortable walking shoes and bring plenty of water.', fact: 'The Great Pyramid consists of an estimated 2.3 million stone blocks.' },
-    { name: 'Egyptian Museum', description: 'Witness the golden mask of Tutankhamun and countless artifacts.', type: 'culture', cost: '$ Budget', tip: '📸 Photography pass requires a small extra fee.', fact: 'It houses over 120,000 items of ancient Egyptian antiquities.' },
-    { name: 'Khan el-Khalili Bazaar', description: 'Wander through the historic shopping district and grab some souvenirs.', type: 'shopping', cost: 'Free to walk', tip: '🗣️ Be prepared to haggle playfully with shop owners.', fact: 'The bazaar dates back to 1382.' },
-    { name: 'Nile Felucca Ride', description: 'Relaxing sunset sail on a traditional wooden boat.', type: 'relaxing', cost: '$ Moderate', tip: '🧥 Bring a light jacket as the river breeze gets cool at sunset.', fact: 'Feluccas have remained the primary mode of transportation on the Nile since antiquity.' },
-    { name: 'Valley of the Kings', description: 'Descend into the vibrantly painted tombs of mighty pharaohs.', type: 'history', cost: '$$ Premium', tip: '🧢 Arrive early to beat the intense midday desert heat.', fact: 'Over 60 tombs have been discovered here, including that of King Tut.' },
-    { name: 'Karnak Temple', description: 'Walk through the massive hypostyle hall of towering ancient pillars.', type: 'history', cost: '$ Moderate', tip: '🚶‍♂️ The complex is massive; don’t miss the Sacred Lake.', fact: 'It is the largest religious building ever constructed in the world.' },
-    { name: 'Luxor Temple at Night', description: 'Witness the ancient columns beautifully illuminated against the night sky.', type: 'culture', cost: '$ Moderate', tip: '🌙 Visiting after sunset offers a magical, cooler experience.', fact: 'The temple is guarded by a massive avenue of human-headed sphinxes.' },
-    { name: 'Red Sea Snorkeling', description: 'Dive into crystal-clear waters teeming with vibrant coral reefs and exotic fish.', type: 'nature', cost: '$$ Premium', tip: '🤿 Eco-friendly sunscreen is highly recommended to protect the reefs.', fact: 'The Red Sea is home to over 1,200 species of fish, 10% of which are found nowhere else.' }
+    { name: 'Great Pyramids of Giza', description: 'Explore the last remaining wonder of the ancient world. Take a camel ride into the desert for panoramic views.', type: 'history', cost: '$ Moderate', tip: 'Wear comfortable walking shoes and bring plenty of water.', fact: 'The Great Pyramid consists of an estimated 2.3 million stone blocks.' },
+    { name: 'Egyptian Museum', description: 'Witness the golden mask of Tutankhamun and countless artifacts.', type: 'culture', cost: '$ Budget', tip: 'Photography pass requires a small extra fee.', fact: 'It houses over 120,000 items of ancient Egyptian antiquities.' },
+    { name: 'Khan el-Khalili Bazaar', description: 'Wander through the historic shopping district and grab some souvenirs.', type: 'shopping', cost: 'Free to walk', tip: 'Be prepared to haggle playfully with shop owners.', fact: 'The bazaar dates back to 1382.' },
+    { name: 'Nile Felucca Ride', description: 'Relaxing sunset sail on a traditional wooden boat.', type: 'relaxing', cost: '$ Moderate', tip: 'Bring a light jacket as the river breeze gets cool at sunset.', fact: 'Feluccas have remained the primary mode of transportation on the Nile since antiquity.' },
+    { name: 'Valley of the Kings', description: 'Descend into the vibrantly painted tombs of mighty pharaohs.', type: 'history', cost: '$$ Premium', tip: 'Arrive early to beat the intense midday desert heat.', fact: 'Over 60 tombs have been discovered here, including that of King Tut.' },
+    { name: 'Karnak Temple', description: 'Walk through the massive hypostyle hall of towering ancient pillars.', type: 'history', cost: '$ Moderate', tip: 'The complex is massive; don’t miss the Sacred Lake.', fact: 'It is the largest religious building ever constructed in the world.' },
+    { name: 'Luxor Temple at Night', description: 'Witness the ancient columns beautifully illuminated against the night sky.', type: 'culture', cost: '$ Moderate', tip: 'Visiting after sunset offers a magical, cooler experience.', fact: 'The temple is guarded by a massive avenue of human-headed sphinxes.' },
+    { name: 'Red Sea Snorkeling', description: 'Dive into crystal-clear waters teeming with vibrant coral reefs and exotic fish.', type: 'nature', cost: '$$ Premium', tip: 'Eco-friendly sunscreen is highly recommended to protect the reefs.', fact: 'The Red Sea is home to over 1,200 species of fish, 10% of which are found nowhere else.' }
   ];
 
   for (let i = 1; i <= duration; i++) {
@@ -310,47 +329,47 @@ const generateMockItinerary = (duration: number, dests: string[]) => {
 };
 
 const COUNTRIES = [
-  { code: 'US', flag: '🇺🇸', name: 'United States' },
-  { code: 'GB', flag: '🇬🇧', name: 'United Kingdom' },
-  { code: 'DE', flag: '🇩🇪', name: 'Germany' },
-  { code: 'FR', flag: '🇫🇷', name: 'France' },
-  { code: 'IT', flag: '🇮🇹', name: 'Italy' },
-  { code: 'ES', flag: '🇪🇸', name: 'Spain' },
-  { code: 'JP', flag: '🇯🇵', name: 'Japan' },
-  { code: 'CN', flag: '🇨🇳', name: 'China' },
-  { code: 'KR', flag: '🇰🇷', name: 'South Korea' },
-  { code: 'IN', flag: '🇮🇳', name: 'India' },
-  { code: 'BR', flag: '🇧🇷', name: 'Brazil' },
-  { code: 'AU', flag: '🇦🇺', name: 'Australia' },
-  { code: 'CA', flag: '🇨🇦', name: 'Canada' },
-  { code: 'RU', flag: '🇷🇺', name: 'Russia' },
-  { code: 'SA', flag: '🇸🇦', name: 'Saudi Arabia' },
-  { code: 'AE', flag: '🇦🇪', name: 'UAE' },
-  { code: 'EG', flag: '🇪🇬', name: 'Egypt' },
-  { code: 'ZA', flag: '🇿🇦', name: 'South Africa' },
-  { code: 'MX', flag: '🇲🇽', name: 'Mexico' },
-  { code: 'TR', flag: '🇹🇷', name: 'Turkey' },
-  { code: 'NL', flag: '🇳🇱', name: 'Netherlands' },
-  { code: 'SE', flag: '🇸🇪', name: 'Sweden' },
-  { code: 'PL', flag: '🇵🇱', name: 'Poland' },
-  { code: 'NG', flag: '🇳🇬', name: 'Nigeria' },
-  { code: 'AR', flag: '🇦🇷', name: 'Argentina' },
+  { code: 'US', name: 'United States' },
+  { code: 'GB', name: 'United Kingdom' },
+  { code: 'DE', name: 'Germany' },
+  { code: 'FR', name: 'France' },
+  { code: 'IT', name: 'Italy' },
+  { code: 'ES', name: 'Spain' },
+  { code: 'JP', name: 'Japan' },
+  { code: 'CN', name: 'China' },
+  { code: 'KR', name: 'South Korea' },
+  { code: 'IN', name: 'India' },
+  { code: 'BR', name: 'Brazil' },
+  { code: 'AU', name: 'Australia' },
+  { code: 'CA', name: 'Canada' },
+  { code: 'RU', name: 'Russia' },
+  { code: 'SA', name: 'Saudi Arabia' },
+  { code: 'AE', name: 'UAE' },
+  { code: 'EG', name: 'Egypt' },
+  { code: 'ZA', name: 'South Africa' },
+  { code: 'MX', name: 'Mexico' },
+  { code: 'TR', name: 'Turkey' },
+  { code: 'NL', name: 'Netherlands' },
+  { code: 'SE', name: 'Sweden' },
+  { code: 'PL', name: 'Poland' },
+  { code: 'NG', name: 'Nigeria' },
+  { code: 'AR', name: 'Argentina' },
 ];
 
 const getInterests = (t: any) => [
-  { id: 'ancient', label: t('planner.intAncient'), emoji: '🏛️' },
-  { id: 'beaches', label: t('planner.intBeaches'), emoji: '🏖️' },
-  { id: 'adventure', label: t('planner.intAdventure'), emoji: '🏜️' },
-  { id: 'food', label: t('planner.intFood'), emoji: '🍽️' },
-  { id: 'culture', label: t('planner.intCulture'), emoji: '🎭' },
-  { id: 'nature', label: t('planner.intNature'), emoji: '🌿' },
+  { id: 'ancient', label: t('planner.intAncient'), icon: Landmark },
+  { id: 'beaches', label: t('planner.intBeaches'), icon: Palmtree },
+  { id: 'adventure', label: t('planner.intAdventure'), icon: Mountain },
+  { id: 'food', label: t('planner.intFood'), icon: Utensils },
+  { id: 'culture', label: t('planner.intCulture'), icon: Theater },
+  { id: 'nature', label: t('planner.intNature'), icon: Trees },
 ];
 
 const getTravelStyles = (t: any) => [
-  { id: 'solo', label: t('planner.styleSolo'), emoji: '🧑', desc: 'Independent explorer' },
-  { id: 'couple', label: t('planner.styleCouple'), emoji: '💑', desc: 'Romantic getaway' },
-  { id: 'family', label: t('planner.styleFamily'), emoji: '👨‍👩‍👧‍👦', desc: 'Kid-friendly fun' },
-  { id: 'group', label: t('planner.styleGroup'), emoji: '👥', desc: 'Friends & tours' },
+  { id: 'solo', label: t('planner.styleSolo'), icon: User, desc: 'Independent explorer' },
+  { id: 'couple', label: t('planner.styleCouple'), icon: Heart, desc: 'Romantic getaway' },
+  { id: 'family', label: t('planner.styleFamily'), icon: Users, desc: 'Kid-friendly fun' },
+  { id: 'group', label: t('planner.styleGroup'), icon: Users, desc: 'Friends & tours' },
 ];
 
 const getPaces = (t: any) => [
@@ -697,9 +716,9 @@ function CinematicLoading({
                     ],
                   }}
                   transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-                  className="w-12 h-12 flex items-center justify-center text-2xl"
+                  className="w-12 h-12 flex items-center justify-center text-[#C9A84C]"
                 >
-                  🏛️
+                  <Landmark className="w-8 h-8" />
                 </motion.div>
               </div>
             )}
@@ -784,7 +803,9 @@ function TripAssistant() {
       {isOpen ? (
         <div className="bg-[#0A1628]/95 backdrop-blur-xl border border-[#C9A84C]/30 w-80 rounded-2xl shadow-2xl overflow-hidden flex flex-col h-96">
           <div className="bg-[#C9A84C]/10 border-b border-[#C9A84C]/20 p-3 flex justify-between items-center">
-            <span className="font-bold text-[#C9A84C]">✨ Trip Assistant</span>
+            <span className="font-bold text-[#C9A84C] flex items-center gap-1.5 text-sm">
+              <Sparkles className="w-4 h-4" /> Trip Assistant
+            </span>
             <button onClick={() => setIsOpen(false)} className="text-white/50 hover:text-white">✕</button>
           </div>
           <div className="flex-1 p-3 overflow-y-auto space-y-3">
@@ -799,8 +820,8 @@ function TripAssistant() {
           </form>
         </div>
       ) : (
-        <button onClick={() => setIsOpen(true)} className="w-14 h-14 bg-gradient-to-r from-[#C9A84C] to-[#E2CB85] rounded-full flex items-center justify-center text-2xl shadow-[0_0_20px_rgba(201,168,76,0.4)] hover:scale-110 transition-transform">
-          💬
+        <button onClick={() => setIsOpen(true)} aria-label="Open Trip Assistant" className="w-14 h-14 bg-gradient-to-r from-[#C9A84C] to-[#E2CB85] rounded-full flex items-center justify-center text-[#030712] shadow-[0_0_20px_rgba(201,168,76,0.4)] hover:scale-110 transition-transform">
+          <MessageSquare className="w-6 h-6" />
         </button>
       )}
     </div>
@@ -1168,7 +1189,7 @@ export default function PlannerContent() {
 
       setSaveSuccess(true);
     } catch (err: any) {
-      alert('Error saving trip: ' + err.message);
+      console.warn('[Planner] Error saving trip:', err?.message || err);
     } finally {
       setSaving(false);
     }
@@ -1230,7 +1251,7 @@ export default function PlannerContent() {
       });
       setSaveSuccess(false); // They modified it, can save again
     } catch (err: any) {
-      alert(err.message);
+      console.warn('[Planner] Regenerate day error:', err?.message || err);
     } finally {
       setRegeneratingDay(null);
     }
@@ -1239,7 +1260,19 @@ export default function PlannerContent() {
   const isFormValid = country && interests.length > 0 && travelStyle;
 
   return (
-    <div className="min-h-screen bg-[#030712] text-white">
+    <main className="relative min-h-screen w-full bg-transparent text-white">
+      {/* 1. INDEPENDENT BACKGROUND LAYER (Behind everything, doesn't affect width) */}
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: 'url(/contact-bg.png)' }}
+        ></div>
+        {/* Dark overlay to make cards pop */}
+        <div className="absolute inset-0 bg-[#0a0f1c]/85"></div> 
+      </div>
+
+      {/* 2. ORIGINAL CONTENT CONTAINER (No width constraints applied here) */}
+      <div className="relative z-10 w-full">
       {/* Parental verification modal completely removed */}
   
       {/* Header area */}
@@ -1254,7 +1287,7 @@ export default function PlannerContent() {
             animate={{ opacity: 1, y: 0 }}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#C9A84C]/30 bg-white/5 backdrop-blur-md mb-6"
           >
-            <span className="text-lg">🤖</span>
+            <Bot className="w-4 h-4 text-[#C9A84C]" />
             <span className="text-[#C9A84C] text-xs font-medium tracking-wide uppercase">AI-Powered Journey Planner</span>
           </motion.div>
           <motion.h1
@@ -1288,7 +1321,7 @@ export default function PlannerContent() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.4 }}
-              className="bg-[#0A1628]/60 backdrop-blur-md rounded-3xl p-6 md:p-10 border border-[#C9A84C]/10"
+              className="w-full bg-[#0A1628]/60 backdrop-blur-md rounded-3xl p-6 md:p-10 border border-[#C9A84C]/10"
             >
               {/* Wizard Progress */}
               <div className="flex justify-between items-center mb-8 relative">
@@ -1308,6 +1341,7 @@ export default function PlannerContent() {
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
                   {getTravelStyles(t).map(s => {
                       const active = travelStyle === s.id;
+                      const StyleIcon = s.icon;
                       return (
                         <button
                           key={s.id}
@@ -1319,7 +1353,9 @@ export default function PlannerContent() {
                               : 'bg-white/5 border-white/10 hover:border-white/30 hover:bg-white/10'
                           }`}
                         >
-                        <span className="text-3xl mb-2">{s.emoji}</span>
+                        <span className="p-2 rounded-xl bg-white/5 mb-2 text-[#C9A84C]">
+                          <StyleIcon className="w-6 h-6" />
+                        </span>
                         <span className={`font-semibold text-sm ${active ? 'text-[#C9A84C]' : 'text-white/80'}`}>{s.label}</span>
                       </button>
                     );
@@ -1368,7 +1404,7 @@ export default function PlannerContent() {
                     <label className="block text-sm font-semibold text-white/70 mb-2">Country of Origin</label>
                     <select value={country} onChange={e => setCountry(e.target.value)} className="w-full bg-[#060E1A] border border-white/10 rounded-lg px-4 py-3 text-white">
                       <option value="">Select Country</option>
-                      {COUNTRIES.map(c => <option key={c.code} value={c.code}>{c.flag} {c.name}</option>)}
+                      {COUNTRIES.map(c => <option key={c.code} value={c.code}>{c.name}</option>)}
                     </select>
                   </div>
                   <div className="flex justify-between pt-4">
@@ -1392,7 +1428,7 @@ export default function PlannerContent() {
                     )}
                   </div>
 
-                  {/* ── ✨ AI CHOOSE (SMART FINDER) ── */}
+                  {/* ── AI CHOOSE (SMART FINDER) ── */}
                   <div className="p-4 md:p-5 rounded-2xl bg-gradient-to-b from-[#0A1628]/95 to-[#060E1A]/95 border-2 border-[#C9A84C]/40 shadow-[0_0_30px_rgba(201,168,76,0.15)] space-y-4">
                     <div className="flex items-center justify-between flex-wrap gap-2">
                       <div className="flex items-center gap-2">
@@ -1401,7 +1437,7 @@ export default function PlannerContent() {
                         </span>
                         <div>
                           <h4 className="text-base font-bold text-transparent bg-clip-text bg-gradient-to-r from-white via-[#E2CB85] to-[#C9A84C]">
-                            ✨ AI Choose (Smart Finder)
+                            AI Choose (Smart Finder)
                           </h4>
                           <p className="text-xs text-white/60">
                             Don\'t know the city name? Type any description or landmark in English or Arabic (e.g. \"أبو سمبل\" or \"the temple carved in the mountain\").
@@ -1567,9 +1603,11 @@ export default function PlannerContent() {
                     <div className="flex flex-wrap gap-3">
                       {getInterests(t).map(i => {
                         const active = interests.includes(i.id);
+                        const InterestIcon = i.icon;
                         return (
-                          <button key={i.id} onClick={() => toggleInterest(i.id)} className={`px-5 py-3 rounded-xl border text-sm font-medium transition-all ${active ? 'bg-[#C9A84C]/20 border-[#C9A84C] text-[#C9A84C]' : 'bg-white/5 border-white/10 text-white/60'}`}>
-                            {i.emoji} {i.label}
+                          <button key={i.id} onClick={() => toggleInterest(i.id)} className={`flex items-center gap-2 px-5 py-3 rounded-xl border text-sm font-medium transition-all ${active ? 'bg-[#C9A84C]/20 border-[#C9A84C] text-[#C9A84C]' : 'bg-white/5 border-white/10 text-white/60'}`}>
+                            <InterestIcon className="w-4 h-4 shrink-0" />
+                            <span>{i.label}</span>
                           </button>
                         )
                       })}
@@ -1587,7 +1625,10 @@ export default function PlannerContent() {
                   </div>
                   <div className="flex justify-between pt-4">
                     <button onClick={() => setStep(3)} className="px-6 py-2 border border-white/20 text-white rounded-xl">← Back</button>
-                    <button onClick={handleGenerate} disabled={!isFormValid} className="px-8 py-3 bg-gradient-to-r from-[#C9A84C] to-[#E2CB85] text-[#030712] font-bold rounded-xl shadow-[0_0_20px_rgba(201,168,76,0.4)] disabled:opacity-50">✨ Generate Itinerary</button>
+                    <button onClick={handleGenerate} disabled={!isFormValid} className="inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-[#C9A84C] to-[#E2CB85] text-[#030712] font-bold rounded-xl shadow-[0_0_20px_rgba(201,168,76,0.4)] disabled:opacity-50">
+                      <Sparkles className="w-4 h-4" />
+                      <span>Generate Itinerary</span>
+                    </button>
                   </div>
                 </div>
               )}
@@ -1603,7 +1644,9 @@ export default function PlannerContent() {
               exit={{ opacity: 0 }}
               className="max-w-xl mx-auto bg-red-950/40 border border-red-500/50 rounded-2xl p-8 text-center backdrop-blur-md"
             >
-              <div className="text-4xl mb-4">⚠️</div>
+              <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-red-500/20 border border-red-500/40 flex items-center justify-center text-red-400">
+                <AlertTriangle className="w-6 h-6" />
+              </div>
               <h3 className="text-xl font-bold text-red-200 mb-2">Oops! Something went wrong.</h3>
               <p className="text-red-200/70 mb-6">{error}</p>
               <button
@@ -1633,6 +1676,7 @@ export default function PlannerContent() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.5 }}
+              className="w-full"
             >
               {/* Result header */}
               <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-10 gap-6 w-full">
@@ -1642,13 +1686,16 @@ export default function PlannerContent() {
                     </h2>
                     <div className="flex flex-wrap gap-3">
                       <span className="px-4 py-2 rounded-full bg-white/5 backdrop-blur-md border border-white/10 text-white/90 font-medium shadow-sm flex items-center gap-2">
-                        👥 {travelers} Traveler{travelers > 1 ? 's' : ''}
+                        <Users className="w-4 h-4 text-[#C9A84C]" />
+                        <span>{travelers} Traveler{travelers > 1 ? 's' : ''}</span>
                       </span>
                       <span className="px-4 py-2 rounded-full bg-[#C9A84C]/15 backdrop-blur-md border border-[#C9A84C]/30 text-[#E2CB85] font-semibold shadow-sm flex items-center gap-2 tracking-wide">
-                        💳 {budget || 'Flexible'} Budget
+                        <CreditCard className="w-4 h-4 text-[#C9A84C]" />
+                        <span>{budget || 'Flexible'} Budget</span>
                       </span>
                       <span className="px-4 py-2 rounded-full bg-[#1B6B93]/15 backdrop-blur-md border border-[#1B6B93]/30 text-[#4EB1E2] font-medium shadow-sm flex items-center gap-2 capitalize">
-                        ✨ {travelStyle || 'Balanced'} Style
+                        <Sparkles className="w-4 h-4 text-[#4EB1E2]" />
+                        <span>{travelStyle || 'Balanced'} Style</span>
                       </span>
                     </div>
                   </div>
@@ -1706,20 +1753,28 @@ export default function PlannerContent() {
                           <button
                             onClick={() => handleRegenerateDay(day.day)}
                             disabled={regeneratingDay !== null}
-                            className="px-3 py-1.5 rounded bg-white/5 text-white/50 text-xs font-medium hover:text-white hover:bg-white/10 transition-colors border border-white/10"
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-white/5 text-white/70 text-xs font-medium hover:text-white hover:bg-white/10 transition-colors border border-white/10"
                           >
-                            🔄 Regenerate Day
+                            <RotateCw className="w-3.5 h-3.5" />
+                            <span>Regenerate Day</span>
                           </button>
                           <button
                             onClick={() => handleCheckinDay(day.day, day.city, day.activities[0]?.name || '')}
                             disabled={checkedInDays[day.day]}
-                            className={`px-3 py-1.5 rounded text-xs font-medium transition-colors border ${
+                            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-medium transition-colors border ${
                               checkedInDays[day.day] 
                                 ? 'bg-[#19A974]/20 text-[#19A974] border-[#19A974]/50' 
                                 : 'bg-transparent text-[#C9A84C] border-[#C9A84C] hover:bg-[#C9A84C]/10'
                             }`}
                           >
-                            {checkedInDays[day.day] ? '✓ تم التسجيل' : '📍 تسجيل زيارة'}
+                            {checkedInDays[day.day] ? (
+                              '✓ تم التسجيل'
+                            ) : (
+                              <>
+                                <MapPin className="w-3.5 h-3.5" />
+                                <span>تسجيل زيارة</span>
+                              </>
+                            )}
                           </button>
                         </div>
                       </div>
@@ -1764,8 +1819,9 @@ export default function PlannerContent() {
             </motion.div>
           )}
         </AnimatePresence>
-      <TripAssistant />
+        <TripAssistant />
       </div>
-    </div>
+      </div>
+    </main>
   );
 }

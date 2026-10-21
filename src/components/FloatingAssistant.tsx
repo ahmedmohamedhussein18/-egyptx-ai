@@ -68,7 +68,7 @@ export default function FloatingAssistant() {
       console.error('Chat error:', error);
       setMessages(prev => [...prev, { 
         role: 'assistant', 
-        content: "I'm having a little trouble connecting right now. Please try again in a moment! 🏜️" 
+        content: "I'm having a little trouble connecting right now. Please try again in a moment!" 
       }]);
     } finally {
       setIsTyping(false);

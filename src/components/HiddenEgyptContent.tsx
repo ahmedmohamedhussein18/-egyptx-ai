@@ -5,21 +5,23 @@ import { useLanguage } from '@/context/LanguageContext';
 import { motion } from 'framer-motion';
 import { 
   ArrowRight, Users, Maximize, Target, 
-  Sparkles, Shield, TrendingDown, Map, Loader2, AlertCircle
+  Sparkles, Shield, TrendingDown, Map, Loader2, AlertCircle, Lock, Crown
 } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 import { trackEvent } from '@/lib/analytics';
 import Image from 'next/image';
+import { useEliteTrials } from '@/lib/elite-trials';
+import EliteModal from '@/components/EliteModal';
 
 // Helper to get SVG based on attraction name
 function getHiddenSvg(name_en: string) {
   const name = name_en.toLowerCase();
   if (name.includes('siwa')) {
-    return <Image src="/images/Siwa Oasisss.jpg" alt={name_en} fill className="object-cover" />;
+    return <Image src="/hidden-siwa-oasis.png" alt={name_en} fill className="object-cover" />;
   }
   
   if (name.includes('fayoum')) {
-    return <Image src="/images/Fayoum Oasisss.jpg" alt={name_en} fill className="object-cover" />;
+    return <Image src="/hidden-fayoum-oasis.png" alt={name_en} fill className="object-cover" />;
   }
 
   if (name.includes('white desert')) {
@@ -91,9 +93,69 @@ function getHiddenSvg(name_en: string) {
   );
 }
 
+const HIDDEN_DESTINATIONS = [
+  {
+    id: 'siwa',
+    name_en: 'Siwa Oasis',
+    name_ar: 'واحة سيوة',
+    category: 'Nature',
+    description_en: 'Surreal desert oasis with emerald salt lakes and ancient oracle temples.',
+    image: '/hidden-siwa-oasis.png',
+    imageUrl: '/hidden-siwa-oasis.png',
+  },
+  {
+    id: 'fayoum',
+    name_en: 'Fayoum Oasis',
+    name_ar: 'واحة الفيوم',
+    category: 'Hidden',
+    description_en: 'Waterfalls, prehistoric whale fossils, and tranquil desert lakes.',
+    image: '/hidden-fayoum-oasis.png',
+    imageUrl: '/hidden-fayoum-oasis.png',
+  },
+  {
+    id: 'white-desert',
+    name_en: 'White Desert',
+    name_ar: 'الصحراء البيضاء',
+    category: 'Hidden',
+    description_en: 'Surreal chalk sculptures shaped by desert winds.',
+    image: '/images/White Deserttt.webp',
+    imageUrl: '/images/White Deserttt.webp',
+  },
+  {
+    id: 'wadi-el-hitan',
+    name_en: 'Wadi El Hitan',
+    name_ar: 'وادي الحيتان',
+    category: 'Hidden',
+    description_en: 'UNESCO World Heritage valley containing 40-million-year-old whale fossils.',
+    image: '/images/Wadi El Hitannn.webp',
+    imageUrl: '/images/Wadi El Hitannn.webp',
+  },
+  {
+    id: 'ras-mohammed',
+    name_en: 'Ras Mohammed',
+    name_ar: 'رأس محمد',
+    category: 'Nature',
+    description_en: 'Pristine coral walls and mangrove ecosystems at the tip of Sinai.',
+    image: '/images/ras-mohammed.jpg',
+    imageUrl: '/images/ras-mohammed.jpg',
+  },
+  {
+    id: 'dakhla',
+    name_en: 'Dakhla Oasis',
+    name_ar: 'واحة الداخلة',
+    category: 'Hidden',
+    description_en: 'Ancient mud-brick medieval fortress village in the Western Desert.',
+    image: '/images/dakhla.jpg',
+    imageUrl: '/images/dakhla.jpg',
+  },
+];
+
 export default function HiddenEgyptContent() {
   const { t } = useLanguage();
-  const [attractions, setAttractions] = useState<any[]>([]);
+  const { isElite, useTrial, hiddenGemsUsed } = useEliteTrials();
+  const [showEliteModal, setShowEliteModal] = useState(false);
+  const [eliteContext, setEliteContext] = useState({ title: '', message: '' });
+  const [attractions, setAttractions] = useState<any[]>(HIDDEN_DESTINATIONS);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const supabase = createClient();
@@ -108,10 +170,10 @@ export default function HiddenEgyptContent() {
           .eq('verified', true);
 
         if (error) throw error;
-        setAttractions(data || []);
+        setAttractions(data && data.length > 0 ? data : HIDDEN_DESTINATIONS);
         trackEvent('page_view');
       } catch (err: any) {
-        setError(err.message || 'Failed to fetch attractions');
+        setAttractions(HIDDEN_DESTINATIONS);
       } finally {
         setLoading(false);
       }
@@ -187,62 +249,121 @@ export default function HiddenEgyptContent() {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {attractions.map((dest, idx) => (
-              <motion.div
-                key={dest.id}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 * idx }}
-                className="bg-white/5 backdrop-blur border border-[#C9A84C]/20 rounded-3xl overflow-hidden hover:border-[#C9A84C]/60 transition-all group flex flex-col shadow-lg"
-              >
-                {/* SVG Image Header */}
-                <div className="h-48 w-full relative overflow-hidden bg-gray-900">
-                  {getHiddenSvg(dest.name_en)}
-                  <div className="absolute top-4 right-4">
-                    <span className="px-3 py-1 rounded-full text-xs font-bold tracking-wider uppercase border shadow-lg flex items-center gap-1 bg-green-500/20 text-green-400 border-green-500/40">
-                      <Shield className="w-3 h-3" />
-                      Opp: UNKNOWN
-                    </span>
-                  </div>
-                </div>
+            {attractions.map((dest, idx) => {
+              const isLocked = !isElite && idx > 0;
+              const isFirstFreeVault = !isElite && idx === 0;
 
-                {/* Content */}
-                <div className="p-6 flex flex-col flex-grow">
-                  <div className="flex justify-between items-start mb-1">
-                    <h3 className="text-2xl font-bold text-white">{dest.name_en}</h3>
-                    {dest.name_ar && <span className="text-xl text-[#C9A84C] font-arabic">{dest.name_ar}</span>}
-                  </div>
-                  <p className="text-gray-400 text-sm mb-6">{dest.description_en || `Experience the beauty of ${dest.name_en}`}</p>
+              return (
+                <motion.div
+                  key={dest.id}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1 * idx }}
+                  className="relative bg-white/5 backdrop-blur border border-[#C9A84C]/20 rounded-3xl overflow-hidden hover:border-[#C9A84C]/60 transition-all group flex flex-col shadow-lg"
+                >
+                  {/* Frosted Gold Lock Overlay for Locked Elite Vaults */}
+                  {isLocked && (
+                    <div className="absolute inset-0 z-30 backdrop-blur-md bg-[#030712]/85 flex flex-col items-center justify-center p-6 text-center border-2 border-amber-500/40 rounded-3xl shadow-[inset_0_0_35px_rgba(245,158,11,0.2)]">
+                      <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-400/25 via-yellow-500/15 to-indigo-950/40 border border-amber-400/50 flex items-center justify-center mb-3 shadow-[0_0_25px_rgba(245,158,11,0.35)]">
+                        <Lock className="w-7 h-7 text-amber-400 animate-pulse drop-shadow-[0_0_8px_rgba(245,158,11,0.8)]" />
+                      </div>
+                      <span className="text-lg font-black text-amber-300 mb-1 flex items-center gap-1.5">
+                        Elite Exclusive Vault 
+                      </span>
+                      <p className="text-xs text-slate-300/80 mb-5 max-w-xs leading-relaxed font-normal">
+                        Restricted secret tomb & heritage gem. Requires EgyptX Elite access.
+                      </p>
+                      <button
+                        onClick={() => {
+                          setEliteContext({
+                            title: "Unlock Egypt's Secret Vaults ",
+                            message: "You've unlocked your 1 free secret vault! Upgrade to EgyptX Elite for unlimited access to all hidden gems & VIP tomb vaults."
+                          });
+                          setShowEliteModal(true);
+                        }}
+                        className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-400 via-yellow-500 to-amber-500 text-slate-950 font-bold text-xs uppercase tracking-wider shadow-[0_0_25px_rgba(245,158,11,0.45)] hover:scale-105 active:scale-95 transition-all flex items-center gap-2 cursor-pointer"
+                      >
+                        <Sparkles className="w-3.5 h-3.5 text-slate-950" />
+                        Unlock Vault with Elite 
+                      </button>
+                    </div>
+                  )}
 
-                  {/* Stats & Capacity Bar - Removed Fake Data */}
-                  <div className="bg-[#0A1628] rounded-xl p-4 mb-6 border border-white/5 flex flex-col items-center justify-center min-h-[80px]">
-                    <p className="text-sm text-gray-500 font-semibold italic flex items-center gap-2">
-                      <Users className="w-4 h-4" /> {t('hidden.noData')}
-                    </p>
+                  {/* SVG Image Header */}
+                  <div className="h-48 w-full relative overflow-hidden bg-gray-900">
+                    {getHiddenSvg(dest.name_en)}
+                    <div className="absolute top-4 right-4 flex items-center gap-2">
+                      {isElite ? (
+                        <span className="px-3 py-1 rounded-full text-xs font-bold tracking-wider uppercase border shadow-lg flex items-center gap-1 bg-amber-400/20 text-amber-300 border-amber-400/40">
+                          <Crown className="w-3 h-3 text-amber-400" />
+                          VIP Vault Pass
+                        </span>
+                      ) : isFirstFreeVault ? (
+                        <span className="px-3 py-1 rounded-full text-xs font-bold tracking-wider uppercase border shadow-lg flex items-center gap-1 bg-gradient-to-r from-amber-400/25 to-yellow-500/25 text-amber-300 border-amber-400/50 shadow-[0_0_15px_rgba(245,158,11,0.25)]">
+                          <Sparkles className="w-3 h-3 text-amber-400 animate-spin" />
+                           1 Free Secret Vault
+                        </span>
+                      ) : (
+                        <span className="px-3 py-1 rounded-full text-xs font-bold tracking-wider uppercase border shadow-lg flex items-center gap-1 bg-amber-500/20 text-amber-400 border-amber-500/50">
+                          <Crown className="w-3 h-3 text-amber-400" />
+                          Elite Vault
+                        </span>
+                      )}
+                    </div>
                   </div>
 
-                  {/* {t('hidden.aiRec')} Callout */}
-                  <div className="bg-[#1B6B93]/10 border border-[#1B6B93]/30 rounded-xl p-4 mb-6 flex-grow">
-                    <h4 className="text-[#4CC9F0] text-xs font-bold uppercase tracking-wider mb-2 flex items-center gap-1">
-                      <Sparkles className="w-4 h-4" /> AI Recommendation
-                    </h4>
-                    <p className="text-gray-300 text-sm leading-relaxed italic text-gray-500">
-                      Awaiting AI model predictions for this location.
-                    </p>
-                  </div>
+                  {/* Content */}
+                  <div className="p-6 flex flex-col flex-grow">
+                    <div className="flex justify-between items-start mb-1">
+                      <h3 className="text-2xl font-bold text-white">{dest.name_en}</h3>
+                      {dest.name_ar && <span className="text-xl text-[#C9A84C] font-arabic">{dest.name_ar}</span>}
+                    </div>
+                    <p className="text-gray-400 text-sm mb-6">{dest.description_en || `Experience the beauty of ${dest.name_en}`}</p>
 
-                  <button 
-                    onClick={() => trackEvent('attraction_view', { attraction_id: dest.id, governorate_id: dest.governorate_id })}
-                    className="w-full py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-white font-medium flex justify-center items-center gap-2 transition-colors mt-auto group-hover:bg-[#C9A84C] group-hover:text-[#030712] group-hover:border-[#C9A84C]"
-                  >
-                    Explore Destination
-                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                  </button>
-                </div>
-              </motion.div>
-            ))}
+                    {/* Stats & Capacity Bar */}
+                    <div className="bg-[#0A1628] rounded-xl p-4 mb-6 border border-white/5 flex flex-col items-center justify-center min-h-[80px]">
+                      <p className="text-sm text-gray-500 font-semibold italic flex items-center gap-2">
+                        <Users className="w-4 h-4" /> {t('hidden.noData')}
+                      </p>
+                    </div>
+
+                    {/* AI Recommendation Callout */}
+                    <div className="bg-[#1B6B93]/10 border border-[#1B6B93]/30 rounded-xl p-4 mb-6 flex-grow">
+                      <h4 className="text-[#4CC9F0] text-xs font-bold uppercase tracking-wider mb-2 flex items-center gap-1">
+                        <Sparkles className="w-4 h-4" /> AI Recommendation
+                      </h4>
+                      <p className="text-gray-300 text-sm leading-relaxed italic text-gray-500">
+                        Awaiting AI model predictions for this location.
+                      </p>
+                    </div>
+
+                    <button 
+                      onClick={() => {
+                        if (isFirstFreeVault) {
+                          useTrial('hidden-gems');
+                        }
+                        trackEvent('attraction_view', { attraction_id: dest.id, governorate_id: dest.governorate_id });
+                      }}
+                      className="w-full py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-white font-medium flex justify-center items-center gap-2 transition-colors mt-auto group-hover:bg-[#C9A84C] group-hover:text-[#030712] group-hover:border-[#C9A84C] cursor-pointer"
+                    >
+                      Explore Destination
+                      <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                    </button>
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
         )}
+
+        {/* Elite Upgrade Modal */}
+        <EliteModal
+          isOpen={showEliteModal}
+          onClose={() => setShowEliteModal(false)}
+          contextTitle={eliteContext.title}
+          contextMessage={eliteContext.message}
+          featureTrigger="hidden-gems"
+        />
 
       </div>
     </div>

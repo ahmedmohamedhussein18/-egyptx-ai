@@ -29,12 +29,12 @@ import {
 import { ArtifactItem, MonumentData, MONUMENTS, getMonumentById } from '@/lib/monuments';
 
 const LANGUAGE_PILLS = [
-  { code: 'ar', label: 'العربية', flag: '🇪🇬' },
-  { code: 'en', label: 'English', flag: '🇬🇧' },
-  { code: 'fr', label: 'Français', flag: '🇫🇷' },
-  { code: 'de', label: 'Deutsch', flag: '🇩🇪' },
-  { code: 'es', label: 'Español', flag: '🇪🇸' },
-  { code: 'it', label: 'Italiano', flag: '🇮🇹' },
+  { code: 'ar', label: 'العربية', flag: '' },
+  { code: 'en', label: 'English', flag: '' },
+  { code: 'fr', label: 'Français', flag: '' },
+  { code: 'de', label: 'Deutsch', flag: '' },
+  { code: 'es', label: 'Español', flag: '' },
+  { code: 'it', label: 'Italiano', flag: '' },
 ];
 
 export default function VrTourDetailContent({ id }: { id: string }) {
@@ -47,8 +47,37 @@ export default function VrTourDetailContent({ id }: { id: string }) {
   const [isFavorited, setIsFavorited] = useState(false);
   const [favoriteCount, setFavoriteCount] = useState(1428);
   const [isVrModalOpen, setIsVrModalOpen] = useState(false);
-  const [audioError, setAudioError] = useState<string | null>(null);
   const [copiedLink, setCopiedLink] = useState(false);
+
+  const videoPath =
+    monument.id === 6 ||
+    monument.id === '6' ||
+    monument.slug === 'wahty-tomb' ||
+    monument.title.toLowerCase().includes('wahty')
+      ? '/videos/wahty_tomb.mp4'
+      : monument.id === 5 ||
+        monument.id === '5' ||
+        monument.slug === 'niankhkhnum-tomb' ||
+        monument.title.toLowerCase().includes('niankh') ||
+        monument.title.toLowerCase().includes('khnumhotep')
+      ? '/videos/niankhkhnum_tomb.mp4'
+      : monument.id === 4 ||
+        monument.id === '4' ||
+        monument.slug === 'gayer-anderson-museum' ||
+        monument.title.toLowerCase().includes('gayer') ||
+        monument.title.toLowerCase().includes('anderson')
+      ? '/videos/gayer_anderson.mp4'
+      : monument.id === 3 ||
+        monument.id === '3' ||
+        monument.slug === 'coptic-museum' ||
+        monument.title.toLowerCase().includes('coptic')
+      ? '/videos/coptic_museum.mp4'
+      : monument.id === 2 ||
+        monument.id === '2' ||
+        monument.slug === 'islamic-art-museum' ||
+        monument.title.toLowerCase().includes('islamic')
+      ? '/videos/islamic_art_museum.mp4'
+      : (monument.videoSrc || (monument as any).videoUrl || (monument as any).previewVideo || '/videos/wahty_tomb.mp4');
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const audioBlobUrlRef = useRef<string | null>(null);
@@ -121,7 +150,6 @@ export default function VrTourDetailContent({ id }: { id: string }) {
 
     stopAudio();
     setIsAudioLoading(true);
-    setAudioError(null);
 
     const textToSpeak =
       monument.narrations[selectedLang] ||
@@ -171,7 +199,7 @@ export default function VrTourDetailContent({ id }: { id: string }) {
 
       audio.onerror = () => {
         stopAudio();
-        setAudioError('Audio playback failed.');
+        console.warn('ElevenLabs tour audio playback error.');
       };
 
       await audio.play();
@@ -179,7 +207,6 @@ export default function VrTourDetailContent({ id }: { id: string }) {
       console.warn('ElevenLabs tour audio error:', err);
       setIsAudioLoading(false);
       setIsPlayingAudio(false);
-      setAudioError(err?.message || 'ElevenLabs audio unavailable.');
     }
   };
 
@@ -291,7 +318,7 @@ export default function VrTourDetailContent({ id }: { id: string }) {
                   </span>
                   <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-[#C9A84C]/20 border border-[#C9A84C]/50 text-[#E2CB85]">
                     <Sparkles className="w-2.5 h-2.5 text-[#C9A84C]" />
-                    ElevenLabs HD Voice
+                    HD Audio Narration
                   </span>
                 </div>
                 <p className="text-xs text-white/60 mt-0.5">
@@ -386,26 +413,23 @@ export default function VrTourDetailContent({ id }: { id: string }) {
             </motion.div>
           )}
 
-          {audioError && (
-            <p className="text-xs text-amber-400 mt-2 font-medium">
-              ⚠️ {audioError}
-            </p>
-          )}
+
         </div>
 
         {/* ── 3. LIVE CINEMATIC VIDEO PREVIEW PLAYER ─────────────────────── */}
         <div className="mb-12">
           <div className="relative aspect-video lg:aspect-[16/8] w-full rounded-3xl overflow-hidden border border-white/15 shadow-[0_0_70px_rgba(0,0,0,0.9)] bg-black group">
-            {/* Live Looping Video Background (No static poster) */}
+            {/* Live Looping Video Background (Explicitly mapped to videoPath) */}
             <video
+              key={videoPath}
+              src={videoPath}
               autoPlay
               loop
               muted
               playsInline
               className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-out"
             >
-              <source src={monument.videoSrc || '/bg-slang.mp4'} type="video/mp4" />
-              <source src="/bg-slang.mp4" type="video/mp4" />
+              <source src={videoPath} type="video/mp4" />
             </video>
 
             {/* Cinematic Gradient Overlays */}
@@ -445,7 +469,7 @@ export default function VrTourDetailContent({ id }: { id: string }) {
                 </button>
               </div>
 
-              {/* Call-to-action text */}
+              {/* Call-to-action button */}
               <button
                 type="button"
                 onClick={() => setIsVrModalOpen(true)}
@@ -602,7 +626,7 @@ export default function VrTourDetailContent({ id }: { id: string }) {
                     isFavorited ? 'fill-current text-[#0A1628] scale-125' : 'text-[#C9A84C]'
                   }`}
                 />
-                <span>{isFavorited ? "Added to Wishlist! ❤️" : "I'd Love This! (Save to Favorites)"}</span>
+                <span>{isFavorited ? "Added to Wishlist! ️" : "I'd Love This! (Save to Favorites)"}</span>
                 <span className="text-[11px] opacity-80 font-mono">({favoriteCount})</span>
               </button>
             </div>
@@ -693,7 +717,7 @@ export default function VrTourDetailContent({ id }: { id: string }) {
                 title={`${monument.title} 360 Degree Virtual Tour`}
                 className="w-full h-full rounded-2xl border border-[#C9A84C]/30 shadow-[0_0_50px_rgba(0,0,0,0.8)]"
                 allowFullScreen
-                allow="accelerometer; gyroscope; magnetometer; xr-spatial-tracking"
+                allow="vr; xr; accelerometer; gyroscope; magnetometer; xr-spatial-tracking; autoplay"
               />
 
               {/* Motion Hint Badge */}

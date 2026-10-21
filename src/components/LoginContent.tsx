@@ -8,19 +8,19 @@ import { createClient } from '@/lib/supabase/client';
 import { AlertCircle, Loader2 } from 'lucide-react';
 
 const COUNTRIES = [
-  { code: 'EG', flag: '🇪🇬', name: 'Egypt' },
-  { code: 'US', flag: '🇺🇸', name: 'United States' },
-  { code: 'GB', flag: '🇬🇧', name: 'United Kingdom' },
-  { code: 'DE', flag: '🇩🇪', name: 'Germany' },
-  { code: 'FR', flag: '🇫🇷', name: 'France' },
-  { code: 'IT', flag: '🇮🇹', name: 'Italy' },
-  { code: 'SA', flag: '🇸🇦', name: 'Saudi Arabia' },
-  { code: 'AE', flag: '🇦🇪', name: 'UAE' },
-  { code: 'IN', flag: '🇮🇳', name: 'India' },
-  { code: 'CN', flag: '🇨🇳', name: 'China' },
-  { code: 'JP', flag: '🇯🇵', name: 'Japan' },
-  { code: 'AU', flag: '🇦🇺', name: 'Australia' },
-  { code: 'CA', flag: '🇨🇦', name: 'Canada' },
+  { code: 'EG', name: 'Egypt' },
+  { code: 'US', name: 'United States' },
+  { code: 'GB', name: 'United Kingdom' },
+  { code: 'DE', name: 'Germany' },
+  { code: 'FR', name: 'France' },
+  { code: 'IT', name: 'Italy' },
+  { code: 'SA', name: 'Saudi Arabia' },
+  { code: 'AE', name: 'UAE' },
+  { code: 'IN', name: 'India' },
+  { code: 'CN', name: 'China' },
+  { code: 'JP', name: 'Japan' },
+  { code: 'AU', name: 'Australia' },
+  { code: 'CA', name: 'Canada' },
 ];
 
 export default function LoginContent() {
@@ -207,7 +207,7 @@ export default function LoginContent() {
                         <option value="" className="bg-[#0A1628] text-white">Select Country</option>
                         {COUNTRIES.map(c => (
                           <option key={c.code} value={c.code} className="bg-[#0A1628] text-white">
-                            {c.flag} {c.name}
+                            {c.name}
                           </option>
                         ))}
                       </select>

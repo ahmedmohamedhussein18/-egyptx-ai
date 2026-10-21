@@ -43,8 +43,7 @@ export default function ReportsContent() {
       pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
       pdf.save(`EgyptX_Report_${governorate}_${dateRange}.pdf`);
     } catch (err) {
-      console.error('PDF export error:', err);
-      alert('حدث خطأ أثناء تصدير PDF. يرجى المحاولة مرة أخرى.');
+      console.warn('PDF export error:', err);
     } finally {
       setExportingPDF(false);
     }

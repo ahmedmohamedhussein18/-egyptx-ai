@@ -54,6 +54,10 @@ export const LanguageProvider = ({ children }: { children: React.ReactNode }) =>
   const setLocale = (loc: string) => {
     setLocaleState(loc);
     localStorage.setItem('egyptx-locale', loc);
+    if (typeof document !== 'undefined') {
+      document.documentElement.lang = loc;
+      document.documentElement.dir = loc === 'ar' ? 'rtl' : 'ltr';
+    }
   };
 
   useEffect(() => {
@@ -63,15 +67,28 @@ export const LanguageProvider = ({ children }: { children: React.ReactNode }) =>
     }
   }, [locale, mounted]);
 
-  // Simple nested key resolver for custom t()
+  // Nested key resolver with robust fallback to English
   const t = (key: string): string => {
     const keys = key.split('.');
-    let val = messagesMap[locale] || messagesMap['en'];
-    for (const k of keys) {
-      if (val[k] !== undefined) val = val[k];
-      else return key; // fallback to key
+    let val = messagesMap[locale];
+    if (val) {
+      for (const k of keys) {
+        if (val && val[k] !== undefined) val = val[k];
+        else { val = undefined; break; }
+      }
     }
-    return typeof val === 'string' ? val : key;
+    if (typeof val === 'string') return val;
+
+    let enVal = messagesMap['en'];
+    if (enVal) {
+      for (const k of keys) {
+        if (enVal && enVal[k] !== undefined) enVal = enVal[k];
+        else { enVal = undefined; break; }
+      }
+    }
+    if (typeof enVal === 'string') return enVal;
+
+    return key;
   };
 
   

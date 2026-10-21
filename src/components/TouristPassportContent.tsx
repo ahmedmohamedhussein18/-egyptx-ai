@@ -261,14 +261,12 @@ export default function TouristPassportContent() {
                   className="w-36 h-36 rounded-full border-[2px] border-solid border-[#C9A84C]/50 flex flex-col items-center justify-center p-2 relative group hover:border-[#C9A84C] transition-colors bg-[#0A1628]/20"
                 >
                   <span className="text-[10px] font-bold text-gray-300 text-center leading-tight uppercase px-1">
-                    📍 {stamp.name}
+                    {stamp.name}
                   </span>
                   <div className="text-[9px] font-bold text-[#C9A84C] my-0.5 tracking-wider uppercase px-1.5 py-0.5 mt-1 border border-[#C9A84C]/40 rounded bg-white/5 flex items-center gap-1">
-                    <span>🌍</span> {stamp.country}
-                  </div>
+                    <span>{stamp.country}</span> </div>
                   <div className="text-[9px] font-bold text-white/80 my-0.5 tracking-wider uppercase px-1.5 py-0.5 border border-white/20 rounded bg-white/5 flex items-center gap-1">
-                    <span>📅</span> {stamp.duration} أيام
-                  </div>
+                    <span>{stamp.duration} أيام</span> </div>
                   <span className="text-[7px] font-mono text-gray-500 uppercase mt-1">
                     {stamp.date}
                   </span>

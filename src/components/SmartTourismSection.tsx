@@ -65,9 +65,9 @@ const getCards = (t: any) => [
 export default function SmartTourismSection() {
   const { t } = useLanguage();
   return (
-    <section className="relative w-full py-24 md:py-32 bg-[#050B14] overflow-hidden">
-      {/* Background Gradient */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#1B6B93]/10 via-[#050B14] to-[#050B14] pointer-events-none" />
+    <section className="relative w-full py-28 md:py-36 bg-[#FDFBF7] dark:bg-[#0B0F19] overflow-hidden">
+      {/* Background Torchlight & Nile Gradient */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-amber-500/5 via-[#FDFBF7] to-[#FDFBF7] dark:from-[#D4AF37]/5 dark:via-[#0B0F19] dark:to-[#0B0F19] pointer-events-none" />
       
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
@@ -80,13 +80,13 @@ export default function SmartTourismSection() {
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.6 }}
           >
-            {/* Decorative Line */}
-            <div className="w-24 h-1 bg-gradient-to-r from-transparent via-[#C9A84C] to-transparent mb-6 rounded-full" />
+            {/* Decorative Pharaonic Line */}
+            <div className="w-24 h-0.5 bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent mb-6 rounded-full" />
             
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-[#C9A84C] via-[#E6D089] to-[#C9A84C]">
+            <h2 className="text-4xl md:text-5xl font-serif-editorial font-bold mb-4 text-slate-900 dark:text-gray-100">
               {t('home.smartTourism.title')}
             </h2>
-            <p className="text-lg md:text-xl text-white/70 max-w-2xl mx-auto font-light">
+            <p className="text-lg md:text-xl text-slate-600 dark:text-gray-300 max-w-2xl mx-auto font-light leading-relaxed">
               {t('home.smartTourism.subtitle')}
             </p>
           </motion.div>
@@ -100,28 +100,25 @@ export default function SmartTourismSection() {
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.7, delay: index * 0.2 }}
+              transition={{ duration: 0.7, delay: index * 0.15 }}
               className="group relative"
             >
-              <div className="h-full relative overflow-hidden bg-[#0A1628]/60 backdrop-blur-md rounded-2xl p-8 md:p-10 border border-[#C9A84C]/10 transition-all duration-300 group-hover:-translate-y-1 group-hover:border-[#C9A84C]/30 group-hover:shadow-[0_0_30px_rgba(201,168,76,0.1)] flex flex-col">
+              <div className="h-full relative overflow-hidden bg-[#F8F3E9] dark:bg-[#131A2A] rounded-2xl p-8 md:p-10 border border-slate-200/80 dark:border-white/5 shadow-sm dark:shadow-none hover:shadow-md dark:hover:border-[#D4AF37]/30 transition-all duration-300 hover:-translate-y-1 flex flex-col">
                 
-                {/* Subtle Gradient Overlay */}
-                <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-[#C9A84C]/5 to-transparent pointer-events-none" />
-
                 <div className="relative z-10 flex-grow">
-                  <div className="mb-6">
+                  <div className="mb-6 w-14 h-14 rounded-xl bg-[#FDFBF7] dark:bg-white/5 border border-slate-200 dark:border-white/10 flex items-center justify-center">
                     {card.icon}
                   </div>
-                  <h3 className="text-xl md:text-2xl font-bold text-white mb-4">
+                  <h3 className="text-xl md:text-2xl font-serif-editorial font-bold text-[#1A2332] dark:text-gray-100 mb-4 group-hover:text-yellow-600 dark:group-hover:text-yellow-500 transition-colors">
                     {card.title}
                   </h3>
-                  <p className="text-white/60 leading-relaxed text-sm md:text-base">
+                  <p className="text-slate-600 dark:text-gray-300 leading-relaxed text-sm md:text-base font-light">
                     {card.description}
                   </p>
                 </div>
 
                 <div className="relative z-10 mt-8">
-                  <span className="inline-block px-4 py-1.5 rounded-full bg-[#C9A84C]/10 text-[#C9A84C] text-xs font-semibold tracking-wider uppercase border border-[#C9A84C]/20">
+                  <span className="inline-block px-3.5 py-1 rounded-full bg-slate-100 dark:bg-white/5 text-yellow-700 dark:text-yellow-400 text-xs font-semibold tracking-wider uppercase border border-slate-200 dark:border-white/10">
                     {card.tag}
                   </span>
                 </div>

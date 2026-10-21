@@ -6,11 +6,101 @@
     "hiddenEgypt": "Égypte Cachée",
     "crafts": "Artisanat",
     "touristPassport": "Passeport Touristique",
-    "news": "Actualités",
+    "news": "Vie Égyptienne",
     "login": "Connexion",
     "logout": "Déconnexion",
     "command": "Commande",
-    "brand": "EgyptX AI"
+    "brand": "EgyptX AI",
+    "egyptLife": "Vie Égyptienne",
+    "egyptOfficial": "Égypte Officielle",
+    "egyptianCulture": "Culture Égyptienne",
+    "bookings": "Réserver",
+    "videos": "Vidéos",
+    "elite": "EgyptX Élite",
+    "explore": "Explorer",
+    "experiences": "Expériences",
+    "official": "Officiel",
+    "headers": {
+      "destinations": "Destinations",
+      "aiExperiences": "AI Experiences",
+      "lifeAndCulture": "Life & Culture",
+      "officialAndBookings": "Official & Bookings"
+    },
+    "meresankhVr": "Meresankh VR",
+    "launchMeresankh": "Launch Meresankh VR",
+    "badges": {
+      "ai": "AI",
+      "live": "Live",
+      "new": "New",
+      "curated": "Curated",
+      "renaissance": "Renaissance"
+    },
+    "items": {
+      "exploreEgypt": {
+        "title": "Explore Egypt",
+        "subtitle": "Ancient wonders & iconic monuments"
+      },
+      "hiddenEgypt": {
+        "title": "Hidden Egypt",
+        "subtitle": "Undiscovered desert secrets & oases"
+      },
+      "culture": {
+        "title": "Egyptian Culture",
+        "subtitle": "Arts, music, literature & heritage"
+      },
+      "aiPlanner": {
+        "title": "AI Planner",
+        "subtitle": "Smart custom itineraries & flow"
+      },
+      "aiGuide": {
+        "title": "AI Guide",
+        "subtitle": "Conversational audio heritage guide"
+      },
+      "vrEgypt": {
+        "title": "VR Egypt",
+        "subtitle": "360 degree virtual monument portals"
+      },
+      "hieroglyphScanner": {
+        "title": "Hieroglyph Scanner",
+        "subtitle": "Epigraphic visual symbol translator"
+      },
+      "slang": {
+        "title": "EgyptSpeak",
+        "subtitle": "Authentic colloquial dialect engine"
+      },
+      "memoryCore": {
+        "title": "Memory Core",
+        "subtitle": "Expedition travel journal & logs"
+      },
+      "journal": {
+        "title": "Journal",
+        "subtitle": "Editorial stories & essays"
+      },
+      "cinema": {
+        "title": "Cinema",
+        "subtitle": "Cinematic visual features"
+      },
+      "shorts": {
+        "title": "Shorts",
+        "subtitle": "Vertical creator vignettes"
+      },
+      "shop": {
+        "title": "Shop",
+        "subtitle": "Handcrafted authentic artifacts"
+      },
+      "egyptOfficial": {
+        "title": "Egypt Official",
+        "subtitle": "Presidency & sovereign heritage"
+      },
+      "nationalProjects": {
+        "title": "National Projects",
+        "subtitle": "Grand Egyptian Museum & renewals"
+      },
+      "bookings": {
+        "title": "Concierge Bookings",
+        "subtitle": "Flights, palaces & private reservations"
+      }
+    }
   },
   "home": {
     "title": "EgyptX IA",
@@ -47,7 +137,8 @@
         "title": "Souvenirs IA",
         "desc": "Organisez et améliorez automatiquement les photos de votre voyage.",
         "action": "Voir les Souvenirs"
-      }
+      },
+      "foundation": "The Foundation"
     },
     "smartTourism": {
       "title": "Aperçu du Tourisme Intelligent",
@@ -112,7 +203,9 @@
           "title": "Pôle de recherche",
           "desc": "Accès propulsé par l'IA aux données historiques et archéologiques de l'Égypte"
         }
-      }
+      },
+      "heading": "The EgyptX AI Ecosystem",
+      "subheading": "An intelligent network connecting all pillars of Egyptian tourism"
     },
     "mobility": {
       "title": "Mobilité Intelligente",
@@ -138,6 +231,49 @@
         "title": "Croisières sur le Nil",
         "desc": "Réservation intégrée pour des croisières intelligentes et authentifiées sur le Nil."
       }
+    },
+    "heroTagline": "The sovereign AI ecosystem uniting 7,000 years of heritage with bespoke modern travel.",
+    "sponsors": {
+      "header": "Official Partners & Sovereign Patrons",
+      "footnote": "Operating under the national digital transformation framework of the Arab Republic of Egypt.",
+      "partners": {
+        "tourismMinistry": {
+          "name": "MINISTRY OF TOURISM & ANTIQUITIES",
+          "category": "GOVERNMENT PATRON",
+          "tagline": "Sovereign Heritage Authority"
+        },
+        "antiquitiesCouncil": {
+          "name": "SUPREME COUNCIL OF ANTIQUITIES",
+          "category": "ARCHAEOLOGY",
+          "tagline": "Excavation & Preservation"
+        },
+        "unesco": {
+          "name": "UNESCO WORLD HERITAGE",
+          "category": "GLOBAL COOPERATION",
+          "tagline": "Memphis & Thebes Monuments"
+        },
+        "gem": {
+          "name": "GRAND EGYPTIAN MUSEUM",
+          "category": "CULTURAL INSTITUTION",
+          "tagline": "Giza Plateau Foundation"
+        },
+        "egyptair": {
+          "name": "EGYPTAIR",
+          "category": "NATIONAL CARRIER",
+          "tagline": "Star Alliance Member"
+        },
+        "nmec": {
+          "name": "NMEC FUSTAT",
+          "category": "CIVILIZATION MUSEUM",
+          "tagline": "Royal Mummies Gallery"
+        }
+      }
+    },
+    "events": {
+      "calendarTag": "Cultural Calendar",
+      "title": "Upcoming Events",
+      "subtitle": "Curated ceremonies, concerts, and seasonal gatherings across the Nile.",
+      "access": "Event Access"
     }
   },
   "planner": {
@@ -338,7 +474,7 @@
     "add": "Ajouter une Dépense",
     "noExpenses": "Aucune dépense enregistrée pour le moment"
   },
-  "exploreDest": "Explorer &rarr;",
+  "exploreDest": "Explorer",
   "destinations": {
     "giza": {
       "name": "Gizeh",
@@ -377,7 +513,8 @@
       "desc": "Hurghada s'est transformée..."
     },
     "featured": "Destinations Phares",
-    "subtitle": "Des merveilles antiques aux oasis cachées"
+    "subtitle": "Des merveilles antiques aux oasis cachées",
+    "planJourney": "Plan My Journey Here →"
   },
   "footer": {
     "title": "EgyptX IA",
@@ -402,7 +539,35 @@
     "about": "À propos d'EgyptX",
     "technology": "Technologie",
     "terms": "Conditions & Confidentialité",
-    "copy": "© 2026 EgyptX IA. L'écosystème national du tourisme intelligent."
+    "copy": "© 2026 EgyptX IA. L'écosystème national du tourisme intelligent.",
+    "nationalProjects": "National Projects",
+    "egyptianCulture": "Egyptian Culture",
+    "journal": "Journal",
+    "contactUs": "Contact Us",
+    "contactModal": {
+      "badge": "Connect with EgyptX AI",
+      "title": "Get in Touch",
+      "subtitle": "Have questions about smart itineraries, enterprise tourism partnerships, or AI heritage experiences? We are here to assist.",
+      "emailLabel": "Email",
+      "hotlineLabel": "Hotline",
+      "hqLabel": "Cairo HQ",
+      "hqValue": "Zamalek, Cairo",
+      "nameLabel": "Your Full Name",
+      "emailInputLabel": "Email Address",
+      "subjectLabel": "Subject / Topic",
+      "subjects": {
+        "general": "General Inquiry",
+        "planning": "AI Itinerary & Planning",
+        "smartSite": "Smart Site & Museum Access",
+        "enterprise": "Enterprise / Tourism Partner",
+        "press": "Press & Media"
+      },
+      "messageLabel": "Message",
+      "messagePlaceholder": "Tell us about your upcoming travel plans or question...",
+      "sendBtn": "Send Message",
+      "successTitle": "Thank you! Your message has been sent successfully.",
+      "successDesc": "An EgyptX representative will contact you shortly."
+    }
   },
   "hidden": {
     "mission": "Mission d'Impact National",

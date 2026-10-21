@@ -215,8 +215,7 @@ export default function GovernmentDashboardContent() {
     pdf.save(`cairo-tourism-report-${today.replace(/\//g, '-')}.pdf`);
     
   } catch (err) {
-    console.error('PDF Error:', err);
-    alert('PDF export failed. Please try again.');
+    console.warn('PDF export error:', err);
   } finally {
     setExportingPDF(false);
   }

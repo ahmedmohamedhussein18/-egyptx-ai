@@ -14,10 +14,17 @@ import {
   Loader2,
   X,
   ChevronDown,
-  AlertCircle,
+  ArrowLeftRight,
 } from 'lucide-react';
 
 /* ─── Types ──────────────────────────────────────────────────────────────── */
+
+export interface LanguageOption {
+  code: string;
+  label: string;
+  name: string;
+  flag: string;
+}
 
 interface TranslationResult {
   translation: string;
@@ -40,35 +47,128 @@ interface VoiceOption {
   id: string;
   label: string;
   name: string;
-  emoji: string;
 }
 
-// 100% Valid & Verified ElevenLabs Default Premade Voice IDs
+// 100% Valid & Verified Voice IDs (Including Native Egyptian Voice)
 const VOICE_OPTIONS: VoiceOption[] = [
-  { id: 'EXAVITQu4vr4xnSDxMaL', label: '👩 Female Voice', name: 'Sarah', emoji: '👩' },
-  { id: 'pNInz6obpgDQGcFmaJgB', label: '👨 Male Voice', name: 'Adam', emoji: '👨' },
-  { id: 'TX3LPaxmHKxFdv7VOQHJ', label: '👦 Youth Voice', name: 'Liam', emoji: '👦' },
+  { id: 'Jez3JdhBInQTvlAvDOWR', label: 'Egyptian Voice (Ahmed)', name: 'Ahmed' },
+  { id: 'EXAVITQu4vr4xnSDxMaL', label: 'Female Voice (Sarah)', name: 'Sarah' },
+  { id: 'pNInz6obpgDQGcFmaJgB', label: 'Male Voice (Adam)', name: 'Adam' },
+  { id: 'TX3LPaxmHKxFdv7VOQHJ', label: 'Youth Voice (Liam)', name: 'Liam' },
 ];
 
-const SUGGESTION_PILLS = [
+// First Selector: Local Dialects (السهم الأول - اللهجة المحلية)
+export const LOCAL_DIALECT_OPTIONS: LanguageOption[] = [
+  { code: 'ar-EG', label: '🇪🇬 مصري (Egyptian)', name: 'اللهجة المصرية', flag: '🇪🇬' },
+  { code: 'ar-SA', label: '🇸🇦 خليجي (Gulf)', name: 'اللهجة الخليجية', flag: '🇸🇦' },
+  { code: 'ar-LB', label: '🇱🇧 شامي (Levantine)', name: 'اللهجة الشامية', flag: '🇱🇧' },
+  { code: 'ar-MA', label: '🇲🇦 مغاربي (Maghrebi)', name: 'اللهجة المغاربية', flag: '🇲🇦' },
+  { code: 'ar', label: '🌍 فصحى (Standard Arabic)', name: 'العربية الفصحى', flag: '🌍' },
+];
+
+// Second Selector: Tourist Foreign Languages (السهم الثاني - لغة السائح الأجنبي)
+export const TOURIST_LANG_OPTIONS: LanguageOption[] = [
+  { code: 'en-US', label: '🇺🇸 English (US)', name: 'English (US)', flag: '🇺🇸' },
+  { code: 'en-GB', label: '🇬🇧 English (UK)', name: 'English (UK)', flag: '🇬🇧' },
+  { code: 'fr-FR', label: '🇫🇷 Français', name: 'Français', flag: '🇫🇷' },
+  { code: 'de-DE', label: '🇩🇪 Deutsch', name: 'Deutsch', flag: '🇩🇪' },
+  { code: 'es-ES', label: '🇪🇸 Español', name: 'Español', flag: '🇪🇸' },
+  { code: 'it-IT', label: '🇮🇹 Italiano', name: 'Italiano', flag: '🇮🇹' },
+  { code: 'ru-RU', label: '🇷🇺 Русский', name: 'Русский', flag: '🇷🇺' },
+  { code: 'zh-CN', label: '🇨🇳 中文 (Mandarin)', name: '中文', flag: '🇨🇳' },
+  { code: 'ja-JP', label: '🇯🇵 日本語', name: '日本語', flag: '🇯🇵' },
+];
+
+const SUGGESTIONS_TOURIST = [
   "Where is the nearest pharmacy?",
   "How much does this cost?",
   "Can you take me to the Pyramids?",
   "Thank you very much",
 ];
 
+const SUGGESTIONS_LOCAL = [
+  "أهلاً بيك نورت مصر يا باشا",
+  "عايز تروح الأهرامات إزاي؟",
+  "تشرب شاي مصري بالنعناع؟",
+  "الحساب خمسين جنيه بس",
+];
+
 function uid() {
   return Math.random().toString(36).slice(2, 9);
+}
+
+/**
+ * Phonetically optimize Egyptian Arabic text to prevent letter-by-letter spelling or elongation.
+ * Formats key slang words with explicit short vowels (e.g. "إِزَّيَّك", "إِزَّيُّكُمْ") for native rhythm.
+ */
+function cleanEgyptianPhoneticsForTTS(text: string): string {
+  if (!text) return '';
+  let res = text.replace(/\u0640+/g, ''); // remove tatweel
+  res = res.replace(/[\u0621-\u064A\u064B-\u065F]+/gu, (word) => {
+    const plain = word.replace(/[\u064B-\u065F]/g, '');
+
+    // Heritage and Egyptian Monument Phonetic Tuning
+    if (plain === 'الكرنك') return 'الكَرْنَك';
+    if (plain === 'كرنك') return 'كَرْنَك';
+    if (plain === 'الأقصر' || plain === 'الاقصر') return 'الأُقْصُر';
+    if (plain === 'أقصر' || plain === 'اقصر') return 'أُقْصُر';
+    if (plain === 'الجيزة' || plain === 'الجيزه') return 'الجِيزَة';
+    if (plain === 'الهرم' || plain === 'الأهرام' || plain === 'الاهرام') return 'الأَهْرَام';
+    if (plain === 'توت' && plain.includes('عنخ')) return 'تُوت عَنْخ آمُون';
+
+    // Explicit short-vowel rewrites for Egyptian slang
+    if (/^[اإأ]ز[يى]+ك+$/u.test(plain)) return 'إِزَّيَّك';
+    if (/^[اإأ]ز[يى]+ك+م+$/u.test(plain)) return 'إِزَّيُّكُمْ';
+    if (/^[اإأ]ز[يى]+ك+و+ا?$/u.test(plain)) return 'إِزَّيَّكُوا';
+    if (/^[اإأ]ي+ه+$/u.test(plain)) return 'إيه';
+    if (/^يا+$/u.test(plain)) return 'يا';
+    if (/^حب[يى]+بي+$/u.test(plain)) return 'حبيبي';
+    if (/^منو+ر+$/u.test(plain)) return 'منور';
+    if (/^كد[ااه]+$/u.test(plain)) return 'كده';
+    if (/^تما+م+$/u.test(plain)) return 'تمام';
+    if (/^معل+ش+$/u.test(plain)) return 'معلش';
+    if (/^برنس+$/u.test(plain)) return 'برنس';
+    if (/^باش[اى]+$/u.test(plain)) return 'باشا';
+    if (/^فل+$/u.test(plain)) return 'فل';
+    if (/^هل[اى]+$/u.test(plain)) return 'هلا';
+    if (/^فين+$/u.test(plain)) return 'فِين';
+    if (/^أهو+$/u.test(plain)) return 'أهو';
+    if (/^أهي+$/u.test(plain)) return 'أهي';
+    return plain.replace(/([\u0621-\u064A])\1{2,}/gu, '$1');
+  });
+  res = res.replace(/\s+/g, ' ').trim();
+  if (res && !/[.!?،؛:…]$/.test(res)) {
+    res += '.';
+  }
+  return res;
 }
 
 /* ─── ElevenLabs HD Voice Hook (Zero Browser Speech Fallback) ─────────────── */
 function useElevenLabsTTS() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const abortControllerRef = useRef<AbortController | null>(null);
   const [playingId, setPlayingId] = useState<string | null>(null);
   const [loadingAudioId, setLoadingAudioId] = useState<string | null>(null);
-  const [audioError, setAudioError] = useState<string | null>(null);
 
   const stop = useCallback(() => {
+    // 1. Cancel browser speech synthesis immediately
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      try {
+        window.speechSynthesis.cancel();
+      } catch {
+        /* ignore */
+      }
+    }
+    // 2. Abort any active TTS fetch
+    if (abortControllerRef.current) {
+      try {
+        abortControllerRef.current.abort();
+      } catch {
+        /* ignore */
+      }
+      abortControllerRef.current = null;
+    }
+    // 3. Silence audio element
     if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current.src = '';
@@ -87,13 +187,17 @@ function useElevenLabsTTS() {
       }
       stop();
       setLoadingAudioId(msgId);
-      setAudioError(null);
+
+      const controller = new AbortController();
+      abortControllerRef.current = controller;
 
       try {
+        const phoneticText = cleanEgyptianPhoneticsForTTS(text);
         const res = await fetch('/api/tts', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ text, voiceId }),
+          signal: controller.signal,
+          body: JSON.stringify({ text: phoneticText, voiceId }),
         });
 
         // 1. Strictly check if (!res.ok)
@@ -140,27 +244,28 @@ function useElevenLabsTTS() {
         };
 
         audio.onerror = (e) => {
-          console.error('[ElevenLabs Playback Error]', e);
+          console.warn('[ElevenLabs Playback Error]:', e);
           setPlayingId(null);
           setLoadingAudioId(null);
-          setAudioError('Voice generation failed. Check API key.');
           URL.revokeObjectURL(audioUrl);
         };
 
         try {
           await audio.play();
         } catch (playErr: any) {
-          console.error('[Audio Play Exception]', playErr);
+          console.warn('[ElevenLabs Audio Play Warning]:', playErr);
           setPlayingId(null);
           setLoadingAudioId(null);
-          setAudioError(playErr.message || 'Audio playback was interrupted by the browser.');
           URL.revokeObjectURL(audioUrl);
         }
       } catch (err: any) {
-        console.error('[TTS Generation Error]', err);
+        if (err.name === 'AbortError') {
+          // Playback intentionally stopped or aborted
+          return;
+        }
+        console.warn('[ElevenLabs TTS Warning]:', err);
         setLoadingAudioId(null);
         setPlayingId(null);
-        setAudioError(err.message || 'Voice generation failed. Check API key.');
       }
     },
     [playingId, stop]
@@ -168,11 +273,11 @@ function useElevenLabsTTS() {
 
   useEffect(() => () => stop(), [stop]);
 
-  return { play, stop, playingId, loadingAudioId, audioError, setAudioError };
+  return { play, stop, playingId, loadingAudioId };
 }
 
 /* ─── Mic Input Hook ──────────────────────────────────────────────────────── */
-function useMic(onResult: (text: string) => void) {
+function useMic(onResult: (text: string) => void, lang: string) {
   const [listening, setListening] = useState(false);
   const recRef = useRef<any>(null);
 
@@ -182,7 +287,7 @@ function useMic(onResult: (text: string) => void) {
       (window as any).SpeechRecognition ||
       (window as any).webkitSpeechRecognition;
     if (!SR) {
-      alert('Speech recognition is not supported in your browser.');
+      console.warn('[SlangTranslator] Speech recognition is not supported in this browser.');
       return;
     }
 
@@ -196,7 +301,7 @@ function useMic(onResult: (text: string) => void) {
     recRef.current = rec;
     rec.continuous = false;
     rec.interimResults = false;
-    rec.lang = 'ar-EG';
+    rec.lang = lang || 'ar-EG';
 
     rec.onstart = () => setListening(true);
     rec.onresult = (e: any) => {
@@ -206,7 +311,7 @@ function useMic(onResult: (text: string) => void) {
     rec.onend = () => setListening(false);
     rec.onerror = () => setListening(false);
     rec.start();
-  }, [listening, onResult]);
+  }, [listening, onResult, lang]);
 
   useEffect(() => () => recRef.current?.stop(), []);
 
@@ -246,21 +351,22 @@ function AIBubble({
 
         {/* Card */}
         <div className="bg-[#06101E]/90 backdrop-blur-md border border-[#C9A84C]/30 rounded-2xl rounded-tl-sm overflow-hidden shadow-[0_6px_24px_rgba(0,0,0,0.5)]">
-          {/* Arabic translation */}
+          {/* Translation Output */}
           <div className="px-4 pt-3.5 pb-2.5">
             <div className="flex items-center justify-between mb-1">
               <span className="text-[10px] uppercase tracking-widest text-[#C9A84C]/80 font-bold">
-                Egyptian Arabic
+                {/[\u0600-\u06FF]/.test(r.translation) ? 'Egyptian Arabic' : 'Tourist Translation'}
               </span>
               <span className="text-[9px] uppercase tracking-wider text-white/35 font-mono flex items-center gap-1">
-                <span>{selectedVoice.emoji}</span>
                 <span>{selectedVoice.name}</span>
               </span>
             </div>
             <p
-              dir="rtl"
-              className="text-2xl font-bold text-white leading-relaxed text-right"
-              style={{ fontFamily: "'Noto Naskh Arabic', 'Arabic UI Text', serif" }}
+              dir={/[\u0600-\u06FF]/.test(r.translation) ? 'rtl' : 'ltr'}
+              className={`text-2xl font-bold text-white leading-relaxed ${
+                /[\u0600-\u06FF]/.test(r.translation) ? 'text-right' : 'text-left'
+              }`}
+              style={{ fontFamily: "'Noto Naskh Arabic', 'Arabic UI Text', sans-serif" }}
             >
               {r.translation}
             </p>
@@ -287,13 +393,12 @@ function AIBubble({
             <button
               onClick={() => onPlay(msg.id, r.translation)}
               disabled={isLoading}
-              className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs md:text-sm font-semibold transition-all duration-200 border ${
-                isPlaying
+              className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs md:text-sm font-semibold transition-all duration-200 border ${isPlaying
                   ? 'bg-[#C9A84C]/25 border-[#C9A84C] text-[#C9A84C] shadow-[0_0_18px_rgba(201,168,76,0.45)]'
                   : isLoading
-                  ? 'bg-white/10 border-white/20 text-white/60 cursor-wait'
-                  : 'bg-transparent border-[#C9A84C]/35 text-[#C9A84C] hover:bg-[#C9A84C]/15 hover:border-[#C9A84C] hover:shadow-[0_0_12px_rgba(201,168,76,0.25)]'
-              }`}
+                    ? 'bg-white/10 border-white/20 text-white/60 cursor-wait'
+                    : 'bg-transparent border-[#C9A84C]/35 text-[#C9A84C] hover:bg-[#C9A84C]/15 hover:border-[#C9A84C] hover:shadow-[0_0_12px_rgba(201,168,76,0.25)]'
+                }`}
             >
               {isLoading ? (
                 <>
@@ -377,27 +482,30 @@ export default function SlangTranslatorContent() {
   const [showScrollBtn, setShowScrollBtn] = useState(false);
   const [selectedVoiceId, setSelectedVoiceId] = useState<string>(VOICE_OPTIONS[0].id);
 
+  // Dual-Language Selectors State (سهمين اللغات)
+  const [localLang, setLocalLang] = useState<string>('ar-EG');
+  const [touristLang, setTouristLang] = useState<string>('en-US');
+  const [activeInputMode, setActiveInputMode] = useState<'local' | 'tourist'>('local');
+
   const bottomRef = useRef<HTMLDivElement>(null);
   const chatRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  const { play, stop, playingId, loadingAudioId, audioError, setAudioError } = useElevenLabsTTS();
+  const { play, stop, playingId, loadingAudioId } = useElevenLabsTTS();
 
   const selectedVoice = VOICE_OPTIONS.find((v) => v.id === selectedVoiceId) || VOICE_OPTIONS[0];
 
-  // Auto-dismiss audio error after 6 seconds
-  useEffect(() => {
-    if (!audioError) return;
-    const timer = setTimeout(() => setAudioError(null), 6000);
-    return () => clearTimeout(timer);
-  }, [audioError, setAudioError]);
+  const activeInputLangCode = activeInputMode === 'local' ? localLang : touristLang;
+  const currentLocalObj = LOCAL_DIALECT_OPTIONS.find((d) => d.code === localLang) || LOCAL_DIALECT_OPTIONS[0];
+  const currentTouristObj = TOURIST_LANG_OPTIONS.find((l) => l.code === touristLang) || TOURIST_LANG_OPTIONS[0];
+  const activeLangName = activeInputMode === 'local' ? currentLocalObj.name : currentTouristObj.name;
 
   const appendMicText = useCallback((text: string) => {
     setInput((prev) => (prev ? `${prev} ${text}` : text));
   }, []);
 
-  const { listening, toggle: toggleMic } = useMic(appendMicText);
+  const { listening, toggle: toggleMic } = useMic(appendMicText, activeInputLangCode);
 
   // Auto-scroll on new messages
   useEffect(() => {
@@ -441,7 +549,12 @@ export default function SlangTranslatorContent() {
       const res = await fetch('/api/slang-translate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text }),
+        body: JSON.stringify({ 
+          text,
+          mode: activeInputMode,
+          sourceLang: activeInputMode === 'local' ? localLang : touristLang,
+          targetLang: activeInputMode === 'local' ? currentTouristObj.name : currentLocalObj.name,
+        }),
       });
 
       if (!res.ok) throw new Error('Translation failed');
@@ -532,16 +645,123 @@ export default function SlangTranslatorContent() {
             </div>
             <div>
               <h1 className="text-base font-bold bg-gradient-to-r from-[#C9A84C] to-[#E3C973] bg-clip-text text-transparent leading-none drop-shadow-lg">
-                EgyptX Slang
+                EgyptX Slang & Voice Bridge
               </h1>
-              <p className="text-[11px] text-white/75 mt-0.5 drop-shadow-md">ElevenLabs HD Voice</p>
+              <p className="text-[11px] text-[#E2CB85]/90 mt-0.5 drop-shadow-md">
+                Dual-Language Speech & Dialect AI
+              </p>
             </div>
           </div>
           <div className="flex items-center gap-2">
             <span className="inline-flex items-center gap-1.5 text-[10px] px-2.5 py-1 rounded-full bg-black/30 border border-[#C9A84C]/40 text-[#E2CB85] font-mono font-semibold drop-shadow-lg">
               <span className="w-1.5 h-1.5 rounded-full bg-[#19A974] animate-pulse" />
-              ElevenLabs Multilingual v2
+              Voice AI Ready
             </span>
+          </div>
+        </div>
+
+        {/* ── Dual-Language Selectors (سهمين اللغات: اللهجة المحلية & لغة السائح) ─── */}
+        <div className="px-3 md:px-6 py-2.5 bg-[#070D1F]/95 border-b border-[#C9A84C]/25 flex flex-wrap items-center justify-between gap-2.5 shrink-0">
+          <div className="flex items-center gap-2 flex-1 min-w-[280px]">
+            {/* First Selector: Local Dialect (السهم الأول - اللهجة المحلية) */}
+            <div className={`relative flex-1 transition-all rounded-xl border ${
+              activeInputMode === 'local'
+                ? 'border-[#C9A84C] bg-[#C9A84C]/15 shadow-[0_0_15px_rgba(201,168,76,0.25)] ring-1 ring-[#C9A84C]/50'
+                : 'border-white/10 bg-black/40 hover:border-white/20'
+            }`}>
+              <div
+                onClick={() => setActiveInputMode('local')}
+                className="w-full flex items-center justify-between px-3 py-1.5 cursor-pointer select-none"
+              >
+                <div className="flex items-center gap-2 overflow-hidden">
+                  <span className="text-base shrink-0">{currentLocalObj.flag}</span>
+                  <div className="truncate text-left">
+                    <span className="text-[9px] uppercase tracking-wider text-[#C9A84C] font-bold block leading-tight">
+                      {activeInputMode === 'local' ? '● اللهجة المحلية (Active)' : 'اللهجة المحلية'}
+                    </span>
+                    <span className="font-semibold text-white text-xs truncate block">
+                      {currentLocalObj.label}
+                    </span>
+                  </div>
+                </div>
+                <div className="flex items-center shrink-0 ml-1.5 pointer-events-none">
+                  <ChevronDown className="w-3.5 h-3.5 text-[#C9A84C]" />
+                </div>
+              </div>
+              <select
+                value={localLang}
+                onChange={(e) => {
+                  setLocalLang(e.target.value);
+                  setActiveInputMode('local');
+                }}
+                className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
+                title="السهم الأول: اختر اللهجة المحلية"
+              >
+                {LOCAL_DIALECT_OPTIONS.map((d) => (
+                  <option key={d.code} value={d.code} className="bg-[#0A1628] text-white">
+                    {d.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Switch / Toggle Button */}
+            <button
+              type="button"
+              onClick={() => setActiveInputMode((prev) => (prev === 'local' ? 'tourist' : 'local'))}
+              title="تبديل لغة الإدخال والميكروفون"
+              className="p-2 rounded-xl bg-black/50 hover:bg-[#C9A84C]/25 border border-[#C9A84C]/40 text-[#E2CB85] hover:text-white transition-all shadow-md shrink-0 cursor-pointer active:scale-95"
+            >
+              <ArrowLeftRight className="w-3.5 h-3.5" />
+            </button>
+
+            {/* Second Selector: Tourist Language (السهم الثاني - لغة السائح الأجنبي) */}
+            <div className={`relative flex-1 transition-all rounded-xl border ${
+              activeInputMode === 'tourist'
+                ? 'border-[#4CC9F0] bg-[#1B6B93]/20 shadow-[0_0_15px_rgba(76,201,240,0.25)] ring-1 ring-[#4CC9F0]/50'
+                : 'border-white/10 bg-black/40 hover:border-white/20'
+            }`}>
+              <div
+                onClick={() => setActiveInputMode('tourist')}
+                className="w-full flex items-center justify-between px-3 py-1.5 cursor-pointer select-none"
+              >
+                <div className="flex items-center gap-2 overflow-hidden">
+                  <span className="text-base shrink-0">{currentTouristObj.flag}</span>
+                  <div className="truncate text-left">
+                    <span className="text-[9px] uppercase tracking-wider text-[#4CC9F0] font-bold block leading-tight">
+                      {activeInputMode === 'tourist' ? '● لغة السائح (Active)' : 'لغة السائح الأجنبي'}
+                    </span>
+                    <span className="font-semibold text-white text-xs truncate block">
+                      {currentTouristObj.label}
+                    </span>
+                  </div>
+                </div>
+                <div className="flex items-center shrink-0 ml-1.5 pointer-events-none">
+                  <ChevronDown className="w-3.5 h-3.5 text-[#4CC9F0]" />
+                </div>
+              </div>
+              <select
+                value={touristLang}
+                onChange={(e) => {
+                  setTouristLang(e.target.value);
+                  setActiveInputMode('tourist');
+                }}
+                className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
+                title="السهم الثاني: اختر لغة السائح الأجنبي"
+              >
+                {TOURIST_LANG_OPTIONS.map((l) => (
+                  <option key={l.code} value={l.code} className="bg-[#0A1628] text-white">
+                    {l.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          {/* Active Input Status Pill */}
+          <div className="hidden lg:flex items-center gap-2 text-[10px] font-mono px-2.5 py-1 rounded-full bg-black/40 border border-white/10 text-white/70 shrink-0">
+            <span className={`w-1.5 h-1.5 rounded-full ${listening ? 'bg-red-400 animate-ping' : 'bg-[#C9A84C]'}`} />
+            <span>Mic Input: <strong className="text-[#E2CB85]">{activeInputLangCode}</strong></span>
           </div>
         </div>
 
@@ -564,11 +784,10 @@ export default function SlangTranslatorContent() {
                     setSelectedVoiceId(v.id);
                     stop();
                   }}
-                  className={`px-3 py-1 rounded-full text-xs font-medium transition-all duration-200 border flex items-center gap-1.5 cursor-pointer whitespace-nowrap drop-shadow-lg ${
-                    active
+                  className={`px-3 py-1 rounded-full text-xs font-medium transition-all duration-200 border flex items-center gap-1.5 cursor-pointer whitespace-nowrap drop-shadow-lg ${active
                       ? 'bg-[#C9A84C]/30 border-[#C9A84C] text-[#E2CB85] shadow-[0_0_12px_rgba(201,168,76,0.3)] font-semibold'
                       : 'bg-black/30 border-white/10 text-white/80 hover:text-white hover:border-[#C9A84C]/40 hover:bg-black/50'
-                  }`}
+                    }`}
                 >
                   <span className="drop-shadow-sm">{v.label}</span>
                 </button>
@@ -577,29 +796,7 @@ export default function SlangTranslatorContent() {
           </div>
         </div>
 
-        {/* User-friendly Error Toast Notification */}
-        <AnimatePresence>
-          {audioError && (
-            <motion.div
-              initial={{ opacity: 0, y: -8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              className="mx-4 mt-2 p-2.5 bg-red-950/85 border border-red-500/40 rounded-xl flex items-center justify-between text-xs text-red-200 shadow-md backdrop-blur-md shrink-0 z-20"
-            >
-              <div className="flex items-center gap-2">
-                <AlertCircle className="w-4 h-4 text-red-400 shrink-0" />
-                <span className="font-medium">{audioError}</span>
-              </div>
-              <button
-                onClick={() => setAudioError(null)}
-                className="p-1 hover:bg-white/10 rounded-md transition-colors text-white/60 hover:text-white"
-                title="Dismiss"
-              >
-                <X className="w-3.5 h-3.5" />
-              </button>
-            </motion.div>
-          )}
-        </AnimatePresence>
+
 
         {/* ── Chat Messages Viewport ────────────────────────────────────────── */}
         <div
@@ -635,17 +832,17 @@ export default function SlangTranslatorContent() {
 
               {/* Heading */}
               <h2 className="text-xl md:text-2xl lg:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-[#E2CB85] to-[#C9A84C] tracking-tight mb-2 text-center drop-shadow-lg">
-                Talk to Egyptians in their language
+                {activeInputMode === 'local' ? 'تحدث مع السائحين بكل سهولة' : 'Talk to Egyptians in their language'}
               </h2>
 
               {/* Subtitle */}
               <p className="text-xs md:text-sm text-white/80 font-medium mb-6 text-center drop-shadow-lg">
-                Speak with locals
+                {activeInputMode === 'local' ? 'ترجمة فورية من اللهجة المصرية إلى لغة السائح الأجنبي' : 'Speak with locals in authentic Egyptian colloquial Arabic'}
               </p>
 
               {/* Clickable Suggestion Pills */}
               <div className="flex flex-wrap gap-2 justify-center max-w-lg">
-                {SUGGESTION_PILLS.map((phrase) => (
+                {(activeInputMode === 'local' ? SUGGESTIONS_LOCAL : SUGGESTIONS_TOURIST).map((phrase) => (
                   <button
                     key={phrase}
                     type="button"
@@ -752,7 +949,11 @@ export default function SlangTranslatorContent() {
                 value={input}
                 onChange={(e) => { setInput(e.target.value); resizeTextarea(); }}
                 onKeyDown={handleKeyDown}
-                placeholder="Type English or Arabic… (Enter to send)"
+                placeholder={
+                  activeInputMode === 'local'
+                    ? 'اتكلم أو اكتب باللهجة المصرية… (Enter للإرسال)'
+                    : `Type or speak in ${currentTouristObj.name}… (Enter to send)`
+                }
                 disabled={loading}
                 className="w-full bg-black/40 border border-white/15 rounded-xl px-3.5 py-2.5 text-white placeholder-white/40 focus:outline-none focus:border-[#C9A84C]/60 transition-colors resize-none text-xs md:text-sm leading-relaxed overflow-hidden drop-shadow-md"
                 style={{ minHeight: '40px', maxHeight: '140px' }}
@@ -763,12 +964,11 @@ export default function SlangTranslatorContent() {
             <button
               type="button"
               onClick={toggleMic}
-              title={listening ? 'Stop speech recognition' : 'Speak into mic'}
-              className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 border transition-all duration-200 cursor-pointer drop-shadow-lg ${
-                listening
+              title={listening ? 'Stop speech recognition' : `Speak in ${activeLangName} (${activeInputLangCode})`}
+              className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 border transition-all duration-200 cursor-pointer drop-shadow-lg ${listening
                   ? 'bg-red-500/30 border-red-500 text-red-400 shadow-[0_0_16px_rgba(239,68,68,0.5)] animate-pulse'
                   : 'border-white/15 bg-black/40 hover:bg-[#C9A84C]/20 hover:border-[#C9A84C]/50 text-white/70 hover:text-[#C9A84C]'
-              }`}
+                }`}
             >
               {listening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
             </button>
@@ -808,15 +1008,17 @@ export default function SlangTranslatorContent() {
                       />
                     ))}
                   </div>
-                  <span className="text-[11px] text-red-400 font-medium">Listening to your voice…</span>
+                  <span className="text-[11px] text-red-400 font-medium">
+                    Listening in {activeLangName} ({activeInputLangCode})…
+                  </span>
                 </div>
               </motion.div>
             )}
           </AnimatePresence>
 
-          <p className="text-center text-white/20 text-[10px] mt-2">
-            <Sparkles className="inline w-2.5 h-2.5 mr-1 text-[#C9A84C]/50" />
-            ElevenLabs HD Voice · {selectedVoice.label} · EgyptX Dialect AI
+          <p className="text-center text-white/40 text-[10px] mt-2">
+            <Sparkles className="inline w-2.5 h-2.5 mr-1 text-[#C9A84C]/60" />
+            HD Voice · {selectedVoice.label} · EgyptX Dialect AI
           </p>
         </div>
       </div>

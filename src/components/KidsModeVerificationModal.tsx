@@ -311,7 +311,7 @@ export default function KidsModeVerificationModal({
               </div>
               <h3 className="text-xl font-bold text-white">Verification Confirmed!</h3>
               <p className="text-xs text-[#E2CB85] animate-pulse">
-                Unlocking Kids Mode... Welcome young explorers! 🌟
+                Unlocking Kids Mode... Welcome young explorers! 
               </p>
             </motion.div>
           ) : step === 'email' ? (

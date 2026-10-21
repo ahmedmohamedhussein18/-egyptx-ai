@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { createClient } from '@/lib/supabase/client';
+import { resolveCollectionsSignedUrls } from '@/lib/memory-photos';
 import { FolderHeart, Plus, Trash2, Edit2, Loader2, ArrowLeft, Image as ImageIcon } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 
@@ -29,13 +30,17 @@ export default function MemoryCollectionsTab({ photos }: { photos: any[] }) {
         .select(`
           *,
           memory_collection_items (
+            id,
             memory_photo_id,
             memory_photos ( photo_url, caption )
           )
         `)
         .order('created_at', { ascending: false });
 
-      if (data) setCollections(data);
+      if (data) {
+        const resolved = await resolveCollectionsSignedUrls(supabase, data);
+        setCollections(resolved);
+      }
     } catch (err) {
       console.error(err);
     } finally {
@@ -79,10 +84,11 @@ export default function MemoryCollectionsTab({ photos }: { photos: any[] }) {
     try {
       await supabase.from('memory_collection_items').delete().eq('id', itemId);
       fetchCollections();
-      // Update active collection view if needed, but for simplicity let's just re-fetch and close/re-open or rely on reactive state if we had it.
-      // Better to fetch and update local state:
       const { data } = await supabase.from('memory_collections').select(`*, memory_collection_items(id, memory_photo_id, memory_photos(photo_url, caption))`).eq('id', activeCollection.id).single();
-      if (data) setActiveCollection(data);
+      if (data) {
+        const [resolved] = await resolveCollectionsSignedUrls(supabase, [data]);
+        setActiveCollection(resolved);
+      }
     } catch (err) {
       console.error(err);
     }

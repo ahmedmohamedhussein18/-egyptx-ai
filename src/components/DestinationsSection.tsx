@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useLanguage } from '@/context/LanguageContext';
+import { ArrowRight } from 'lucide-react';
 
 const getDestinations = (t: any) => [
   {
@@ -13,6 +14,7 @@ const getDestinations = (t: any) => [
     tagline: t('destinations.giza.tagline'),
     highlights: t('destinations.giza.highlights'),
     image: '/images/giza.jpg',
+    imageUrl: '/images/giza.jpg',
     video: '/videos/giza.mp4',
     description: t('destinations.giza.desc'),
   },
@@ -21,7 +23,8 @@ const getDestinations = (t: any) => [
     name: t('destinations.luxor.name'),
     tagline: t('destinations.luxor.tagline'),
     highlights: t('destinations.luxor.highlights'),
-    image: '/images/luxor.jpg',
+    image: '/luxor-majestic-temple.png',
+    imageUrl: '/luxor-majestic-temple.png',
     video: '/videos/luxor.mp4',
     description: t('destinations.luxor.desc'),
   },
@@ -30,7 +33,8 @@ const getDestinations = (t: any) => [
     name: t('destinations.aswan.name'),
     tagline: t('destinations.aswan.tagline'),
     highlights: t('destinations.aswan.highlights'),
-    image: '/images/aswan.jpg',
+    image: '/aswan-nile-felucca.png',
+    imageUrl: '/aswan-nile-felucca.png',
     video: '/videos/aswan.mp4',
     description: t('destinations.aswan.desc'),
   },
@@ -39,7 +43,8 @@ const getDestinations = (t: any) => [
     name: t('destinations.siwa.name'),
     tagline: t('destinations.siwa.tagline'),
     highlights: t('destinations.siwa.highlights'),
-    image: '/images/Siwa Oasisss.jpg',
+    image: '/siwa-magic-springs.png',
+    imageUrl: '/siwa-magic-springs.png',
     video: '/videos/siwa.mp4',
     description: t('destinations.siwa.desc'),
   },
@@ -48,7 +53,8 @@ const getDestinations = (t: any) => [
     name: t('destinations.fayoum.name'),
     tagline: t('destinations.fayoum.tagline'),
     highlights: t('destinations.fayoum.highlights'),
-    image: '/images/Fayoum Oasisss.jpg',
+    image: '/fayoum-wadi-waterfalls.png',
+    imageUrl: '/fayoum-wadi-waterfalls.png',
     video: '/videos/fayoum.mp4',
     description: t('destinations.fayoum.desc'),
   },
@@ -57,10 +63,18 @@ const getDestinations = (t: any) => [
     name: t('destinations.hurghada.name'),
     tagline: t('destinations.hurghada.tagline'),
     highlights: t('destinations.hurghada.highlights'),
-    image: '/images/hurghada.jpg',
+    image: '/hurghada-red-sea-reef.png',
+    imageUrl: '/hurghada-red-sea-reef.png',
     video: '/videos/hurghada.mp4',
     description: t('destinations.hurghada.desc'),
   },
+];
+
+
+const LANDMARK_UNSPLASH_IMAGES = [
+  'https://images.unsplash.com/photo-1568322445389-f64ac2515099?w=800', // Pyramids
+  'https://images.unsplash.com/photo-1539768942893-daf53e448371?w=800', // Luxor
+  'https://images.unsplash.com/photo-1553913861-c0fddf2619ee?w=800', // Nile
 ];
 
 export default function DestinationsSection() {
@@ -101,8 +115,11 @@ export default function DestinationsSection() {
   };
 
   return (
-    <section className="py-24 bg-[#0a0a0a] text-white">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+    <section className="py-28 md:py-36 bg-[#FDFBF7] dark:bg-[#0B0F19] text-slate-900 dark:text-white relative overflow-hidden">
+      {/* Subtle Torchlight glow */}
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#C5A059]/5 blur-[130px] pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
         
         <div className="text-center mb-16">
           <motion.h2 
@@ -110,14 +127,14 @@ export default function DestinationsSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.6 }}
-            className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-[#C9A84C] via-[#E8D08D] to-[#C9A84C] bg-clip-text text-transparent inline-block mb-4"
+            className="text-4xl md:text-5xl font-serif-editorial font-bold bg-gradient-to-r from-[#A68440] via-[#C5A059] to-[#A68440] dark:from-[#D4AF37] dark:via-[#F3E5AB] dark:to-[#D4AF37] bg-clip-text text-transparent inline-block mb-4"
           >{t('explore.title')}</motion.h2>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto"
+            className="text-slate-600 dark:text-stone-300/80 text-lg md:text-xl max-w-2xl mx-auto font-light leading-relaxed"
           >{t('explore.subtitle')}</motion.p>
         </div>
 
@@ -128,15 +145,21 @@ export default function DestinationsSection() {
           viewport={{ once: true, amount: 0.1 }}
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
         >
-          {getDestinations(t).map((dest) => (
+          {getDestinations(t).map((dest, idx) => {
+            const bgImage = LANDMARK_UNSPLASH_IMAGES[idx % LANDMARK_UNSPLASH_IMAGES.length];
+            return (
             <motion.div 
               key={dest.id}
               variants={itemVariants}
               onClick={() => setSelectedDestination(dest)}
-              className="group relative flex flex-col h-[400px] rounded-2xl overflow-hidden bg-white/5 backdrop-blur-md border border-[#C9A84C]/10 hover:border-[#C9A84C]/30 transition-all duration-300 hover:-translate-y-1.5 cursor-pointer"
-            >
+              className="group relative flex flex-col h-[410px] rounded-2xl overflow-hidden bg-[#F8F3E9] dark:bg-[#131A2A] border border-slate-200/80 dark:border-white/5 shadow-sm dark:shadow-none hover:shadow-md dark:hover:border-[#D4AF37]/30 transition-all duration-300 hover:-translate-y-1 cursor-pointer">
+              {/* Full Card Hover Background Image (hidden by default, 0.3 opacity on hover) */}
+              <div
+                className="absolute inset-0 bg-cover bg-center opacity-0 group-hover:opacity-30 transition-opacity duration-500 pointer-events-none z-0"
+                style={{ backgroundImage: `url('${bgImage}')` }}
+              />
               {/* Visual Top Half */}
-              <div className="h-[60%] w-full overflow-hidden relative">
+              <div className="h-[60%] w-full overflow-hidden relative z-10">
                 <div className="absolute inset-0 transition-all duration-500 opacity-90 group-hover:opacity-100 group-hover:scale-105 transform origin-center group-hover:brightness-110">
                   <Image 
                     src={dest.image}
@@ -150,21 +173,23 @@ export default function DestinationsSection() {
               </div>
 
               {/* Bottom Content */}
-              <div className="h-[40%] p-6 flex flex-col justify-between bg-[#0a0a0a]/80 relative z-10">
+              <div className="h-[40%] p-6 flex flex-col justify-between bg-[#F8F3E9] dark:bg-[#131A2A] relative z-10 border-t border-slate-200/60 dark:border-white/5">
                 <div>
-                  <h3 className="text-2xl font-semibold text-white mb-1 group-hover:text-[#C9A84C] transition-colors">
+                  <h3 className="text-xl sm:text-2xl font-serif-editorial font-bold text-[#1A2332] dark:text-gray-100 mb-1 group-hover:text-yellow-600 dark:group-hover:text-yellow-500 transition-colors">
                     {dest.name}
                   </h3>
-                  <p className="text-sm font-medium text-[#C9A84C] mb-2">{dest.tagline}</p>
-                  <p className="text-xs text-gray-400 line-clamp-1">{dest.highlights}</p>
+                  <p className="text-xs sm:text-sm font-medium text-yellow-700 dark:text-yellow-400 mb-1.5">{dest.tagline}</p>
+                  <p className="text-xs text-slate-500 dark:text-gray-400 line-clamp-1">{dest.highlights}</p>
                 </div>
                 
-                <div className="flex items-center text-sm font-medium text-white group-hover:text-[#C9A84C] transition-colors">
+                <div className="flex items-center text-xs sm:text-sm font-semibold text-[#1A2332] dark:text-gray-200 group-hover:text-yellow-600 dark:group-hover:text-yellow-500 transition-colors pt-2">
                   <span className="transform transition-transform duration-300 group-hover:translate-x-1">{t('exploreDest')}</span>
+                  <ArrowRight className="w-4 h-4 ml-1.5 text-yellow-600 dark:text-yellow-400 transform transition-transform duration-300 group-hover:translate-x-1" />
                 </div>
               </div>
             </motion.div>
-          ))}
+            );
+          })}
         </motion.div>
       </div>
 
@@ -220,7 +245,7 @@ export default function DestinationsSection() {
                   href="/planner"
                   className="inline-flex w-full sm:w-auto px-8 py-3 bg-[#C9A84C] text-[#0a0a0a] font-bold uppercase tracking-wider rounded-lg hover:bg-[#E8D08D] transition-colors justify-center items-center"
                 >
-                  Plan My Journey Here &rarr;
+                  {t('destinations.planJourney')}
                 </Link>
               </div>
             </motion.div>

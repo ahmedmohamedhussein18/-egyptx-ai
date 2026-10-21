@@ -101,6 +101,11 @@ export default function DestinationDetailContent({ id }: { id: string }) {
               else if (lowerName.includes('siwa')) videoSrc = '/videos/siwa.mp4';
               else if (lowerName.includes('fayoum') || lowerName.includes('wadi el hitan')) videoSrc = '/videos/fayoum.mp4';
               else if (lowerName.includes('hurghada') || lowerName.includes('red sea')) videoSrc = '/videos/hurghada.mp4';
+              else if (lowerName.includes('islamic') || lowerName.includes('museum of islamic art')) videoSrc = '/videos/islamic_art_museum.mp4';
+              else if (lowerName.includes('coptic') || lowerName.includes('coptic museum')) videoSrc = '/videos/coptic_museum.mp4';
+              else if (lowerName.includes('gayer') || lowerName.includes('anderson') || lowerName.includes('kretliya')) videoSrc = '/videos/gayer_anderson.mp4';
+              else if (lowerName.includes('niankh') || lowerName.includes('khnumhotep')) videoSrc = '/videos/niankhkhnum_tomb.mp4';
+              else if (lowerName.includes('wahty')) videoSrc = '/videos/wahty_tomb.mp4';
 
               if (!videoSrc) return null;
 

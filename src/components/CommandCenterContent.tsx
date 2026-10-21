@@ -105,7 +105,7 @@ export default function CommandCenterContent() {
         </div>
 
         <div className="flex items-center gap-3 relative z-10">
-          <div className="text-[#C9A84C] text-3xl">🦅</div>
+          <div className="text-[#C9A84C] text-3xl"></div>
           <div className="flex flex-col">
             <span className="font-bold text-xl tracking-wide text-white">EgyptX AI</span>
             <span className="text-[10px] text-[#C9A84C]">National Smart Tourism Ecosystem</span>

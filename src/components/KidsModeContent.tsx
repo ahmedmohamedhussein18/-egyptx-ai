@@ -7,8 +7,12 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '@/context/AuthContext';
 import { createClient } from '@/lib/supabase/client';
 import { KIDS_FACTS, KIDS_QUIZZES, QuizTopic } from '@/data/kids-content';
-import { Smile, Star, Award, ChevronRight, CheckCircle2, XCircle, Loader2, Sparkles, Play, Pause, Volume2, VolumeX, Lock } from 'lucide-react';
+import { Smile, Star, Award, ChevronRight, CheckCircle2, XCircle, Loader2, Sparkles, Play, Pause, Volume2, VolumeX, Lock, Crown, BookOpen, Wand2 } from 'lucide-react';
 import KidsModeVerificationModal from '@/components/KidsModeVerificationModal';
+import { useEliteTrials } from '@/lib/elite-trials';
+import EliteModal from '@/components/EliteModal';
+import GodsMemoryMatch from '@/components/GodsMemoryMatch';
+import KidsStoryUnifiedVideo from '@/components/KidsStoryUnifiedVideo';
 
 interface KidsProfile {
   id: string;
@@ -20,11 +24,30 @@ interface KidsBadge {
   badge_key: string;
 }
 
+const getBadgeIcon = (badgeName: string, fallback = '') => {
+  if (badgeName === 'Pyramid Builder') return '🏛️';
+  if (badgeName === 'Nile Explorer') return '🌊';
+  return fallback || '👑';
+};
+
+const getFactEmoji = (fact: { id: string; title: string; emoji?: string }) => {
+  if (fact.emoji && fact.emoji.trim() && fact.emoji !== '️') return fact.emoji;
+  const lower = (fact.title + ' ' + fact.id).toLowerCase();
+  if (lower.includes('pyramid') || lower.includes('f1')) return '🏛️';
+  if (lower.includes('nile') || lower.includes('f2')) return '🌊';
+  if (lower.includes('hieroglyph') || lower.includes('f3')) return '📜';
+  if (lower.includes('tut') || lower.includes('f4')) return '👑';
+  if (lower.includes('mumm') || lower.includes('f5')) return '🏺';
+  return '📚';
+};
+
 export default function KidsModeContent() {
   const { t } = useLanguage();
   const { user, loading: authLoading } = useAuth();
   const router = useRouter();
   const supabase = createClient();
+
+
 
   // Parental verification gate
   const [isVerified, setIsVerified] = useState(false);
@@ -75,6 +98,10 @@ export default function KidsModeContent() {
 
   // Facts Carousel
   const [factIdx, setFactIdx] = useState(0);
+
+  // Elite Trials & Story State
+  const { isElite, useTrial, kidsStoryUsed } = useEliteTrials();
+  const [showEliteModal, setShowEliteModal] = useState(false);
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -152,8 +179,7 @@ export default function KidsModeContent() {
         setBadges([]);
       }
     } catch (err) {
-      console.error('Error creating profile:', err);
-      alert('Failed to create profile. Please try again.');
+      console.warn('Error creating profile:', err);
     } finally {
       setSavingProfile(false);
     }
@@ -314,32 +340,33 @@ export default function KidsModeContent() {
     <div className="min-h-screen bg-[#0A1628] text-white pt-24 pb-16 font-sans">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         
-        {/* Header Section */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between bg-gradient-to-r from-[#1B6B93]/40 to-transparent p-6 rounded-3xl border border-[#1B6B93]/50">
-          <div className="flex items-center gap-4">
-            <div className="w-16 h-16 bg-[#C9A84C] rounded-full flex items-center justify-center text-[#0A1628] border-4 border-[#0A1628] shadow-lg">
-              <Smile className="w-8 h-8" />
+        {/* Header Section (Dashboard view) */}
+            <div className="flex flex-col md:flex-row md:items-center justify-between bg-gradient-to-r from-[#1B6B93]/40 to-transparent p-6 rounded-3xl border border-[#1B6B93]/50">
+              <div className="flex items-center gap-4">
+                <div className="w-16 h-16 bg-[#C9A84C] rounded-full flex items-center justify-center text-[#0A1628] border-4 border-[#0A1628] shadow-lg">
+                  <Smile className="w-8 h-8" />
+                </div>
+                <div>
+                  <h1 className="text-2xl md:text-3xl font-bold text-white">Hi, {profile.nickname}!</h1>
+                  <p className="text-[#4CC9F0] font-medium flex items-center gap-1.5">
+                    <Star className="w-4 h-4 fill-current" />
+                    <span>Explorer Level</span>
+                  </p>
+                </div>
+              </div>
+              <div className="mt-4 md:mt-0 flex items-center gap-2 bg-[#0A1628] px-6 py-3 rounded-2xl border border-white/10 shadow-inner">
+                <span className="text-[#C9A84C] font-bold text-3xl">{profile.points}</span>
+                <span className="text-gray-400 font-medium text-sm uppercase tracking-wider">Points</span>
+              </div>
             </div>
-            <div>
-              <h1 className="text-2xl md:text-3xl font-bold text-white">Hi, {profile.nickname}!</h1>
-              <p className="text-[#4CC9F0] font-medium flex items-center gap-1">
-                <Star className="w-4 h-4 fill-current" /> Explorer Level
-              </p>
-            </div>
-          </div>
-          <div className="mt-4 md:mt-0 flex items-center gap-2 bg-[#0A1628] px-6 py-3 rounded-2xl border border-white/10 shadow-inner">
-            <span className="text-[#C9A84C] font-bold text-3xl">{profile.points}</span>
-            <span className="text-gray-400 font-medium text-sm uppercase tracking-wider">Points</span>
-          </div>
-        </div>
 
-        {/* Welcome Video Section */}
-        <div className="bg-gradient-to-br from-[#1B6B93]/10 to-[#0A1628] border border-[#1B6B93]/30 rounded-3xl overflow-hidden p-6 md:p-8 flex flex-col md:flex-row items-center gap-8">
-          <div className="flex-1">
-            <h2 className="text-2xl md:text-3xl font-bold text-white mb-4 flex items-center gap-3">
-              <Sparkles className="w-7 h-7 text-[#C9A84C]" />
-              Welcome to Kids Mode!
-            </h2>
+            {/* Welcome Video Section */}
+            <div className="bg-gradient-to-br from-[#1B6B93]/10 to-[#0A1628] border border-[#1B6B93]/30 rounded-3xl overflow-hidden p-6 md:p-8 flex flex-col md:flex-row items-center gap-8">
+              <div className="flex-1">
+                <h2 className="text-2xl md:text-3xl font-bold text-white mb-4 flex items-center gap-3">
+                  <Sparkles className="w-7 h-7 text-[#C9A84C]" />
+                  <span>Welcome to Kids Mode!</span>
+                </h2>
             <p className="text-gray-300 mb-6 leading-relaxed">
               Watch this quick video to learn how to explore, earn points, and unlock awesome badges in your journey through Ancient Egypt!
             </p>
@@ -398,6 +425,8 @@ export default function KidsModeContent() {
           </div>
         </div>
 
+
+
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Content (Left) */}
           <div className="lg:col-span-2 space-y-8">
@@ -408,7 +437,10 @@ export default function KidsModeContent() {
                 {!quizFinished ? (
                   <div>
                     <div className="flex justify-between items-center mb-6">
-                      <span className="text-[#4CC9F0] font-bold uppercase text-sm tracking-wider">{activeQuiz.title}</span>
+                      <span className="text-[#4CC9F0] font-bold uppercase text-sm tracking-wider flex items-center gap-2">
+                        <span className="text-2xl">{getBadgeIcon(activeQuiz.badgeName, '🎯')}</span>
+                        <span>{activeQuiz.title}</span>
+                      </span>
                       <span className="text-gray-400 font-medium text-sm">Question {currentQuestionIdx + 1} of {activeQuiz.questions.length}</span>
                     </div>
                     <h2 className="text-2xl md:text-3xl font-bold text-white mb-8">
@@ -444,12 +476,13 @@ export default function KidsModeContent() {
                   <div className="text-center py-8">
                     {score === activeQuiz.questions.length ? (
                       <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="mb-6">
-                        <div className="text-6xl mb-4">{activeQuiz.badgeIcon}</div>
-                        <h2 className="text-3xl font-bold text-[#C9A84C] mb-2">Perfect Score!</h2>
+                        <div className="text-6xl mb-4">{getBadgeIcon(activeQuiz.badgeName, '🏆')}</div>
+                        <h2 className="text-3xl font-bold text-[#C9A84C] mb-2">🎉 Perfect Score!</h2>
                         <p className="text-xl text-gray-300">You earned the <strong className="text-white">{activeQuiz.badgeName}</strong> badge and {score * 10} points!</p>
                       </motion.div>
                     ) : (
                       <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="mb-6">
+                        <div className="text-6xl mb-4">🎯</div>
                         <h2 className="text-3xl font-bold text-white mb-2">Great Try!</h2>
                         <p className="text-xl text-gray-300">You scored {score} out of {activeQuiz.questions.length} and earned {score * 10} points.</p>
                         <p className="text-[#4CC9F0] mt-2">Get a perfect score to earn the badge!</p>
@@ -469,7 +502,8 @@ export default function KidsModeContent() {
                 {/* Facts Carousel */}
                 <div className="bg-gradient-to-br from-[#1B6B93]/30 to-[#0A1628] border border-[#1B6B93]/50 rounded-3xl p-6 md:p-8 backdrop-blur-md">
                   <h2 className="text-[#4CC9F0] font-bold uppercase text-sm tracking-wider mb-4 flex items-center gap-2">
-                    <Sparkles className="w-4 h-4" /> Did you know?
+                    <span className="text-xl">📚</span>
+                    <span>Did you know?</span>
                   </h2>
                   <AnimatePresence mode="wait">
                     <motion.div
@@ -480,7 +514,7 @@ export default function KidsModeContent() {
                       className="flex flex-col sm:flex-row gap-6 items-center sm:items-start"
                     >
                       <div className="text-6xl bg-black/30 w-24 h-24 rounded-2xl flex items-center justify-center shrink-0 border border-white/10 shadow-inner">
-                        {currentFact.emoji}
+                        {getFactEmoji(currentFact)}
                       </div>
                       <div>
                         <h3 className="text-2xl font-bold text-[#C9A84C] mb-2">{currentFact.title}</h3>
@@ -490,12 +524,22 @@ export default function KidsModeContent() {
                   </AnimatePresence>
                 </div>
 
+                {/* Kids Mode Pro: AI Cinematic Storyteller — Unified Kids Mode */}
+                <KidsStoryUnifiedVideo />
+
                 {/* Quizzes Grid */}
                 <div>
-                  <h2 className="text-2xl font-bold text-white mb-4">Take a Quiz</h2>
+                  <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
+                    <span className="text-3xl">🎯</span>
+                    <span>Take a Quiz</span>
+                  </h2>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {KIDS_QUIZZES.map(quiz => {
                       const hasBadge = badges.includes(quiz.badgeKey);
+                      const isPyramid = quiz.badgeName === 'Pyramid Builder' || quiz.title.includes('Pyramid');
+                      const isNile = quiz.badgeName === 'Nile Explorer' || quiz.title.includes('Nile');
+                      const quizIcon = isPyramid ? '🏛️' : isNile ? '🌊' : (quiz.badgeIcon || '🎯');
+
                       return (
                         <button
                           key={quiz.id}
@@ -504,10 +548,12 @@ export default function KidsModeContent() {
                         >
                           <div>
                             <div className="flex justify-between items-start mb-3">
-                              <span className="text-3xl">{quiz.badgeIcon}</span>
+                              <span className="text-4xl">{quizIcon}</span>
                               {hasBadge && <CheckCircle2 className="w-6 h-6 text-green-500" />}
                             </div>
-                            <h3 className="text-xl font-bold text-gray-200 group-hover:text-[#C9A84C] transition-colors">{quiz.title}</h3>
+                            <h3 className="text-xl font-bold text-gray-200 group-hover:text-[#C9A84C] transition-colors">
+                              {quiz.title}
+                            </h3>
                             <p className="text-sm text-gray-400 mt-1">{quiz.questions.length} questions</p>
                           </div>
                           <div className="mt-4 text-[#4CC9F0] font-medium flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity -translate-x-2 group-hover:translate-x-0">
@@ -526,12 +572,17 @@ export default function KidsModeContent() {
           <div className="lg:col-span-1">
             <div className="bg-white/5 border border-white/10 rounded-3xl p-6 backdrop-blur-md sticky top-28">
               <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
-                <Award className="w-6 h-6 text-[#C9A84C]" /> My Badges
+                <Award className="w-6 h-6 text-[#C9A84C]" />
+                <span>My Badges</span>
               </h2>
               
               <div className="grid grid-cols-2 gap-4">
                 {KIDS_QUIZZES.map(quiz => {
                   const earned = badges.includes(quiz.badgeKey);
+                  const isPyramid = quiz.badgeName === 'Pyramid Builder' || quiz.title.includes('Pyramid');
+                  const isNile = quiz.badgeName === 'Nile Explorer' || quiz.title.includes('Nile');
+                  const badgeIcon = isPyramid ? '🏛️' : isNile ? '🌊' : (quiz.badgeIcon || '👑');
+
                   return (
                     <div 
                       key={quiz.badgeKey}
@@ -541,7 +592,7 @@ export default function KidsModeContent() {
                           : 'bg-black/30 border border-white/5 grayscale opacity-50'
                       }`}
                     >
-                      <span className="text-4xl mb-2 drop-shadow-md">{quiz.badgeIcon}</span>
+                      <span className="text-4xl mb-2 drop-shadow-md">{badgeIcon}</span>
                       <span className={`text-xs font-bold leading-tight ${earned ? 'text-[#C9A84C]' : 'text-gray-500'}`}>
                         {quiz.badgeName}
                       </span>
@@ -559,6 +610,9 @@ export default function KidsModeContent() {
           </div>
 
         </div>
+
+        {/* Egyptian Gods Memory Match */}
+        <GodsMemoryMatch />
       </div>
 
       {/* Parental Email Verification Modal Gate */}
@@ -575,6 +629,15 @@ export default function KidsModeContent() {
           setIsVerified(true);
           setShowVerificationModal(false);
         }}
+      />
+
+      {/* Elite Upgrade Modal */}
+      <EliteModal
+        isOpen={showEliteModal}
+        onClose={() => setShowEliteModal(false)}
+        contextTitle="Unlock Unlimited Kids AI Hero Stories "
+        contextMessage="You've unlocked your free magical story! Upgrade to Elite for unlimited personalized adventures."
+        featureTrigger="kids-story"
       />
     </div>
   );

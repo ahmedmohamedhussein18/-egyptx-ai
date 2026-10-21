@@ -6,10 +6,100 @@
     "hiddenEgypt": "隐藏的埃及",
     "crafts": "工艺品",
     "touristPassport": "旅游护照",
-    "news": "新闻",
+    "news": "埃及生活",
     "login": "登录",
     "logout": "登出",
-    "command": "指挥中心"
+    "command": "指挥中心",
+    "egyptLife": "埃及生活",
+    "egyptOfficial": "官方埃及",
+    "egyptianCulture": "埃及文化",
+    "bookings": "预订",
+    "videos": "视频",
+    "elite": "EgyptX 精英",
+    "explore": "探索",
+    "experiences": "体验",
+    "official": "官方机构",
+    "headers": {
+      "destinations": "Destinations",
+      "aiExperiences": "AI Experiences",
+      "lifeAndCulture": "Life & Culture",
+      "officialAndBookings": "Official & Bookings"
+    },
+    "meresankhVr": "Meresankh VR",
+    "launchMeresankh": "Launch Meresankh VR",
+    "badges": {
+      "ai": "AI",
+      "live": "Live",
+      "new": "New",
+      "curated": "Curated",
+      "renaissance": "Renaissance"
+    },
+    "items": {
+      "exploreEgypt": {
+        "title": "Explore Egypt",
+        "subtitle": "Ancient wonders & iconic monuments"
+      },
+      "hiddenEgypt": {
+        "title": "Hidden Egypt",
+        "subtitle": "Undiscovered desert secrets & oases"
+      },
+      "culture": {
+        "title": "Egyptian Culture",
+        "subtitle": "Arts, music, literature & heritage"
+      },
+      "aiPlanner": {
+        "title": "AI Planner",
+        "subtitle": "Smart custom itineraries & flow"
+      },
+      "aiGuide": {
+        "title": "AI Guide",
+        "subtitle": "Conversational audio heritage guide"
+      },
+      "vrEgypt": {
+        "title": "VR Egypt",
+        "subtitle": "360 degree virtual monument portals"
+      },
+      "hieroglyphScanner": {
+        "title": "Hieroglyph Scanner",
+        "subtitle": "Epigraphic visual symbol translator"
+      },
+      "slang": {
+        "title": "EgyptSpeak",
+        "subtitle": "Authentic colloquial dialect engine"
+      },
+      "memoryCore": {
+        "title": "Memory Core",
+        "subtitle": "Expedition travel journal & logs"
+      },
+      "journal": {
+        "title": "Journal",
+        "subtitle": "Editorial stories & essays"
+      },
+      "cinema": {
+        "title": "Cinema",
+        "subtitle": "Cinematic visual features"
+      },
+      "shorts": {
+        "title": "Shorts",
+        "subtitle": "Vertical creator vignettes"
+      },
+      "shop": {
+        "title": "Shop",
+        "subtitle": "Handcrafted authentic artifacts"
+      },
+      "egyptOfficial": {
+        "title": "Egypt Official",
+        "subtitle": "Presidency & sovereign heritage"
+      },
+      "nationalProjects": {
+        "title": "National Projects",
+        "subtitle": "Grand Egyptian Museum & renewals"
+      },
+      "bookings": {
+        "title": "Concierge Bookings",
+        "subtitle": "Flights, palaces & private reservations"
+      }
+    }
   },
   "home": {
     "title": "EgyptX AI",
@@ -46,7 +136,8 @@
         "title": "AI记忆",
         "desc": "自动整理和优化您的旅行照片。",
         "action": "查看回忆"
-      }
+      },
+      "foundation": "The Foundation"
     },
     "smartTourism": {
       "title": "智慧旅游概览",
@@ -111,7 +202,9 @@
           "title": "研究中心",
           "desc": "AI驱动访问埃及历史和考古数据"
         }
-      }
+      },
+      "heading": "The EgyptX AI Ecosystem",
+      "subheading": "An intelligent network connecting all pillars of Egyptian tourism"
     },
     "mobility": {
       "title": "智能出行",
@@ -137,6 +230,49 @@
         "title": "尼罗河游轮",
         "desc": "集成预订经认证的智能尼罗河游轮。"
       }
+    },
+    "heroTagline": "The sovereign AI ecosystem uniting 7,000 years of heritage with bespoke modern travel.",
+    "sponsors": {
+      "header": "Official Partners & Sovereign Patrons",
+      "footnote": "Operating under the national digital transformation framework of the Arab Republic of Egypt.",
+      "partners": {
+        "tourismMinistry": {
+          "name": "MINISTRY OF TOURISM & ANTIQUITIES",
+          "category": "GOVERNMENT PATRON",
+          "tagline": "Sovereign Heritage Authority"
+        },
+        "antiquitiesCouncil": {
+          "name": "SUPREME COUNCIL OF ANTIQUITIES",
+          "category": "ARCHAEOLOGY",
+          "tagline": "Excavation & Preservation"
+        },
+        "unesco": {
+          "name": "UNESCO WORLD HERITAGE",
+          "category": "GLOBAL COOPERATION",
+          "tagline": "Memphis & Thebes Monuments"
+        },
+        "gem": {
+          "name": "GRAND EGYPTIAN MUSEUM",
+          "category": "CULTURAL INSTITUTION",
+          "tagline": "Giza Plateau Foundation"
+        },
+        "egyptair": {
+          "name": "EGYPTAIR",
+          "category": "NATIONAL CARRIER",
+          "tagline": "Star Alliance Member"
+        },
+        "nmec": {
+          "name": "NMEC FUSTAT",
+          "category": "CIVILIZATION MUSEUM",
+          "tagline": "Royal Mummies Gallery"
+        }
+      }
+    },
+    "events": {
+      "calendarTag": "Cultural Calendar",
+      "title": "Upcoming Events",
+      "subtitle": "Curated ceremonies, concerts, and seasonal gatherings across the Nile.",
+      "access": "Event Access"
     }
   },
   "planner": {
@@ -331,7 +467,7 @@
     "add": "添加费用",
     "noExpenses": "暂无费用记录"
   },
-  "exploreDest": "探索 &rarr;",
+  "exploreDest": "探索",
   "destinations": {
     "giza": {
       "name": "吉萨",
@@ -368,7 +504,8 @@
       "tagline": "天堂",
       "highlights": "珊瑚",
       "desc": "赫尔格达..."
-    }
+    },
+    "planJourney": "Plan My Journey Here →"
   },
   "footer": {
     "title": "EgyptX AI",
@@ -393,7 +530,35 @@
     "about": "关于EgyptX",
     "technology": "技术",
     "terms": "条款与隐私",
-    "copy": "© 2026 EgyptX AI。国家智能旅游生态系统。"
+    "copy": "© 2026 EgyptX AI。国家智能旅游生态系统。",
+    "nationalProjects": "National Projects",
+    "egyptianCulture": "Egyptian Culture",
+    "journal": "Journal",
+    "contactUs": "Contact Us",
+    "contactModal": {
+      "badge": "Connect with EgyptX AI",
+      "title": "Get in Touch",
+      "subtitle": "Have questions about smart itineraries, enterprise tourism partnerships, or AI heritage experiences? We are here to assist.",
+      "emailLabel": "Email",
+      "hotlineLabel": "Hotline",
+      "hqLabel": "Cairo HQ",
+      "hqValue": "Zamalek, Cairo",
+      "nameLabel": "Your Full Name",
+      "emailInputLabel": "Email Address",
+      "subjectLabel": "Subject / Topic",
+      "subjects": {
+        "general": "General Inquiry",
+        "planning": "AI Itinerary & Planning",
+        "smartSite": "Smart Site & Museum Access",
+        "enterprise": "Enterprise / Tourism Partner",
+        "press": "Press & Media"
+      },
+      "messageLabel": "Message",
+      "messagePlaceholder": "Tell us about your upcoming travel plans or question...",
+      "sendBtn": "Send Message",
+      "successTitle": "Thank you! Your message has been sent successfully.",
+      "successDesc": "An EgyptX representative will contact you shortly."
+    }
   },
   "hidden": {
     "mission": "National Impact Mission",

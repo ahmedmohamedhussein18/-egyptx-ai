@@ -264,7 +264,7 @@ const fileInputRef = useRef<HTMLInputElement>(null);
                         {result.ai_description}
                       </p>
                       <p className="text-xs text-orange-400/80 mt-4 font-medium flex items-start gap-1.5">
-                        <span className="text-orange-400">⚠️</span> AI identification may not be 100% accurate. Always verify with official sources or on-site information.
+                        <span className="text-orange-400">️</span> AI identification may not be 100% accurate. Always verify with official sources or on-site information.
                       </p>
                     </div>
 

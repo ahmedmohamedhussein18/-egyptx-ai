@@ -1,70 +1,129 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
-/**
- * Valid default ElevenLabs Premade Voice IDs:
- * - Adam (Male):   pNInz6obpgDQGcFmaJgB
- * - Sarah (Female): EXAVITQu4vr4xnSDxMaL
- * - Liam (Youth):   TX3LPaxmHKxFdv7VOQHJ
- */
-const KNOWN_VOICE_MAP: Record<string, string> = {
-  male: 'pNInz6obpgDQGcFmaJgB',    // Adam
-  female: 'EXAVITQu4vr4xnSDxMaL',  // Sarah
-  youth: 'TX3LPaxmHKxFdv7VOQHJ',   // Liam
+const VOICE_MAP: Record<string, string> = {
+  // Female (Sarah)
+  female: 'EXAVITQu4vr4xnSDxMaL',
+  sarah: 'EXAVITQu4vr4xnSDxMaL',
+  'EXAVITQu4vr4xnSDxMaL': 'EXAVITQu4vr4xnSDxMaL',
+
+  // Male (Adam)
+  male: 'pNInz6obpgDQGcFmaJgB',
+  adam: 'pNInz6obpgDQGcFmaJgB',
+  'VR6AewLTigWG4xSOukaG': 'pNInz6obpgDQGcFmaJgB',
+  'pNInz6obpgDQGcFmaJgB': 'pNInz6obpgDQGcFmaJgB',
+
+  // Youth (Liam)
+  youth: 'TX3LPaxmHKxFdv7VOQHJ',
+  liam: 'TX3LPaxmHKxFdv7VOQHJ',
+  'yoZ06aMxZJJ28mfd3POQ': 'TX3LPaxmHKxFdv7VOQHJ',
+  'TX3LPaxmHKxFdv7VOQHJ': 'TX3LPaxmHKxFdv7VOQHJ',
+
+  // Egyptian (Ahmed)
+  egyptian: 'ihycSANIrpHfhWoaq1g3',
+  ahmed: 'ihycSANIrpHfhWoaq1g3',
+  'ihycSANIrpHfhWoaq1g3': 'ihycSANIrpHfhWoaq1g3',
 };
 
-export async function POST(req: Request) {
+/**
+ * Phonetically sanitize and optimize Egyptian Arabic slang and heritage names for ElevenLabs TTS.
+ * Rewrites problematic Egyptian slang words and monument names with explicit short vowels / diacritics
+ * (e.g. "ازيك" / "إزيك" -> "إِزَّيَّك", "ازيكم" -> "إِزَّيُّكُمْ", "الكرنك" -> "الكَرْنَك"),
+ * normalizes repetitive letters before passing to ElevenLabs,
+ * and adds terminal punctuation for natural Egyptian prosodic rhythm.
+ */
+function optimizeArabicEgyptianTTS(text: string): string {
+  if (!text || typeof text !== 'string') return '';
+
+  // 1. Remove Arabic Tatweel / Kashida (ـ)
+  let res = text.replace(/\u0640+/g, '');
+
+  // 2. Token-level phonetic rewrite and letter elongation normalization
+  res = res.replace(/[\u0621-\u064A\u064B-\u065F]+/gu, (word) => {
+    // Strip any existing diacritics to inspect underlying consonant/vowel structure
+    const plain = word.replace(/[\u064B-\u065F]/g, '');
+
+    // Heritage and Egyptian Monument Phonetic Tuning
+    if (plain === 'الكرنك') return 'الكَرْنَك';
+    if (plain === 'كرنك') return 'كَرْنَك';
+    if (plain === 'الأقصر' || plain === 'الاقصر') return 'الأُقْصُر';
+    if (plain === 'أقصر' || plain === 'اقصر') return 'أُقْصُر';
+    if (plain === 'الجيزة' || plain === 'الجيزه') return 'الجِيزَة';
+    if (plain === 'الهرم' || plain === 'الأهرام' || plain === 'الاهرام') return 'الأَهْرَام';
+    if (plain === 'توت' && plain.includes('عنخ')) return 'تُوت عَنْخ آمُون';
+
+    // Explicit short-vowel rewrites for Egyptian slang
+    if (/^[اإأ]ز[يى]+ك+$/u.test(plain)) return 'إِزَّيَّك';
+    if (/^[اإأ]ز[يى]+ك+م+$/u.test(plain)) return 'إِزَّيُّكُمْ';
+    if (/^[اإأ]ز[يى]+ك+و+ا?$/u.test(plain)) return 'إِزَّيَّكُوا';
+    if (/^[اإأ]ي+ه+$/u.test(plain)) return 'إيه';
+    if (/^يا+$/u.test(plain)) return 'يا';
+    if (/^حب[يى]+بي+$/u.test(plain)) return 'حبيبي';
+    if (/^منو+ر+$/u.test(plain)) return 'منور';
+    if (/^كد[ااه]+$/u.test(plain)) return 'كده';
+    if (/^تما+م+$/u.test(plain)) return 'تمام';
+    if (/^معل+ش+$/u.test(plain)) return 'معلش';
+    if (/^برنس+$/u.test(plain)) return 'برنس';
+    if (/^باش[اى]+$/u.test(plain)) return 'باشا';
+    if (/^فل+$/u.test(plain)) return 'فل';
+    if (/^هل[اى]+$/u.test(plain)) return 'هلا';
+    if (/^فين+$/u.test(plain)) return 'فِين';
+    if (/^أهو+$/u.test(plain)) return 'أهو';
+    if (/^أهي+$/u.test(plain)) return 'أهي';
+    if (/^أومال+$/u.test(plain)) return 'أومال';
+    if (/^يلا+$/u.test(plain)) return 'يلا';
+
+    // Normalize any other repetitive letters (3 or more down to 1)
+    return plain.replace(/([\u0621-\u064A])\1{2,}/gu, '$1');
+  });
+
+  // Clean extra spaces
+  res = res.replace(/\s+/g, ' ').trim();
+
+  // 3. Prosodic punctuation: add terminal period if no punctuation exists for a natural cadence pause
+  if (res && !/[.!?،؛:…]$/.test(res)) {
+    res += '.';
+  }
+
+  return res;
+}
+
+export async function POST(req: NextRequest) {
   try {
-    let body: any;
-    try {
-      body = await req.json();
-    } catch {
-      return NextResponse.json(
-        { error: 'Invalid JSON request body.' },
-        { status: 400, headers: { 'Content-Type': 'application/json' } }
-      );
-    }
+    const { text, voiceId } = await req.json();
 
-    const text = typeof body?.text === 'string' ? body.text.trim().slice(0, 600) : '';
     if (!text) {
-      return NextResponse.json(
-        { error: 'No text provided for audio synthesis.' },
-        { status: 400, headers: { 'Content-Type': 'application/json' } }
-      );
+      return NextResponse.json({ error: 'No text provided' }, { status: 400 });
     }
 
-    const elevenlabsKey = process.env.ELEVENLABS_API_KEY;
-    if (!elevenlabsKey) {
-      console.error('[TTS API] Missing ELEVENLABS_API_KEY in environment variables.');
-      return NextResponse.json(
-        { error: 'Voice generation failed. ELEVENLABS_API_KEY is not configured.' },
-        { status: 500, headers: { 'Content-Type': 'application/json' } }
-      );
+    const apiKey = process.env.ELEVENLABS_API_KEY;
+    if (!apiKey) {
+      return NextResponse.json({ error: 'ElevenLabs API key not configured' }, { status: 500 });
     }
 
-    // Resolve voice ID: Check direct ID, or mapped alias (male/female/youth), or default to Sarah
-    let voiceId = 'EXAVITQu4vr4xnSDxMaL'; // Default: Sarah (Female)
-    if (typeof body?.voiceId === 'string' && body.voiceId.trim()) {
-      const v = body.voiceId.trim();
-      voiceId = KNOWN_VOICE_MAP[v.toLowerCase()] || v;
-    } else if (process.env.ELEVENLABS_VOICE_ID) {
-      voiceId = process.env.ELEVENLABS_VOICE_ID;
-    }
+    const resolvedVoiceId = VOICE_MAP[voiceId] || (typeof voiceId === 'string' && voiceId.length > 15 ? voiceId : VOICE_MAP['ihycSANIrpHfhWoaq1g3']);
 
-    const elevenRes = await fetch(
-      `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`,
+    // Optimize phonetic payload for natural Egyptian Arabic pronunciation
+    const phoneticPayload = optimizeArabicEgyptianTTS(text);
+
+    // Call ElevenLabs TTS with optimize_streaming_latency=3 for blazing fast response
+    const response = await fetch(
+      `https://api.elevenlabs.io/v1/text-to-speech/${resolvedVoiceId}/stream?optimize_streaming_latency=3`,
       {
         method: 'POST',
         headers: {
-          'xi-api-key': elevenlabsKey,
+          'xi-api-key': apiKey,
           'Content-Type': 'application/json',
-          Accept: 'audio/mpeg',
+          'Accept': 'audio/mpeg',
         },
         body: JSON.stringify({
-          text,
+          text: phoneticPayload.slice(0, 500),
           model_id: 'eleven_multilingual_v2',
           voice_settings: {
+            // Stability at 0.5 (prevents voice stretching while preserving natural prosody)
             stability: 0.5,
-            similarity_boost: 0.75,
+            // Similarity boost at 0.85 ensures high native accent fidelity
+            similarity_boost: 0.85,
+            // Style at 0.0 prevents exaggerated audio artifacts
             style: 0.0,
             use_speaker_boost: true,
           },
@@ -72,54 +131,29 @@ export async function POST(req: Request) {
       }
     );
 
-    // 1. Strict Error Handling: If ElevenLabs fails, parse and return JSON error. DO NOT return audio buffer!
-    if (!elevenRes.ok) {
-      let errorMessage = `ElevenLabs synthesis failed with status ${elevenRes.status}.`;
-      try {
-        const errJson = await elevenRes.json();
-        if (errJson?.detail?.message) {
-          errorMessage = errJson.detail.message;
-        } else if (errJson?.message) {
-          errorMessage = errJson.message;
-        } else if (errJson?.detail) {
-          errorMessage = typeof errJson.detail === 'string' ? errJson.detail : JSON.stringify(errJson.detail);
-        }
-      } catch {
-        const rawText = await elevenRes.text().catch(() => '');
-        if (rawText) errorMessage = rawText;
-      }
-
-      console.error(`[TTS API] ElevenLabs error (${elevenRes.status}):`, errorMessage);
-
-      const statusCode = elevenRes.status >= 400 && elevenRes.status < 600 ? elevenRes.status : 500;
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('ElevenLabs error:', errorText);
       return NextResponse.json(
-        { error: errorMessage },
-        { status: statusCode, headers: { 'Content-Type': 'application/json' } }
+        { error: `ElevenLabs API error: ${response.status}` },
+        { status: response.status }
       );
     }
 
-    // 2. Verified Audio Stream: Return as audio/mpeg binary
-    const audioBuffer = await elevenRes.arrayBuffer();
-    if (!audioBuffer || audioBuffer.byteLength === 0) {
-      return NextResponse.json(
-        { error: 'ElevenLabs returned empty audio response.' },
-        { status: 502, headers: { 'Content-Type': 'application/json' } }
-      );
-    }
-
+    const audioBuffer = await response.arrayBuffer();
+    
     return new NextResponse(audioBuffer, {
       status: 200,
       headers: {
         'Content-Type': 'audio/mpeg',
         'Content-Length': audioBuffer.byteLength.toString(),
-        'Cache-Control': 'public, max-age=86400, s-maxage=86400',
       },
     });
-  } catch (err: any) {
-    console.error('[TTS API] Server exception:', err);
+  } catch (error: any) {
+    console.error('TTS route error:', error);
     return NextResponse.json(
-      { error: err?.message || 'Voice generation failed. Please check server logs.' },
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
+      { error: error.message || 'Internal server error' },
+      { status: 500 }
     );
   }
 }

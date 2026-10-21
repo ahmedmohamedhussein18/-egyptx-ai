@@ -12,47 +12,73 @@ const destinations = [
     city: "Aswan",
     description: "Carved out of a mountainside in the 13th century BC, the Abu Simbel temples stand as a testament to the grandeur of Ramesses II. Experience the majestic colossal statues that guard the entrance to one of ancient Egypt's most awe-inspiring monuments, preserved for eternity on the banks of Lake Nasser.",
     videoSrc: "/videos/vr1.mp4",
-    vrPortalUrl: "https://www.google.com/maps/embed?pb=!4v1538055014192!6m8!1m7!1sCdK2TtrqrFuNrPbBhDPIoA!2m2!1d22.33726!2d31.62578!3f0!4f0!5f0.7820865974627469"
+    vrPortalUrl: "https://my.matterport.com/show/?m=VxYAEMXh6dW",
+    matterportUrl: "https://my.matterport.com/show/?m=VxYAEMXh6dW",
+    isMatterport: true
   },
   {
     id: 2,
-    title: "Al-Azhar Mosque",
+    title: "Museum of Islamic Art",
     city: "Cairo",
-    description: "Founded in 970 AD, Al-Azhar Mosque is a masterpiece of Fatimid architecture and the heart of Islamic learning in Egypt. Wander virtually through its expansive marble courtyards and admire the intricate stucco work and historic minarets that have overlooked Cairo for over a millennium.",
-    videoSrc: "/videos/vr2.mp4",
-    vrPortalUrl: "https://www.google.com/maps/embed?pb=!4v1538055014192!6m8!1m7!1sCdK2TtrqrFuNrPbBhDPIoA!2m2!1d30.04644!2d31.26274!3f180!4f0!5f0.7820865974627469"
+    description: "The Museum of Islamic Art in Cairo houses one of the world's greatest collections of Islamic artifacts, featuring exceptional woodwork, ceramics, textiles, and rare manuscripts from across the Islamic world.",
+    videoSrc: "/videos/islamic_art_museum.mp4",
+    videoUrl: "/videos/islamic_art_museum.mp4",
+    previewVideo: "/videos/islamic_art_museum.mp4",
+    vrPortalUrl: "https://my.matterport.com/show/?m=GLcinPBnEet",
+    matterportUrl: "https://my.matterport.com/show/?m=GLcinPBnEet",
+    isMatterport: true
   },
   {
     id: 3,
-    title: "Al-Azhar Park",
+    title: "The Coptic Museum",
     city: "Cairo",
-    description: "A lush, green oasis in the center of historic Cairo. Al-Azhar Park offers breathtaking panoramic views of the city's ancient skyline. Stroll through the beautifully manicured Islamic gardens, serene water features, and enjoy a virtual moment of peace above the bustling metropolis.",
-    videoSrc: "/videos/vr3.mp4",
-    vrPortalUrl: "https://www.google.com/maps/embed?pb=!4v1538055014192!6m8!1m7!1sCdK2TtrqrFuNrPbBhDPIoA!2m2!1d30.04066!2d31.26514!3f0!4f0!5f0.7820865974627469"
+    description: "Located within the ancient Roman fortress of Babylon in Old Cairo, the Coptic Museum holds the largest collection of Egyptian Christian artifacts in the world, spanning a rich cultural tapestry of textiles, frescoes, and woodwork.",
+    videoSrc: "/videos/coptic_museum.mp4",
+    videoUrl: "/videos/coptic_museum.mp4",
+    previewVideo: "/videos/coptic_museum.mp4",
+    src: "/videos/coptic_museum.mp4",
+    vrPortalUrl: "https://my.matterport.com/show/?m=yMMHWqMJZbY",
+    matterportUrl: "https://my.matterport.com/show/?m=yMMHWqMJZbY",
+    isMatterport: true
   },
   {
     id: 4,
-    title: "Al-Rifa'i Mosque",
+    title: "Gayer-Anderson Museum",
     city: "Cairo",
-    description: "Constructed in two phases between 1869 and 1912, this monumental mosque stands opposite the Mosque of Sultan Hassan. Step inside to marvel at its soaring ceilings, lavish gold-leaf decorations, and the grand tombs of the Egyptian royal family resting in absolute architectural splendor.",
-    videoSrc: "/videos/vr4.mp4",
-    vrPortalUrl: "https://www.google.com/maps/embed?pb=!4v1538055014192!6m8!1m7!1sCdK2TtrqrFuNrPbBhDPIoA!2m2!1d30.03918!2d31.25831!3f0!4f0!5f0.7820865974627469"
+    description: "Located next to the Mosque of Ibn Tulun in historic Cairo, this magnificently preserved 17th-century domestic complex consists of two historic Ottoman-era houses, filled with remarkable art, furniture, and antiquities collected by Major R.G. Gayer-Anderson Pasha.",
+    videoSrc: "/videos/gayer_anderson.mp4",
+    videoUrl: "/videos/gayer_anderson.mp4",
+    previewVideo: "/videos/gayer_anderson.mp4",
+    src: "/videos/gayer_anderson.mp4",
+    vrPortalUrl: "https://my.matterport.com/show/?m=vrWe4j1FC65",
+    matterportUrl: "https://my.matterport.com/show/?m=vrWe4j1FC65",
+    isMatterport: true
   },
   {
     id: 5,
-    title: "Alexandria Library",
-    city: "Alexandria",
-    description: "The Bibliotheca Alexandrina is a striking architectural homage to the ancient Library of Alexandria. Explore the vast, sunlit main reading room which cascades down towards the sea, and admire the majestic granite walls carved with characters from 120 different human scripts.",
-    videoSrc: "/videos/vr5.mp4",
-    vrPortalUrl: "https://www.google.com/maps/embed?pb=!4v1538055014192!6m8!1m7!1sCdK2TtrqrFuNrPbBhDPIoA!2m2!1d31.20889!2d29.90916!3f0!4f0!5f0.7820865974627469"
+    title: "Niankhkhnum & Khnumhotep Tomb",
+    city: "Saqqara",
+    description: "Known as the 'Tomb of the Two Brothers', this famous Old Kingdom mastaba tomb at Saqqara belongs to Niankhkhnum and Khnumhotep, royal manicurists and priests of the sun temple of Nyuserre. It features exceptionally detailed, vivid reliefs of daily life, banquets, and rituals.",
+    videoSrc: "/videos/niankhkhnum_tomb.mp4",
+    videoUrl: "/videos/niankhkhnum_tomb.mp4",
+    previewVideo: "/videos/niankhkhnum_tomb.mp4",
+    src: "/videos/niankhkhnum_tomb.mp4",
+    vrPortalUrl: "https://my.matterport.com/show/?m=CwRgpfTMpbx",
+    matterportUrl: "https://my.matterport.com/show/?m=CwRgpfTMpbx",
+    isMatterport: true
   },
   {
     id: 6,
-    title: "Amr ibn al-As Mosque",
-    city: "Cairo",
-    description: "Originally built in 642 AD, it was the first mosque ever constructed in Egypt and the whole of Africa. Experience the vast, serene interior where wooden columns support an expansive wooden roof, offering a profound sense of history and spiritual tranquility.",
-    videoSrc: "/videos/vr6.mp4",
-    vrPortalUrl: "https://www.google.com/maps/embed?pb=!4v1538055014192!6m8!1m7!1sCdK2TtrqrFuNrPbBhDPIoA!2m2!1d30.00695!2d31.23069!3f0!4f0!5f0.7820865974627469"
+    title: "Wahty Tomb",
+    city: "Saqqara",
+    description: "Discovered intact in 2018 at Saqqara, this remarkably preserved 4,400-year-old tomb belonged to Wahty, a high-ranking royal purification priest from the Fifth Dynasty of Egypt during the reign of King Neferirkare Kakai.",
+    videoSrc: "/videos/wahty_tomb.mp4",
+    videoUrl: "/videos/wahty_tomb.mp4",
+    previewVideo: "/videos/wahty_tomb.mp4",
+    src: "/videos/wahty_tomb.mp4",
+    vrPortalUrl: "https://my.matterport.com/show/?m=BsXpwTSYSyN",
+    matterportUrl: "https://my.matterport.com/show/?m=BsXpwTSYSyN",
+    isMatterport: true
   }
 ];
 
@@ -174,7 +200,9 @@ export default function VrEgyptContent() {
                     </div>
 
                     <div className="absolute bottom-0 left-0 w-full p-6 translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
-                      <h3 className="text-2xl font-bold text-white mb-2 tracking-wide group-hover:text-[#C9A84C] transition-colors">{dest.title}</h3>
+                      <h3 className="text-sm sm:text-base font-bold text-white mb-2 tracking-tight line-clamp-2 leading-tight group-hover:text-[#C9A84C] transition-colors">
+                        {dest.title}
+                      </h3>
                       <div className="flex items-center gap-1.5 text-sm text-gray-400 mb-4">
                         <MapPin className="w-4 h-4 text-[#C9A84C]" />
                         <span className="uppercase tracking-widest">{dest.city}</span>
@@ -232,15 +260,14 @@ export default function VrEgyptContent() {
               <div className="w-[95vw] h-[75vh] md:w-[90vw] md:h-[80vh] rounded-[40px] overflow-hidden border border-white/10 shadow-[0_0_100px_rgba(201,168,76,0.15)] relative bg-black mt-8">
                 {/* CSS to ensure controls are completely hidden, plus HTML attributes */}
                 <video 
+                  key={activeSite.videoSrc}
                   src={activeSite.videoSrc}
-                  className="w-full h-full object-cover pointer-events-none"
+                  className="w-full h-full object-cover"
                   autoPlay 
                   loop 
                   muted 
                   playsInline
-                  controls={false}
-                  disablePictureInPicture
-                  controlsList="nodownload nofullscreen noremoteplayback"
+                  controls
                 />
                 
                 {/* Embedded Typography inside the bottom of the video container for maximum immersion */}
@@ -286,19 +313,24 @@ export default function VrEgyptContent() {
                 <div className="flex items-center gap-1.5 text-sm text-gray-400">
                   <MapPin className="w-4 h-4 text-[#C9A84C]" />
                   <span className="uppercase tracking-widest">{vrPortalSite.city}</span>
+                  {vrPortalSite.isMatterport && (
+                    <span className="ml-2 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#D4AF37]/20 border border-[#D4AF37]/40 text-[#D4AF37]">
+                      Matterport 3D
+                    </span>
+                  )}
                 </div>
               </div>
               <div className="flex items-center gap-4">
                 {hasDeviceMotion && (
                   <span className="hidden md:inline-flex items-center gap-2 text-xs font-semibold px-3 py-1 bg-[#C9A84C]/10 text-[#C9A84C] border border-[#C9A84C]/30 rounded-full">
-                    📱 Move your device to look around!
+                     Move your device to look around!
                   </span>
                 )}
                 <button
                   onClick={() => setVrPortalSite(null)}
-                  className="p-2 hover:bg-white/10 rounded-full transition-colors"
+                  className="px-3 py-1.5 bg-red-500/20 border border-red-500/40 text-red-400 hover:bg-red-500 hover:text-white rounded-xl text-xs font-bold transition-all cursor-pointer"
                 >
-                  <span className="text-white text-2xl">✕</span>
+                  ✕ Close VR
                 </button>
               </div>
             </div>
@@ -307,14 +339,21 @@ export default function VrEgyptContent() {
             <iframe
               src={vrPortalSite.vrPortalUrl}
               allowFullScreen
-              allow="accelerometer; gyroscope"
+              allow="vr; xr; accelerometer; gyroscope; autoplay"
               title={`${vrPortalSite.title} VR Tour`}
               className="w-full max-w-6xl h-[75vh] rounded-2xl border border-[#C9A84C]/20 shadow-2xl"
             />
 
             {/* Bottom Note */}
             <div className="mt-6 text-gray-400 text-sm flex items-center gap-2">
-              <Globe className="w-4 h-4 text-[#C9A84C]" /> Powered by Google Street View · Drag to explore 360°
+              <Globe className="w-4 h-4 text-[#C9A84C]" />
+              {vrPortalSite.isMatterport ? (
+                <span className="text-[#D4AF37]">
+                  ✨ تم تفعيل جولة Matterport ثلاثية الأبعاد الحصرية لـ ({vrPortalSite.title}) بنجاح! &middot; Powered by Matterport 3D Spatial Virtual Reality
+                </span>
+              ) : (
+                <span>Powered by Google Street View &middot; Drag to explore 360°</span>
+              )}
             </div>
           </motion.div>
         )}

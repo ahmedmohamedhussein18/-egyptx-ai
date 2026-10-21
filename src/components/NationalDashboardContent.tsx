@@ -153,8 +153,7 @@ export default function NationalDashboardContent() {
       pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
       pdf.save(`EgyptX_NationalReport_${new Date().toISOString().split('T')[0]}.pdf`);
     } catch (err) {
-      console.error('Failed to export PDF:', err);
-      alert('Failed to generate PDF. Please try again.');
+      console.warn('Failed to export PDF:', err);
     }
   };
 
@@ -214,8 +213,7 @@ export default function NationalDashboardContent() {
       const dateStr = new Date().toISOString().split('T')[0];
       XLSX.writeFile(wb, `EgyptX-Report-National-${dateStr}.xlsx`);
     } catch (error) {
-      console.error('Failed to export Excel:', error);
-      alert('Failed to generate Excel report.');
+      console.warn('Failed to export Excel:', error);
     }
   };
 

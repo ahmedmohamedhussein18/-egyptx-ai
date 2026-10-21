@@ -4,10 +4,10 @@ import PlannerContent from "@/components/PlannerContent";
 
 export default function PlannerPage() {
   return (
-    <main className="relative overflow-hidden">
+    <div className="relative overflow-hidden">
       <Navbar />
       <PlannerContent />
       <Footer />
-    </main>
+    </div>
   );
 }

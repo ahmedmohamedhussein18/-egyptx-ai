@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { useAuth } from '@/context/AuthContext';
 import { createClient } from '@/lib/supabase/client';
+import { resolvePhotoSignedUrls } from '@/lib/memory-photos';
 import { Loader2, Download, Image as ImageIcon, MapPin, Calendar, Sparkles } from 'lucide-react';
 import * as htmlToImage from 'html-to-image';
 
@@ -49,8 +50,9 @@ export default function TravelCardContent() {
         .order('memory_date', { ascending: false });
 
       if (data) {
-        setPhotos(data);
-        if (data.length > 0) setSelectedPhoto(data[0]);
+        const resolvedPhotos = await resolvePhotoSignedUrls(supabase, data);
+        setPhotos(resolvedPhotos);
+        if (resolvedPhotos.length > 0) setSelectedPhoto(resolvedPhotos[0]);
       }
     } catch (err) {
       console.error(err);
@@ -69,8 +71,7 @@ export default function TravelCardContent() {
       link.href = dataUrl;
       link.click();
     } catch (error) {
-      console.error('Failed to generate image', error);
-      alert('Failed to generate travel card. Please try again.');
+      console.warn('Failed to generate image', error);
     } finally {
       setDownloading(false);
     }

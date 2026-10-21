@@ -234,7 +234,7 @@ export default function ExploreContent() {
   };
 
   return (
-    <div className="min-h-screen bg-[#030712] text-white pt-24 pb-16">
+    <div className="min-h-screen bg-[#FDFBF7] text-slate-900 dark:bg-[#0B0F19] dark:text-white pt-24 pb-16 transition-colors duration-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header Section */}
@@ -262,10 +262,10 @@ export default function ExploreContent() {
             <button
               key={category.id}
               onClick={() => setActiveCategory(category.id)}
-              className={`px-6 py-2 rounded-full border transition-all duration-300 ${
+              className={`px-6 py-2 rounded-full border transition-all duration-300 cursor-pointer ${
                 activeCategory === category.id
-                  ? 'bg-[#C9A84C] text-[#030712] border-[#C9A84C] font-semibold'
-                  : 'bg-white/5 text-gray-300 border-[#C9A84C]/30 hover:border-[#C9A84C] hover:text-white'
+                  ? 'bg-[#D4AF37] text-slate-950 border-[#D4AF37] font-semibold shadow-sm'
+                  : 'bg-white dark:bg-white/5 text-slate-700 dark:text-gray-300 border-slate-200 dark:border-[#C9A84C]/30 hover:border-[#D4AF37] hover:text-slate-950 dark:hover:text-white'
               }`}
             >{category.label}</button>
           ))}
@@ -276,8 +276,8 @@ export default function ExploreContent() {
           
           {/* Left Column - Sticky Map */}
           <div className="w-full lg:w-1/3">
-            <div className="sticky top-24 bg-white/5 backdrop-blur-md border border-[#C9A84C]/20 rounded-3xl p-6">
-              <h3 className="text-xl font-semibold text-[#C9A84C] mb-6 flex items-center gap-2">
+            <div className="sticky top-24 bg-[#F8F3E9] dark:bg-[#131A2A] border border-slate-200/80 dark:border-[#C9A84C]/20 shadow-sm dark:shadow-none rounded-3xl p-6">
+              <h3 className="text-xl font-semibold text-yellow-700 dark:text-[#C9A84C] mb-6 flex items-center gap-2">
                 <MapPin className="w-5 h-5" />
                 Interactive Map
               </h3>
@@ -294,17 +294,17 @@ export default function ExploreContent() {
           {/* Right Column - Destination Cards */}
           <div className="w-full lg:w-2/3">
             {loading ? (
-              <div className="flex flex-col items-center justify-center py-20 text-[#C9A84C]">
+              <div className="flex flex-col items-center justify-center py-20 text-yellow-600 dark:text-[#C9A84C]">
                 <Loader2 className="w-10 h-10 animate-spin mb-4" />
                 <p>Loading verified destinations...</p>
               </div>
             ) : error ? (
-              <div className="flex flex-col items-center justify-center py-20 text-red-400">
+              <div className="flex flex-col items-center justify-center py-20 text-red-500 dark:text-red-400">
                 <AlertCircle className="w-10 h-10 mb-4" />
                 <p>{error}</p>
               </div>
             ) : filteredDestinations.length === 0 ? (
-              <div className="text-center py-20 text-gray-400">
+              <div className="text-center py-20 text-slate-500 dark:text-gray-400">
                 No destinations found for this category.
               </div>
             ) : (
@@ -317,12 +317,12 @@ export default function ExploreContent() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.05 }}
                     onClick={() => handleCardClick(dest.id)}
-                    className={`bg-white/5 backdrop-blur border rounded-2xl overflow-hidden hover:border-[#C9A84C] transition-colors group flex flex-col relative cursor-pointer ${
-                      selectedMapId === dest.id ? 'border-[#C9A84C] shadow-[0_0_15px_rgba(201,168,76,0.3)]' : 'border-[#C9A84C]/20'
+                    className={`bg-[#F8F3E9] dark:bg-[#131A2A] border rounded-2xl overflow-hidden hover:border-[#C9A84C] transition-all group flex flex-col relative cursor-pointer shadow-sm dark:shadow-none ${
+                      selectedMapId === dest.id ? 'border-[#C9A84C] ring-2 ring-[#C9A84C]/40' : 'border-slate-200/80 dark:border-white/5'
                     }`}
                   >
                     {/* Image/SVG Section */}
-                    <div className="h-48 relative overflow-hidden bg-gray-900">
+                    <div className="h-48 relative overflow-hidden bg-slate-900">
                       {getAttractionImage(dest.name_en, dest.category)}
                       <div className="absolute top-4 left-4">
                         <span className="px-3 py-1 bg-black/60 backdrop-blur rounded-full text-xs font-medium text-[#C9A84C] border border-[#C9A84C]/30 capitalize">
@@ -337,12 +337,12 @@ export default function ExploreContent() {
                     </div>
 
                     {/* Details Section */}
-                    <div className="p-6 flex flex-col flex-grow">
+                    <div className="p-6 flex flex-col flex-grow bg-[#F8F3E9] dark:bg-[#131A2A]">
                       <div className="flex justify-between items-start mb-2">
-                        <h3 className="text-2xl font-bold text-white">{dest.name_en}</h3>
-                        {dest.name_ar && <span className="text-xl text-[#C9A84C] font-arabic">{dest.name_ar}</span>}
+                        <h3 className="text-2xl font-bold text-[#1A2332] dark:text-white">{dest.name_en}</h3>
+                        {dest.name_ar && <span className="text-xl text-yellow-700 dark:text-[#C9A84C] font-arabic">{dest.name_ar}</span>}
                       </div>
-                      <p className="text-gray-400 mb-6 flex-grow">{dest.description_en || `Explore the beautiful ${dest.name_en}`}</p>
+                      <p className="text-slate-600 dark:text-gray-400 mb-6 flex-grow font-light">{dest.description_en || `Explore the beautiful ${dest.name_en}`}</p>
                       
                       <div className="grid grid-cols-2 gap-4 mb-6">
                         <div className="flex items-center gap-2 text-sm text-gray-300">

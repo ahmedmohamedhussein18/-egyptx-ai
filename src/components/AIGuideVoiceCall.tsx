@@ -7,6 +7,7 @@ import {
   Mic,
   MicOff,
   Camera,
+  CameraOff,
   RefreshCw,
   Sparkles,
   Languages,
@@ -16,6 +17,9 @@ import {
   X,
   Loader2,
   Volume2,
+  VolumeX,
+  Square,
+  Image as ImageIcon,
 } from 'lucide-react';
 
 interface AIGuideVoiceCallProps {
@@ -25,9 +29,9 @@ interface AIGuideVoiceCallProps {
 
 type CallStatus = 'connecting' | 'listening' | 'speaking' | 'analyzing' | 'ended';
 
-type VoicePersonality = 'female' | 'male' | 'youth';
-
+type VoicePersonality = 'Jez3JdhBInQTvlAvDOWR' | 'female' | 'male' | 'youth';
 const VOICE_OPTIONS: Array<{ id: VoicePersonality; label: string; icon: string }> = [
+  { id: 'Jez3JdhBInQTvlAvDOWR', label: '🧔🏽 Ahmed (Egyptian)', icon: '🧔🏽' },
   { id: 'female', label: '👩 Sarah (Female)', icon: '👩' },
   { id: 'male', label: '👨 Adam (Male)', icon: '👨' },
   { id: 'youth', label: '👦 Liam (Youth)', icon: '👦' },
@@ -93,12 +97,13 @@ export default function AIGuideVoiceCall({ isOpen, onClose }: AIGuideVoiceCallPr
   const [facingMode, setFacingMode] = useState<'environment' | 'user'>('environment');
   const [cameraError, setCameraError] = useState<string | null>(null);
 
-  // ElevenLabs Voice Personality
-  const [selectedVoice, setSelectedVoice] = useState<VoicePersonality>('female');
+  // ElevenLabs Voice Personality (Default: Ahmed Egyptian Voice)
+  const [selectedVoice, setSelectedVoice] = useState<VoicePersonality>('Jez3JdhBInQTvlAvDOWR');
   const [isGeneratingVoice, setIsGeneratingVoice] = useState(false);
-  const [voiceError, setVoiceError] = useState<string | null>(null);
 
   // Vision & AI state
+  const [isCameraOn, setIsCameraOn] = useState(true);
+  const [contextImages, setContextImages] = useState<string[]>([]);
   const [lastResult, setLastResult] = useState<any | null>(null);
   const [userSpeechText, setUserSpeechText] = useState<string>('');
   const [aiSpeechText, setAiSpeechText] = useState<string>('');
@@ -106,6 +111,10 @@ export default function AIGuideVoiceCall({ isOpen, onClose }: AIGuideVoiceCallPr
   const [speechSupported, setSpeechSupported] = useState(true);
   const [manualInput, setManualInput] = useState('');
   const [showInputDrawer, setShowInputDrawer] = useState(false);
+
+  // Abort controller ref for instant voice cutoff
+  const ttsAbortRef = useRef<AbortController | null>(null);
+  const isCameraOnRef = useRef(true);
 
   // Refs for audio / speech / camera sync
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -118,7 +127,7 @@ export default function AIGuideVoiceCall({ isOpen, onClose }: AIGuideVoiceCallPr
   const isAnalyzingRef = useRef(false);
   const isCallActiveRef = useRef(false);
   const isMutedRef = useRef(false);
-  const selectedVoiceRef = useRef<VoicePersonality>('female');
+  const selectedVoiceRef = useRef<VoicePersonality>('Jez3JdhBInQTvlAvDOWR');
   const lastResultRef = useRef<any | null>(null);
 
   // Update voice ref
@@ -144,21 +153,108 @@ export default function AIGuideVoiceCall({ isOpen, onClose }: AIGuideVoiceCallPr
     return 'en';
   }, []);
 
-  // Stop currently playing audio and revoke object URL
+  // Keep isCameraOn ref synced
+  useEffect(() => {
+    isCameraOnRef.current = isCameraOn;
+  }, [isCameraOn]);
+
+  // Dynamic Real-Time High-Res Image Fetching for Egyptian Landmarks
+  const fetchContextImages = useCallback(async (keyword: string) => {
+    if (!keyword || !keyword.trim()) return;
+    try {
+      const cleanKeyword = keyword.trim();
+      const directUrl = `https://en.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(
+        cleanKeyword
+      )}&prop=pageimages&piprop=thumbnail|original&pithumbsize=1200&format=json&origin=*`;
+
+      const directRes = await fetch(directUrl);
+      const directData = await directRes.json();
+      const pages = directData?.query?.pages;
+
+      if (pages) {
+        const page: any = Object.values(pages)[0];
+        const imageUrl = page?.original?.source || page?.thumbnail?.source;
+        if (imageUrl) {
+          setContextImages([imageUrl]);
+          return;
+        }
+      }
+
+      // Fallback search
+      const searchUrl = `https://en.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=${encodeURIComponent(
+        cleanKeyword + ' Egypt'
+      )}&gsrlimit=1&prop=pageimages&piprop=thumbnail|original&pithumbsize=1200&format=json&origin=*`;
+
+      const searchRes = await fetch(searchUrl);
+      const searchData = await searchRes.json();
+      const searchPages = searchData?.query?.pages;
+
+      if (searchPages) {
+        const firstPage: any = Object.values(searchPages)[0];
+        const searchImageUrl = firstPage?.original?.source || firstPage?.thumbnail?.source;
+        if (searchImageUrl) {
+          setContextImages([searchImageUrl]);
+          return;
+        }
+      }
+    } catch (err) {
+      console.warn('[AI Guide] Dynamic image fetch error:', err);
+    }
+  }, []);
+
+  // INSTANT SPEECH CUT-OFF (إيقاف الكلام فوري)
   const stopAudio = useCallback(() => {
+    // 1. Cancel browser speech synthesis if active
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      try {
+        window.speechSynthesis.cancel();
+      } catch {
+        /* ignore */
+      }
+    }
+
+    // 2. Abort any active TTS fetch stream in flight
+    if (ttsAbortRef.current) {
+      try {
+        ttsAbortRef.current.abort();
+      } catch {
+        /* ignore */
+      }
+      ttsAbortRef.current = null;
+    }
+
+    // 3. Immediately silence and reset HTMLAudioElement
     if (audioRef.current) {
-      audioRef.current.pause();
-      audioRef.current.src = '';
+      try {
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+        audioRef.current.src = '';
+      } catch {
+        /* ignore */
+      }
       audioRef.current = null;
     }
+
     if (currentAudioUrlRef.current) {
       URL.revokeObjectURL(currentAudioUrlRef.current);
       currentAudioUrlRef.current = null;
     }
+
     isSpeakingRef.current = false;
+    setIsGeneratingVoice(false);
+    setCallStatus('listening');
+
+    // 4. Safely re-arm speech recognition if call is alive
+    if (isCallActiveRef.current && !isMutedRef.current && recognitionRef.current) {
+      try {
+        recognitionRef.current.start();
+      } catch {
+        /* ignore */
+      }
+    }
   }, []);
 
-  // ElevenLabs TTS Audio Player: Plays hyper-realistic voice stream
+  // ElevenLabs TTS Audio Player: Plays hyper-realistic low-latency voice stream
   const speakWithElevenLabs = useCallback(
     async (text: string, onEnd?: () => void) => {
       if (!text || !text.trim() || !isCallActiveRef.current) {
@@ -169,7 +265,6 @@ export default function AIGuideVoiceCall({ isOpen, onClose }: AIGuideVoiceCallPr
       // Stop previous playback
       stopAudio();
       setIsGeneratingVoice(true);
-      setVoiceError(null);
       isSpeakingRef.current = true;
 
       // Temporarily pause speech recognition while generating & speaking to prevent echo loops
@@ -181,10 +276,15 @@ export default function AIGuideVoiceCall({ isOpen, onClose }: AIGuideVoiceCallPr
         }
       }
 
+      // Setup fresh abort controller for this utterance
+      const controller = new AbortController();
+      ttsAbortRef.current = controller;
+
       try {
         const res = await fetch('/api/tts', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
+          signal: controller.signal,
           body: JSON.stringify({
             text: text.trim().slice(0, 500),
             voiceId: selectedVoiceRef.current,
@@ -209,8 +309,8 @@ export default function AIGuideVoiceCall({ isOpen, onClose }: AIGuideVoiceCallPr
 
         setIsGeneratingVoice(false);
 
-        // If user hung up while audio was fetching
-        if (!isCallActiveRef.current) {
+        // If user hung up or stopped speech while audio was fetching
+        if (!isCallActiveRef.current || !isSpeakingRef.current) {
           return;
         }
 
@@ -227,47 +327,25 @@ export default function AIGuideVoiceCall({ isOpen, onClose }: AIGuideVoiceCallPr
 
         audio.onended = () => {
           stopAudio();
-          setCallStatus('listening');
           onEnd?.();
-          // Resume speech recognition
-          if (isCallActiveRef.current && !isMutedRef.current && recognitionRef.current) {
-            try {
-              recognitionRef.current.start();
-            } catch {
-              /* ignore */
-            }
-          }
         };
 
         audio.onerror = (e) => {
           console.warn('[ElevenLabs Audio] Playback error:', e);
           stopAudio();
-          setCallStatus('listening');
           onEnd?.();
-          if (isCallActiveRef.current && !isMutedRef.current && recognitionRef.current) {
-            try {
-              recognitionRef.current.start();
-            } catch {
-              /* ignore */
-            }
-          }
         };
 
         await audio.play();
       } catch (err: any) {
-        console.error('[ElevenLabs TTS] Audio synthesis error:', err);
-        setVoiceError(err?.message || 'Voice generation failed.');
+        if (err.name === 'AbortError') {
+          // User deliberately pressed stop or interrupted
+          return;
+        }
+        console.warn('[ElevenLabs TTS] Audio synthesis warning:', err);
         setIsGeneratingVoice(false);
         stopAudio();
-        setCallStatus('listening');
         onEnd?.();
-        if (isCallActiveRef.current && !isMutedRef.current && recognitionRef.current) {
-          try {
-            recognitionRef.current.start();
-          } catch {
-            /* ignore */
-          }
-        }
       }
     },
     [stopAudio]
@@ -346,6 +424,7 @@ export default function AIGuideVoiceCall({ isOpen, onClose }: AIGuideVoiceCallPr
         lastResultRef.current = data;
 
         if (data.confidence_level && data.confidence_level !== 'unable' && data.identified_name) {
+          fetchContextImages(data.identified_name);
           let speechText = '';
           if (siteLang.startsWith('ar')) {
             speechText = `أرى أمامك: ${data.identified_name}. ${data.ai_description}`;
@@ -380,7 +459,7 @@ export default function AIGuideVoiceCall({ isOpen, onClose }: AIGuideVoiceCallPr
         isAnalyzingRef.current = false;
       }
     },
-    [captureFrame, getSiteLanguage, speakWithElevenLabs]
+    [captureFrame, getSiteLanguage, speakWithElevenLabs, fetchContextImages]
   );
 
   // Command 2: Explain / Tell me more
@@ -392,8 +471,8 @@ export default function AIGuideVoiceCall({ isOpen, onClose }: AIGuideVoiceCallPr
       const promptText = siteLang.startsWith('ar')
         ? 'يرجى توجيه الكاميرا أولاً نحو المعلم والقول "صور" لأتمكن من رؤيته وشرحه لك.'
         : siteLang.startsWith('fr')
-        ? 'Veuillez d\'abord pointer la caméra vers un monument et dire "photo" pour que je puisse vous l\'expliquer.'
-        : 'Please point your camera at a monument and say "take photo" first so I can see it and explain.';
+          ? 'Veuillez d\'abord pointer la caméra vers un monument et dire "photo" pour que je puisse vous l\'expliquer.'
+          : 'Please point your camera at a monument and say "take photo" first so I can see it and explain.';
       setAiSpeechText(promptText);
       speakWithElevenLabs(promptText);
       return;
@@ -418,15 +497,24 @@ export default function AIGuideVoiceCall({ isOpen, onClose }: AIGuideVoiceCallPr
       });
       const data = await res.json();
       if (data.reply) {
-        setAiSpeechText(data.reply);
-        speakWithElevenLabs(data.reply);
+        let cleanReply = data.reply;
+        const picMatch = cleanReply.match(/\[FETCH_PICS:\s*([^\]]+)\]/i);
+        if (picMatch && picMatch[1]) {
+          const landmarkToFetch = picMatch[1].trim();
+          cleanReply = cleanReply.replace(/\[FETCH_PICS:[^\]]+\]/gi, '').trim();
+          fetchContextImages(landmarkToFetch);
+        } else if (currentMonument?.identified_name) {
+          fetchContextImages(currentMonument.identified_name);
+        }
+        setAiSpeechText(cleanReply);
+        speakWithElevenLabs(cleanReply);
       } else {
         setCallStatus('listening');
       }
     } catch {
       setCallStatus('listening');
     }
-  }, [getSiteLanguage, speakWithElevenLabs]);
+  }, [getSiteLanguage, speakWithElevenLabs, fetchContextImages]);
 
   // Command 3: Translate monument name to site language
   const handleTranslateCommand = useCallback(async () => {
@@ -460,15 +548,24 @@ export default function AIGuideVoiceCall({ isOpen, onClose }: AIGuideVoiceCallPr
       });
       const data = await res.json();
       if (data.reply) {
-        setAiSpeechText(data.reply);
-        speakWithElevenLabs(data.reply);
+        let cleanReply = data.reply;
+        const picMatch = cleanReply.match(/\[FETCH_PICS:\s*([^\]]+)\]/i);
+        if (picMatch && picMatch[1]) {
+          const landmarkToFetch = picMatch[1].trim();
+          cleanReply = cleanReply.replace(/\[FETCH_PICS:[^\]]+\]/gi, '').trim();
+          fetchContextImages(landmarkToFetch);
+        } else if (currentMonument?.identified_name) {
+          fetchContextImages(currentMonument.identified_name);
+        }
+        setAiSpeechText(cleanReply);
+        speakWithElevenLabs(cleanReply);
       } else {
         setCallStatus('listening');
       }
     } catch {
       setCallStatus('listening');
     }
-  }, [getSiteLanguage, speakWithElevenLabs]);
+  }, [getSiteLanguage, speakWithElevenLabs, fetchContextImages]);
 
   // General conversational query
   const handleGeneralQuestion = useCallback(
@@ -494,8 +591,17 @@ export default function AIGuideVoiceCall({ isOpen, onClose }: AIGuideVoiceCallPr
         });
         const data = await res.json();
         if (data.reply) {
-          setAiSpeechText(data.reply);
-          speakWithElevenLabs(data.reply);
+          let cleanReply = data.reply;
+          const picMatch = cleanReply.match(/\[FETCH_PICS:\s*([^\]]+)\]/i);
+          if (picMatch && picMatch[1]) {
+            const landmarkToFetch = picMatch[1].trim();
+            cleanReply = cleanReply.replace(/\[FETCH_PICS:[^\]]+\]/gi, '').trim();
+            fetchContextImages(landmarkToFetch);
+          } else if (ctx?.identified_name && ctx.identified_name !== 'Egyptian Heritage Monument') {
+            fetchContextImages(ctx.identified_name);
+          }
+          setAiSpeechText(cleanReply);
+          speakWithElevenLabs(cleanReply);
         } else {
           setCallStatus('listening');
         }
@@ -503,7 +609,7 @@ export default function AIGuideVoiceCall({ isOpen, onClose }: AIGuideVoiceCallPr
         setCallStatus('listening');
       }
     },
-    [getSiteLanguage, speakWithElevenLabs]
+    [getSiteLanguage, speakWithElevenLabs, fetchContextImages]
   );
 
   // Master speech dispatcher: interprets voice commands or general speech
@@ -538,8 +644,8 @@ export default function AIGuideVoiceCall({ isOpen, onClose }: AIGuideVoiceCallPr
         const byeText = siteLang.startsWith('ar')
           ? 'مع السلامة! نتمنى لك رحلة ممتعة في مصر.'
           : siteLang.startsWith('fr')
-          ? 'Au revoir ! Passez un excellent séjour en Égypte.'
-          : 'Goodbye! Enjoy exploring Egypt.';
+            ? 'Au revoir ! Passez un excellent séjour en Égypte.'
+            : 'Goodbye! Enjoy exploring Egypt.';
         setAiSpeechText(byeText);
         speakWithElevenLabs(byeText, () => endCall());
         return;
@@ -570,8 +676,8 @@ export default function AIGuideVoiceCall({ isOpen, onClose }: AIGuideVoiceCallPr
         const ack = siteLang.startsWith('ar')
           ? 'حاضر، جاري التقاط الصورة والتعرف عليها...'
           : siteLang.startsWith('fr')
-          ? 'Bien reçu, j\'analyse ce que vous regardez...'
-          : 'Got it, looking at this right now...';
+            ? 'Bien reçu, j\'analyse ce que vous regardez...'
+            : 'Got it, looking at this right now...';
         setAiSpeechText(ack);
         speakWithElevenLabs(ack, () => {
           analyzeCurrentFrame('command');
@@ -658,7 +764,7 @@ export default function AIGuideVoiceCall({ isOpen, onClose }: AIGuideVoiceCallPr
       cameraStreamRef.current = stream;
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
-        videoRef.current.play().catch(() => {});
+        videoRef.current.play().catch(() => { });
       }
     } catch (err: any) {
       console.warn('[AI Guide Call] Camera access error:', err);
@@ -670,7 +776,31 @@ export default function AIGuideVoiceCall({ isOpen, onClose }: AIGuideVoiceCallPr
   const toggleCameraFacing = useCallback(() => {
     const nextMode = facingMode === 'environment' ? 'user' : 'environment';
     setFacingMode(nextMode);
-    startCamera(nextMode);
+    if (isCameraOnRef.current) {
+      startCamera(nextMode);
+    }
+  }, [facingMode, startCamera]);
+
+  // Toggle Camera On/Off (Seamless Voice-Only vs Video Preview mode)
+  const toggleCamera = useCallback(() => {
+    setIsCameraOn((prev) => {
+      const next = !prev;
+      isCameraOnRef.current = next;
+      if (!next) {
+        // Stop video tracks but keep call active
+        if (cameraStreamRef.current) {
+          cameraStreamRef.current.getTracks().forEach((track) => track.stop());
+          cameraStreamRef.current = null;
+        }
+        if (videoRef.current) {
+          videoRef.current.srcObject = null;
+        }
+      } else {
+        // Re-enable camera preview
+        startCamera(facingMode);
+      }
+      return next;
+    });
   }, [facingMode, startCamera]);
 
   // Initialize SpeechRecognition API
@@ -694,12 +824,12 @@ export default function AIGuideVoiceCall({ isOpen, onClose }: AIGuideVoiceCallPr
     recognition.lang = siteLang.startsWith('ar')
       ? 'ar-EG'
       : siteLang.startsWith('fr')
-      ? 'fr-FR'
-      : siteLang.startsWith('de')
-      ? 'de-DE'
-      : siteLang.startsWith('es')
-      ? 'es-ES'
-      : 'en-US';
+        ? 'fr-FR'
+        : siteLang.startsWith('de')
+          ? 'de-DE'
+          : siteLang.startsWith('es')
+            ? 'es-ES'
+            : 'en-US';
 
     recognition.onresult = (event: any) => {
       if (isSpeakingRef.current || isMutedRef.current) return;
@@ -752,7 +882,6 @@ export default function AIGuideVoiceCall({ isOpen, onClose }: AIGuideVoiceCallPr
       setCallSeconds(0);
       setUserSpeechText('');
       setAiSpeechText('');
-      setVoiceError(null);
       setLastResult(null);
 
       // Open camera automatically
@@ -834,9 +963,8 @@ export default function AIGuideVoiceCall({ isOpen, onClose }: AIGuideVoiceCallPr
 
         {/* Snapshot Flash Overlay */}
         <div
-          className={`absolute inset-0 bg-white pointer-events-none z-50 transition-opacity duration-300 ${
-            triggerFlash ? 'opacity-35' : 'opacity-0'
-          }`}
+          className={`absolute inset-0 bg-white pointer-events-none z-50 transition-opacity duration-300 ${triggerFlash ? 'opacity-35' : 'opacity-0'
+            }`}
         />
 
         {/* Background Atmospheric Glows */}
@@ -855,7 +983,7 @@ export default function AIGuideVoiceCall({ isOpen, onClose }: AIGuideVoiceCallPr
               <h2 className="text-base sm:text-lg font-bold tracking-wide text-white flex items-center gap-2">
                 EgyptX Vision AI
                 <span className="text-[10px] uppercase font-mono px-2 py-0.5 rounded-full bg-[#C9A84C]/20 text-[#E2CB85] border border-[#C9A84C]/40">
-                  ElevenLabs HD
+                  HD Voice
                 </span>
               </h2>
               <p className="text-xs text-white/50 font-mono tracking-wider">
@@ -880,11 +1008,10 @@ export default function AIGuideVoiceCall({ isOpen, onClose }: AIGuideVoiceCallPr
                     setSelectedVoice(v.id);
                     stopAudio();
                   }}
-                  className={`px-2.5 py-0.5 rounded-full text-xs font-semibold transition-all duration-200 cursor-pointer ${
-                    active
-                      ? 'bg-[#C9A84C] text-[#0A1628] shadow-[0_0_12px_rgba(201,168,76,0.6)] font-bold'
-                      : 'text-white/70 hover:text-white hover:bg-white/10'
-                  }`}
+                  className={`px-2.5 py-0.5 rounded-full text-xs font-semibold transition-all duration-200 cursor-pointer ${active
+                    ? 'bg-[#C9A84C] text-[#0A1628] shadow-[0_0_12px_rgba(201,168,76,0.6)] font-bold'
+                    : 'text-white/70 hover:text-white hover:bg-white/10'
+                    }`}
                 >
                   {v.label}
                 </button>
@@ -895,26 +1022,24 @@ export default function AIGuideVoiceCall({ isOpen, onClose }: AIGuideVoiceCallPr
           {/* Status Indicator Pill */}
           <div className="flex items-center gap-2">
             <div
-              className={`flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold backdrop-blur-md border transition-all duration-300 ${
-                isGeneratingVoice
-                  ? 'bg-[#C9A84C]/25 border-[#C9A84C] text-[#E2CB85] animate-pulse shadow-[0_0_15px_rgba(201,168,76,0.4)]'
-                  : callStatus === 'speaking'
+              className={`flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold backdrop-blur-md border transition-all duration-300 ${isGeneratingVoice
+                ? 'bg-[#C9A84C]/25 border-[#C9A84C] text-[#E2CB85] animate-pulse shadow-[0_0_15px_rgba(201,168,76,0.4)]'
+                : callStatus === 'speaking'
                   ? 'bg-[#C9A84C]/20 border-[#C9A84C] text-[#E2CB85] shadow-[0_0_15px_rgba(201,168,76,0.3)]'
                   : callStatus === 'analyzing'
-                  ? 'bg-blue-500/20 border-blue-400 text-blue-300 animate-pulse'
-                  : 'bg-emerald-500/15 border-emerald-500/40 text-emerald-300'
-              }`}
+                    ? 'bg-blue-500/20 border-blue-400 text-blue-300 animate-pulse'
+                    : 'bg-emerald-500/15 border-emerald-500/40 text-emerald-300'
+                }`}
             >
               <span
-                className={`w-2 h-2 rounded-full ${
-                  isGeneratingVoice
-                    ? 'bg-[#C9A84C] animate-ping'
-                    : callStatus === 'speaking'
+                className={`w-2 h-2 rounded-full ${isGeneratingVoice
+                  ? 'bg-[#C9A84C] animate-ping'
+                  : callStatus === 'speaking'
                     ? 'bg-[#C9A84C] animate-ping'
                     : callStatus === 'analyzing'
-                    ? 'bg-blue-400 animate-spin'
-                    : 'bg-emerald-400 animate-pulse'
-                }`}
+                      ? 'bg-blue-400 animate-spin'
+                      : 'bg-emerald-400 animate-pulse'
+                  }`}
               />
               <span>
                 {isGeneratingVoice
@@ -922,16 +1047,16 @@ export default function AIGuideVoiceCall({ isOpen, onClose }: AIGuideVoiceCallPr
                     ? 'جاري توليد الصوت...'
                     : 'Generating voice...'
                   : callStatus === 'speaking'
-                  ? isRTL
-                    ? 'يتحدث المرشد...'
-                    : 'Speaking...'
-                  : callStatus === 'analyzing'
-                  ? isRTL
-                    ? 'جاري فحص المعلم...'
-                    : 'Analyzing vision...'
-                  : isRTL
-                  ? 'يستمع إليك...'
-                  : 'Listening...'}
+                    ? isRTL
+                      ? 'يتحدث المرشد...'
+                      : 'Speaking...'
+                    : callStatus === 'analyzing'
+                      ? isRTL
+                        ? 'جاري فحص المعلم...'
+                        : 'Analyzing vision...'
+                      : isRTL
+                        ? 'يستمع إليك...'
+                        : 'Listening...'}
               </span>
             </div>
 
@@ -945,21 +1070,7 @@ export default function AIGuideVoiceCall({ isOpen, onClose }: AIGuideVoiceCallPr
           </div>
         </div>
 
-        {/* Voice Generation Error Banner (if any) */}
-        {voiceError && (
-          <div className="relative z-30 mx-6 p-2 rounded-xl bg-amber-500/15 border border-amber-400/40 flex items-center justify-between text-xs text-amber-200">
-            <div className="flex items-center gap-2">
-              <AlertCircle className="w-4 h-4 text-amber-400 shrink-0" />
-              <span>{voiceError}</span>
-            </div>
-            <button
-              onClick={() => setVoiceError(null)}
-              className="p-1 hover:bg-white/10 rounded-md text-white/60 hover:text-white"
-            >
-              <X className="w-3.5 h-3.5" />
-            </button>
-          </div>
-        )}
+
 
         {/* ── CENTER AREA: AVATAR & CONVERSATION ──────────────────────────── */}
         <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-4 max-w-2xl mx-auto w-full text-center">
@@ -1036,8 +1147,57 @@ export default function AIGuideVoiceCall({ isOpen, onClose }: AIGuideVoiceCallPr
               <span className="w-1 h-4 bg-[#C9A84C] rounded-full animate-bounce [animation-delay:-0.2s]" />
               <span className="w-1 h-6 bg-[#E2CB85] rounded-full animate-bounce" />
               <span className="w-1 h-3 bg-[#C9A84C] rounded-full animate-bounce [animation-delay:-0.1s]" />
-              <span className="text-[11px] font-mono text-[#E2CB85] ml-2">ElevenLabs Multilingual v2</span>
+              <span className="text-[11px] font-mono text-[#E2CB85] ml-2">Voice AI Active</span>
             </div>
+          )}
+
+          {/* Stop / Cut-off Button (إيقاف الكلام فوري) */}
+          {(callStatus === 'speaking' || isGeneratingVoice) && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: -5 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              className="mb-3"
+            >
+              <button
+                type="button"
+                onClick={stopAudio}
+                className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-red-600 hover:bg-red-500 text-white font-semibold text-sm shadow-[0_0_25px_rgba(239,68,68,0.7)] border border-red-400 hover:scale-105 active:scale-95 transition-all cursor-pointer animate-pulse"
+                title="Stop AI speech immediately"
+              >
+                <Square className="w-4 h-4 fill-white" />
+                <span>{isRTL ? 'إيقاف الكلام' : 'Stop Speaking'}</span>
+              </button>
+            </motion.div>
+          )}
+
+          {/* Dynamic Contextual Monument Gallery */}
+          {contextImages.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mb-4 w-full max-w-md"
+            >
+              <div className="relative rounded-2xl overflow-hidden border border-[#C9A84C]/50 bg-black/60 shadow-[0_0_25px_rgba(201,168,76,0.3)] backdrop-blur-md group">
+                <img
+                  src={contextImages[0]}
+                  alt="Egyptian Monument"
+                  className="w-full h-40 sm:h-48 object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent pointer-events-none" />
+                <div className="absolute bottom-2 left-3 right-3 flex items-center justify-between pointer-events-none">
+                  <div className="flex items-center gap-1.5 text-xs font-semibold text-[#E2CB85]">
+                    <ImageIcon className="w-3.5 h-3.5 text-[#C9A84C]" />
+                    <span className="truncate max-w-[220px]">
+                      {lastResult?.identified_name || (isRTL ? 'معلم تاريخي' : 'Historic Landmark')}
+                    </span>
+                  </div>
+                  <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-black/60 text-white/80 border border-white/20">
+                    HD Gallery
+                  </span>
+                </div>
+              </div>
+            </motion.div>
           )}
 
           {/* Conversational Subtitles / Bubbles */}
@@ -1101,43 +1261,73 @@ export default function AIGuideVoiceCall({ isOpen, onClose }: AIGuideVoiceCallPr
         {/* ── USER CAMERA PREVIEW (Small Thumbnail in Corner) ──────────────── */}
         <div className="absolute bottom-28 right-4 sm:bottom-28 sm:right-8 z-30">
           <div className="relative w-32 h-44 sm:w-40 sm:h-52 rounded-2xl overflow-hidden border-2 border-[#C9A84C]/80 shadow-[0_0_25px_rgba(0,0,0,0.85)] bg-black/90">
-            <video
-              ref={videoRef}
-              autoPlay
-              playsInline
-              muted
-              className="w-full h-full object-cover"
-            />
+            {isCameraOn ? (
+              <video
+                ref={videoRef}
+                autoPlay
+                playsInline
+                muted
+                className={`w-full h-full object-cover transition-transform duration-300 ${facingMode === 'user' ? 'scale-x-[-1]' : 'scale-x-100'
+                  }`}
+              />
+            ) : (
+              <div className="w-full h-full flex flex-col items-center justify-center p-3 text-center bg-[#071220]/90">
+                <CameraOff className="w-8 h-8 text-[#C9A84C]/60 mb-2" />
+                <p className="text-[11px] font-medium text-white/80">
+                  {isRTL ? 'الوضع الصوتي فقط' : 'Voice-Only Mode'}
+                </p>
+                <span className="text-[9px] text-[#C9A84C] mt-1 font-mono">
+                  {isRTL ? 'مكالمة نشطة' : 'Active Audio'}
+                </span>
+              </div>
+            )}
 
             {/* Camera Overlay Badges */}
             <div className="absolute top-2 left-2 right-2 flex items-center justify-between pointer-events-none">
               <span className="inline-flex items-center gap-1 text-[9px] uppercase font-mono px-1.5 py-0.5 rounded bg-black/70 text-emerald-400 border border-emerald-500/30">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                Vision
+                {isCameraOn ? 'Vision' : 'Audio-Only'}
               </span>
             </div>
 
-            {/* Flip Camera Button */}
-            <button
-              type="button"
-              onClick={toggleCameraFacing}
-              className="absolute bottom-2 right-2 p-1.5 rounded-lg bg-black/60 hover:bg-black/90 text-white/80 hover:text-white border border-white/20 transition-colors cursor-pointer"
-              title="Switch Camera"
-            >
-              <RefreshCw className="w-3.5 h-3.5" />
-            </button>
+            {/* Camera Controls row */}
+            <div className="absolute bottom-2 inset-x-2 flex items-center justify-between">
+              {/* Toggle Camera On/Off */}
+              <button
+                type="button"
+                onClick={toggleCamera}
+                className="p-1.5 rounded-lg bg-black/70 hover:bg-black/90 text-white/80 hover:text-white border border-white/20 transition-colors cursor-pointer"
+                title={isCameraOn ? 'Turn Camera Off (Voice Only)' : 'Turn Camera On'}
+              >
+                {isCameraOn ? <CameraOff className="w-3.5 h-3.5" /> : <Camera className="w-3.5 h-3.5 text-[#C9A84C]" />}
+              </button>
 
-            {/* Tap to Snap Button directly on camera */}
-            <button
-              type="button"
-              onClick={() => analyzeCurrentFrame('command')}
-              className="absolute bottom-2 left-2 p-1.5 rounded-lg bg-[#C9A84C]/80 hover:bg-[#C9A84C] text-black border border-white/20 transition-colors cursor-pointer"
-              title="Take Photo Now"
-            >
-              <Camera className="w-3.5 h-3.5" />
-            </button>
+              {/* Flip Camera Button (when camera is on) */}
+              {isCameraOn && (
+                <button
+                  type="button"
+                  onClick={toggleCameraFacing}
+                  className="p-1.5 rounded-lg bg-black/70 hover:bg-black/90 text-white/80 hover:text-white border border-white/20 transition-colors cursor-pointer"
+                  title="Switch Front/Back Camera"
+                >
+                  <RefreshCw className="w-3.5 h-3.5" />
+                </button>
+              )}
 
-            {cameraError && (
+              {/* Tap to Snap Button directly on camera (when camera is on) */}
+              {isCameraOn && (
+                <button
+                  type="button"
+                  onClick={() => analyzeCurrentFrame('command')}
+                  className="p-1.5 rounded-lg bg-[#C9A84C]/90 hover:bg-[#C9A84C] text-black border border-white/20 transition-colors cursor-pointer"
+                  title="Take Photo Now"
+                >
+                  <Camera className="w-3.5 h-3.5" />
+                </button>
+              )}
+            </div>
+
+            {cameraError && isCameraOn && (
               <div className="absolute inset-0 bg-black/85 flex flex-col items-center justify-center p-2 text-center">
                 <AlertCircle className="w-5 h-5 text-amber-400 mb-1" />
                 <p className="text-[10px] text-gray-300 leading-tight">{cameraError}</p>
@@ -1186,46 +1376,70 @@ export default function AIGuideVoiceCall({ isOpen, onClose }: AIGuideVoiceCallPr
           </AnimatePresence>
 
           {/* Main Action Buttons */}
-          <div className="flex items-center gap-4 sm:gap-6">
+          <div className="flex items-center gap-3 sm:gap-5">
             {/* Mute Mic Button */}
             <button
               onClick={() => setIsMuted((m) => !m)}
-              className={`p-4 rounded-full border transition-all duration-200 cursor-pointer ${
-                isMuted
-                  ? 'bg-amber-500/20 border-amber-400 text-amber-300'
-                  : 'bg-white/10 hover:bg-white/20 border-white/15 text-white'
-              }`}
+              className={`p-3.5 sm:p-4 rounded-full border transition-all duration-200 cursor-pointer ${isMuted
+                ? 'bg-amber-500/20 border-amber-400 text-amber-300'
+                : 'bg-white/10 hover:bg-white/20 border-white/15 text-white'
+                }`}
               title={isMuted ? 'Unmute microphone' : 'Mute microphone'}
             >
               {isMuted ? <MicOff className="w-5 h-5" /> : <Mic className="w-5 h-5" />}
             </button>
 
-            {/* Snap Photo Button */}
+            {/* Camera Toggle Button (Voice vs Video) */}
             <button
-              onClick={() => analyzeCurrentFrame('command')}
-              className="p-4 rounded-full bg-[#C9A84C]/20 hover:bg-[#C9A84C]/35 border border-[#C9A84C] text-[#E2CB85] shadow-[0_0_15px_rgba(201,168,76,0.3)] hover:scale-105 active:scale-95 transition-all cursor-pointer"
-              title="Take Photo Now"
+              onClick={toggleCamera}
+              className={`p-3.5 sm:p-4 rounded-full border transition-all duration-200 cursor-pointer ${!isCameraOn
+                ? 'bg-amber-500/20 border-amber-400 text-amber-300'
+                : 'bg-white/10 hover:bg-white/20 border-white/15 text-white'
+                }`}
+              title={isCameraOn ? 'Switch to Audio-Only Mode' : 'Switch to Video Mode'}
             >
-              <Camera className="w-5 h-5" />
+              {isCameraOn ? <Camera className="w-5 h-5" /> : <CameraOff className="w-5 h-5" />}
             </button>
+
+            {/* Instant Stop Speech Button (appears when speaking or generating voice) */}
+            {(callStatus === 'speaking' || isGeneratingVoice) && (
+              <button
+                type="button"
+                onClick={stopAudio}
+                className="p-3.5 sm:p-4 rounded-full bg-red-600/90 hover:bg-red-600 border border-red-400 text-white shadow-[0_0_20px_rgba(239,68,68,0.7)] animate-pulse hover:scale-105 active:scale-95 transition-all cursor-pointer"
+                title={isRTL ? 'إيقاف الكلام فوري' : 'Stop AI speech'}
+              >
+                <Square className="w-5 h-5 fill-white" />
+              </button>
+            )}
+
+            {/* Snap Photo Button (if camera on) */}
+            {isCameraOn && (
+              <button
+                onClick={() => analyzeCurrentFrame('command')}
+                className="p-3.5 sm:p-4 rounded-full bg-[#C9A84C]/20 hover:bg-[#C9A84C]/35 border border-[#C9A84C] text-[#E2CB85] shadow-[0_0_15px_rgba(201,168,76,0.3)] hover:scale-105 active:scale-95 transition-all cursor-pointer"
+                title="Take Photo Now"
+              >
+                <Camera className="w-5 h-5" />
+              </button>
+            )}
 
             {/* Red Hang-up Button */}
             <button
               onClick={endCall}
-              className="w-16 h-16 rounded-full bg-red-600 hover:bg-red-700 text-white flex items-center justify-center shadow-[0_0_30px_rgba(239,68,68,0.7)] hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer"
+              className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-red-600 hover:bg-red-700 text-white flex items-center justify-center shadow-[0_0_30px_rgba(239,68,68,0.7)] hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer"
               title="End Call"
             >
-              <PhoneOff className="w-7 h-7" />
+              <PhoneOff className="w-6 h-6 sm:w-7 sm:h-7" />
             </button>
 
             {/* Type fallback toggle */}
             <button
               onClick={() => setShowInputDrawer((v) => !v)}
-              className={`p-4 rounded-full border transition-all duration-200 cursor-pointer ${
-                showInputDrawer
-                  ? 'bg-[#C9A84C]/25 border-[#C9A84C] text-[#E2CB85]'
-                  : 'bg-white/10 hover:bg-white/20 border-white/15 text-white'
-              }`}
+              className={`p-3.5 sm:p-4 rounded-full border transition-all duration-200 cursor-pointer ${showInputDrawer
+                ? 'bg-[#C9A84C]/25 border-[#C9A84C] text-[#E2CB85]'
+                : 'bg-white/10 hover:bg-white/20 border-white/15 text-white'
+                }`}
               title="Toggle Text Input"
             >
               <Send className="w-5 h-5" />

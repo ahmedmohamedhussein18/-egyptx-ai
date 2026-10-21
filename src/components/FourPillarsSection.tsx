@@ -12,28 +12,28 @@ export default function FourPillarsSection() {
   
   const getPillars = (t: any) => [
     {
-      icon: <Compass className="w-8 h-8 text-[#C9A84C]" />,
+      icon: <Compass className="w-6 h-6 text-[#C5A869]" />,
       title: t('home.fourPillars.aiPlanning.title'),
       description: t('home.fourPillars.aiPlanning.desc'),
       action: t('home.fourPillars.aiPlanning.action'),
       link: "/planner"
     },
     {
-      icon: <Map className="w-8 h-8 text-[#C9A84C]" />,
+      icon: <Map className="w-6 h-6 text-[#C5A869]" />,
       title: t('home.fourPillars.smartSites.title'),
       description: t('home.fourPillars.smartSites.desc'),
       action: t('home.fourPillars.smartSites.action'),
       link: "/smart-site"
     },
     {
-      icon: <Headphones className="w-8 h-8 text-[#C9A84C]" />,
+      icon: <Headphones className="w-6 h-6 text-[#C5A869]" />,
       title: t('home.fourPillars.vrEgypt.title'),
       description: t('home.fourPillars.vrEgypt.desc'),
       action: t('home.fourPillars.vrEgypt.action'),
       link: "/vr-egypt"
     },
     {
-      icon: <Camera className="w-8 h-8 text-[#C9A84C]" />,
+      icon: <Camera className="w-6 h-6 text-[#C5A869]" />,
       title: t('home.fourPillars.aiMemories.title'),
       description: t('home.fourPillars.aiMemories.desc'),
       action: t('home.fourPillars.aiMemories.action'),
@@ -42,16 +42,17 @@ export default function FourPillarsSection() {
   ];
 
   return (
-    <section className="py-24 bg-[#030712] relative overflow-hidden">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#C9A84C]/5 rounded-full blur-[120px] pointer-events-none" />
-      
+    <section className="py-28 md:py-36 bg-transparent relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="text-center mb-16">
+        <div className="text-center max-w-2xl mx-auto mb-20 space-y-3">
+          <span className="text-[11px] uppercase tracking-[0.28em] font-semibold text-[#AA8C4B] dark:text-[#C5A869]">
+            {t('home.fourPillars.foundation')}
+          </span>
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-3xl md:text-5xl font-bold text-white uppercase tracking-widest mb-4"
+            className="text-3xl sm:text-4xl md:text-5xl font-serif-editorial font-bold text-stone-900 dark:text-white tracking-tight"
           >
             {t('home.fourPillars.title')}
           </motion.h2>
@@ -60,32 +61,37 @@ export default function FourPillarsSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-[#C9A84C] font-medium tracking-widest uppercase text-sm"
+            className="text-stone-600 dark:text-stone-400 font-light text-sm sm:text-base leading-relaxed"
           >
             {t('home.fourPillars.subtitle')}
           </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
           {getPillars(t).map((pillar, idx) => (
             <motion.div
               key={idx}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: idx * 0.1 }}
-              className="bg-[#0A1628]/80 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:border-[#C9A84C]/50 transition-colors group flex flex-col"
+              transition={{ delay: idx * 0.08, duration: 0.5 }}
+              className="bg-[#F8F3E9] dark:bg-[#131A2A] rounded-2xl p-8 border border-slate-200/80 dark:border-white/5 shadow-sm dark:shadow-none hover:shadow-md dark:hover:border-[#D4AF37]/30 hover:-translate-y-1 transition-all duration-300 group flex flex-col justify-between"
             >
-              <div className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                {pillar.icon}
+              <div>
+                <div className="w-12 h-12 rounded-xl bg-[#FDFBF7] dark:bg-white/5 border border-slate-200 dark:border-white/10 flex items-center justify-center mb-6 group-hover:scale-105 transition-transform duration-300">
+                  {pillar.icon}
+                </div>
+                <h3 className="text-xl font-serif-editorial font-bold text-[#1A2332] dark:text-gray-100 mb-2 group-hover:text-yellow-600 dark:group-hover:text-yellow-500 transition-colors">
+                  {pillar.title}
+                </h3>
+                <p className="text-slate-600 dark:text-gray-300 text-xs sm:text-sm font-light leading-relaxed mb-6">
+                  {pillar.description}
+                </p>
               </div>
-              <h3 className="text-xl font-bold text-white mb-3">{pillar.title}</h3>
-              <p className="text-gray-400 text-sm leading-relaxed mb-8 flex-grow">
-                {pillar.description}
-              </p>
+
               <button 
                 onClick={() => router.push(pillar.link)}
-                className="w-full py-3 bg-white/5 hover:bg-[#C9A84C] hover:text-[#0A1628] text-white border border-white/10 font-bold rounded-xl transition-all uppercase tracking-wider text-xs"
+                className="w-full py-2.5 bg-[#FDFBF7] dark:bg-white/5 hover:bg-[#C5A059] dark:hover:bg-[#D4AF37] hover:text-slate-950 dark:hover:text-slate-950 text-[#1A2332] dark:text-gray-200 border border-slate-200 dark:border-white/10 font-semibold rounded-xl transition-all duration-300 uppercase tracking-[0.16em] text-[11px] cursor-pointer"
               >
                 {pillar.action}
               </button>

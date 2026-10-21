@@ -115,11 +115,11 @@ export default function EcosystemSection() {
   if (!mounted) return null;
 
   return (
-    <section className="relative py-24 bg-[#0B0F19] overflow-hidden text-white">
+    <section className="relative py-24 bg-[#FDFBF7] dark:bg-[#0B0F19] overflow-hidden text-slate-900 dark:text-gray-100 transition-colors duration-200">
       {/* Background elements */}
       <div className="absolute inset-0 z-0 pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#1B6B93]/10 rounded-full blur-[100px]"></div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-[#C9A84C]/5 rounded-full blur-[80px]"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-sky-500/5 dark:bg-[#1B6B93]/10 rounded-full blur-[100px]"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-amber-500/5 dark:bg-[#D4AF37]/5 rounded-full blur-[80px]"></div>
       </div>
 
       <div className="max-w-6xl mx-auto px-6 relative z-10">
@@ -129,18 +129,18 @@ export default function EcosystemSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-[#C9A84C] via-[#E2C779] to-[#C9A84C]"
+            className="text-4xl md:text-5xl font-serif-editorial font-bold mb-4 text-slate-900 dark:text-gray-100"
           >
-            The EgyptX AI Ecosystem
+            {t('home.ecosystem.heading')}
           </motion.h2>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-xl text-gray-400"
+            className="text-base sm:text-lg text-slate-600 dark:text-gray-300 max-w-2xl mx-auto font-light"
           >
-            An intelligent network connecting all pillars of Egyptian tourism
+            {t('home.ecosystem.subheading')}
           </motion.p>
         </div>
 
@@ -330,16 +330,16 @@ export default function EcosystemSection() {
           ].map((stat, index) => (
             <motion.div
               key={index}
-              className="flex items-center gap-4 bg-white/5 border border-white/10 rounded-xl p-5 hover:border-[#C9A84C]/40 transition-colors"
+              className="flex items-center gap-4 bg-[#F8F3E9] dark:bg-[#131A2A] border border-slate-200/80 dark:border-white/5 rounded-xl p-5 shadow-sm dark:shadow-none hover:shadow-md dark:hover:border-[#D4AF37]/30 transition-all"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 1.5 + (index * 0.1) }}
+              transition={{ duration: 0.5, delay: 0.3 + (index * 0.1) }}
             >
-              <div className="w-12 h-12 rounded-full bg-[#1B6B93]/20 flex items-center justify-center text-[#C9A84C]">
+              <div className="w-12 h-12 rounded-full bg-[#FDFBF7] dark:bg-white/5 flex items-center justify-center text-yellow-600 dark:text-yellow-400">
                 <stat.icon />
               </div>
-              <div className="text-gray-200 font-medium">{stat.label}</div>
+              <div className="text-[#1A2332] dark:text-gray-200 font-medium text-sm sm:text-base">{stat.label}</div>
             </motion.div>
           ))}
         </div>
