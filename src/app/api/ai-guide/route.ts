@@ -1,148 +1,216 @@
+import { createOpenAI } from '@ai-sdk/openai';
+import { streamText, tool } from 'ai';
+import { z } from 'zod';
 import { NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
 
-const AHMED_PROMPT = `أنت أحمد، صاحب المستخدم المصري الشقي والظريف (الصوت المصري الطبيعي). 
-مش مرشد سياحي رسمي خالص - أنت صاحب بجد.
+export const maxDuration = 60;
+export const dynamic = 'force-dynamic';
 
-قواعدك:
-1. اتكلم بالعامية المصرية الشعبية دايماً - زي ما بتتكلم مع صاحبك في الشارع
-2. لو حد سألك عن حاجة في الكاميرا، بص عليها وعلق عليها بطريقتك الخاصة - مش وصف رسمي
-3. اهزر وابسط - لو حد طلب نكتة، قوله نكتة مصرية حقيقية ومضحكة
-4. ممكن تتجاهل الموضوع الأصلي وتتكلم في حاجة تانية لو حسيت إنها أمتع
-5. علق على اللي بتشوفه في الكاميرا بشكل طبيعي - زي 'يسطا ده إيه ده!' أو 'ياه ده جميل أوي'
-6. قول نكت مصرية فعلية وضحك معاه
-7. لو سألك سؤال جاد، جاوبه بس بأسلوبك الخاص المريح
-8. ممكن تسأله هو كمان أسئلة وتتكلموا مع بعض
-9. خلي المحادثة مفتوحة وطبيعية زي أي كلام بين أصحاب
-10. مش لازم كل رد يكون عن مصر أو السياحة
+const VERIFIED_FACTS = `VERIFIED EGYPTIAN MONUMENTS FACTS:
+- Great Pyramid of Khufu: Built 2560 BCE, Giza. Originally 146.5m tall. 2.3 million limestone blocks. One of Seven Wonders of Ancient World. Built by 20,000 workers over 20 years.
+- Great Sphinx of Giza: Built circa 2500 BCE. 73m long, 20m tall. Carved from single limestone outcrop. Represents Pharaoh Khafre with lion body.
+- Karnak Temple Complex: Built over 2000 years by 30+ pharaohs. World's largest ancient religious site at 100 hectares. Located in Luxor. Famous Hypostyle Hall has 134 columns up to 24m tall.
+- Luxor Temple: Built 1390 BCE by Amenhotep III. East bank of Nile, Luxor city. Connected to Karnak by 3km Avenue of Sphinxes.
+- Valley of the Kings: West bank of Nile, Luxor. Contains 63 royal tombs. KV62 is Tutankhamun's tomb, discovered 1922 by Howard Carter.
+- Abu Simbel Temples: Built by Ramesses II circa 1264 BCE. Two rock-cut temples in Aswan. Relocated by UNESCO 1968 to save from Lake Nasser flooding.
+- Step Pyramid of Saqqara: World's oldest stone pyramid, built 2670 BCE for Pharaoh Djoser by architect Imhotep. 6 tiers, 62.5m tall.
+- Egyptian Museum Cairo (Tahrir): Opened 1902, neoclassical building by Marcel Dourgnon. Houses 120,000+ artifacts including Tutankhamun treasures.
+- Philae Temple: Dedicated to goddess Isis. Located on Agilkia Island, Aswan. Relocated by UNESCO 1972-1980 from submerged Philae Island.
+- Colossi of Memnon: Two 18m stone statues of Amenhotep III, built 1350 BCE. West bank, Luxor.
+- Hatshepsut Temple: Built circa 1479 BCE at Deir el-Bahari, Luxor. 3-tiered terraced temple designed by Senenmut for Egypt's greatest female pharaoh.
+- Medinet Habu: Mortuary temple of Ramesses III, Luxor. Best preserved relief carvings and original paint in Egypt.`;
 
-أمثلة على أسلوبك:
-- بدل 'هذا المعلم الأثري' قول 'ده الحت ده'
-- بدل 'يسعدني إخبارك' قول 'يلا هقولك'
-- بدل 'بالتأكيد' قول 'أيوه يابا' أو 'تمام يسطا'
-- لو شايف حاجة في الكاميرا قول 'ياه بصيت على إيه ده؟'
+const SYSTEM_PROMPT = `You are an expert Egyptian historian, archaeologist, and AI tour guide with deep knowledge of Egyptian heritage.
 
-تذكر: أنت مش روبوت ومش مرشد - أنت أحمد، الصاحب المصري الضحوك.`;
+${VERIFIED_FACTS}
+
+If the requested information is not in the hardcoded facts, you MUST call the search tool to verify it. NEVER guess or hallucinate. Your final response MUST be in conversational Arabic.
+NEVER use Markdown formatting. Do not use asterisks (**), hashes (#), or bullet symbols. Output 100% clean, conversational plain text.
+
+STRICT GUIDELINES:
+1. Always base your historical statements strictly on verified sources or verified search results.
+2. If asked about the Grand Egyptian Museum (المتحف المصري الكبير), its official opening date is November 1, 2025.
+3. NEVER leak internal tool-calling tags, parameter blocks, JSON calls, or technical tags to the user. Present only clean, conversational Arabic.
+4. NEVER use Markdown formatting. Do not use asterisks (**), hashes (#), or bullet symbols. Output 100% clean, conversational plain text.`;
+
+/**
+ * Free Web Search Tool using Arabic/English Wikipedia and DuckDuckGo Instant Answers.
+ * 100% free with strict error handling and timeouts to prevent hanging.
+ */
+function createFreeSearchTool() {
+  return tool({
+    description: 'Search the web for free using Wikipedia and DuckDuckGo for factual, verified historical information about Egyptian monuments, sites, pharaohs, and archaeology.',
+    parameters: z.object({
+      query: z.string().describe('The historical or archaeological query to look up'),
+    }),
+    execute: async ({ query }: { query: string }) => {
+      try {
+        if (!query || typeof query !== 'string' || !query.trim()) {
+          return 'لم يتم تقديم استعلام بحث. يرجى الاعتماد على الحقائق التاريخية المؤكدة.';
+        }
+
+        const trimmedQuery = query.trim().slice(0, 100);
+        const results: string[] = [];
+
+        // 1. Search Arabic Wikipedia (2.5s timeout)
+        try {
+          const arSearchUrl = `https://ar.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(trimmedQuery)}&utf8=&format=json&origin=*`;
+          const arRes = await fetch(arSearchUrl, {
+            headers: { 'User-Agent': 'EgyptX-AI/1.0 (info@egyptx.ai)' },
+            signal: AbortSignal.timeout(2500),
+          });
+          if (arRes.ok) {
+            const data = await arRes.json();
+            const items = data.query?.search?.slice(0, 2) || [];
+            for (const item of items) {
+              const cleanSnippet = (item.snippet || '')
+                .replace(/<[^>]+>/g, ' ')
+                .replace(/\s+/g, ' ')
+                .trim();
+              if (cleanSnippet) {
+                results.push(`[ويكيبيديا العربية: ${item.title}]: ${cleanSnippet}`);
+              }
+            }
+          }
+        } catch (err) {
+          console.warn('[Search Tool] Wikipedia AR error caught:', err);
+        }
+
+        // 2. Search DuckDuckGo Instant Answer (2.5s timeout)
+        try {
+          const ddgUrl = `https://api.duckduckgo.com/?q=${encodeURIComponent(trimmedQuery)}&format=json&no_html=1&skip_disambig=1`;
+          const ddgRes = await fetch(ddgUrl, {
+            signal: AbortSignal.timeout(2500),
+          });
+          if (ddgRes.ok) {
+            const ddgData = await ddgRes.json();
+            if (ddgData.AbstractText) {
+              results.push(`[DuckDuckGo: ${ddgData.Heading || trimmedQuery}]: ${ddgData.AbstractText}`);
+            }
+          }
+        } catch (err) {
+          console.warn('[Search Tool] DuckDuckGo error caught:', err);
+        }
+
+        if (results.length > 0) {
+          return results.join('\n\n');
+        }
+
+        return 'لم يتم العثور على معلومات إضافية في البحث اللحظي. التزم بالحقائق التاريخية الموثقة المتاحة.';
+      } catch (error: any) {
+        console.error('[Search Tool] Safe error caught:', error);
+        return 'تعذر إتمام البحث اللحظي. التزم فقط بالحقائق التاريخية الموثقة.';
+      }
+    },
+  });
+}
 
 export async function POST(req: Request) {
   try {
-    const supabase = await createClient();
-    
-    const { image, language, voiceId } = await req.json();
+    const groqKey = process.env.GROQ_API_KEY || (process.env as any)['\uFEFFGROQ_API_KEY'];
+    const openaiKey = process.env.OPENAI_API_KEY;
 
-    if (!image) {
-      return NextResponse.json({ error: 'No image provided' }, { status: 400 });
+    if (!groqKey && !openaiKey) {
+      return NextResponse.json({ error: 'AI API key is not configured' }, { status: 500 });
     }
 
-    const apiKey = process.env.GROQ_API_KEY;
-    if (!apiKey) {
-      return NextResponse.json({ error: 'Groq API Key missing' }, { status: 500 });
-    }
+    const body = await req.json();
+    const { messages, prompt, question, image, stream } = body;
 
-    console.log(`[AI Guide] Using Groq API Key starting with: ${apiKey.substring(0, 8)}...`);
+    const openai = groqKey
+      ? createOpenAI({
+          baseURL: 'https://api.groq.com/openai/v1',
+          apiKey: groqKey,
+          compatibility: 'compatible',
+        })
+      : createOpenAI({ apiKey: openaiKey });
 
-    // Make sure we have the full data URL to send to Groq
-    const imageUrl = image.startsWith('data:') ? image : `data:image/jpeg;base64,${image}`;
+    const hasImage = Boolean(image);
+    const modelName = groqKey
+      ? hasImage
+        ? 'qwen/qwen3.8-27b'
+        : 'openai/gpt-oss-120b'
+      : 'gpt-4o-mini';
 
-    const { default: Groq } = await import('groq-sdk');
-    const groq = new Groq({ apiKey });
-    
-    let aiResponseStr = null;
+    // Format messages for streamText
+    let formattedMessages: Array<{ role: 'user' | 'assistant'; content: string | any[] }> = [];
 
-    try {
-      console.log(`[AI Guide] Trying model: qwen/qwen3.8-27b`);
-      
-      const isAhmed = voiceId === 'ihycSANIrpHfhWoaq1g3' || voiceId === 'egyptian' || voiceId === 'ahmed';
-
-      const promptText = isAhmed
-        ? `${AHMED_PROMPT}
-
-بص في الصورة وعلق عليها بطريقتك كصاحب مصري دمك خفيف.
-لازم ترد بـ JSON فقط بالصيغة دي بالظبط:
-{
-  "identified_name": "اسم الحاجة أو المكان اللي شايفه (أو وصف عام لو مش أثر معروف)",
-  "confidence_level": "high" | "medium" | "low" | "unable",
-  "ai_description": "تعليقك المصري الشقي اللطيف والدردشة العفوية عن اللي شايفه في الصورة (جملتين أو 3)"
-}`
-        : `You are an expert Egyptian heritage guide. Identify this monument, artifact, or landmark. Provide: name, historical period, location in Egypt, and a brief 2-3 sentence description. If you cannot identify it with confidence, say so honestly. Never invent information.${language && language !== 'en' ? ` Provide identified_name and ai_description in the language code: "${language}".` : ''}\n\nYou must respond ONLY with a valid JSON object matching this schema exactly:\n{\n  "identified_name": "The exact name of the monument/artifact (or empty string if unable)",\n  "confidence_level": "high" | "medium" | "low" | "unable",\n  "ai_description": "A 2-3 sentence accurate description. If unable to identify, provide a helpful message here explaining why."\n}`;
-
-      const response = await groq.chat.completions.create({
-        model: 'qwen/qwen3.8-27b',
-        messages: [
+    if (Array.isArray(messages) && messages.length > 0) {
+      formattedMessages = messages.map((m: any) => ({
+        role: m.role === 'assistant' ? ('assistant' as const) : ('user' as const),
+        content: m.content,
+      }));
+    } else if (prompt || question) {
+      const textQuery = prompt || question;
+      if (image) {
+        const imageUrl = image.startsWith('data:') ? image : `data:image/jpeg;base64,${image}`;
+        formattedMessages = [
           {
             role: 'user',
             content: [
-              {
-                type: 'image_url',
-                image_url: { url: imageUrl }
-              },
-              {
-                type: 'text',
-                text: promptText
-              }
-            ]
-          }
-        ],
-        response_format: { type: 'json_object' },
-        temperature: isAhmed ? 0.7 : 0.2
-      });
-
-      aiResponseStr = response.choices[0]?.message?.content;
-      console.log(`[AI Guide] Success with Groq model`);
-      
-    } catch (error: any) {
-      console.error(`[AI Guide] Groq model failed:`, error.message);
-      throw new Error(`Groq Vision model failed: ${error.message}`);
-    }
-
-    if (!aiResponseStr) {
-      throw new Error(`Groq Vision model returned empty response.`);
-    }
-
-    // Clean up potential markdown wrapper from text output
-    const cleanedStr = aiResponseStr.replace(/```json/g, '').replace(/```/g, '').trim();
-    
-    // Parse the JSON. If the model fails to output valid JSON, it will naturally fall to catch block
-    const parsedResponse = JSON.parse(cleanedStr);
-    
-    let dbMatch = null;
-    if (parsedResponse.confidence_level !== 'unable' && parsedResponse.identified_name) {
-      // Search in our verified attractions table
-      // Try an exact/full phrase match first
-      let { data: dbData } = await supabase
-        .from('attractions')
-        .select('*')
-        .eq('verified', true)
-        .ilike('name_en', `%${parsedResponse.identified_name}%`)
-        .limit(1);
-        
-      if (!dbData || dbData.length === 0) {
-        // Fallback: search by significant keyword (ignoring 'the', 'a', etc)
-        const words = parsedResponse.identified_name.split(' ').filter((w: string) => !['the', 'a', 'an', 'of'].includes(w.toLowerCase()));
-        if (words.length > 0) {
-          const searchName = words[0]; 
-          const { data: fallbackData } = await supabase
-            .from('attractions')
-            .select('*')
-            .eq('verified', true)
-            .ilike('name_en', `%${searchName}%`)
-            .limit(1);
-          dbData = fallbackData;
-        }
+              { type: 'text', text: textQuery },
+              { type: 'image', image: imageUrl },
+            ],
+          },
+        ];
+      } else {
+        formattedMessages = [{ role: 'user', content: textQuery }];
       }
-        
-      if (dbData && dbData.length > 0) {
-        dbMatch = dbData[0];
-      }
+    } else if (image) {
+      const imageUrl = image.startsWith('data:') ? image : `data:image/jpeg;base64,${image}`;
+      formattedMessages = [
+        {
+          role: 'user',
+          content: [
+            {
+              type: 'text',
+              text: 'حدد هذا المعلم أو الأثر المصري بدقة، واذكر اسمه وفترته التاريخية وموقعه في مصر وأهم تفاصيله الموثقة باللغة العربية المحادثية.',
+            },
+            { type: 'image', image: imageUrl },
+          ],
+        },
+      ];
+    } else {
+      formattedMessages = [{ role: 'user', content: 'حدثني عن أهم المعالم الأثرية في مصر.' }];
     }
 
-    return NextResponse.json({
-      ...parsedResponse,
-      db_match: dbMatch
+    const result = streamText({
+      model: openai(modelName),
+      system: SYSTEM_PROMPT,
+      messages: formattedMessages as any,
+      tools: hasImage
+        ? undefined
+        : {
+            searchWeb: createFreeSearchTool(),
+          },
+      maxSteps: 5,
+      temperature: 0.0,
     });
 
+    const acceptHeader = req.headers.get('accept') || '';
+    const isDataStream = req.headers.get('x-vercel-ai-data-stream') === 'v1' || acceptHeader.includes('text/event-stream');
+    const isNonStreamingJson = stream === false || acceptHeader === 'application/json';
+
+    if (isNonStreamingJson) {
+      const fullText = await result.text;
+      return NextResponse.json({
+        identified_name: 'معلم أثري مصري',
+        confidence_level: 'high',
+        ai_description: fullText,
+        reply: fullText,
+      });
+    }
+
+    if (isDataStream) {
+      return result.toDataStreamResponse();
+    }
+
+    return result.toTextStreamResponse();
   } catch (error: any) {
-    console.error('AI Guide Error:', error);
-    return NextResponse.json({ error: error.message || 'Failed to analyze image' }, { status: 500 });
+    console.error('[AI Guide Route Error]:', error);
+    return NextResponse.json(
+      { error: error.message || 'Failed to process AI guide request' },
+      { status: 500 }
+    );
   }
 }

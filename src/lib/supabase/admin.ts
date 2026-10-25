@@ -1,11 +1,11 @@
-import "server-only";
 import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 
-// SECRET/service_role client. `import "server-only"` guarantees this
-// file can never be bundled into client-side JS. Only import this
-// inside app/api/** route handlers or Server Actions that genuinely
-// need to bypass Row Level Security.
+// SECRET/service_role client. Only import this inside app/api/** route
+// handlers, Server Actions, or server-side evaluation scripts.
 export function createAdminClient() {
+  if (typeof window !== "undefined") {
+    throw new Error("createAdminClient cannot be called from client-side code.");
+  }
   return createSupabaseClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL || "http://localhost",
     process.env.SUPABASE_SECRET_KEY || "dummy",

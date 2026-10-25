@@ -2,6 +2,8 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { useAuth } from '@/context/AuthContext';
 
 interface Message {
@@ -10,17 +12,100 @@ interface Message {
 }
 
 const SUGGESTIONS = [
-  "Where should I go today?",
-  "Is Giza crowded right now?",
-  "I only have 3 hours, what do you recommend?",
-  "Suggest a family-friendly activity",
-  "Tell me about Luxor"
+  'Tell me the history of Karnak Temple in Luxor',
+  'Who built the Great Pyramid of Giza and why?',
+  'Explain the Valley of the Kings tombs',
+  'What is the significance of Abu Simbel?',
+  'Best historical route to explore Islamic Cairo',
 ];
+
+interface FormattedMessageProps {
+  content: string;
+}
+
+function FormattedAssistantMessage({ content }: FormattedMessageProps) {
+  const isArabic = /[\u0600-\u06FF]/.test(content);
+
+  return (
+    <div
+      dir={isArabic ? 'rtl' : 'ltr'}
+      className={`text-sm leading-relaxed text-slate-100 ${
+        isArabic ? 'text-right font-sans' : 'text-left'
+      }`}
+    >
+      <ReactMarkdown
+        remarkPlugins={[remarkGfm]}
+        components={{
+          p: ({ children }) => <p className="mb-2.5 last:mb-0 leading-relaxed">{children}</p>,
+          strong: ({ children }) => (
+            <strong className="font-semibold text-[#E2CB85] tracking-wide">{children}</strong>
+          ),
+          em: ({ children }) => <em className="italic text-slate-200">{children}</em>,
+          ul: ({ children }) => (
+            <ul className={`my-2 space-y-1.5 list-disc ${isArabic ? 'pr-5' : 'pl-5'}`}>{children}</ul>
+          ),
+          ol: ({ children }) => (
+            <ol className={`my-2 space-y-1.5 list-decimal ${isArabic ? 'pr-5' : 'pl-5'}`}>{children}</ol>
+          ),
+          li: ({ children }) => (
+            <li className="leading-relaxed marker:text-[#C9A84C] pl-1">{children}</li>
+          ),
+          h1: ({ children }) => (
+            <h1 className="text-base font-bold text-[#E2CB85] mt-3 mb-1.5 border-b border-[#C9A84C]/20 pb-1">
+              {children}
+            </h1>
+          ),
+          h2: ({ children }) => (
+            <h2 className="text-sm font-bold text-[#E2CB85] mt-2.5 mb-1">{children}</h2>
+          ),
+          h3: ({ children }) => (
+            <h3 className="text-sm font-semibold text-[#C9A84C] mt-2 mb-1">{children}</h3>
+          ),
+          blockquote: ({ children }) => (
+            <blockquote
+              className={`my-2 py-1.5 italic text-slate-300 bg-white/5 rounded-lg border-[#C9A84C]/60 ${
+                isArabic ? 'border-r-2 pr-3' : 'border-l-2 pl-3'
+              }`}
+            >
+              {children}
+            </blockquote>
+          ),
+          code: ({ inline, children }: any) => {
+            if (inline) {
+              return (
+                <code className="bg-[#030712]/60 text-[#4CC9F0] px-1.5 py-0.5 rounded text-xs font-mono border border-white/10">
+                  {children}
+                </code>
+              );
+            }
+            return (
+              <pre className="bg-[#030712]/80 text-[#4CC9F0] p-3 rounded-lg text-xs font-mono overflow-x-auto my-2 border border-white/10">
+                <code>{children}</code>
+              </pre>
+            );
+          },
+          a: ({ href, children }) => (
+            <a
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#4CC9F0] underline underline-offset-2 hover:text-[#70D6FF] transition-colors font-medium"
+            >
+              {children}
+            </a>
+          ),
+        }}
+      >
+        {content}
+      </ReactMarkdown>
+    </div>
+  );
+}
 
 export default function FloatingAssistant() {
   const [isOpen, setIsOpen] = useState(false);
   const { user } = useAuth();
-  
+
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputText, setInputText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
@@ -29,10 +114,10 @@ export default function FloatingAssistant() {
   // Initialize welcome message when opened for the first time
   useEffect(() => {
     if (isOpen && messages.length === 0) {
-      const greeting = user 
-        ? `Hi ${user.name.split(' ')[0]}! I'm your EgyptX travel assistant. How can I help you plan your Egypt experience today?`
-        : "Hi! I'm your EgyptX travel assistant. How can I help you plan your Egypt experience?";
-      
+      const greeting = user
+        ? `Welcome, ${user.name.split(' ')[0]}! I am the **EgyptX Guide**, your friendly and encyclopedic Egyptian tour guide.\n\nAsk me anything about ancient or modern Egyptian history, monuments, Pharaohs, or current travel updates! ✨`
+        : `Welcome! I am the **EgyptX Guide**, your friendly and encyclopedic Egyptian tour guide.\n\nAsk me anything about ancient or modern Egyptian history, monuments, Pharaohs, or current travel updates! ✨`;
+
       setMessages([{ role: 'assistant', content: greeting }]);
     }
   }, [isOpen, user, messages.length]);
@@ -44,9 +129,9 @@ export default function FloatingAssistant() {
 
   const handleSend = async (text: string) => {
     if (!text.trim()) return;
-    
+
     const userMsg: Message = { role: 'user', content: text };
-    setMessages(prev => [...prev, userMsg]);
+    setMessages((prev) => [...prev, userMsg]);
     setInputText('');
     setIsTyping(true);
 
@@ -54,22 +139,26 @@ export default function FloatingAssistant() {
       const response = await fetch('/api/chat-assistant', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: [...messages, userMsg] })
+        body: JSON.stringify({ messages: [...messages, userMsg] }),
       });
 
       const data = await response.json();
-      
+
       if (!response.ok) {
         throw new Error(data.error || 'Failed to get response');
       }
 
-      setMessages(prev => [...prev, { role: 'assistant', content: data.reply }]);
+      setMessages((prev) => [...prev, { role: 'assistant', content: data.reply }]);
     } catch (error) {
       console.error('Chat error:', error);
-      setMessages(prev => [...prev, { 
-        role: 'assistant', 
-        content: "I'm having a little trouble connecting right now. Please try again in a moment!" 
-      }]);
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: 'assistant',
+          content:
+            "I'm having a little trouble connecting right now. Please try again in a moment!",
+        },
+      ]);
     } finally {
       setIsTyping(false);
     }
@@ -90,14 +179,24 @@ export default function FloatingAssistant() {
             >
               {/* Pulsing glow behind button */}
               <div className="absolute inset-0 rounded-full bg-[#C9A84C] opacity-40 animate-ping" />
-              
-              <svg className="w-6 h-6 text-[#030712] relative z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+
+              <svg
+                className="w-6 h-6 text-[#030712] relative z-10"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
+                />
               </svg>
-              
+
               {/* Hover Label */}
               <div className="absolute right-full mr-4 top-1/2 -translate-y-1/2 px-3 py-1.5 bg-[#0A1628]/90 backdrop-blur-md border border-[#C9A84C]/20 text-white text-sm font-medium rounded-lg opacity-0 group-hover:opacity-100 transform translate-x-4 group-hover:translate-x-0 transition-all duration-300 pointer-events-none whitespace-nowrap">
-                Ask EgyptX
+                EgyptX AI Guide
               </div>
             </motion.button>
           )}
@@ -112,7 +211,7 @@ export default function FloatingAssistant() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="fixed bottom-0 right-0 w-full h-[100dvh] md:bottom-24 md:right-6 md:w-[400px] md:h-[600px] z-[100] flex flex-col bg-[#060E1A]/95 backdrop-blur-xl md:rounded-2xl border-t md:border border-[#C9A84C]/20 shadow-[0_0_50px_rgba(3,7,18,0.8)] overflow-hidden"
+            className="fixed bottom-0 right-0 w-full h-[100dvh] md:bottom-24 md:right-6 md:w-[420px] md:h-[620px] z-[100] flex flex-col bg-[#060E1A]/95 backdrop-blur-xl md:rounded-2xl border-t md:border border-[#C9A84C]/20 shadow-[0_0_50px_rgba(3,7,18,0.8)] overflow-hidden"
           >
             {/* Header */}
             <div className="px-5 py-4 border-b border-[#C9A84C]/10 bg-white/5 flex items-center justify-between">
@@ -122,16 +221,21 @@ export default function FloatingAssistant() {
                   <div className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-[#060E1A]" />
                 </div>
                 <div>
-                  <h3 className="text-white font-semibold text-sm">EgyptX AI Assistant</h3>
-                  <p className="text-white/50 text-xs">Online</p>
+                  <h3 className="text-white font-semibold text-sm">EgyptX AI Guide</h3>
+                  <p className="text-white/50 text-xs">Historian & Live Egypt Updates</p>
                 </div>
               </div>
-              <button 
+              <button
                 onClick={() => setIsOpen(false)}
                 className="p-2 text-white/50 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
               >
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
                 </svg>
               </button>
             </div>
@@ -139,17 +243,28 @@ export default function FloatingAssistant() {
             {/* Messages Area */}
             <div className="flex-1 overflow-y-auto p-5 flex flex-col gap-4 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
               {messages.map((msg, idx) => (
-                <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                  <div className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${
-                    msg.role === 'user' 
-                      ? 'bg-gradient-to-br from-[#C9A84C] to-[#B3933E] text-[#030712] font-medium' 
-                      : 'bg-white/10 text-white/90 border border-white/5'
-                  }`}>
-                    {msg.content}
+                <div
+                  key={idx}
+                  className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                >
+                  <div
+                    className={`max-w-[88%] px-4 py-3 text-sm leading-relaxed ${
+                      msg.role === 'user'
+                        ? 'bg-gradient-to-r from-[#C9A84C] to-[#E2CB85] text-[#030712] font-semibold rounded-2xl rounded-tr-sm shadow-[0_4px_16px_rgba(201,168,76,0.25)]'
+                        : 'bg-[#0B1728]/95 text-slate-100 border border-[#C9A84C]/25 rounded-2xl rounded-tl-sm shadow-[0_4px_20px_rgba(0,0,0,0.35)] backdrop-blur-md'
+                    }`}
+                  >
+                    {msg.role === 'assistant' ? (
+                      <FormattedAssistantMessage content={msg.content} />
+                    ) : (
+                      <div dir={/[\u0600-\u06FF]/.test(msg.content) ? 'rtl' : 'ltr'}>
+                        {msg.content}
+                      </div>
+                    )}
                   </div>
                 </div>
               ))}
-              
+
               {/* Initial Suggestions */}
               {messages.length === 1 && (
                 <div className="flex flex-wrap gap-2 mt-2">
@@ -169,9 +284,21 @@ export default function FloatingAssistant() {
               {isTyping && (
                 <div className="flex justify-start">
                   <div className="bg-white/10 border border-white/5 rounded-2xl px-4 py-4 flex gap-1.5 items-center">
-                    <motion.div animate={{ y: [0, -5, 0] }} transition={{ repeat: Infinity, duration: 0.6, delay: 0 }} className="w-1.5 h-1.5 bg-white/50 rounded-full" />
-                    <motion.div animate={{ y: [0, -5, 0] }} transition={{ repeat: Infinity, duration: 0.6, delay: 0.2 }} className="w-1.5 h-1.5 bg-white/50 rounded-full" />
-                    <motion.div animate={{ y: [0, -5, 0] }} transition={{ repeat: Infinity, duration: 0.6, delay: 0.4 }} className="w-1.5 h-1.5 bg-white/50 rounded-full" />
+                    <motion.div
+                      animate={{ y: [0, -5, 0] }}
+                      transition={{ repeat: Infinity, duration: 0.6, delay: 0 }}
+                      className="w-1.5 h-1.5 bg-white/50 rounded-full"
+                    />
+                    <motion.div
+                      animate={{ y: [0, -5, 0] }}
+                      transition={{ repeat: Infinity, duration: 0.6, delay: 0.2 }}
+                      className="w-1.5 h-1.5 bg-white/50 rounded-full"
+                    />
+                    <motion.div
+                      animate={{ y: [0, -5, 0] }}
+                      transition={{ repeat: Infinity, duration: 0.6, delay: 0.4 }}
+                      className="w-1.5 h-1.5 bg-white/50 rounded-full"
+                    />
                   </div>
                 </div>
               )}
@@ -180,15 +307,18 @@ export default function FloatingAssistant() {
 
             {/* Input Area */}
             <div className="p-4 bg-white/5 border-t border-[#C9A84C]/10">
-              <form 
-                onSubmit={(e) => { e.preventDefault(); handleSend(inputText); }}
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  handleSend(inputText);
+                }}
                 className="flex items-center gap-2"
               >
                 <input
                   type="text"
                   value={inputText}
                   onChange={(e) => setInputText(e.target.value)}
-                  placeholder="Ask anything..."
+                  placeholder="Ask about history, monuments, or live Egypt news..."
                   className="flex-1 bg-[#030712]/50 border border-white/10 focus:border-[#C9A84C]/50 rounded-xl px-4 py-3 text-sm text-white placeholder-white/30 outline-none transition-colors"
                 />
                 <button
@@ -196,8 +326,18 @@ export default function FloatingAssistant() {
                   disabled={!inputText.trim() || isTyping}
                   className="p-3 bg-[#C9A84C] hover:bg-[#D5B965] disabled:opacity-50 disabled:hover:bg-[#C9A84C] text-[#030712] rounded-xl transition-colors"
                 >
-                  <svg className="w-5 h-5 translate-x-0.5 -translate-y-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                  <svg
+                    className="w-5 h-5 translate-x-0.5 -translate-y-0.5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
+                    />
                   </svg>
                 </button>
               </form>

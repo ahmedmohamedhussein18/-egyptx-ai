@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -12,12 +12,15 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+export const viewport: Viewport = {
+  themeColor: "#0A1628",
+};
+
 export const metadata: Metadata = {
   title: "EgyptX AI — The National Smart Tourism Ecosystem",
   description:
     "Discover Egypt. Experience History. Shape the Future. EgyptX AI is Egypt's National Smart Tourism Ecosystem powered by Artificial Intelligence.",
   manifest: "/manifest.json",
-  themeColor: "#0A1628",
   keywords: [
     "Egypt",
     "Tourism",

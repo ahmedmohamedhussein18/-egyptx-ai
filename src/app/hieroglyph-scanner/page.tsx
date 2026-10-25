@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { useLanguage } from '@/context/LanguageContext';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
@@ -74,6 +75,7 @@ const SAMPLE_INSCRIPTIONS = [
 ];
 
 export default function HieroglyphScannerPage() {
+  const { locale } = useLanguage();
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [isCameraActive, setIsCameraActive] = useState<boolean>(false);
   const [facingMode, setFacingMode] = useState<'environment' | 'user'>('environment');
@@ -223,7 +225,10 @@ export default function HieroglyphScannerPage() {
       const response = await fetch('/api/analyze-vision', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ image: imageDataUrl })
+        body: JSON.stringify({ 
+          image: imageDataUrl,
+          language: locale || 'en'
+        })
       });
 
       if (!response.ok) {

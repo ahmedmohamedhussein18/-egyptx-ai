@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { generateContentWithFallback } from '@/lib/groq';
+import { createUniversalChatCompletion } from '@/lib/ai-client';
 
 export async function POST(req: Request) {
   try {
@@ -33,22 +33,21 @@ CRITICAL PRONUNCIATION & PHONETIC RULES FOR TTS ENGINES:
 Output MUST be strictly valid raw JSON without markdown or codeblocks:
 {"translation": "clean Egyptian Arabic text", "phonetic": "English phonetic transliteration", "context": "cultural context note"}`;
 
-    const rawResult = await generateContentWithFallback({
+    const content = await createUniversalChatCompletion({
+      model: 'openai/gpt-4o-mini',
       messages: [
         { role: 'system', content: systemPrompt },
-        { role: 'user', content: text }
+        { role: 'user', content: text },
       ],
-      config: { temperature: 0.6, max_tokens: 400 }
+      temperature: 0.5,
+      max_tokens: 500,
+      response_format: { type: 'json_object' },
     });
 
-    const content = rawResult.choices[0].message.content;
-
     try {
-      // Clean possible markdown code fences if model returned them
       const cleaned = content.replace(/^```json\s*/i, '').replace(/```\s*$/i, '').trim();
       const parsed = JSON.parse(cleaned);
 
-      // Clean any accidental letter repetition in translation
       if (parsed.translation && typeof parsed.translation === 'string') {
         parsed.translation = parsed.translation
           .replace(/\u0640+/g, '')
@@ -62,10 +61,9 @@ Output MUST be strictly valid raw JSON without markdown or codeblocks:
       return NextResponse.json({
         translation: content,
         phonetic: '',
-        context: ''
+        context: '',
       });
     }
-
   } catch (error) {
     console.error('Slang translation error:', error);
     return NextResponse.json(

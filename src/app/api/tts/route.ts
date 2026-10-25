@@ -34,8 +34,12 @@ const VOICE_MAP: Record<string, string> = {
 function optimizeArabicEgyptianTTS(text: string): string {
   if (!text || typeof text !== 'string') return '';
 
-  // 1. Remove Arabic Tatweel / Kashida (ـ)
-  let res = text.replace(/\u0640+/g, '');
+  // 1. Remove Arabic Tatweel / Kashida (ـ) and enforce verified GEM date
+  let res = text
+    .replace(/\u0640+/g, '')
+    .replace(/16\s*فبراير\s*2023/g, '1 نوفمبر 2025')
+    .replace(/فبراير\s*2023/g, '1 نوفمبر 2025')
+    .replace(/February\s*16,?\s*2023/gi, 'November 1, 2025');
 
   // 2. Token-level phonetic rewrite and letter elongation normalization
   res = res.replace(/[\u0621-\u064A\u064B-\u065F]+/gu, (word) => {

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { generateContentWithFallback } from '@/lib/groq';
+import { createUniversalChatCompletion } from '@/lib/ai-client';
 
 export async function POST(req: Request) {
   try {
@@ -10,10 +10,9 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'No memories provided' }, { status: 400 });
     }
 
-    // Format memories for the prompt
     const memoriesContext = memories.map((m: any, index: number) => {
-      let location = m.attractions?.name_en ? `Location: ${m.attractions.name_en}` : '';
-      let date = m.visited_at ? `Date: ${m.visited_at}` : '';
+      const location = m.attractions?.name_en ? `Location: ${m.attractions.name_en}` : '';
+      const date = m.visited_at ? `Date: ${m.visited_at}` : '';
       return `Memory ${index + 1}:
 Title: ${m.title}
 ${date}
@@ -33,17 +32,15 @@ CRITICAL RULES:
 
     const prompt = `Here are the user's memories:\n\n${memoriesContext}\n\nPlease generate the personalized trip summary.`;
 
-    const response = await generateContentWithFallback({
+    const replyText = await createUniversalChatCompletion({
+      model: 'openai/gpt-4o-mini',
       messages: [
         { role: 'system', content: systemInstruction },
-        { role: 'user', content: prompt }
+        { role: 'user', content: prompt },
       ],
-      config: {
-        temperature: 0.7
-      }
+      temperature: 0.6,
+      max_tokens: 600,
     });
-
-    const replyText = response?.choices?.[0]?.message?.content || "Unable to generate summary at this time.";
 
     return NextResponse.json({ summary: replyText });
   } catch (error) {

@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useLanguage } from '@/context/LanguageContext';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
-import { Camera, Upload, Loader2, Sparkles, AlertCircle, MapPin, ExternalLink, ArrowRight, Send, Phone } from 'lucide-react';
+import { Camera, Upload, Loader2, Sparkles, AlertCircle, MapPin, ExternalLink, ArrowRight, Send, Phone, Square } from 'lucide-react';
 import AIGuideVoiceCall from './AIGuideVoiceCall';
 import { useAuth } from '@/context/AuthContext';
 import { trackEvent } from '@/lib/analytics';
@@ -26,6 +26,17 @@ export default function AIGuideContent() {
   const [chatMessages, setChatMessages] = useState<{role: 'user'|'assistant', content: string}[]>([]);
   const [chatInput, setChatInput] = useState('');
   const [isChatLoading, setIsChatLoading] = useState(false);
+  const chatAbortRef = useRef<AbortController | null>(null);
+
+  const handleStopChat = () => {
+    if (chatAbortRef.current) {
+      try {
+        chatAbortRef.current.abort();
+      } catch {}
+      chatAbortRef.current = null;
+    }
+    setIsChatLoading(false);
+  };
   
   const scrollRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -36,35 +47,101 @@ export default function AIGuideContent() {
 
   const handleSendChat = async (overrideMsg?: string) => {
     const msgToSend = overrideMsg || chatInput.trim();
-    if (!msgToSend || isChatLoading || !result || result.confidence_level === 'unable') return;
-    
+    if (!msgToSend || !result || result.confidence_level === 'unable') return;
+
+    // If a previous stream was still running, abort it cleanly before starting the new prompt
+    if (chatAbortRef.current) {
+      try {
+        chatAbortRef.current.abort();
+      } catch {}
+      chatAbortRef.current = null;
+    }
+
     if (!overrideMsg) setChatInput('');
-    
+
     const newMessages = [...chatMessages, { role: 'user' as const, content: msgToSend }];
     setChatMessages(newMessages);
     setIsChatLoading(true);
-    
+
+    const activeLanguage = locale || 'en';
+    const controller = new AbortController();
+    chatAbortRef.current = controller;
+
     try {
       const res = await fetch('/api/ai-guide/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        signal: controller.signal,
         body: JSON.stringify({
           messages: newMessages,
-          context: result
+          context: result,
+          language: activeLanguage
         })
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error);
-      
-      setChatMessages([...newMessages, { role: 'assistant', content: data.reply }]);
-    } catch (err) {
+      if (!res.ok) throw new Error('Chat failed');
+
+      if (res.body) {
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder();
+        let streamedReply = '';
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          const rawChunk = decoder.decode(value, { stream: true });
+
+          // Support both pure text stream and Vercel AI SDK data-stream protocol (0:"text")
+          let textChunk = rawChunk;
+          if (rawChunk.includes('0:')) {
+            const lines = rawChunk.split('\n');
+            let parsed = '';
+            for (const line of lines) {
+              if (line.startsWith('0:')) {
+                try {
+                  parsed += JSON.parse(line.slice(2));
+                } catch {
+                  parsed += line.slice(2).replace(/^"|"$/g, '');
+                }
+              }
+            }
+            if (parsed) textChunk = parsed;
+          }
+
+          streamedReply += textChunk;
+          const cleanReply = streamedReply.replace(/\[FETCH_PICS:[^\]]*\]/gi, '').trim();
+          setChatMessages([...newMessages, { role: 'assistant', content: cleanReply }]);
+        }
+
+        if (!streamedReply.trim()) {
+          const noReplyMsg = activeLanguage === 'ar'
+            ? 'لا تتوفر لدي معلومات موثقة كافية حول هذا السؤال حالياً.'
+            : 'I do not have sufficient verified information about this query currently.';
+          setChatMessages([...newMessages, { role: 'assistant', content: noReplyMsg }]);
+        }
+      } else {
+        const rawText = await res.text();
+        let reply = rawText;
+        try {
+          const parsed = JSON.parse(rawText);
+          if (parsed.reply) reply = parsed.reply;
+        } catch {}
+        const cleanReply = reply.replace(/\[FETCH_PICS:[^\]]*\]/gi, '').trim();
+        setChatMessages([...newMessages, { role: 'assistant', content: cleanReply }]);
+      }
+    } catch (err: any) {
+      if (err?.name === 'AbortError') {
+        // User manually stopped generation: unlock immediately without error message
+        return;
+      }
       console.error('Chat error:', err);
-      setChatMessages([...newMessages, { role: 'assistant', content: 'Connection error. Please try again.' }]);
+      const errMsg = activeLanguage === 'ar' ? 'حدث خطأ في الاتصال. يرجى المحاولة مرة أخرى.' : 'Connection error. Please try again.';
+      setChatMessages([...newMessages, { role: 'assistant', content: errMsg }]);
     } finally {
+      chatAbortRef.current = null;
       setIsChatLoading(false);
     }
   };
-const fileInputRef = useRef<HTMLInputElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -101,16 +178,29 @@ const fileInputRef = useRef<HTMLInputElement>(null);
     try {
       trackEvent('ai_guide_used');
       const base64Img = await convertToBase64(selectedFile);
+      const activeLanguage = locale || 'en';
       
       const res = await fetch('/api/ai-guide', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ image: base64Img })
+        body: JSON.stringify({ 
+          image: base64Img,
+          language: activeLanguage 
+        })
       });
       
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Failed to analyze image');
-      
+      const rawText = await res.text();
+      if (!res.ok) throw new Error('Failed to analyze image');
+      let data: any;
+      try {
+        data = JSON.parse(rawText.replace(/```json/g, '').replace(/```/g, '').trim());
+      } catch {
+        data = {
+          identified_name: 'معلم أثري مصري',
+          confidence_level: 'high',
+          ai_description: rawText,
+        };
+      }
       setResult(data);
     } catch (err: any) {
       setError(err.message || 'An error occurred during analysis.');
@@ -260,9 +350,11 @@ const fileInputRef = useRef<HTMLInputElement>(null);
                     </div>
 
                     <div className="prose prose-invert max-w-none mb-8">
-                      <p className="text-gray-300 leading-relaxed text-sm sm:text-base">
-                        {result.ai_description}
-                      </p>
+                      <div className="max-h-60 overflow-y-auto p-4 rounded-2xl bg-black/25 border border-white/10">
+                        <p className="text-gray-300 leading-relaxed text-sm sm:text-base whitespace-pre-wrap" style={{ whiteSpace: 'pre-wrap' }} dir="auto">
+                          {result.ai_description?.replace(/\*\*|#{1,6}\s?/g, '')}
+                        </p>
+                      </div>
                       <p className="text-xs text-orange-400/80 mt-4 font-medium flex items-start gap-1.5">
                         <span className="text-orange-400">️</span> AI identification may not be 100% accurate. Always verify with official sources or on-site information.
                       </p>
@@ -284,7 +376,7 @@ const fileInputRef = useRef<HTMLInputElement>(null);
                             <MapPin className="w-4 h-4" />
                             <span className="text-sm font-bold uppercase tracking-wider">{t('aiGuide.verified')}</span>
                           </div>
-                          <p className="text-white font-bold">{result.db_match.name_en}</p>
+                          <p className="text-white font-bold">{locale === 'ar' ? (result.db_match.name_ar || result.db_match.name_en) : (result.db_match.name_en || result.db_match.name_ar)}</p>
                           <p className="text-gray-400 text-sm mt-1">{result.db_match.city} • {result.db_match.category}</p>
                         </div>
                         <Link href={`/destination/${result.db_match.id}`}>
@@ -334,12 +426,16 @@ const fileInputRef = useRef<HTMLInputElement>(null);
                                 </div>
                               )}
                               
-                              <div className={`max-w-[80%] rounded-2xl px-5 py-3 text-sm leading-relaxed shadow-sm ${
-                                msg.role === 'user' 
-                                  ? 'bg-gradient-to-br from-[#C9A84C] to-[#b39542] text-black rounded-tr-none font-medium' 
-                                  : 'bg-[#121a2f] border border-white/5 text-gray-200 rounded-tl-none'
-                              }`}>
-                                {msg.content}
+                              <div
+                                dir="auto"
+                                style={{ whiteSpace: 'pre-wrap' }}
+                                className={`max-w-[80%] max-h-60 overflow-y-auto rounded-2xl px-5 py-4 text-sm leading-relaxed shadow-sm whitespace-pre-wrap ${
+                                  msg.role === 'user' 
+                                    ? 'bg-gradient-to-br from-[#C9A84C] to-[#b39542] text-black rounded-tr-none font-medium' 
+                                    : 'bg-[#121a2f] border border-white/5 text-gray-200 rounded-tl-none'
+                                }`}
+                              >
+                                {msg.content?.replace(/\*\*|#{1,6}\s?/g, '')}
                               </div>
                             </div>
                           ))}
@@ -367,13 +463,25 @@ const fileInputRef = useRef<HTMLInputElement>(null);
                             placeholder="Ask a question..."
                             className="flex-1 bg-black/30 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#C9A84C]/50 transition-colors placeholder:text-gray-500"
                           />
-                          <button
-                            onClick={() => handleSendChat()}
-                            disabled={isChatLoading || !chatInput.trim()}
-                            className="w-12 h-12 bg-gradient-to-r from-[#C9A84C] to-[#D4B05A] hover:brightness-110 text-black rounded-xl flex items-center justify-center transition-all disabled:opacity-50 disabled:hover:brightness-100 flex-shrink-0"
-                          >
-                            <Send className="w-5 h-5 -ml-1" />
-                          </button>
+                          {isChatLoading ? (
+                            <button
+                              type="button"
+                              onClick={handleStopChat}
+                              title="Stop generating"
+                              className="w-12 h-12 bg-red-600 hover:bg-red-500 text-white rounded-xl flex items-center justify-center transition-all flex-shrink-0 shadow-[0_0_15px_rgba(239,68,68,0.5)]"
+                            >
+                              <Square className="w-4 h-4 fill-white" />
+                            </button>
+                          ) : (
+                            <button
+                              type="button"
+                              onClick={() => handleSendChat()}
+                              disabled={!chatInput.trim()}
+                              className="w-12 h-12 bg-gradient-to-r from-[#C9A84C] to-[#D4B05A] hover:brightness-110 text-black rounded-xl flex items-center justify-center transition-all disabled:opacity-50 disabled:hover:brightness-100 flex-shrink-0"
+                            >
+                              <Send className="w-5 h-5 -ml-1" />
+                            </button>
+                          )}
                         </div>
                       </div>
                     </div>

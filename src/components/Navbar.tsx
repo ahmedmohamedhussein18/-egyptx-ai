@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import ThemeToggle from '@/components/ThemeToggle';
 import EliteModal from '@/components/EliteModal';
+import VrLoadingOverlay from '@/components/VrLoadingOverlay';
 import {
   EXPLORE_NAV_ITEMS,
   EXPERIENCES_NAV_ITEMS,
@@ -88,6 +89,7 @@ function NavHoverDropdown({
   isActive,
   currentPath,
   scrolled,
+  onVrClick,
 }: {
   label: string;
   href: string;
@@ -96,6 +98,7 @@ function NavHoverDropdown({
   isActive: boolean;
   currentPath: string;
   scrolled: boolean;
+  onVrClick?: (e: React.MouseEvent, destinationUrl: string) => void;
 }) {
   const { t } = useLanguage();
   const [open, setOpen] = useState(false);
@@ -172,7 +175,12 @@ function NavHoverDropdown({
                 <Link
                   key={item.href + item.title}
                   href={item.href}
-                  onClick={() => setOpen(false)}
+                  onClick={(e) => {
+                    setOpen(false);
+                    if (onVrClick && (item.href === '/vr-egypt' || item.href === '/gem-vr-experience' || item.href.includes('vr'))) {
+                      onVrClick(e, item.href);
+                    }
+                  }}
                   className={`group flex items-center justify-between px-3.5 py-2.5 rounded-xl border transition-all duration-200 ${
                     itemActive
                       ? 'bg-[#C5A059]/15 border-[#C5A059]/40 text-[#C5A059]'
@@ -215,8 +223,16 @@ export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const [isEliteModalOpen, setIsEliteModalOpen] = useState(false);
+  const [isVrLoading, setIsVrLoading] = useState(false);
+  const [targetVrUrl, setTargetVrUrl] = useState('/vr-egypt');
   const { user } = useAuth();
   const userDropdownRef = useRef<HTMLDivElement>(null);
+
+  const handleVrClick = (e: React.MouseEvent, destinationUrl: string = '/vr-egypt') => {
+    e.preventDefault();
+    setTargetVrUrl(destinationUrl);
+    setIsVrLoading(true);
+  };
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -314,6 +330,7 @@ export default function Navbar() {
               currentPath={pathname}
               scrolled={scrolled}
               items={EXPERIENCES_NAV_ITEMS}
+              onVrClick={handleVrClick}
             />
 
             {/* 4. Egypt Life */}
@@ -341,6 +358,7 @@ export default function Navbar() {
             {/* 6. Meresankh VR */}
             <Link
               href="/gem-vr-experience"
+              onClick={(e) => handleVrClick(e, '/gem-vr-experience')}
               className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-semibold tracking-wider transition-all duration-300 ${
                 isGemVrActive
                   ? 'bg-[#C5A059] text-stone-950 shadow-sm scale-105'
@@ -505,7 +523,12 @@ export default function Navbar() {
                     <Link
                       key={item.href}
                       href={item.href}
-                      onClick={() => setMobileMenuOpen(false)}
+                      onClick={(e) => {
+                        setMobileMenuOpen(false);
+                        if (item.href === '/vr-egypt' || item.href === '/gem-vr-experience' || item.href.includes('vr')) {
+                          handleVrClick(e, item.href);
+                        }
+                      }}
                       className="flex items-center justify-between px-3 py-2 text-xs font-medium text-[#1A2332] dark:text-gray-200 hover:text-[#C5A059] hover:bg-black/[0.03] dark:hover:bg-white/5 rounded-xl transition-colors"
                     >
                       <span>{item.titleKey ? safeNav(t(item.titleKey), item.title) : item.title}</span>
@@ -571,7 +594,10 @@ export default function Navbar() {
               <div className="pt-3 border-t border-black/[0.05] dark:border-white/5">
                 <Link
                   href="/gem-vr-experience"
-                  onClick={() => setMobileMenuOpen(false)}
+                  onClick={(e) => {
+                    setMobileMenuOpen(false);
+                    handleVrClick(e, '/gem-vr-experience');
+                  }}
                   className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-[#C5A059]/15 border border-[#C5A059]/30 text-[#C5A059] text-xs font-bold uppercase tracking-wider hover:bg-[#C5A059]/25 transition-colors"
                 >
                   <Glasses className="w-4 h-4 text-[#C5A059]" />
@@ -584,6 +610,11 @@ export default function Navbar() {
       </AnimatePresence>
 
       <EliteModal isOpen={isEliteModalOpen} onClose={() => setIsEliteModalOpen(false)} />
+      <VrLoadingOverlay
+        isOpen={isVrLoading}
+        targetUrl={targetVrUrl}
+        onClose={() => setIsVrLoading(false)}
+      />
     </header>
   );
 }

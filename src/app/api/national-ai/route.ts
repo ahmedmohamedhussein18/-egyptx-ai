@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { generateContentWithFallback } from '@/lib/groq';
+import { createUniversalChatCompletion } from '@/lib/ai-client';
 
 export async function POST(req: Request) {
   try {
@@ -22,20 +22,17 @@ CURRENT VERIFIED NATIONAL DATA:
 - Total Active Tourists: ${stats?.activeUsers || 0}
 `;
 
-    const groqMessages = [
-      { role: 'system', content: systemInstruction },
-      { role: 'user', content: query }
+    const messages = [
+      { role: 'system' as const, content: systemInstruction },
+      { role: 'user' as const, content: query },
     ];
 
-    const response = await generateContentWithFallback({
-      messages: groqMessages,
-      config: {
-        temperature: 0.5,
-        max_tokens: 500,
-      }
+    const replyText = await createUniversalChatCompletion({
+      model: 'openai/gpt-4o-mini',
+      messages,
+      temperature: 0.3,
+      max_tokens: 600,
     });
-
-    const replyText = response?.choices?.[0]?.message?.content || "I'm sorry, I couldn't generate an analysis at this time.";
 
     return NextResponse.json({ reply: replyText });
   } catch (error) {

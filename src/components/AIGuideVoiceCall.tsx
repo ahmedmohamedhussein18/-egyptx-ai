@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { useLanguage } from '@/context/LanguageContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   PhoneOff,
@@ -112,8 +113,10 @@ export default function AIGuideVoiceCall({ isOpen, onClose }: AIGuideVoiceCallPr
   const [manualInput, setManualInput] = useState('');
   const [showInputDrawer, setShowInputDrawer] = useState(false);
 
-  // Abort controller ref for instant voice cutoff
+  // Abort controller refs for instant voice & chat stream cutoff
   const ttsAbortRef = useRef<AbortController | null>(null);
+  const chatAbortRef = useRef<AbortController | null>(null);
+  const visionAbortRef = useRef<AbortController | null>(null);
   const isCameraOnRef = useRef(true);
 
   // Refs for audio / speech / camera sync
@@ -145,13 +148,16 @@ export default function AIGuideVoiceCall({ isOpen, onClose }: AIGuideVoiceCallPr
     lastResultRef.current = lastResult;
   }, [lastResult]);
 
-  // Read current site language strictly from document.documentElement.lang
+  const { locale } = useLanguage();
+
+  // Read current site language dynamically from LanguageContext
   const getSiteLanguage = useCallback((): string => {
+    if (locale) return locale.toLowerCase();
     if (typeof document !== 'undefined' && document.documentElement.lang) {
       return document.documentElement.lang.toLowerCase();
     }
     return 'en';
-  }, []);
+  }, [locale]);
 
   // Keep isCameraOn ref synced
   useEffect(() => {
@@ -202,9 +208,45 @@ export default function AIGuideVoiceCall({ isOpen, onClose }: AIGuideVoiceCallPr
     }
   }, []);
 
-  // INSTANT SPEECH CUT-OFF (إيقاف الكلام فوري)
-  const stopAudio = useCallback(() => {
-    // 1. Cancel browser speech synthesis if active
+  // Helper to safely re-arm microphone recognition
+  const safeRestartRecognition = useCallback(() => {
+    const tryStart = () => {
+      if (isCallActiveRef.current && !isMutedRef.current && !isSpeakingRef.current && recognitionRef.current) {
+        try {
+          recognitionRef.current.start();
+        } catch {
+          /* ignore if already started */
+        }
+      }
+    };
+    tryStart();
+    setTimeout(tryStart, 200);
+  }, []);
+
+  // INSTANT SPEECH & STREAM CUT-OFF (إيقاف الكلام والبث فوري)
+  const stopAudio = useCallback((abortChatStream = true) => {
+    // 1. Abort active chat / vision streams if user manually stopped
+    if (abortChatStream) {
+      if (chatAbortRef.current) {
+        try {
+          chatAbortRef.current.abort();
+        } catch {
+          /* ignore */
+        }
+        chatAbortRef.current = null;
+      }
+      if (visionAbortRef.current) {
+        try {
+          visionAbortRef.current.abort();
+        } catch {
+          /* ignore */
+        }
+        visionAbortRef.current = null;
+      }
+      isAnalyzingRef.current = false;
+    }
+
+    // 2. Cancel browser speech synthesis if active
     if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
       try {
         window.speechSynthesis.cancel();
@@ -213,7 +255,7 @@ export default function AIGuideVoiceCall({ isOpen, onClose }: AIGuideVoiceCallPr
       }
     }
 
-    // 2. Abort any active TTS fetch stream in flight
+    // 3. Abort any active TTS fetch stream in flight
     if (ttsAbortRef.current) {
       try {
         ttsAbortRef.current.abort();
@@ -223,7 +265,7 @@ export default function AIGuideVoiceCall({ isOpen, onClose }: AIGuideVoiceCallPr
       ttsAbortRef.current = null;
     }
 
-    // 3. Immediately silence and reset HTMLAudioElement
+    // 4. Immediately silence and reset HTMLAudioElement
     if (audioRef.current) {
       try {
         audioRef.current.pause();
@@ -240,19 +282,48 @@ export default function AIGuideVoiceCall({ isOpen, onClose }: AIGuideVoiceCallPr
       currentAudioUrlRef.current = null;
     }
 
+    // 5. Reset all loading, speaking, and generating flags
     isSpeakingRef.current = false;
     setIsGeneratingVoice(false);
     setCallStatus('listening');
 
-    // 4. Safely re-arm speech recognition if call is alive
-    if (isCallActiveRef.current && !isMutedRef.current && recognitionRef.current) {
-      try {
-        recognitionRef.current.start();
-      } catch {
-        /* ignore */
-      }
+    // 6. Immediately re-arm microphone recognition
+    safeRestartRecognition();
+  }, [safeRestartRecognition]);
+
+  // Browser Web Speech Synthesis fallback if ElevenLabs is unavailable
+  const speakWithBrowserFallback = useCallback((text: string, onEnd?: () => void) => {
+    if (typeof window === 'undefined' || !('speechSynthesis' in window) || !isCallActiveRef.current) {
+      stopAudio(false);
+      onEnd?.();
+      return;
     }
-  }, []);
+    try {
+      const synth = window.speechSynthesis;
+      synth.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      const isAr = /[\u0600-\u06FF]/.test(text) || getSiteLanguage().startsWith('ar');
+      utterance.lang = isAr ? 'ar-EG' : 'en-US';
+      utterance.rate = 1.0;
+
+      utterance.onstart = () => {
+        setCallStatus('speaking');
+        isSpeakingRef.current = true;
+      };
+      utterance.onend = () => {
+        stopAudio(false);
+        onEnd?.();
+      };
+      utterance.onerror = () => {
+        stopAudio(false);
+        onEnd?.();
+      };
+      synth.speak(utterance);
+    } catch {
+      stopAudio(false);
+      onEnd?.();
+    }
+  }, [getSiteLanguage, stopAudio]);
 
   // ElevenLabs TTS Audio Player: Plays hyper-realistic low-latency voice stream
   const speakWithElevenLabs = useCallback(
@@ -262,8 +333,8 @@ export default function AIGuideVoiceCall({ isOpen, onClose }: AIGuideVoiceCallPr
         return;
       }
 
-      // Stop previous playback
-      stopAudio();
+      // Stop previous audio playback only (keep chat state intact)
+      stopAudio(false);
       setIsGeneratingVoice(true);
       isSpeakingRef.current = true;
 
@@ -292,25 +363,19 @@ export default function AIGuideVoiceCall({ isOpen, onClose }: AIGuideVoiceCallPr
         });
 
         if (!res.ok) {
-          let errMessage = 'Voice generation failed. Check ElevenLabs API key.';
-          try {
-            const errData = await res.json();
-            if (errData?.error) errMessage = errData.error;
-          } catch {
-            /* ignore */
-          }
-          throw new Error(errMessage);
+          throw new Error('ElevenLabs TTS request failed');
         }
 
         const audioBlob = await res.blob();
         if (!audioBlob || audioBlob.size === 0) {
-          throw new Error('Received empty audio stream from ElevenLabs.');
+          throw new Error('Received empty audio stream');
         }
 
         setIsGeneratingVoice(false);
 
-        // If user hung up or stopped speech while audio was fetching
+        // If user hung up or pressed Stop while audio was fetching
         if (!isCallActiveRef.current || !isSpeakingRef.current) {
+          stopAudio(false);
           return;
         }
 
@@ -326,29 +391,33 @@ export default function AIGuideVoiceCall({ isOpen, onClose }: AIGuideVoiceCallPr
         };
 
         audio.onended = () => {
-          stopAudio();
+          stopAudio(false);
           onEnd?.();
         };
 
-        audio.onerror = (e) => {
-          console.warn('[ElevenLabs Audio] Playback error:', e);
-          stopAudio();
+        audio.onerror = () => {
+          stopAudio(false);
           onEnd?.();
         };
 
         await audio.play();
       } catch (err: any) {
-        if (err.name === 'AbortError') {
-          // User deliberately pressed stop or interrupted
+        setIsGeneratingVoice(false);
+        if (err?.name === 'AbortError') {
+          // User deliberately pressed Stop: ensure all flags are unlocked
+          stopAudio(false);
           return;
         }
-        console.warn('[ElevenLabs TTS] Audio synthesis warning:', err);
-        setIsGeneratingVoice(false);
-        stopAudio();
-        onEnd?.();
+        console.warn('[ElevenLabs TTS] Falling back to browser speech synthesis:', err?.message);
+        if (isCallActiveRef.current && isSpeakingRef.current) {
+          speakWithBrowserFallback(text, onEnd);
+        } else {
+          stopAudio(false);
+          onEnd?.();
+        }
       }
     },
-    [stopAudio]
+    [stopAudio, speakWithBrowserFallback]
   );
 
   // End call cleanup
@@ -398,68 +467,192 @@ export default function AIGuideVoiceCall({ isOpen, onClose }: AIGuideVoiceCallPr
   // Send photo to /api/ai-guide
   const analyzeCurrentFrame = useCallback(
     async (triggerType: 'auto' | 'command' = 'command') => {
-      if (isAnalyzingRef.current || isSpeakingRef.current || !isCallActiveRef.current) return;
+      if (triggerType === 'auto') return; // Only analyze when user explicitly snaps or says "photo"
+      if (!isCallActiveRef.current) return;
 
       const base64Img = captureFrame();
       if (!base64Img) return;
 
+      // Stop any ongoing speech before analyzing new photo
+      stopAudio(true);
       isAnalyzingRef.current = true;
       setCallStatus('analyzing');
       setTriggerFlash(true);
       setTimeout(() => setTriggerFlash(false), 300);
 
       const siteLang = getSiteLanguage();
+      const controller = new AbortController();
+      visionAbortRef.current = controller;
 
       try {
         const res = await fetch('/api/ai-guide', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
+          signal: controller.signal,
           body: JSON.stringify({ image: base64Img, language: siteLang }),
         });
 
         if (!res.ok) throw new Error('Analysis request failed');
-        const data = await res.json();
+        const rawText = await res.text();
+        let data: any;
+        try {
+          const cleanJson = rawText.replace(/```json/g, '').replace(/```/g, '').trim();
+          data = JSON.parse(cleanJson);
+        } catch {
+          data = {
+            identified_name: siteLang.startsWith('ar') ? 'معلم أثري مصري' : 'Egyptian Monument',
+            confidence_level: rawText.trim() ? 'high' : 'unable',
+            ai_description: rawText.trim(),
+          };
+        }
 
+        isAnalyzingRef.current = false;
+        visionAbortRef.current = null;
         setLastResult(data);
         lastResultRef.current = data;
 
-        if (data.confidence_level && data.confidence_level !== 'unable' && data.identified_name) {
-          fetchContextImages(data.identified_name);
-          let speechText = '';
-          if (siteLang.startsWith('ar')) {
-            speechText = `أرى أمامك: ${data.identified_name}. ${data.ai_description}`;
-          } else if (siteLang.startsWith('fr')) {
-            speechText = `Je vois devant vous : ${data.identified_name}. ${data.ai_description}`;
-          } else {
-            speechText = `I see ${data.identified_name}. ${data.ai_description}`;
+        if (data.confidence_level && data.confidence_level !== 'unable' && data.ai_description) {
+          if (data.identified_name) {
+            fetchContextImages(data.identified_name);
           }
+          const speechText = data.ai_description;
           setAiSpeechText(speechText);
-          speakWithElevenLabs(speechText);
+          await speakWithElevenLabs(speechText);
         } else {
-          if (triggerType === 'command') {
-            let unableText = '';
-            if (siteLang.startsWith('ar')) {
-              unableText = 'لم أتمكن من التعرف على هذا المعلم بوضوح. يرجى توجيه الكاميرا بزاوية أوضح.';
-            } else if (siteLang.startsWith('fr')) {
-              unableText = "Je n'ai pas pu identifier clairement le monument. Veuillez pointer la caméra avec plus de clarté.";
-            } else {
-              unableText = "I couldn't identify this monument clearly. Please point your camera closer or under better lighting.";
-            }
-            setAiSpeechText(unableText);
-            speakWithElevenLabs(unableText);
+          let unableText = '';
+          if (siteLang.startsWith('ar')) {
+            unableText = 'لم أتمكن من التعرف على هذا المعلم بوضوح. يرجى توجيه الكاميرا بزاوية أوضح.';
+          } else if (siteLang.startsWith('fr')) {
+            unableText = "Je n'ai pas pu identifier clairement le monument. Veuillez pointer la caméra avec plus de clarté.";
           } else {
-            // Auto interval: if nothing clear is detected, silently revert to listening
-            setCallStatus('listening');
+            unableText = "I couldn't identify this monument clearly. Please point your camera closer or under better lighting.";
           }
+          setAiSpeechText(unableText);
+          await speakWithElevenLabs(unableText);
         }
-      } catch (err) {
-        console.error('[AI Guide Call] Vision analyze error:', err);
-        setCallStatus('listening');
-      } finally {
+      } catch (err: any) {
         isAnalyzingRef.current = false;
+        visionAbortRef.current = null;
+        if (err?.name === 'AbortError') {
+          setCallStatus('listening');
+          safeRestartRecognition();
+          return;
+        }
+        console.warn('[AI Guide Call] Vision analyze error:', err);
+        setCallStatus('listening');
+        safeRestartRecognition();
       }
     },
-    [captureFrame, getSiteLanguage, speakWithElevenLabs, fetchContextImages]
+    [captureFrame, getSiteLanguage, stopAudio, speakWithElevenLabs, fetchContextImages, safeRestartRecognition]
+  );
+
+    // Unified Stream Reader & Speaker for /api/ai-guide/chat
+  const streamAndSpeakChat = useCallback(
+    async (messagesPayload: Array<{ role: string; content: string }>, monumentCtx: any, siteLang: string) => {
+      // Interrupt any ongoing speech or previous chat request first
+      stopAudio(true);
+      setCallStatus('analyzing');
+      isAnalyzingRef.current = true;
+
+      const controller = new AbortController();
+      chatAbortRef.current = controller;
+
+      try {
+        const res = await fetch('/api/ai-guide/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          signal: controller.signal,
+          body: JSON.stringify({
+            messages: messagesPayload,
+            context: monumentCtx,
+            language: siteLang,
+          }),
+        });
+
+        if (!res.ok) {
+          throw new Error('Chat request failed');
+        }
+
+        let accumulatedReply = '';
+
+        if (res.body) {
+          const reader = res.body.getReader();
+          const decoder = new TextDecoder();
+
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            const rawChunk = decoder.decode(value, { stream: true });
+
+            let textChunk = rawChunk;
+            if (rawChunk.includes('0:')) {
+              const lines = rawChunk.split('\n');
+              let parsed = '';
+              for (const line of lines) {
+                if (line.startsWith('0:')) {
+                  try {
+                    parsed += JSON.parse(line.slice(2));
+                  } catch {
+                    parsed += line.slice(2).replace(/^"|"$/g, '');
+                  }
+                }
+              }
+              if (parsed) textChunk = parsed;
+            }
+
+            accumulatedReply += textChunk;
+            const previewClean = accumulatedReply.replace(/\[FETCH_PICS:[^\]]*\]/gi, '').trim();
+            if (previewClean) {
+              setAiSpeechText(previewClean);
+            }
+          }
+        } else {
+          accumulatedReply = await res.text();
+        }
+
+        // Check if response was JSON wrapped {"reply": "..."}
+        try {
+          const maybeJson = JSON.parse(accumulatedReply);
+          if (maybeJson && typeof maybeJson.reply === 'string') {
+            accumulatedReply = maybeJson.reply;
+          }
+        } catch {
+          /* plain text stream */
+        }
+
+        isAnalyzingRef.current = false;
+        chatAbortRef.current = null;
+
+        let cleanReply = accumulatedReply.trim();
+        if (cleanReply) {
+          const picMatch = cleanReply.match(/\[FETCH_PICS:\s*([^\]]+)\]/i);
+          if (picMatch && picMatch[1]) {
+            const landmarkToFetch = picMatch[1].trim();
+            cleanReply = cleanReply.replace(/\[FETCH_PICS:[^\]]+\]/gi, '').trim();
+            fetchContextImages(landmarkToFetch);
+          } else if (monumentCtx?.identified_name && monumentCtx.identified_name !== 'Egyptian Heritage Monument') {
+            fetchContextImages(monumentCtx.identified_name);
+          }
+          setAiSpeechText(cleanReply);
+          await speakWithElevenLabs(cleanReply);
+        } else {
+          setCallStatus('listening');
+          safeRestartRecognition();
+        }
+      } catch (err: any) {
+        isAnalyzingRef.current = false;
+        chatAbortRef.current = null;
+        if (err?.name === 'AbortError') {
+          setCallStatus('listening');
+          safeRestartRecognition();
+          return;
+        }
+        console.warn('[AI Guide Call] Chat error:', err);
+        setCallStatus('listening');
+        safeRestartRecognition();
+      }
+    },
+    [stopAudio, fetchContextImages, speakWithElevenLabs, safeRestartRecognition]
   );
 
   // Command 2: Explain / Tell me more
@@ -478,43 +671,18 @@ export default function AIGuideVoiceCall({ isOpen, onClose }: AIGuideVoiceCallPr
       return;
     }
 
-    setCallStatus('analyzing');
-    try {
-      const res = await fetch('/api/ai-guide/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          messages: [
-            {
-              role: 'user',
-              content:
-                'Tell me captivating historical stories, secrets, architectural details, and significance of this monument in 2-3 concise sentences.',
-            },
-          ],
-          context: currentMonument,
-          language: siteLang,
-        }),
-      });
-      const data = await res.json();
-      if (data.reply) {
-        let cleanReply = data.reply;
-        const picMatch = cleanReply.match(/\[FETCH_PICS:\s*([^\]]+)\]/i);
-        if (picMatch && picMatch[1]) {
-          const landmarkToFetch = picMatch[1].trim();
-          cleanReply = cleanReply.replace(/\[FETCH_PICS:[^\]]+\]/gi, '').trim();
-          fetchContextImages(landmarkToFetch);
-        } else if (currentMonument?.identified_name) {
-          fetchContextImages(currentMonument.identified_name);
-        }
-        setAiSpeechText(cleanReply);
-        speakWithElevenLabs(cleanReply);
-      } else {
-        setCallStatus('listening');
-      }
-    } catch {
-      setCallStatus('listening');
-    }
-  }, [getSiteLanguage, speakWithElevenLabs, fetchContextImages]);
+    await streamAndSpeakChat(
+      [
+        {
+          role: 'user',
+          content:
+            'Tell me captivating historical stories, secrets, architectural details, and significance of this monument in 2-3 concise sentences.',
+        },
+      ],
+      currentMonument,
+      siteLang
+    );
+  }, [getSiteLanguage, speakWithElevenLabs, streamAndSpeakChat]);
 
   // Command 3: Translate monument name to site language
   const handleTranslateCommand = useCallback(async () => {
@@ -530,89 +698,34 @@ export default function AIGuideVoiceCall({ isOpen, onClose }: AIGuideVoiceCallPr
       return;
     }
 
-    setCallStatus('analyzing');
-    try {
-      const res = await fetch('/api/ai-guide/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          messages: [
-            {
-              role: 'user',
-              content: `What is the authentic name, Arabic pronunciation, and meaning of "${currentMonument.identified_name}"? Provide a short, elegant translation in 2 sentences.`,
-            },
-          ],
-          context: currentMonument,
-          language: siteLang,
-        }),
-      });
-      const data = await res.json();
-      if (data.reply) {
-        let cleanReply = data.reply;
-        const picMatch = cleanReply.match(/\[FETCH_PICS:\s*([^\]]+)\]/i);
-        if (picMatch && picMatch[1]) {
-          const landmarkToFetch = picMatch[1].trim();
-          cleanReply = cleanReply.replace(/\[FETCH_PICS:[^\]]+\]/gi, '').trim();
-          fetchContextImages(landmarkToFetch);
-        } else if (currentMonument?.identified_name) {
-          fetchContextImages(currentMonument.identified_name);
-        }
-        setAiSpeechText(cleanReply);
-        speakWithElevenLabs(cleanReply);
-      } else {
-        setCallStatus('listening');
-      }
-    } catch {
-      setCallStatus('listening');
-    }
-  }, [getSiteLanguage, speakWithElevenLabs, fetchContextImages]);
+    await streamAndSpeakChat(
+      [
+        {
+          role: 'user',
+          content: `What is the authentic name, Arabic pronunciation, and meaning of "${currentMonument.identified_name}"? Provide a short, elegant translation in 2 sentences.`,
+        },
+      ],
+      currentMonument,
+      siteLang
+    );
+  }, [getSiteLanguage, speakWithElevenLabs, streamAndSpeakChat]);
 
   // General conversational query
   const handleGeneralQuestion = useCallback(
     async (query: string) => {
       const siteLang = getSiteLanguage();
-      setCallStatus('analyzing');
-
       const ctx = lastResultRef.current || {
         identified_name: 'Egyptian Heritage Monument',
         ai_description: 'An ancient Egyptian archaeological landmark.',
         confidence_level: 'medium',
       };
 
-      try {
-        const res = await fetch('/api/ai-guide/chat', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            messages: [{ role: 'user', content: query }],
-            context: ctx,
-            language: siteLang,
-          }),
-        });
-        const data = await res.json();
-        if (data.reply) {
-          let cleanReply = data.reply;
-          const picMatch = cleanReply.match(/\[FETCH_PICS:\s*([^\]]+)\]/i);
-          if (picMatch && picMatch[1]) {
-            const landmarkToFetch = picMatch[1].trim();
-            cleanReply = cleanReply.replace(/\[FETCH_PICS:[^\]]+\]/gi, '').trim();
-            fetchContextImages(landmarkToFetch);
-          } else if (ctx?.identified_name && ctx.identified_name !== 'Egyptian Heritage Monument') {
-            fetchContextImages(ctx.identified_name);
-          }
-          setAiSpeechText(cleanReply);
-          speakWithElevenLabs(cleanReply);
-        } else {
-          setCallStatus('listening');
-        }
-      } catch {
-        setCallStatus('listening');
-      }
+      await streamAndSpeakChat([{ role: 'user', content: query }], ctx, siteLang);
     },
-    [getSiteLanguage, speakWithElevenLabs, fetchContextImages]
+    [getSiteLanguage, streamAndSpeakChat]
   );
 
-  // Master speech dispatcher: interprets voice commands or general speech
+    // Master speech dispatcher: interprets voice commands or general speech
   const handleUserSpeech = useCallback(
     (transcript: string) => {
       if (!transcript || !transcript.trim()) return;
@@ -1152,7 +1265,7 @@ export default function AIGuideVoiceCall({ isOpen, onClose }: AIGuideVoiceCallPr
           )}
 
           {/* Stop / Cut-off Button (إيقاف الكلام فوري) */}
-          {(callStatus === 'speaking' || isGeneratingVoice) && (
+          {(callStatus === 'speaking' || callStatus === 'analyzing' || isGeneratingVoice) && (
             <motion.div
               initial={{ opacity: 0, scale: 0.9, y: -5 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -1161,7 +1274,7 @@ export default function AIGuideVoiceCall({ isOpen, onClose }: AIGuideVoiceCallPr
             >
               <button
                 type="button"
-                onClick={stopAudio}
+                onClick={() => stopAudio(true)}
                 className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-red-600 hover:bg-red-500 text-white font-semibold text-sm shadow-[0_0_25px_rgba(239,68,68,0.7)] border border-red-400 hover:scale-105 active:scale-95 transition-all cursor-pointer animate-pulse"
                 title="Stop AI speech immediately"
               >
@@ -1204,12 +1317,17 @@ export default function AIGuideVoiceCall({ isOpen, onClose }: AIGuideVoiceCallPr
           <div className="space-y-2.5 w-full max-w-lg min-h-[85px] flex flex-col justify-center">
             {aiSpeechText && (
               <motion.div
-                key={aiSpeechText}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="p-3.5 rounded-2xl bg-black/45 border border-white/10 backdrop-blur-md text-sm md:text-base text-gray-200 leading-relaxed shadow-lg text-center"
+                className="max-h-48 sm:max-h-60 overflow-y-auto p-4 sm:p-5 rounded-2xl bg-black/55 border border-white/15 backdrop-blur-md text-sm md:text-base text-gray-200 leading-relaxed shadow-lg text-center"
               >
-                <p className="text-white/90">{aiSpeechText}</p>
+                <p
+                  dir="auto"
+                  style={{ whiteSpace: 'pre-wrap' }}
+                  className="text-white/90 whitespace-pre-wrap"
+                >
+                  {aiSpeechText.replace(/\*\*|#{1,6}\s?/g, '')}
+                </p>
               </motion.div>
             )}
 
@@ -1402,10 +1520,10 @@ export default function AIGuideVoiceCall({ isOpen, onClose }: AIGuideVoiceCallPr
             </button>
 
             {/* Instant Stop Speech Button (appears when speaking or generating voice) */}
-            {(callStatus === 'speaking' || isGeneratingVoice) && (
+            {(callStatus === 'speaking' || callStatus === 'analyzing' || isGeneratingVoice) && (
               <button
                 type="button"
-                onClick={stopAudio}
+                onClick={() => stopAudio(true)}
                 className="p-3.5 sm:p-4 rounded-full bg-red-600/90 hover:bg-red-600 border border-red-400 text-white shadow-[0_0_20px_rgba(239,68,68,0.7)] animate-pulse hover:scale-105 active:scale-95 transition-all cursor-pointer"
                 title={isRTL ? 'إيقاف الكلام فوري' : 'Stop AI speech'}
               >

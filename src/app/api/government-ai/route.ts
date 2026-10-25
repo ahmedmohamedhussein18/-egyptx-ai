@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { createClient as createAdminClient } from '@supabase/supabase-js';
-import Groq from 'groq-sdk';
+import { createUniversalChatCompletion } from '@/lib/ai-client';
 
 export async function POST(req: Request) {
   try {
@@ -53,12 +53,6 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'بيانات غير صالحة' }, { status: 400 });
     }
 
-    const apiKey = process.env.GROQ_API_KEY;
-    if (!apiKey) {
-      return NextResponse.json({ error: 'مفتاح الذكاء الاصطناعي غير متوفر' }, { status: 500 });
-    }
-    const groq = new Groq({ apiKey });
-
     const systemInstruction = `أنت المساعد الذكي الرسمي لمركز القيادة الوطني للسياحة في مصر (EgyptX AI).
 قدم تحليلات وإجابات دقيقة واحترافية باللغة العربية بناءً على هذه البيانات الحقيقية:
 - عدد المعالم الكلي: ${attractionsCount || 0}
@@ -66,7 +60,7 @@ export async function POST(req: Request) {
 - إشارات التحقق (الزيارات الموثقة): ${checkinsCount || 0}
 تحدث بثقة ولا تذكر أبداً أنك نموذج ذكاء اصطناعي إلا إذا سُئلت. كن دقيقاً وموجزاً.`;
 
-    const groqMessages: Array<{role: 'system' | 'user' | 'assistant', content: string}> = [
+    const chatMessages: Array<{role: 'system' | 'user' | 'assistant', content: string}> = [
       { role: 'system', content: systemInstruction },
       ...messages.map((m: any) => ({
         role: (m.role === 'user' ? 'user' : 'assistant') as 'user' | 'assistant',
@@ -74,14 +68,12 @@ export async function POST(req: Request) {
       }))
     ];
 
-    const response = await groq.chat.completions.create({
-      model: 'openai/gpt-oss-120b',
-      messages: groqMessages,
-      temperature: 0.5,
-      max_tokens: 500,
+    const replyText = await createUniversalChatCompletion({
+      model: 'openai/gpt-4o-mini',
+      messages: chatMessages,
+      temperature: 0.3,
+      max_tokens: 600,
     });
-
-    const replyText = response?.choices?.[0]?.message?.content || "عذراً، لم أتمكن من تكوين إجابة في الوقت الحالي.";
 
     return NextResponse.json({ reply: replyText });
   } catch (error) {
