@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+﻿import { NextRequest, NextResponse } from 'next/server';
 
 const VOICE_MAP: Record<string, string> = {
   // Female (Sarah)
@@ -21,6 +21,7 @@ const VOICE_MAP: Record<string, string> = {
   // Egyptian (Ahmed)
   egyptian: 'ihycSANIrpHfhWoaq1g3',
   ahmed: 'ihycSANIrpHfhWoaq1g3',
+  'Jez3JdhBInQTvlAvDOWR': 'ihycSANIrpHfhWoaq1g3',
   'ihycSANIrpHfhWoaq1g3': 'ihycSANIrpHfhWoaq1g3',
 };
 
@@ -91,6 +92,122 @@ function optimizeArabicEgyptianTTS(text: string): string {
   return res;
 }
 
+const OPENAI_VOICES: Record<string, string> = {
+  female: 'nova',
+  sarah: 'nova',
+  male: 'echo',
+  adam: 'echo',
+  youth: 'alloy',
+  liam: 'alloy',
+  egyptian: 'onyx',
+  ahmed: 'onyx',
+  Jez3JdhBInQTvlAvDOWR: 'onyx',
+};
+
+function audioResponse(buf: ArrayBuffer) {
+  return new NextResponse(buf, {
+    status: 200,
+    headers: {
+      'Content-Type': 'audio/mpeg',
+      'Content-Length': buf.byteLength.toString(),
+    },
+  });
+}
+
+async function tryElevenLabs(text: string, voiceId: string): Promise<ArrayBuffer | null> {
+  const apiKey = process.env.ELEVENLABS_API_KEY?.trim();
+  if (!apiKey) return null;
+  try {
+    const response = await fetch(
+      `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}/stream?optimize_streaming_latency=3`,
+      {
+        method: 'POST',
+        headers: { 'xi-api-key': apiKey, 'Content-Type': 'application/json', Accept: 'audio/mpeg' },
+        body: JSON.stringify({
+          text: text.slice(0, 500),
+          model_id: 'eleven_multilingual_v2',
+          voice_settings: { stability: 0.5, similarity_boost: 0.85, style: 0.0, use_speaker_boost: true },
+        }),
+        signal: AbortSignal.timeout(8000),
+      }
+    );
+    if (!response.ok) return null;
+    const buf = await response.arrayBuffer();
+    return buf.byteLength > 0 ? buf : null;
+  } catch {
+    return null;
+  }
+}
+
+async function tryOpenAITTS(text: string, voiceKey: string): Promise<ArrayBuffer | null> {
+  const key = process.env.OPENAI_API_KEY?.trim();
+  if (!key) return null;
+  try {
+    const response = await fetch('https://api.openai.com/v1/audio/speech', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'tts-1',
+        voice: OPENAI_VOICES[voiceKey] || 'onyx',
+        input: text.slice(0, 1500),
+        response_format: 'mp3',
+      }),
+      signal: AbortSignal.timeout(10000),
+    });
+    if (!response.ok) return null;
+    const buf = await response.arrayBuffer();
+    return buf.byteLength > 0 ? buf : null;
+  } catch {
+    return null;
+  }
+}
+
+function splitForGoogle(text: string): string[] {
+  const sentences = text.match(/[^.!?؟،\n]+[.!?؟،\n]*/g) || [text];
+  const chunks: string[] = [];
+  let cur = '';
+  for (const s of sentences) {
+    if ((cur + s).length > 180) {
+      if (cur) chunks.push(cur.trim());
+      cur = s;
+      while (cur.length > 180) {
+        chunks.push(cur.slice(0, 180));
+        cur = cur.slice(180);
+      }
+    } else {
+      cur += s;
+    }
+  }
+  if (cur.trim()) chunks.push(cur.trim());
+  return chunks.slice(0, 6);
+}
+
+async function tryGoogleTTS(text: string): Promise<ArrayBuffer | null> {
+  try {
+    const lang = /[\u0600-\u06FF]/.test(text) ? 'ar' : 'en';
+    const buffers: Uint8Array[] = [];
+    for (const chunk of splitForGoogle(text)) {
+      const res = await fetch(
+        `https://translate.google.com/translate_tts?ie=UTF-8&tl=${lang}&client=tw-ob&q=${encodeURIComponent(chunk)}`,
+        { headers: { 'User-Agent': 'Mozilla/5.0' }, signal: AbortSignal.timeout(6000) }
+      );
+      if (!res.ok) return null;
+      buffers.push(new Uint8Array(await res.arrayBuffer()));
+    }
+    const total = buffers.reduce((n, b) => n + b.length, 0);
+    if (!total) return null;
+    const out = new Uint8Array(total);
+    let off = 0;
+    for (const b of buffers) {
+      out.set(b, off);
+      off += b.length;
+    }
+    return out.buffer;
+  } catch {
+    return null;
+  }
+}
+
 export async function POST(req: NextRequest) {
   try {
     const { text, voiceId } = await req.json();
@@ -99,65 +216,22 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'No text provided' }, { status: 400 });
     }
 
-    const apiKey = process.env.ELEVENLABS_API_KEY;
-    if (!apiKey) {
-      return NextResponse.json({ error: 'ElevenLabs API key not configured' }, { status: 500 });
-    }
+    const resolvedVoiceId =
+      VOICE_MAP[voiceId] ||
+      (typeof voiceId === 'string' && voiceId.length > 15 ? voiceId : VOICE_MAP['ihycSANIrpHfhWoaq1g3']);
 
-    const resolvedVoiceId = VOICE_MAP[voiceId] || (typeof voiceId === 'string' && voiceId.length > 15 ? voiceId : VOICE_MAP['ihycSANIrpHfhWoaq1g3']);
-
-    // Optimize phonetic payload for natural Egyptian Arabic pronunciation
     const phoneticPayload = optimizeArabicEgyptianTTS(text);
 
-    // Call ElevenLabs TTS with optimize_streaming_latency=3 for blazing fast response
-    const response = await fetch(
-      `https://api.elevenlabs.io/v1/text-to-speech/${resolvedVoiceId}/stream?optimize_streaming_latency=3`,
-      {
-        method: 'POST',
-        headers: {
-          'xi-api-key': apiKey,
-          'Content-Type': 'application/json',
-          'Accept': 'audio/mpeg',
-        },
-        body: JSON.stringify({
-          text: phoneticPayload.slice(0, 500),
-          model_id: 'eleven_multilingual_v2',
-          voice_settings: {
-            // Stability at 0.5 (prevents voice stretching while preserving natural prosody)
-            stability: 0.5,
-            // Similarity boost at 0.85 ensures high native accent fidelity
-            similarity_boost: 0.85,
-            // Style at 0.0 prevents exaggerated audio artifacts
-            style: 0.0,
-            use_speaker_boost: true,
-          },
-        }),
-      }
-    );
+    // 1. ElevenLabs -> 2. OpenAI TTS -> 3. Google Translate TTS (always available)
+    const audio =
+      (await tryElevenLabs(phoneticPayload, resolvedVoiceId)) ||
+      (await tryOpenAITTS(String(text), String(voiceId))) ||
+      (await tryGoogleTTS(String(text)));
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('ElevenLabs error:', errorText);
-      return NextResponse.json(
-        { error: `ElevenLabs API error: ${response.status}` },
-        { status: response.status }
-      );
-    }
+    if (audio) return audioResponse(audio);
 
-    const audioBuffer = await response.arrayBuffer();
-    
-    return new NextResponse(audioBuffer, {
-      status: 200,
-      headers: {
-        'Content-Type': 'audio/mpeg',
-        'Content-Length': audioBuffer.byteLength.toString(),
-      },
-    });
+    return NextResponse.json({ error: 'TTS unavailable' }, { status: 503 });
   } catch (error: any) {
-    console.error('TTS route error:', error);
-    return NextResponse.json(
-      { error: error.message || 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: error?.message || 'Internal server error' }, { status: 500 });
   }
 }

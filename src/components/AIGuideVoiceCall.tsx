@@ -306,18 +306,29 @@ export default function AIGuideVoiceCall({ isOpen, onClose }: AIGuideVoiceCallPr
       utterance.lang = isAr ? 'ar-EG' : 'en-US';
       utterance.rate = 1.0;
 
+      let finished = false;
+      const watchdog = window.setTimeout(() => {
+        if (finished) return;
+        finished = true;
+        try { synth.cancel(); } catch { /* noop */ }
+        stopAudio(false);
+        onEnd?.();
+      }, Math.min(Math.max(text.length * 90, 3500), 14000));
+      const finish = () => {
+        if (finished) return;
+        finished = true;
+        window.clearTimeout(watchdog);
+        stopAudio(false);
+        onEnd?.();
+      };
+
       utterance.onstart = () => {
         setCallStatus('speaking');
         isSpeakingRef.current = true;
       };
-      utterance.onend = () => {
-        stopAudio(false);
-        onEnd?.();
-      };
-      utterance.onerror = () => {
-        stopAudio(false);
-        onEnd?.();
-      };
+      utterance.onend = finish;
+      utterance.onerror = finish;
+      (window as any).__egyptxUtterance = utterance; // prevent GC before onend fires
       synth.speak(utterance);
     } catch {
       stopAudio(false);
@@ -558,7 +569,7 @@ export default function AIGuideVoiceCall({ isOpen, onClose }: AIGuideVoiceCallPr
       chatAbortRef.current = controller;
 
       try {
-        const res = await fetch('/api/ai-guide/chat', {
+        const res = await fetch('/api/ai-voice', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           signal: controller.signal,
@@ -566,6 +577,7 @@ export default function AIGuideVoiceCall({ isOpen, onClose }: AIGuideVoiceCallPr
             messages: messagesPayload,
             context: monumentCtx,
             language: siteLang,
+            stream: true,
           }),
         });
 
@@ -817,7 +829,10 @@ export default function AIGuideVoiceCall({ isOpen, onClose }: AIGuideVoiceCallPr
         'dis-m\'en plus',
         'plus de détails',
       ];
-      if (explainKeywords.some((kw) => lower.includes(kw))) {
+      if (
+        explainKeywords.some((kw) => lower.includes(kw)) &&
+        lower.trim().split(/\s+/).length <= 2
+      ) {
         handleExplainCommand();
         return;
       }
@@ -1119,7 +1134,7 @@ export default function AIGuideVoiceCall({ isOpen, onClose }: AIGuideVoiceCallPr
                   type="button"
                   onClick={() => {
                     setSelectedVoice(v.id);
-                    stopAudio();
+                    stopAudio(false);
                   }}
                   className={`px-2.5 py-0.5 rounded-full text-xs font-semibold transition-all duration-200 cursor-pointer ${active
                     ? 'bg-[#C9A84C] text-[#0A1628] shadow-[0_0_12px_rgba(201,168,76,0.6)] font-bold'

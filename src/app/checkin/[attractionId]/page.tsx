@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation';
 import CheckinClient from './CheckinClient';
 import { trackEvent } from '@/lib/analytics';
 
-export default async function CheckinPage({ params }: { params: { attractionId: string } }) {
+export default async function CheckinPage({ params }: { params: Promise<{ attractionId: string }> }) {
   const { attractionId } = await params;
   const supabase = await createClient();
 
