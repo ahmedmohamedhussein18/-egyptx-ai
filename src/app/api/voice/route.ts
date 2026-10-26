@@ -57,7 +57,7 @@ export async function POST(req: Request) {
     return streamWithSmartFallback(req, {
       systemPrompt,
       messages: [{ role: 'user', content: userQuestion }],
-      temperature: 0.3,
+      temperature: 0.1,
       maxTokens: 450,
       nonStreamingJson: stream === false,
     });

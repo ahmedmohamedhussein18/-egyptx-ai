@@ -1,28 +1,26 @@
 import { NextResponse } from 'next/server';
-import { streamWithSmartFallback } from '@/lib/egypt-rag';
+import {
+  ARCHAEOLOGICAL_ACCURACY_RULE,
+  VERIFIED_EGYPT_HERITAGE_KB,
+  OUT_OF_SCOPE_AR,
+  OUT_OF_SCOPE_EN,
+  isClearlyOutOfScope,
+  isItineraryOrWeatherQuery,
+  fetchEgyptLiveWeather,
+  fetchTrustedWikipediaAndRAG,
+  streamWithSmartFallback,
+} from '@/lib/egypt-rag';
 
 export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
 
-const VERIFIED_FACTS = `VERIFIED EGYPTIAN MONUMENTS FACTS:
-- Great Pyramid of Khufu: Built 2560 BCE, Giza. Originally 146.5m tall. 2.3 million limestone blocks. One of Seven Wonders of Ancient World. Built by 20,000 workers over 20 years.
-- Great Sphinx of Giza: Built circa 2500 BCE. 73m long, 20m tall. Carved from single limestone outcrop. Represents Pharaoh Khafre with lion body.
-- Karnak Temple Complex: Built over 2000 years by 30+ pharaohs. World's largest ancient religious site at 100 hectares. Located in Luxor. Famous Hypostyle Hall has 134 columns up to 24m tall.
-- Luxor Temple: Built 1390 BCE by Amenhotep III. East bank of Nile, Luxor city. Connected to Karnak by 3km Avenue of Sphinxes.
-- Valley of the Kings: West bank of Nile, Luxor. Contains 63 royal tombs. KV62 is Tutankhamun's tomb, discovered 1922 by Howard Carter.
-- Abu Simbel Temples: Built by Ramesses II circa 1264 BCE. Two rock-cut temples in Aswan. Relocated by UNESCO 1968 to save from Lake Nasser flooding.
-- Step Pyramid of Saqqara: World's oldest stone pyramid, built 2670 BCE for Pharaoh Djoser by architect Imhotep. 6 tiers, 62.5m tall.
-- Egyptian Museum Cairo (Tahrir): Opened 1902, neoclassical building by Marcel Dourgnon. Houses 120,000+ artifacts including Tutankhamun treasures.
-- Philae Temple: Dedicated to goddess Isis. Located on Agilkia Island, Aswan. Relocated by UNESCO 1972-1980 from submerged Philae Island.
-- Colossi of Memnon: Two 18m stone statues of Amenhotep III, built 1350 BCE. West bank, Luxor.
-- Hatshepsut Temple: Built circa 1479 BCE at Deir el-Bahari, Luxor. 3-tiered terraced temple designed by Senenmut for Egypt's greatest female pharaoh.
-- Medinet Habu: Mortuary temple of Ramesses III, Luxor. Best preserved relief carvings and original paint in Egypt.`;
+const TEXT_CHAT_SYSTEM_PROMPT = `You are a warm, highly intelligent Egyptian travel companion, best friend, and authoritative Egyptologist. Greet the user back naturally (e.g., if they say 'مرحبا', reply 'مرحبا! كيف يمكنني مساعدتك اليوم؟', and if they greet you in English, greet them back warmly in English). If they ask for itinerary advice like 'I have 3 free hours', give them an awesome, creative plan focusing on Egyptian tourism using the live weather.
 
-const TEXT_CHAT_SYSTEM_PROMPT = `You are a warm, highly intelligent Egyptian travel companion and best friend. You must act like ChatGPT. Greet the user back naturally (e.g., if they say 'مرحبا', reply 'مرحبا! كيف يمكنني مساعدتك اليوم؟', and if they greet you in English, greet them back warmly in English). If they ask for itinerary advice like 'I have 3 free hours', give them an awesome, creative plan focusing on Egyptian tourism.
+NEVER say you lack information on Egyptian heritage. Match the user's language exactly (Arabic for Arabic, English for English).
 
-NEVER say you lack information. Answer EVERYTHING seamlessly and intelligently. Match the user's language exactly (Arabic for Arabic, English for English).
+${ARCHAEOLOGICAL_ACCURACY_RULE}
 
-${VERIFIED_FACTS}
+${VERIFIED_EGYPT_HERITAGE_KB}
 
 NEVER use Markdown formatting. Do not use asterisks (**), hashes (#), or bullet symbols. Output 100% clean, conversational plain text.`;
 
@@ -42,13 +40,15 @@ async function identifyWithVision(
     parts.find((p) => p.type === 'text')?.text ||
     (isArabic ? 'حدد هذا المعلم المصري.' : 'Identify this Egyptian monument.');
 
-  const sys = `You are an expert Egyptologist. Identify the Egyptian monument or artifact in the image. ${VERIFIED_FACTS}
+  const sys = `You are an expert Egyptologist. Identify the Egyptian monument or artifact in the image.
+${ARCHAEOLOGICAL_ACCURACY_RULE}
+${VERIFIED_EGYPT_HERITAGE_KB}
 Reply in ${isArabic ? 'Arabic' : 'English'} using ONLY raw JSON (no code fences, no markdown): {"identified_name":"name","confidence_level":"high|medium|low","ai_description":"3-5 plain-text sentences: period, location in Egypt, key facts"}`;
 
   const body = (model: string) =>
     JSON.stringify({
       model,
-      temperature: 0.2,
+      temperature: 0.1,
       max_tokens: 700,
       messages: [
         { role: 'system', content: sys },
@@ -195,10 +195,37 @@ export async function POST(req: Request) {
           : (m.content as any[]).filter((p) => p.type === 'text').map((p) => p.text).join('\n'),
     }));
 
+    const lastUserText =
+      [...textMessages].reverse().find((m) => m.role === 'user')?.content || '';
+    const isArabicQuery = /[\u0600-\u06FF]/.test(String(lastUserText));
+
+    if (isClearlyOutOfScope(String(lastUserText))) {
+      const refusal = isArabicQuery ? OUT_OF_SCOPE_AR : OUT_OF_SCOPE_EN;
+      if (stream === false) {
+        return NextResponse.json({ reply: refusal });
+      }
+      return new Response(refusal, { headers: { 'Content-Type': 'text/plain; charset=utf-8' } });
+    }
+
+    const [wikiAndDbContext, weatherContext] = await Promise.all([
+      fetchTrustedWikipediaAndRAG(String(lastUserText)),
+      isItineraryOrWeatherQuery(String(lastUserText))
+        ? fetchEgyptLiveWeather(String(lastUserText))
+        : Promise.resolve(''),
+    ]);
+
+    let systemPrompt = TEXT_CHAT_SYSTEM_PROMPT;
+    if (weatherContext) {
+      systemPrompt += `\n\n--- LIVE EGYPT WEATHER ---\n${weatherContext}`;
+    }
+    if (wikiAndDbContext) {
+      systemPrompt += `\n\n--- VERIFIED ENCYCLOPEDIA & WIKIPEDIA RAG CONTEXT ---\n${wikiAndDbContext}`;
+    }
+
     return await streamWithSmartFallback(req, {
-      systemPrompt: TEXT_CHAT_SYSTEM_PROMPT,
+      systemPrompt,
       messages: textMessages,
-      temperature: 0.7,
+      temperature: 0.1,
       nonStreamingJson: stream === false,
       extraJsonFields: {
         identified_name: 'معلم أثري مصري',
@@ -206,11 +233,10 @@ export async function POST(req: Request) {
       },
     });
   } catch (error: any) {
-   console.error('[AI Guide Route Error]:', error);
+    console.error('[AI Guide Route Error]:', error);
     return NextResponse.json(
       { reply: 'مرحباً بك! أنا رفيقك السياحي في مصر، كيف يمكنني مساعدتك في رحلتك اليوم؟' },
       { status: 200 }
     );
   }
 }
-

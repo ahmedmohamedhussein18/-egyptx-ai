@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import {
+  ARCHAEOLOGICAL_ACCURACY_RULE,
   VERIFIED_EGYPT_HERITAGE_KB,
   OUT_OF_SCOPE_AR,
   OUT_OF_SCOPE_EN,
@@ -16,6 +17,8 @@ export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
 
 const SIDE_CHAT_SYSTEM_PROMPT = `You are the EgyptX AI Guide — the user's closest, warmest, and smartest Egyptian best friend ("صاحبي الجدع وحبيبي") and expert Egyptian historian & tour planner.
+
+${ARCHAEOLOGICAL_ACCURACY_RULE}
 
 YOUR PERSONA & TONE:
 - Speak with the intelligence and fluency of ChatGPT, combined with the warmth, hospitality, and enthusiasm of a loyal Egyptian best friend walking alongside the user in Egypt.
@@ -142,14 +145,14 @@ export async function POST(req: Request) {
       return streamWithSmartFallback(req, {
         systemPrompt: enrichedSystemPrompt,
         messages: formattedMessages,
-        temperature: 0.5,
+        temperature: 0.1,
       });
     }
 
     const reply = await generateWithSmartFallback({
       systemPrompt: enrichedSystemPrompt,
       messages: formattedMessages,
-      temperature: 0.5,
+      temperature: 0.1,
     });
 
     return NextResponse.json({
