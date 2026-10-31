@@ -7,12 +7,8 @@ import {
   ChevronLeft,
   ChevronRight,
   Crown,
-  ExternalLink,
-  ShieldCheck,
-  Building2,
-  Award,
-  Compass,
   MapPin,
+  Compass,
   Eye,
   LayoutGrid,
   Layers,
@@ -44,26 +40,6 @@ export interface SponsorAmbassador {
 
 const AMBASSADORS: SponsorAmbassador[] = [
   {
-    id: 'unesco',
-    name: 'UNESCO World Heritage Alliance',
-    nameAr: 'تحالف اليونسكو للتراث العالمي',
-    category: 'Global Preservation Partner',
-    categoryAr: 'شريك الصون العالمي',
-    caption: 'Global Partner Exploring Luxor',
-    captionAr: 'الشريك العالمي يستكشف معابد الأقصر',
-    monumentName: 'Karnak Great Hypostyle Hall',
-    monumentNameAr: 'بهو الأعمدة العظيم بالكرنك',
-    location: 'Luxor, Upper Egypt',
-    locationAr: 'الأقصر، صعيد مصر',
-    photoUrl: 'https://images.unsplash.com/photo-1544885935-98dd03b09034?auto=format&fit=crop&w=1200&q=80',
-    fallbackUrl: '/images/Karnak Temple.jpeg',
-    logoText: 'UNESCO',
-    quote: 'Documenting and safeguarding 4,000 years of living human heritage through cutting-edge AI spatial mapping.',
-    quoteAr: 'توثيق وصون 4000 عام من التراث الإنساني الخالد عبر أحدث تقنيات الذكاء الاصطناعي.',
-    tier: 'Diamond Global Patron',
-    tierAr: 'راعي عالمي ماسي',
-  },
-  {
     id: 'egyptair',
     name: 'EgyptAir Royal Sky Alliance',
     nameAr: 'مصر للطيران — أجنحة السماء الملكية',
@@ -75,13 +51,33 @@ const AMBASSADORS: SponsorAmbassador[] = [
     monumentNameAr: 'أهرامات الجيزة الخالدة',
     location: 'Giza Plateau, Cairo',
     locationAr: 'هضبة الجيزة، القاهرة',
-    photoUrl: 'https://images.unsplash.com/photo-1503177119275-0aa32b3a9368?auto=format&fit=crop&w=1200&q=80',
-    fallbackUrl: '/images/Great Pyramid of Giza.jpg',
+    photoUrl: '/images/sponsor-pyramids.jpg',
+    fallbackUrl: '/images/sponsor-pyramids.jpg',
     logoText: 'EGYPTAIR',
     quote: 'Connecting global voyagers from 80+ world capitals directly to the sacred monuments of the Nile Valley.',
     quoteAr: 'ربط المسافرين من أكثر من 80 عاصمة عالمية مباشرة بمهد الحضارة والتاريخ على ضفاف النيل.',
     tier: 'Official Royal Carrier',
     tierAr: 'الناقل الملكي المعتمد',
+  },
+  {
+    id: 'unesco',
+    name: 'UNESCO World Heritage Alliance',
+    nameAr: 'تحالف اليونسكو للتراث العالمي',
+    category: 'Global Preservation Partner',
+    categoryAr: 'شريك الصون العالمي',
+    caption: 'Global Partner Exploring Luxor',
+    captionAr: 'الشريك العالمي يستكشف معابد الأقصر',
+    monumentName: 'Karnak Great Hypostyle Hall',
+    monumentNameAr: 'بهو الأعمدة العظيم بالكرنك',
+    location: 'Luxor, Upper Egypt',
+    locationAr: 'الأقصر، صعيد مصر',
+    photoUrl: '/images/sponsor-luxor.jpg',
+    fallbackUrl: '/images/sponsor-luxor.jpg',
+    logoText: 'UNESCO',
+    quote: 'Documenting and safeguarding 4,000 years of living human heritage through cutting-edge AI spatial mapping.',
+    quoteAr: 'توثيق وصون 4000 عام من التراث الإنساني الخالد عبر أحدث تقنيات الذكاء الاصطناعي.',
+    tier: 'Diamond Global Patron',
+    tierAr: 'راعي عالمي ماسي',
   },
   {
     id: 'gem-founding',
@@ -95,71 +91,11 @@ const AMBASSADORS: SponsorAmbassador[] = [
     monumentNameAr: 'المتحف المصري الكبير',
     location: 'Giza, Egypt',
     locationAr: 'الجيزة، مصر',
-    photoUrl: 'https://images.unsplash.com/photo-1568322445389-f64ac2515020?auto=format&fit=crop&w=1200&q=80',
-    fallbackUrl: '/images/Grand Egyptian Museum.jpg',
+    photoUrl: '/images/sponsor-gem.jpg',
+    fallbackUrl: '/images/sponsor-gem.jpg',
     logoText: 'GEM TRUST',
     quote: 'Unveiling the complete 5,398-piece Tutankhamun golden treasure to millions of physical and digital visitors.',
     quoteAr: 'إبراز كنوز الملك الذهبي توت عنخ آمون الكاملة لملايين الزوار حول العالم.',
-    tier: 'Heritage Innovation Partner',
-    tierAr: 'شريك الابتكار التراثي',
-  },
-  {
-    id: 'natgeo',
-    name: 'National Geographic Expeditions',
-    nameAr: 'ناشيونال جيوغرافيك إكسبيديشنز',
-    category: 'Archaeological Exploration Partner',
-    categoryAr: 'شريك الاستكشاف الأثري',
-    caption: 'Archaeological Partner at Abu Simbel',
-    captionAr: 'شريك الاستكشاف في معبدي أبو سمبل',
-    monumentName: 'Abu Simbel Sun Temples',
-    monumentNameAr: 'معبدا أبو سمبل بأسوان',
-    location: 'Lake Nasser, Nubia, Aswan',
-    locationAr: 'بحيرة ناصر، النوبة، أسوان',
-    photoUrl: 'https://images.unsplash.com/photo-1539768942893-daf53e448371?auto=format&fit=crop&w=1200&q=80',
-    fallbackUrl: '/images/Abu Simbel Temples.jpg',
-    logoText: 'NAT GEO',
-    quote: 'Witnessing the miraculous solar alignment carved into the living sandstone cliffs of ancient Nubia.',
-    quoteAr: 'معايشة ظاهرة تعامد الشمس الإعجازية المنحوتة في صخور النوبة الخالدة.',
-    tier: 'Diamond Global Patron',
-    tierAr: 'راعي عالمي ماسي',
-  },
-  {
-    id: 'four-seasons',
-    name: 'Four Seasons Nile & Heritage Fleet',
-    nameAr: 'فور سيزونز — الأسطول النيلي التراثي',
-    category: 'Luxury Hospitality Ambassador',
-    categoryAr: 'سفير الضيافة الفاخرة',
-    caption: 'Luxury Nile Ambassador at Philae Island',
-    captionAr: 'سفير الضيافة النيلية الفاخرة بجزيرة فيلة',
-    monumentName: 'Philae Temple of Isis',
-    monumentNameAr: 'معبد إيزيس بجزيرة فيلة',
-    location: 'Agilkia Island, Aswan',
-    locationAr: 'جزيرة أجيلكيا، أسوان',
-    photoUrl: 'https://images.unsplash.com/photo-1572252009286-268acec5ca0a?auto=format&fit=crop&w=1200&q=80',
-    fallbackUrl: '/images/Philae Temple.jpeg',
-    logoText: 'FOUR SEASONS',
-    quote: 'Curating timeless bespoke Nile voyages blending royal pharaonic splendor with ultra-luxury comfort.',
-    quoteAr: 'صناعة رحلات نيلية ملكية خاصة تمزج بين عراقة الفراعنة وأرقى درجات الرفاهية العالمية.',
-    tier: 'Heritage Innovation Partner',
-    tierAr: 'شريك الابتكار التراثي',
-  },
-  {
-    id: 'google-arts',
-    name: 'Google Arts & Culture Heritage Lab',
-    nameAr: 'مختبر جوجل للفنون والثقافة',
-    category: 'Digital Twin & AI Digitizer',
-    categoryAr: 'الرقمنة والذكاء الاصطناعي',
-    caption: 'Spatial AI Patron at Valley of the Kings',
-    captionAr: 'شريك الذكاء المكاني في وادي الملوك',
-    monumentName: 'Valley of the Kings',
-    monumentNameAr: 'وادي الملوك بالبر الغربي',
-    location: 'Thebes, Luxor',
-    locationAr: 'طيبة، الأقصر',
-    photoUrl: 'https://images.unsplash.com/photo-1596401057633-54a8fe8ef647?auto=format&fit=crop&w=1200&q=80',
-    fallbackUrl: '/images/Luxor Temple.jpg',
-    logoText: 'GOOGLE ARTS',
-    quote: 'Capturing millimetric 3D photogrammetry of royal tombs so global researchers explore them in virtual reality.',
-    quoteAr: 'إنشاء توائم رقمية ثلاثية الأبعاد لمقابر الملوك لتوفير تجارب واقع افتراضي غامرة.',
     tier: 'Heritage Innovation Partner',
     tierAr: 'شريك الابتكار التراثي',
   },
@@ -175,8 +111,8 @@ const AMBASSADORS: SponsorAmbassador[] = [
     monumentNameAr: 'قلعة صلاح الدين الأيوبي',
     location: 'Historic Cairo',
     locationAr: 'القاهرة التاريخية',
-    photoUrl: 'https://images.unsplash.com/photo-1587974928442-77dc3e0dba72?auto=format&fit=crop&w=1200&q=80',
-    fallbackUrl: '/images/Citadel of Saladin.jpg',
+    photoUrl: '/images/sponsor-citadel.jpg',
+    fallbackUrl: '/images/sponsor-citadel.jpg',
     logoText: 'ORASCOM',
     quote: 'Deploying eco-friendly electric shuttles and digital visitor centers across Egypt’s major monumental plazas.',
     quoteAr: 'تشغيل حافلات كهربائية ذكية بدون انبعاثات في الساحات الأثرية المصرية الكبرى.',
@@ -195,13 +131,33 @@ const AMBASSADORS: SponsorAmbassador[] = [
     monumentNameAr: 'مكتبة الإسكندرية وكورنيش البحر',
     location: 'Alexandria, Mediterranean',
     locationAr: 'الإسكندرية، البحر المتوسط',
-    photoUrl: 'https://images.unsplash.com/photo-1566192091743-5966a6079984?auto=format&fit=crop&w=1200&q=80',
-    fallbackUrl: '/images/Alexandria Library.webp',
+    photoUrl: '/images/sponsor-alexandria.jpg',
+    fallbackUrl: '/images/sponsor-alexandria.jpg',
     logoText: 'ALEXANDRINA',
     quote: 'Reigniting the ancient lighthouse of knowledge and classical philosophy for the digital 21st century.',
     quoteAr: 'إحياء منارة المعرفة القديمة ونشر الفكر والإبداع الإنساني لرواد العصر الرقمي.',
     tier: 'Diamond Global Patron',
     tierAr: 'راعي عالمي ماسي',
+  },
+  {
+    id: 'four-seasons',
+    name: 'Four Seasons Nile & Heritage Fleet',
+    nameAr: 'فور سيزونز — الأسطول النيلي التراثي',
+    category: 'Luxury Hospitality Ambassador',
+    categoryAr: 'سفير الضيافة الفاخرة',
+    caption: 'Luxury Nile Ambassador at Philae Island',
+    captionAr: 'سفير الضيافة النيلية الفاخرة بجزيرة فيلة',
+    monumentName: 'Philae Temple of Isis',
+    monumentNameAr: 'معبد إيزيس بجزيرة فيلة',
+    location: 'Agilkia Island, Aswan',
+    locationAr: 'جزيرة أجيلكيا، أسوان',
+    photoUrl: '/images/sponsor-aswan.jpg',
+    fallbackUrl: '/images/sponsor-aswan.jpg',
+    logoText: 'FOUR SEASONS',
+    quote: 'Curating timeless bespoke Nile voyages blending royal pharaonic splendor with ultra-luxury comfort.',
+    quoteAr: 'صناعة رحلات نيلية ملكية خاصة تمزج بين عراقة الفراعنة وأرقى درجات الرفاهية العالمية.',
+    tier: 'Heritage Innovation Partner',
+    tierAr: 'شريك الابتكار التراثي',
   },
 ];
 
@@ -218,7 +174,7 @@ export default function SponsorsShowcase() {
   const filteredAmbassadors = AMBASSADORS.filter((a) => {
     if (partnerTypeFilter === 'luxor') return a.location.toLowerCase().includes('luxor');
     if (partnerTypeFilter === 'giza') return a.location.toLowerCase().includes('giza') || a.location.toLowerCase().includes('cairo');
-    if (partnerTypeFilter === 'aswan') return a.location.toLowerCase().includes('aswan');
+    if (partnerTypeFilter === 'aswan') return a.location.toLowerCase().includes('aswan') || a.location.toLowerCase().includes('alexandria');
     return true;
   });
 
@@ -279,7 +235,7 @@ export default function SponsorsShowcase() {
                     : 'text-white/60 hover:text-white'
                 }`}
               >
-                {isAr ? 'كافة الشركاء' : 'All Partners'}
+                {isAr ? 'كافة الشركاء (6)' : 'All Partners (6)'}
               </button>
               <button
                 onClick={() => { setPartnerTypeFilter('luxor'); setActiveIndex(0); }}
@@ -289,7 +245,7 @@ export default function SponsorsShowcase() {
                     : 'text-white/60 hover:text-white'
                 }`}
               >
-                {isAr ? 'الأقصر وطيبة' : 'Luxor & Thebes'}
+                {isAr ? 'الأقصر' : 'Luxor'}
               </button>
               <button
                 onClick={() => { setPartnerTypeFilter('giza'); setActiveIndex(0); }}
@@ -309,7 +265,7 @@ export default function SponsorsShowcase() {
                     : 'text-white/60 hover:text-white'
                 }`}
               >
-                {isAr ? 'أسوان والنوبة' : 'Aswan & Nubia'}
+                {isAr ? 'أسوان والإسكندرية' : 'Aswan & Alexandria'}
               </button>
             </div>
 
@@ -341,7 +297,7 @@ export default function SponsorsShowcase() {
           </div>
         </div>
 
-        {/* VIEW 1: 3D Royal Carousel */}
+        {/* VIEW 1: 3D Royal Carousel (Adapts smoothly to 6 items) */}
         {viewMode === 'carousel' && (
           <div className="relative py-8 select-none">
             {/* Carousel Stage */}
@@ -353,7 +309,8 @@ export default function SponsorsShowcase() {
 
                 const isCurrent = offset === 0;
                 const isAdjacent = Math.abs(offset) === 1;
-                const isHidden = Math.abs(offset) > 2;
+                const isFar = Math.abs(offset) === 2;
+                const isHidden = Math.abs(offset) >= 3;
 
                 if (isHidden) return null;
 
@@ -361,8 +318,8 @@ export default function SponsorsShowcase() {
                 const translateX = offset * 280;
                 const translateZ = -Math.abs(offset) * 160;
                 const rotateY = offset * -18;
-                const scale = isCurrent ? 1 : isAdjacent ? 0.88 : 0.75;
-                const opacity = isCurrent ? 1 : isAdjacent ? 0.65 : 0.25;
+                const scale = isCurrent ? 1 : isAdjacent ? 0.88 : isFar ? 0.76 : 0.65;
+                const opacity = isCurrent ? 1 : isAdjacent ? 0.7 : 0.35;
 
                 return (
                   <motion.div
@@ -390,7 +347,7 @@ export default function SponsorsShowcase() {
                   >
                     {/* Ambassador Card Container with Gold Border Glow */}
                     <div className="relative w-full h-full bg-[#08101D] border-2 border-[#D4AF37]/50 rounded-3xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.85)] group transition-all duration-300 hover:border-[#F3E5AB]">
-                      {/* Background Monument Photo with High-Resolution Unsplash & Failsafe Local Fallback */}
+                      {/* Background Monument Photo */}
                       <img
                         src={ambassador.photoUrl}
                         alt={ambassador.monumentName}
@@ -403,7 +360,7 @@ export default function SponsorsShowcase() {
                         }}
                       />
 
-                      {/* Pharaonic Gradient Overlay: transparent top 45% so monument photo is 100% visible, smoothly darkening at bottom so gold typography pops */}
+                      {/* Pharaonic Gradient Overlay */}
                       <div className="absolute inset-0 bg-gradient-to-t from-[#040812] via-[#050D1A]/85 via-50% to-black/25 pointer-events-none" />
 
                       {/* Subtle Golden Inner Border Cartouche Accent */}
@@ -500,13 +457,13 @@ export default function SponsorsShowcase() {
           </div>
         )}
 
-        {/* VIEW 2: Modern Papyrus Masonry Grid */}
+        {/* VIEW 2: Modern Papyrus Masonry Grid (Perfect 3 columns x 2 rows for 6 items) */}
         {viewMode === 'papyrus' && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 py-6"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 py-6"
           >
             {filteredAmbassadors.map((ambassador) => (
               <div
@@ -515,7 +472,7 @@ export default function SponsorsShowcase() {
                 className="group relative bg-[#09111E] border border-[#D4AF37]/30 hover:border-[#D4AF37] rounded-3xl overflow-hidden shadow-xl transition-all duration-300 hover:-translate-y-1.5 cursor-pointer flex flex-col"
               >
                 {/* Photo Header */}
-                <div className="relative h-60 w-full overflow-hidden bg-[#040812]">
+                <div className="relative h-64 w-full overflow-hidden bg-[#040812]">
                   <img
                     src={ambassador.photoUrl}
                     alt={ambassador.monumentName}
