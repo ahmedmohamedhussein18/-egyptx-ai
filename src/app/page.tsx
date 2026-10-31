@@ -8,6 +8,7 @@ import UpcomingEventsSection from "@/components/UpcomingEventsSection";
 import EcosystemSection from "@/components/EcosystemSection";
 import FutureEcosystemSection from "@/components/FutureEcosystemSection";
 import CTASection from "@/components/CTASection";
+import SponsorsShowcase from "@/components/SponsorsShowcase";
 import OfficialSponsorsSection from "@/components/OfficialSponsorsSection";
 import Footer from "@/components/Footer";
 
@@ -24,6 +25,7 @@ export default function Home() {
       <FutureEcosystemSection />
       <CTASection />
       <SmartMobilitySection />
+      <SponsorsShowcase />
       <OfficialSponsorsSection />
       <Footer />
     </main>

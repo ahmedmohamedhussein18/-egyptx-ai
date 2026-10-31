@@ -19,7 +19,8 @@ import {
   Bot,
   AlertTriangle,
   RotateCw,
-  CreditCard
+  CreditCard,
+  Crown
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
@@ -28,6 +29,8 @@ import { trackEvent } from '@/lib/analytics';
 import { useLanguage } from '@/context/LanguageContext';
 import { createClient } from '@/lib/supabase/client';
 import ActivityCard, { Activity, DayPlan } from '@/components/ActivityCard';
+import BookingJourneyModal, { BookingJourneyDetails } from '@/components/BookingJourneyModal';
+import SponsorsShowcase from '@/components/SponsorsShowcase';
 
 /* ─────────────────── DATA ─────────────────── */
 
@@ -829,7 +832,8 @@ function TripAssistant() {
 }
 
 export default function PlannerContent() {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
+  const isAr = locale === 'ar';
   const supabase = createClient();
   
   // Existing Form state
@@ -968,6 +972,13 @@ export default function PlannerContent() {
   const [saving, setSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [regeneratingDay, setRegeneratingDay] = useState<number | null>(null);
+  const [bookingModalOpen, setBookingModalOpen] = useState(false);
+  const [bookingDetails, setBookingDetails] = useState<BookingJourneyDetails | null>(null);
+
+  const handleOpenBooking = (details: BookingJourneyDetails) => {
+    setBookingDetails(details);
+    setBookingModalOpen(true);
+  };
 
   useEffect(() => {
     trackEvent('page_view');
@@ -1699,7 +1710,7 @@ export default function PlannerContent() {
                       </span>
                     </div>
                   </div>
-                <div className="flex gap-3">
+                <div className="flex flex-wrap gap-3">
                   <button
                     onClick={() => { setItinerary(null); setSaveSuccess(false); }}
                     className="px-5 py-2.5 rounded-lg border border-[#C9A84C]/40 text-[#C9A84C] text-sm font-medium hover:bg-[#C9A84C]/10 transition-colors"
@@ -1709,9 +1720,23 @@ export default function PlannerContent() {
                   <button
                     onClick={handleSaveTrip}
                     disabled={saving || saveSuccess}
-                    className="px-5 py-2.5 rounded-lg bg-[#C9A84C] text-[#030712] text-sm font-bold hover:bg-[#E2CB85] transition-colors disabled:opacity-50"
+                    className="px-5 py-2.5 rounded-lg bg-white/10 text-white text-sm font-semibold hover:bg-white/20 transition-colors disabled:opacity-50 border border-white/10"
                   >
                     {saving ? 'Saving...' : saveSuccess ? 'Saved!' : 'Save Trip'}
+                  </button>
+                  <button
+                    onClick={() => handleOpenBooking({
+                      duration,
+                      travelers,
+                      budget,
+                      travelStyle,
+                      cityName: destinations[0] || (itinerary && itinerary[0]?.city) || 'Egypt',
+                    })}
+                    className="relative group overflow-hidden px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#C9A84C] text-[#030712] text-sm font-extrabold hover:shadow-[0_0_25px_rgba(212,175,55,0.6)] transition-all flex items-center gap-2 active:scale-95"
+                  >
+                    <span className="absolute inset-0 bg-white/30 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-in-out pointer-events-none" />
+                    <Crown className="w-4 h-4 text-[#030712] animate-bounce" />
+                    <span>{isAr ? 'تسجيل / حجز الرحلة' : 'Register / Book this Journey'}</span>
                   </button>
                 </div>
               </div>
@@ -1749,7 +1774,24 @@ export default function PlannerContent() {
                             <p className="text-white/30 text-sm">{day.activities.length} activities planned</p>
                           </div>
                         </div>
-                        <div className="flex items-center gap-2">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <button
+                            onClick={() => handleOpenBooking({
+                              dayNumber: day.day,
+                              cityName: day.city,
+                              activitiesCount: day.activities.length,
+                              topActivityName: day.activities[0]?.name || day.activities[0]?.title || '',
+                              duration,
+                              travelers,
+                              budget,
+                              travelStyle,
+                            })}
+                            className="relative group overflow-hidden inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-extrabold text-[#030712] bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#C9A84C] hover:shadow-[0_0_20px_rgba(212,175,55,0.6)] transition-all duration-300 active:scale-95 border border-[#D4AF37]"
+                          >
+                            <span className="absolute inset-0 bg-white/30 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-in-out pointer-events-none" />
+                            <Crown className="w-3.5 h-3.5 text-[#030712]" />
+                            <span>{isAr ? 'تسجيل / حجز الرحلة' : 'Register / Book Journey'}</span>
+                          </button>
                           <button
                             onClick={() => handleRegenerateDay(day.day)}
                             disabled={regeneratingDay !== null}
@@ -1801,25 +1843,78 @@ export default function PlannerContent() {
                           <p className="text-white/40 text-sm py-4 text-center">No activities planned for this day based on constraints.</p>
                         )}
                       </div>
+
+                      {/* Day Card Booking Action Banner */}
+                      <div className="px-6 py-3.5 bg-gradient-to-r from-[#D4AF37]/10 via-[#0A1628] to-[#D4AF37]/10 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-3">
+                        <div className="flex items-center gap-2 text-xs text-[#E2CB85]">
+                          <Crown className="w-4 h-4 text-[#D4AF37]" />
+                          <span className="font-semibold">
+                            {isAr
+                              ? `تأكيد تصريح زيارة اليوم ${day.day} (${day.city}) مع مرشد EgyptX`
+                              : `Confirm Day ${day.day} (${day.city}) Pass with EgyptX Smart Guide`}
+                          </span>
+                        </div>
+                        <button
+                          onClick={() => handleOpenBooking({
+                            dayNumber: day.day,
+                            cityName: day.city,
+                            activitiesCount: day.activities.length,
+                            topActivityName: day.activities[0]?.name || day.activities[0]?.title || '',
+                            duration,
+                            travelers,
+                            budget,
+                            travelStyle,
+                          })}
+                          className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs font-bold text-[#030712] bg-gradient-to-r from-[#D4AF37] to-[#E2CB85] hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] transition-all active:scale-95"
+                        >
+                          <Sparkles className="w-3.5 h-3.5" />
+                          <span>{isAr ? 'تسجيل / حجز هذا اليوم' : 'Book This Day Plan'}</span>
+                        </button>
+                      </div>
                     </motion.div>
                   ))}
 
                   {/* Bottom CTA */}
                   <div className="text-center pt-8 pb-4">
                     <p className="text-white/30 text-sm mb-4">Want to explore more of Egypt?</p>
-                    <Link
-                      href="/"
-                      className="inline-block px-8 py-3 rounded-xl bg-gradient-to-r from-[#C9A84C] to-[#E2CB85] text-[#030712] font-bold hover:shadow-[0_0_30px_rgba(201,168,76,0.3)] transition-shadow"
-                    >
-                      {t('planner.exploreAll')}
-                    </Link>
+                    <div className="flex flex-wrap items-center justify-center gap-4">
+                      <Link
+                        href="/"
+                        className="inline-block px-8 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold border border-white/10 transition-colors"
+                      >
+                        {t('planner.exploreAll')}
+                      </Link>
+                      <button
+                        onClick={() => handleOpenBooking({
+                          duration,
+                          travelers,
+                          budget,
+                          travelStyle,
+                          cityName: destinations[0] || (itinerary && itinerary[0]?.city) || 'Egypt',
+                        })}
+                        className="inline-flex items-center gap-2 px-8 py-3 rounded-xl bg-gradient-to-r from-[#D4AF37] to-[#E2CB85] text-[#030712] font-bold hover:shadow-[0_0_30px_rgba(201,168,76,0.5)] transition-all"
+                      >
+                        <Crown className="w-4 h-4 text-[#030712]" />
+                        <span>{isAr ? 'تسجيل / حجز الرحلة الكاملة' : 'Register / Book this Journey'}</span>
+                      </button>
+                    </div>
                   </div>
                 </div>
+              </div>
+
+              {/* Elite Sponsors Showcase */}
+              <div className="mt-20 pt-16 border-t border-[#D4AF37]/20">
+                <SponsorsShowcase />
               </div>
             </motion.div>
           )}
         </AnimatePresence>
         <TripAssistant />
+        <BookingJourneyModal
+          isOpen={bookingModalOpen}
+          onClose={() => setBookingModalOpen(false)}
+          details={bookingDetails}
+        />
       </div>
       </div>
     </main>
