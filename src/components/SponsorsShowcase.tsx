@@ -34,130 +34,130 @@ export interface SponsorAmbassador {
   logoText: string;
   quote: string;
   quoteAr: string;
-  tier: 'Diamond Global Patron' | 'Official Royal Carrier' | 'Heritage Innovation Partner';
+  tier: string;
   tierAr: string;
 }
 
 const AMBASSADORS: SponsorAmbassador[] = [
   {
-    id: 'egyptair',
-    name: 'EgyptAir Royal Sky Alliance',
-    nameAr: 'مصر للطيران — أجنحة السماء الملكية',
-    category: 'Official National Carrier',
-    categoryAr: 'الناقل الوطني الرسمي',
-    caption: 'Official Aviation Ambassador at Giza Plateau',
-    captionAr: 'سفير الطيران الرسمي في هضبة أهرامات الجيزة',
-    monumentName: 'Great Pyramids of Giza',
-    monumentNameAr: 'أهرامات الجيزة الخالدة',
-    location: 'Giza Plateau, Cairo',
-    locationAr: 'هضبة الجيزة، القاهرة',
-    photoUrl: '/images/sponsor-pyramids.jpg',
-    fallbackUrl: '/images/sponsor-pyramids.jpg',
-    logoText: 'EGYPTAIR',
-    quote: 'Connecting global voyagers from 80+ world capitals directly to the sacred monuments of the Nile Valley.',
-    quoteAr: 'ربط المسافرين من أكثر من 80 عاصمة عالمية مباشرة بمهد الحضارة والتاريخ على ضفاف النيل.',
-    tier: 'Official Royal Carrier',
-    tierAr: 'الناقل الملكي المعتمد',
-  },
-  {
-    id: 'unesco',
-    name: 'UNESCO World Heritage Alliance',
-    nameAr: 'تحالف اليونسكو للتراث العالمي',
-    category: 'Global Preservation Partner',
-    categoryAr: 'شريك الصون العالمي',
-    caption: 'Global Partner Exploring Luxor',
-    captionAr: 'الشريك العالمي يستكشف معابد الأقصر',
-    monumentName: 'Karnak Great Hypostyle Hall',
-    monumentNameAr: 'بهو الأعمدة العظيم بالكرنك',
-    location: 'Luxor, Upper Egypt',
-    locationAr: 'الأقصر، صعيد مصر',
-    photoUrl: '/images/sponsor-luxor.jpg',
-    fallbackUrl: '/images/sponsor-luxor.jpg',
-    logoText: 'UNESCO',
-    quote: 'Documenting and safeguarding 4,000 years of living human heritage through cutting-edge AI spatial mapping.',
-    quoteAr: 'توثيق وصون 4000 عام من التراث الإنساني الخالد عبر أحدث تقنيات الذكاء الاصطناعي.',
-    tier: 'Diamond Global Patron',
-    tierAr: 'راعي عالمي ماسي',
-  },
-  {
-    id: 'gem-founding',
-    name: 'Grand Egyptian Museum Consortium',
-    nameAr: 'تحالف المتحف المصري الكبير',
-    category: 'Museum Innovation Trustee',
-    categoryAr: 'شريك الابتكار المتحفي',
-    caption: 'Cultural Heritage Trustee at the GEM',
-    captionAr: 'أمناء التراث الثقافي في المتحف المصري الكبير',
-    monumentName: 'Grand Egyptian Museum (GEM)',
-    monumentNameAr: 'المتحف المصري الكبير',
-    location: 'Giza, Egypt',
-    locationAr: 'الجيزة، مصر',
-    photoUrl: '/images/sponsor-gem.jpg',
-    fallbackUrl: '/images/sponsor-gem.jpg',
-    logoText: 'GEM TRUST',
-    quote: 'Unveiling the complete 5,398-piece Tutankhamun golden treasure to millions of physical and digital visitors.',
-    quoteAr: 'إبراز كنوز الملك الذهبي توت عنخ آمون الكاملة لملايين الزوار حول العالم.',
-    tier: 'Heritage Innovation Partner',
-    tierAr: 'شريك الابتكار التراثي',
-  },
-  {
-    id: 'orascom',
-    name: 'Orascom Heritage & Mobility',
-    nameAr: 'أوراسكوم لإدارة التراث والحركة الذكية',
-    category: 'Sustainable Infrastructure Partner',
-    categoryAr: 'شريك البنية التحتية المستدامة',
-    caption: 'Clean Mobility Partner at Cairo Citadel',
-    captionAr: 'شريك التنقل الأخضر بقلعة صلاح الدين',
-    monumentName: 'Citadel of Saladin',
-    monumentNameAr: 'قلعة صلاح الدين الأيوبي',
-    location: 'Historic Cairo',
-    locationAr: 'القاهرة التاريخية',
-    photoUrl: '/images/sponsor-citadel.jpg',
-    fallbackUrl: '/images/sponsor-citadel.jpg',
-    logoText: 'ORASCOM',
-    quote: 'Deploying eco-friendly electric shuttles and digital visitor centers across Egypt’s major monumental plazas.',
-    quoteAr: 'تشغيل حافلات كهربائية ذكية بدون انبعاثات في الساحات الأثرية المصرية الكبرى.',
-    tier: 'Official Royal Carrier',
-    tierAr: 'الناقل الملكي المعتمد',
-  },
-  {
-    id: 'alex-library',
-    name: 'Bibliotheca Alexandrina Foundation',
-    nameAr: 'مؤسسة مكتبة الإسكندرية',
-    category: 'Universal Cultural Patron',
-    categoryAr: 'الراعي الثقافي العالمي',
-    caption: 'Mediterranean Cultural Ambassador',
-    captionAr: 'السفير الثقافي لعروس البحر المتوسط',
-    monumentName: 'Bibliotheca Alexandrina & Seafront',
-    monumentNameAr: 'مكتبة الإسكندرية وكورنيش البحر',
+    id: 'alexandria',
+    name: 'King Charles III & Queen Camilla',
+    nameAr: 'الملك تشارلز الثالث والملكة كاميلا',
+    category: 'Global Heritage Patrons',
+    categoryAr: 'رعاة التراث العالمي',
+    caption: 'Royal Visit to Alexandria',
+    captionAr: 'زيارة ملكية لمكتبة الإسكندرية',
+    monumentName: 'Bibliotheca Alexandrina',
+    monumentNameAr: 'مكتبة الإسكندرية العريقة',
     location: 'Alexandria, Mediterranean',
     locationAr: 'الإسكندرية، البحر المتوسط',
     photoUrl: '/images/sponsor-alexandria.jpg',
     fallbackUrl: '/images/sponsor-alexandria.jpg',
-    logoText: 'ALEXANDRINA',
-    quote: 'Reigniting the ancient lighthouse of knowledge and classical philosophy for the digital 21st century.',
-    quoteAr: 'إحياء منارة المعرفة القديمة ونشر الفكر والإبداع الإنساني لرواد العصر الرقمي.',
+    logoText: 'ROYAL PATRON',
+    quote: 'Royal visit to the iconic Bibliotheca Alexandrina, celebrating the preservation of global knowledge and culture.',
+    quoteAr: 'زيارة ملكية لمكتبة الإسكندرية العريقة احتفاءً بصون المعرفة العالمية والتراث الثقافي الإنساني.',
     tier: 'Diamond Global Patron',
-    tierAr: 'راعي عالمي ماسي',
+    tierAr: 'راعي عالمي ملكي',
   },
   {
-    id: 'four-seasons',
-    name: 'Four Seasons Nile & Heritage Fleet',
-    nameAr: 'فور سيزونز — الأسطول النيلي التراثي',
-    category: 'Luxury Hospitality Ambassador',
-    categoryAr: 'سفير الضيافة الفاخرة',
-    caption: 'Luxury Nile Ambassador at Philae Island',
-    captionAr: 'سفير الضيافة النيلية الفاخرة بجزيرة فيلة',
-    monumentName: 'Philae Temple of Isis',
-    monumentNameAr: 'معبد إيزيس بجزيرة فيلة',
-    location: 'Agilkia Island, Aswan',
-    locationAr: 'جزيرة أجيلكيا، أسوان',
+    id: 'aswan',
+    name: 'Global Influencer Explorer',
+    nameAr: 'مستكشف ومؤثر عالمي',
+    category: 'Cultural Youth Ambassador',
+    categoryAr: 'سفير الشباب الثقافي',
+    caption: 'Youth Exploration in Aswan',
+    captionAr: 'استكشاف معالم أسوان والنوبة',
+    monumentName: 'Philae & Aswan Temples',
+    monumentNameAr: 'معابد فيلة ونيل أسوان',
+    location: 'Aswan, Upper Egypt',
+    locationAr: 'أسوان، صعيد مصر',
     photoUrl: '/images/sponsor-aswan.jpg',
     fallbackUrl: '/images/sponsor-aswan.jpg',
-    logoText: 'FOUR SEASONS',
-    quote: 'Curating timeless bespoke Nile voyages blending royal pharaonic splendor with ultra-luxury comfort.',
-    quoteAr: 'صناعة رحلات نيلية ملكية خاصة تمزج بين عراقة الفراعنة وأرقى درجات الرفاهية العالمية.',
+    logoText: 'CREATOR VOYAGE',
+    quote: 'Experiencing the majestic ancient temples of Aswan, connecting modern youth with timeless Egyptian history.',
+    quoteAr: 'معايشة سحر معابد أسوان الخالدة وربط الأجيال الشابة بعراقة التاريخ المصري.',
     tier: 'Heritage Innovation Partner',
-    tierAr: 'شريك الابتكار التراثي',
+    tierAr: 'سفير الشباب الثقافي',
+  },
+  {
+    id: 'citadel',
+    name: 'Morgan Freeman',
+    nameAr: 'مورغان فريمان',
+    category: 'Cinematic Heritage Ambassador',
+    categoryAr: 'سفير السينما والتراث العالمي',
+    caption: 'Documenting Historic Cairo',
+    captionAr: 'توثيق تاريخ وحضارة القاهرة',
+    monumentName: 'Citadel of Saladin & Historic Cairo',
+    monumentNameAr: 'قلعة صلاح الدين والقاهرة التاريخية',
+    location: 'Historic Cairo',
+    locationAr: 'القاهرة التاريخية',
+    photoUrl: '/images/sponsor-citadel.jpg',
+    fallbackUrl: '/images/sponsor-citadel.jpg',
+    logoText: 'CINEMATIC ICON',
+    quote: 'Exploring the rich Islamic architecture and vibrant historical streets of Cairo, uncovering the deeper stories of human civilization.',
+    quoteAr: 'استكشاف روائع العمارة الإسلامية وشوارع القاهرة التاريخية لتوثيق حكايات الحضارة الإنسانية.',
+    tier: 'Diamond Global Patron',
+    tierAr: 'سفير عالمي سينمائي',
+  },
+  {
+    id: 'gem',
+    name: 'Ahmed Helmy',
+    nameAr: 'أحمد حلمي',
+    category: 'National Arts & Culture Icon',
+    categoryAr: 'أيقونة الفن والثقافة الوطنية',
+    caption: 'At the Grand Egyptian Museum',
+    captionAr: 'في بهو المتحف المصري الكبير',
+    monumentName: 'Grand Egyptian Museum (GEM)',
+    monumentNameAr: 'المتحف المصري الكبير وتمثال رمسيس الثاني',
+    location: 'Giza, Egypt',
+    locationAr: 'الجيزة، مصر',
+    photoUrl: '/images/sponsor-gem.jpg',
+    fallbackUrl: '/images/sponsor-gem.jpg',
+    logoText: 'EGYPTIAN ARTS',
+    quote: 'Proudly representing Egyptian artistry at the Grand Egyptian Museum (GEM) alongside the colossal statue of Ramses II.',
+    quoteAr: 'تمثيل الفن والإبداع المصري بفخر في المتحف المصري الكبير بجوار تمثال رمسيس الثاني العملاق.',
+    tier: 'Heritage Innovation Partner',
+    tierAr: 'أيقونة الفن المصري',
+  },
+  {
+    id: 'luxor',
+    name: 'International Travel Vlogger',
+    nameAr: 'صانع محتوى سياحي دولي',
+    category: 'Tourism Discovery Partner',
+    categoryAr: 'شريك الاستكشاف السياحي',
+    caption: 'Capturing Luxor Majestic Temples',
+    captionAr: 'توثيق عظمة معابد الأقصر',
+    monumentName: 'Karnak & Luxor Temples',
+    monumentNameAr: 'معابد الكرنك والأقصر',
+    location: 'Luxor, Upper Egypt',
+    locationAr: 'الأقصر، صعيد مصر',
+    photoUrl: '/images/sponsor-luxor.jpg',
+    fallbackUrl: '/images/sponsor-luxor.jpg',
+    logoText: 'TRAVEL DISCOVERY',
+    quote: 'Capturing the awe-inspiring columns and ancient hieroglyphs of Luxor’s majestic temples.',
+    quoteAr: 'توثيق صروح وأعمدة معابد الأقصر المهيبة ونقوشها الهيروغليفية الساحرة.',
+    tier: 'Official Royal Carrier',
+    tierAr: 'شريك الاستكشاف السياحي',
+  },
+  {
+    id: 'pyramids',
+    name: 'MrBeast',
+    nameAr: 'مستر بيست (MrBeast)',
+    category: 'Digital Entertainment Explorer',
+    categoryAr: 'رائد صناعة المحتوى الرقمي',
+    caption: 'At the Great Pyramids of Giza',
+    captionAr: 'في أحضان أهرامات الجيزة الخالدة',
+    monumentName: 'Great Pyramids of Giza',
+    monumentNameAr: 'أهرامات الجيزة العظيمة',
+    location: 'Giza Plateau, Cairo',
+    locationAr: 'هضبة الجيزة، القاهرة',
+    photoUrl: '/images/sponsor-pyramids.jpg',
+    fallbackUrl: '/images/sponsor-pyramids.jpg',
+    logoText: 'MRBEAST',
+    quote: 'Bringing global digital audiences to the timeless wonders of the Great Pyramids of Giza.',
+    quoteAr: 'جذب ملايين المتابعين حول العالم لعجائب وأسرار أهرامات الجيزة الخالدة.',
+    tier: 'Diamond Global Patron',
+    tierAr: 'سفير المحتوى الرقمي',
   },
 ];
 
@@ -208,17 +208,17 @@ export default function SponsorsShowcase() {
         <div className="text-center max-w-3xl mx-auto mb-14">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#D4AF37]/10 border border-[#D4AF37]/30 text-[#E2CB85] text-xs font-bold uppercase tracking-[0.25em] mb-4 shadow-[0_0_20px_rgba(212,175,55,0.2)]">
             <Crown className="w-4 h-4 text-[#D4AF37] animate-pulse" />
-            <span>{isAr ? 'رعاة وسفراء الحضارة المصرية' : 'EgyptX Global Ambassadors'}</span>
+            <span>{isAr ? 'سفراء وشخصيات الحضارة المصرية' : 'EgyptX Global Ambassadors'}</span>
           </div>
 
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-[#F5E6B8] to-[#C9A84C] drop-shadow-sm mb-4 leading-tight">
-            {isAr ? 'شركاء النيل: حماة التراث ورواد السياحة العالمية' : 'Elite Sponsors & Global Ambassadors'}
+            {isAr ? 'نجوم العالم في أحضان حضارة مصر الخالدة' : 'Global Icons Exploring Timeless Egypt'}
           </h2>
 
           <p className="text-base sm:text-lg text-white/60 leading-relaxed font-light max-w-2xl mx-auto">
             {isAr
-              ? 'نخبة المؤسسات والشركاء الدوليين الذين يقودون رحلات استكشاف المعالم الأثرية ويدعمون التحول الرقمي للسياحة في أرض الفراعنة.'
-              : 'Distinguished global institutions and world leaders experiencing Egypt’s eternal monuments while driving smart digital preservation.'}
+              ? 'شخصيات وقادة ومؤثرون عالميون يوثقون رحلاتهم الاستثنائية بين أعظم معالم مصر التاريخية.'
+              : 'Renowned world figures, cultural leaders, and digital visionaries celebrating Egypt’s iconic heritage.'}
           </p>
 
           <div className="w-16 h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent mx-auto mt-6" />
@@ -235,7 +235,17 @@ export default function SponsorsShowcase() {
                     : 'text-white/60 hover:text-white'
                 }`}
               >
-                {isAr ? 'كافة الشركاء (6)' : 'All Partners (6)'}
+                {isAr ? 'كافة الشخصيات (6)' : 'All Ambassadors (6)'}
+              </button>
+              <button
+                onClick={() => { setPartnerTypeFilter('giza'); setActiveIndex(0); }}
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                  partnerTypeFilter === 'giza'
+                    ? 'bg-[#D4AF37] text-black shadow-md'
+                    : 'text-white/60 hover:text-white'
+                }`}
+              >
+                {isAr ? 'الأهرامات والقاهرة (3)' : 'Giza & Cairo (3)'}
               </button>
               <button
                 onClick={() => { setPartnerTypeFilter('luxor'); setActiveIndex(0); }}
@@ -246,16 +256,6 @@ export default function SponsorsShowcase() {
                 }`}
               >
                 {isAr ? 'الأقصر' : 'Luxor'}
-              </button>
-              <button
-                onClick={() => { setPartnerTypeFilter('giza'); setActiveIndex(0); }}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                  partnerTypeFilter === 'giza'
-                    ? 'bg-[#D4AF37] text-black shadow-md'
-                    : 'text-white/60 hover:text-white'
-                }`}
-              >
-                {isAr ? 'الأهرامات والقاهرة' : 'Giza & Cairo'}
               </button>
               <button
                 onClick={() => { setPartnerTypeFilter('aswan'); setActiveIndex(0); }}
@@ -297,7 +297,7 @@ export default function SponsorsShowcase() {
           </div>
         </div>
 
-        {/* VIEW 1: 3D Royal Carousel (Adapts smoothly to 6 items) */}
+        {/* VIEW 1: 3D Royal Carousel */}
         {viewMode === 'carousel' && (
           <div className="relative py-8 select-none">
             {/* Carousel Stage */}
@@ -347,10 +347,10 @@ export default function SponsorsShowcase() {
                   >
                     {/* Ambassador Card Container with Gold Border Glow */}
                     <div className="relative w-full h-full bg-[#08101D] border-2 border-[#D4AF37]/50 rounded-3xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.85)] group transition-all duration-300 hover:border-[#F3E5AB]">
-                      {/* Background Monument Photo */}
+                      {/* Background Monument Photo with Local Asset */}
                       <img
                         src={ambassador.photoUrl}
-                        alt={ambassador.monumentName}
+                        alt={ambassador.name}
                         className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-108"
                         loading="lazy"
                         onError={(e) => {
@@ -366,11 +366,11 @@ export default function SponsorsShowcase() {
                       {/* Subtle Golden Inner Border Cartouche Accent */}
                       <div className="absolute inset-2 border border-[#D4AF37]/25 rounded-2xl pointer-events-none" />
 
-                      {/* Top Overlay Badge (Tier + Logo Mark) */}
+                      {/* Top Overlay Badge (Role + Logo Tag) */}
                       <div className="absolute top-5 left-5 right-5 flex items-center justify-between z-10">
                         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#030712]/85 backdrop-blur-md border border-[#D4AF37]/60 text-[#E2CB85] text-[11px] font-bold shadow-[0_4px_15px_rgba(0,0,0,0.5)]">
                           <Crown className="w-3.5 h-3.5 text-[#D4AF37]" />
-                          <span>{isAr ? ambassador.tierAr : ambassador.tier}</span>
+                          <span>{isAr ? ambassador.categoryAr : ambassador.category}</span>
                         </div>
 
                         <div className="px-3 py-1 rounded-lg bg-[#030712]/90 backdrop-blur-md border border-[#D4AF37]/40 font-mono text-xs font-black tracking-widest text-[#F3E5AB] shadow-md">
@@ -386,11 +386,12 @@ export default function SponsorsShowcase() {
                           <span>{isAr ? ambassador.captionAr : ambassador.caption}</span>
                         </div>
 
-                        {/* Sponsor Name & Monument */}
+                        {/* Title (Notable Figure Name) */}
                         <h3 className="text-xl sm:text-2xl font-black text-white leading-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
                           {isAr ? ambassador.nameAr : ambassador.name}
                         </h3>
 
+                        {/* Monument & Location */}
                         <div className="flex items-center gap-2 text-xs text-white/80">
                           <Compass className="w-3.5 h-3.5 text-[#4EB1E2]" />
                           <span className="font-semibold text-white drop-shadow">
@@ -400,6 +401,7 @@ export default function SponsorsShowcase() {
                           <span className="text-white/70">{isAr ? ambassador.locationAr : ambassador.location}</span>
                         </div>
 
+                        {/* Description Quote */}
                         <p className="text-xs text-white/85 line-clamp-2 italic pt-1.5 border-t border-white/10 font-serif leading-relaxed drop-shadow">
                           "{isAr ? ambassador.quoteAr : ambassador.quote}"
                         </p>
@@ -408,7 +410,7 @@ export default function SponsorsShowcase() {
                         <div className="pt-2 flex items-center justify-between">
                           <span className="text-[11px] uppercase tracking-wider text-[#E2CB85] font-bold flex items-center gap-1 group-hover:underline drop-shadow">
                             <Eye className="w-3.5 h-3.5" />
-                            <span>{isAr ? 'عرض ملف السفير' : 'View Ambassador Story'}</span>
+                            <span>{isAr ? 'عرض قصة السفير' : 'View Ambassador Story'}</span>
                           </span>
                           <div className="w-8 h-8 rounded-full bg-[#D4AF37]/30 border border-[#D4AF37]/60 flex items-center justify-center text-[#E2CB85] group-hover:bg-[#D4AF37] group-hover:text-black transition-colors shadow-md">
                             <ArrowUpRight className="w-4 h-4" />
@@ -457,7 +459,7 @@ export default function SponsorsShowcase() {
           </div>
         )}
 
-        {/* VIEW 2: Modern Papyrus Masonry Grid (Perfect 3 columns x 2 rows for 6 items) */}
+        {/* VIEW 2: Modern Papyrus Masonry Grid (3 columns x 2 rows) */}
         {viewMode === 'papyrus' && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -475,7 +477,7 @@ export default function SponsorsShowcase() {
                 <div className="relative h-64 w-full overflow-hidden bg-[#040812]">
                   <img
                     src={ambassador.photoUrl}
-                    alt={ambassador.monumentName}
+                    alt={ambassador.name}
                     className="w-full h-full object-cover object-center group-hover:scale-108 transition-transform duration-700"
                     loading="lazy"
                     onError={(e) => {
@@ -535,15 +537,15 @@ export default function SponsorsShowcase() {
           <div className="space-y-2 max-w-2xl text-center md:text-left">
             <div className="inline-flex items-center gap-2 text-xs font-bold text-[#E2CB85] tracking-wider uppercase">
               <Sparkles className="w-3.5 h-3.5 text-[#D4AF37]" />
-              <span>{isAr ? 'انضم إلى نخبة رعاة مصر إكس' : 'Become an EgyptX Global Patron'}</span>
+              <span>{isAr ? 'انضم إلى نخبة سفراء مصر إكس' : 'Become an EgyptX Global Ambassador'}</span>
             </div>
             <h3 className="text-2xl sm:text-3xl font-extrabold text-white">
-              {isAr ? 'هل تمثل مؤسسة دولية أو علامة تجارية رائدة؟' : 'Are You Representing a Global Brand or Institution?'}
+              {isAr ? 'هل تمثل مؤسسة ثقافية أو شخصية دولية مؤثرة؟' : 'Are You a Cultural Icon, Leader, or Global Brand?'}
             </h3>
             <p className="text-sm text-white/70">
               {isAr
-                ? 'ساهم في رعاية وتوثيق أعظم معالم الإنسانية مع باقات شراكة استراتيجية مميزة وتجارب زيارة لكبار الشخصيات.'
-                : 'Partner with EgyptX to support smart heritage preservation, VIP ministerial access, and global digital showcases.'}
+                ? 'شارك في تسليط الضوء على سحر الحضارة المصرية برعاية تجارب سياحية حصرية وتوثيق معالم الإنسانية الخالدة.'
+                : 'Join our international heritage network to experience private VIP monument access and support digital cultural preservation.'}
             </p>
           </div>
 
@@ -553,7 +555,7 @@ export default function SponsorsShowcase() {
               className="px-6 py-3.5 rounded-xl font-bold text-sm bg-gradient-to-r from-[#D4AF37] to-[#E2CB85] text-[#030712] hover:shadow-[0_0_25px_rgba(212,175,55,0.4)] transition-all flex items-center justify-center gap-2"
             >
               <Crown className="w-4 h-4" />
-              <span>{isAr ? 'طلب الانضمام كسفير رسمي' : 'Apply as Global Patron'}</span>
+              <span>{isAr ? 'طلب الانضمام كسفير رسمي' : 'Apply as Global Ambassador'}</span>
             </button>
           </div>
         </div>
@@ -590,7 +592,7 @@ export default function SponsorsShowcase() {
               <div className="relative h-64 sm:h-72 w-full bg-[#040812]">
                 <img
                   src={selectedAmbassador.photoUrl}
-                  alt={selectedAmbassador.monumentName}
+                  alt={selectedAmbassador.name}
                   className="w-full h-full object-cover object-center"
                   onError={(e) => {
                     if (e.currentTarget.src !== selectedAmbassador.fallbackUrl) {
@@ -602,7 +604,7 @@ export default function SponsorsShowcase() {
 
                 <div className="absolute bottom-4 left-6 right-6">
                   <span className="px-3 py-1 rounded-full bg-[#D4AF37]/25 border border-[#D4AF37]/50 text-[#E2CB85] text-xs font-bold uppercase tracking-wider backdrop-blur-md shadow-sm">
-                    {isAr ? selectedAmbassador.captionAr : selectedAmbassador.caption}
+                    {isAr ? selectedAmbassador.categoryAr : selectedAmbassador.category}
                   </span>
                   <h3 className="text-2xl sm:text-3xl font-black text-white mt-2 drop-shadow-md">
                     {isAr ? selectedAmbassador.nameAr : selectedAmbassador.name}
@@ -626,16 +628,16 @@ export default function SponsorsShowcase() {
                     </span>
                   </div>
                   <div className="col-span-2 sm:col-span-1">
-                    <span className="text-white/40 block uppercase">{isAr ? 'مرتبة الرعاية' : 'Patron Tier'}</span>
+                    <span className="text-white/40 block uppercase">{isAr ? 'الصفة' : 'Role'}</span>
                     <span className="font-bold text-[#4EE2A2] text-sm">
-                      {isAr ? selectedAmbassador.tierAr : selectedAmbassador.tier}
+                      {isAr ? selectedAmbassador.categoryAr : selectedAmbassador.category}
                     </span>
                   </div>
                 </div>
 
                 <div className="space-y-2">
                   <h4 className="text-xs uppercase font-bold text-[#D4AF37] tracking-wider">
-                    {isAr ? 'بيان الشراكة والأثر التراثي' : 'Partnership Mission & Impact'}
+                    {isAr ? 'بيان الزيارة والأثر الحضاري' : 'Ambassador Story & Reflection'}
                   </h4>
                   <p className="text-sm text-white/80 leading-relaxed font-serif italic bg-[#050B14] p-4 rounded-xl border border-white/5">
                     "{isAr ? selectedAmbassador.quoteAr : selectedAmbassador.quote}"
@@ -684,7 +686,7 @@ export default function SponsorsShowcase() {
               <div className="text-center mb-6">
                 <Crown className="w-10 h-10 text-[#D4AF37] mx-auto mb-2" />
                 <h3 className="text-2xl font-bold text-white">
-                  {isAr ? 'طلب رعاية وشراكة استراتيجية' : 'Join the Global Patron Alliance'}
+                  {isAr ? 'طلب رعاية وتمثيل رسمي' : 'Join the Global Ambassador Alliance'}
                 </h3>
                 <p className="text-xs text-white/60 mt-1">
                   {isAr
@@ -696,19 +698,19 @@ export default function SponsorsShowcase() {
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
-                  alert(isAr ? 'تم استلام طلبكم بنجاح! شكراً لدعمكم الحضارة المصرية.' : 'Your patron application was received successfully!');
+                  alert(isAr ? 'تم استلام طلبكم بنجاح! شكراً لدعمكم الحضارة المصرية.' : 'Your ambassador application was received successfully!');
                   setIsJoinModalOpen(false);
                 }}
                 className="space-y-4 text-xs"
               >
                 <div>
                   <label className="block text-white/70 font-semibold mb-1 uppercase">
-                    {isAr ? 'اسم المؤسسة / الشركة' : 'Institution / Company Name'}
+                    {isAr ? 'اسم الشخصية / المؤسسة' : 'Name / Organization'}
                   </label>
                   <input
                     type="text"
                     required
-                    placeholder="e.g. Royal Cultural Foundation"
+                    placeholder="e.g. Cultural Delegation"
                     className="w-full px-3.5 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-[#D4AF37]"
                   />
                 </div>
@@ -719,18 +721,18 @@ export default function SponsorsShowcase() {
                   <input
                     type="text"
                     required
-                    placeholder="e.g. Elena Rostova — Global Heritage Lead"
+                    placeholder="e.g. Representative — Global Culture"
                     className="w-full px-3.5 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-[#D4AF37]"
                   />
                 </div>
                 <div>
                   <label className="block text-white/70 font-semibold mb-1 uppercase">
-                    {isAr ? 'البريد المؤسسي' : 'Official Email'}
+                    {isAr ? 'البريد الإلكتروني' : 'Official Email'}
                   </label>
                   <input
                     type="email"
                     required
-                    placeholder="partnership@organization.org"
+                    placeholder="contact@ambassador.org"
                     className="w-full px-3.5 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-[#D4AF37]"
                   />
                 </div>
@@ -738,7 +740,7 @@ export default function SponsorsShowcase() {
                   type="submit"
                   className="w-full py-3 rounded-xl bg-gradient-to-r from-[#D4AF37] to-[#E2CB85] text-black font-bold text-sm tracking-wide mt-2"
                 >
-                  {isAr ? 'إرسال طلب الشراكة' : 'Submit Patron Inquiry'}
+                  {isAr ? 'إرسال طلب التمثيل' : 'Submit Ambassador Inquiry'}
                 </button>
               </form>
             </motion.div>
