@@ -34,6 +34,7 @@ export interface SponsorAmbassador {
   location: string;
   locationAr: string;
   photoUrl: string;
+  fallbackUrl: string;
   logoText: string;
   quote: string;
   quoteAr: string;
@@ -54,7 +55,8 @@ const AMBASSADORS: SponsorAmbassador[] = [
     monumentNameAr: 'بهو الأعمدة العظيم بالكرنك',
     location: 'Luxor, Upper Egypt',
     locationAr: 'الأقصر، صعيد مصر',
-    photoUrl: '/images/gallery/karnak.jpg',
+    photoUrl: 'https://images.unsplash.com/photo-1544885935-98dd03b09034?auto=format&fit=crop&w=1200&q=80',
+    fallbackUrl: '/images/Karnak Temple.jpeg',
     logoText: 'UNESCO',
     quote: 'Documenting and safeguarding 4,000 years of living human heritage through cutting-edge AI spatial mapping.',
     quoteAr: 'توثيق وصون 4000 عام من التراث الإنساني الخالد عبر أحدث تقنيات الذكاء الاصطناعي.',
@@ -73,7 +75,8 @@ const AMBASSADORS: SponsorAmbassador[] = [
     monumentNameAr: 'أهرامات الجيزة الخالدة',
     location: 'Giza Plateau, Cairo',
     locationAr: 'هضبة الجيزة، القاهرة',
-    photoUrl: '/images/attractions/Great Pyramid of Giza.jpg',
+    photoUrl: 'https://images.unsplash.com/photo-1503177119275-0aa32b3a9368?auto=format&fit=crop&w=1200&q=80',
+    fallbackUrl: '/images/Great Pyramid of Giza.jpg',
     logoText: 'EGYPTAIR',
     quote: 'Connecting global voyagers from 80+ world capitals directly to the sacred monuments of the Nile Valley.',
     quoteAr: 'ربط المسافرين من أكثر من 80 عاصمة عالمية مباشرة بمهد الحضارة والتاريخ على ضفاف النيل.',
@@ -92,7 +95,8 @@ const AMBASSADORS: SponsorAmbassador[] = [
     monumentNameAr: 'المتحف المصري الكبير',
     location: 'Giza, Egypt',
     locationAr: 'الجيزة، مصر',
-    photoUrl: '/images/attractions/Grand Egyptian Museum.jpg',
+    photoUrl: 'https://images.unsplash.com/photo-1568322445389-f64ac2515020?auto=format&fit=crop&w=1200&q=80',
+    fallbackUrl: '/images/Grand Egyptian Museum.jpg',
     logoText: 'GEM TRUST',
     quote: 'Unveiling the complete 5,398-piece Tutankhamun golden treasure to millions of physical and digital visitors.',
     quoteAr: 'إبراز كنوز الملك الذهبي توت عنخ آمون الكاملة لملايين الزوار حول العالم.',
@@ -111,7 +115,8 @@ const AMBASSADORS: SponsorAmbassador[] = [
     monumentNameAr: 'معبدا أبو سمبل بأسوان',
     location: 'Lake Nasser, Nubia, Aswan',
     locationAr: 'بحيرة ناصر، النوبة، أسوان',
-    photoUrl: '/images/attractions/Abu Simbel Temples.jpg',
+    photoUrl: 'https://images.unsplash.com/photo-1539768942893-daf53e448371?auto=format&fit=crop&w=1200&q=80',
+    fallbackUrl: '/images/Abu Simbel Temples.jpg',
     logoText: 'NAT GEO',
     quote: 'Witnessing the miraculous solar alignment carved into the living sandstone cliffs of ancient Nubia.',
     quoteAr: 'معايشة ظاهرة تعامد الشمس الإعجازية المنحوتة في صخور النوبة الخالدة.',
@@ -130,7 +135,8 @@ const AMBASSADORS: SponsorAmbassador[] = [
     monumentNameAr: 'معبد إيزيس بجزيرة فيلة',
     location: 'Agilkia Island, Aswan',
     locationAr: 'جزيرة أجيلكيا، أسوان',
-    photoUrl: '/images/gallery/philae.jpg',
+    photoUrl: 'https://images.unsplash.com/photo-1572252009286-268acec5ca0a?auto=format&fit=crop&w=1200&q=80',
+    fallbackUrl: '/images/Philae Temple.jpeg',
     logoText: 'FOUR SEASONS',
     quote: 'Curating timeless bespoke Nile voyages blending royal pharaonic splendor with ultra-luxury comfort.',
     quoteAr: 'صناعة رحلات نيلية ملكية خاصة تمزج بين عراقة الفراعنة وأرقى درجات الرفاهية العالمية.',
@@ -149,7 +155,8 @@ const AMBASSADORS: SponsorAmbassador[] = [
     monumentNameAr: 'وادي الملوك بالبر الغربي',
     location: 'Thebes, Luxor',
     locationAr: 'طيبة، الأقصر',
-    photoUrl: '/images/attractions/Valley of the Kings.jpg',
+    photoUrl: 'https://images.unsplash.com/photo-1596401057633-54a8fe8ef647?auto=format&fit=crop&w=1200&q=80',
+    fallbackUrl: '/images/Luxor Temple.jpg',
     logoText: 'GOOGLE ARTS',
     quote: 'Capturing millimetric 3D photogrammetry of royal tombs so global researchers explore them in virtual reality.',
     quoteAr: 'إنشاء توائم رقمية ثلاثية الأبعاد لمقابر الملوك لتوفير تجارب واقع افتراضي غامرة.',
@@ -168,7 +175,8 @@ const AMBASSADORS: SponsorAmbassador[] = [
     monumentNameAr: 'قلعة صلاح الدين الأيوبي',
     location: 'Historic Cairo',
     locationAr: 'القاهرة التاريخية',
-    photoUrl: '/images/attractions/Citadel of Saladin.jpg',
+    photoUrl: 'https://images.unsplash.com/photo-1587974928442-77dc3e0dba72?auto=format&fit=crop&w=1200&q=80',
+    fallbackUrl: '/images/Citadel of Saladin.jpg',
     logoText: 'ORASCOM',
     quote: 'Deploying eco-friendly electric shuttles and digital visitor centers across Egypt’s major monumental plazas.',
     quoteAr: 'تشغيل حافلات كهربائية ذكية بدون انبعاثات في الساحات الأثرية المصرية الكبرى.',
@@ -187,7 +195,8 @@ const AMBASSADORS: SponsorAmbassador[] = [
     monumentNameAr: 'مكتبة الإسكندرية وكورنيش البحر',
     location: 'Alexandria, Mediterranean',
     locationAr: 'الإسكندرية، البحر المتوسط',
-    photoUrl: '/images/attractions/Alexandria Library.webp',
+    photoUrl: 'https://images.unsplash.com/photo-1566192091743-5966a6079984?auto=format&fit=crop&w=1200&q=80',
+    fallbackUrl: '/images/Alexandria Library.webp',
     logoText: 'ALEXANDRINA',
     quote: 'Reigniting the ancient lighthouse of knowledge and classical philosophy for the digital 21st century.',
     quoteAr: 'إحياء منارة المعرفة القديمة ونشر الفكر والإبداع الإنساني لرواد العصر الرقمي.',
@@ -336,7 +345,7 @@ export default function SponsorsShowcase() {
         {viewMode === 'carousel' && (
           <div className="relative py-8 select-none">
             {/* Carousel Stage */}
-            <div className="relative h-[480px] sm:h-[540px] md:h-[580px] flex items-center justify-center perspective-[1200px]">
+            <div className="relative h-[490px] sm:h-[550px] md:h-[590px] flex items-center justify-center perspective-[1200px]">
               {filteredAmbassadors.map((ambassador, idx) => {
                 const total = filteredAmbassadors.length;
                 let offset = (idx - activeIndex + total) % total;
@@ -358,7 +367,7 @@ export default function SponsorsShowcase() {
                 return (
                   <motion.div
                     key={ambassador.id}
-                    className="absolute w-[300px] sm:w-[380px] md:w-[440px] h-[440px] sm:h-[490px] md:h-[530px] rounded-3xl overflow-hidden cursor-pointer"
+                    className="absolute w-[310px] sm:w-[380px] md:w-[440px] h-[450px] sm:h-[500px] md:h-[540px] rounded-3xl overflow-hidden cursor-pointer"
                     style={{
                       transformStyle: 'preserve-3d',
                       zIndex: 30 - Math.abs(offset) * 5,
@@ -380,62 +389,71 @@ export default function SponsorsShowcase() {
                     }}
                   >
                     {/* Ambassador Card Container with Gold Border Glow */}
-                    <div className="relative w-full h-full bg-[#0A1220] border-2 border-[#D4AF37]/40 rounded-3xl overflow-hidden shadow-[0_15px_50px_rgba(0,0,0,0.8)] group transition-all duration-300 hover:border-[#D4AF37]">
-                      {/* Background Monument Photo */}
+                    <div className="relative w-full h-full bg-[#08101D] border-2 border-[#D4AF37]/50 rounded-3xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.85)] group transition-all duration-300 hover:border-[#F3E5AB]">
+                      {/* Background Monument Photo with High-Resolution Unsplash & Failsafe Local Fallback */}
                       <img
                         src={ambassador.photoUrl}
                         alt={ambassador.monumentName}
-                        className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                        className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-108"
+                        loading="lazy"
+                        onError={(e) => {
+                          if (e.currentTarget.src !== ambassador.fallbackUrl) {
+                            e.currentTarget.src = ambassador.fallbackUrl;
+                          }
+                        }}
                       />
 
-                      {/* Pharaonic Gradient Dark Shade */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#030712] via-[#050D1A]/60 to-black/30" />
+                      {/* Pharaonic Gradient Overlay: transparent top 45% so monument photo is 100% visible, smoothly darkening at bottom so gold typography pops */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#040812] via-[#050D1A]/85 via-50% to-black/25 pointer-events-none" />
+
+                      {/* Subtle Golden Inner Border Cartouche Accent */}
+                      <div className="absolute inset-2 border border-[#D4AF37]/25 rounded-2xl pointer-events-none" />
 
                       {/* Top Overlay Badge (Tier + Logo Mark) */}
-                      <div className="absolute top-4 left-4 right-4 flex items-center justify-between z-10">
-                        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#030712]/80 backdrop-blur-md border border-[#D4AF37]/50 text-[#E2CB85] text-[11px] font-bold shadow-lg">
+                      <div className="absolute top-5 left-5 right-5 flex items-center justify-between z-10">
+                        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#030712]/85 backdrop-blur-md border border-[#D4AF37]/60 text-[#E2CB85] text-[11px] font-bold shadow-[0_4px_15px_rgba(0,0,0,0.5)]">
                           <Crown className="w-3.5 h-3.5 text-[#D4AF37]" />
                           <span>{isAr ? ambassador.tierAr : ambassador.tier}</span>
                         </div>
 
-                        <div className="px-2.5 py-1 rounded-lg bg-[#030712]/90 backdrop-blur-md border border-white/20 font-mono text-[11px] font-black tracking-widest text-[#F3E5AB]">
+                        <div className="px-3 py-1 rounded-lg bg-[#030712]/90 backdrop-blur-md border border-[#D4AF37]/40 font-mono text-xs font-black tracking-widest text-[#F3E5AB] shadow-md">
                           {ambassador.logoText}
                         </div>
                       </div>
 
                       {/* Bottom Info Overlay */}
-                      <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-6 z-10 space-y-2">
+                      <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-6 z-10 space-y-2.5">
                         {/* Caption Pill */}
-                        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-[#D4AF37]/20 backdrop-blur-md border border-[#D4AF37]/40 text-[#F5E6B8] text-xs font-bold tracking-wide">
+                        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-[#D4AF37]/25 backdrop-blur-md border border-[#D4AF37]/50 text-[#F5E6B8] text-xs font-bold tracking-wide shadow-sm">
                           <MapPin className="w-3.5 h-3.5 text-[#D4AF37]" />
                           <span>{isAr ? ambassador.captionAr : ambassador.caption}</span>
                         </div>
 
                         {/* Sponsor Name & Monument */}
-                        <h3 className="text-xl sm:text-2xl font-black text-white leading-tight drop-shadow-md">
+                        <h3 className="text-xl sm:text-2xl font-black text-white leading-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
                           {isAr ? ambassador.nameAr : ambassador.name}
                         </h3>
 
-                        <div className="flex items-center gap-2 text-xs text-white/70">
+                        <div className="flex items-center gap-2 text-xs text-white/80">
                           <Compass className="w-3.5 h-3.5 text-[#4EB1E2]" />
-                          <span className="font-medium text-white/90">
+                          <span className="font-semibold text-white drop-shadow">
                             {isAr ? ambassador.monumentNameAr : ambassador.monumentName}
                           </span>
                           <span className="text-white/40">•</span>
-                          <span className="text-white/60">{isAr ? ambassador.locationAr : ambassador.location}</span>
+                          <span className="text-white/70">{isAr ? ambassador.locationAr : ambassador.location}</span>
                         </div>
 
-                        <p className="text-xs text-white/75 line-clamp-2 italic pt-1 border-t border-white/10 font-serif">
+                        <p className="text-xs text-white/85 line-clamp-2 italic pt-1.5 border-t border-white/10 font-serif leading-relaxed drop-shadow">
                           "{isAr ? ambassador.quoteAr : ambassador.quote}"
                         </p>
 
                         {/* Action CTA */}
                         <div className="pt-2 flex items-center justify-between">
-                          <span className="text-[11px] uppercase tracking-wider text-[#E2CB85] font-semibold flex items-center gap-1 group-hover:underline">
+                          <span className="text-[11px] uppercase tracking-wider text-[#E2CB85] font-bold flex items-center gap-1 group-hover:underline drop-shadow">
                             <Eye className="w-3.5 h-3.5" />
                             <span>{isAr ? 'عرض ملف السفير' : 'View Ambassador Story'}</span>
                           </span>
-                          <div className="w-8 h-8 rounded-full bg-[#D4AF37]/20 border border-[#D4AF37]/40 flex items-center justify-center text-[#E2CB85] group-hover:bg-[#D4AF37] group-hover:text-black transition-colors">
+                          <div className="w-8 h-8 rounded-full bg-[#D4AF37]/30 border border-[#D4AF37]/60 flex items-center justify-center text-[#E2CB85] group-hover:bg-[#D4AF37] group-hover:text-black transition-colors shadow-md">
                             <ArrowUpRight className="w-4 h-4" />
                           </div>
                         </div>
@@ -497,22 +515,28 @@ export default function SponsorsShowcase() {
                 className="group relative bg-[#09111E] border border-[#D4AF37]/30 hover:border-[#D4AF37] rounded-3xl overflow-hidden shadow-xl transition-all duration-300 hover:-translate-y-1.5 cursor-pointer flex flex-col"
               >
                 {/* Photo Header */}
-                <div className="relative h-56 w-full overflow-hidden">
+                <div className="relative h-60 w-full overflow-hidden bg-[#040812]">
                   <img
                     src={ambassador.photoUrl}
                     alt={ambassador.monumentName}
-                    className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                    className="w-full h-full object-cover object-center group-hover:scale-108 transition-transform duration-700"
+                    loading="lazy"
+                    onError={(e) => {
+                      if (e.currentTarget.src !== ambassador.fallbackUrl) {
+                        e.currentTarget.src = ambassador.fallbackUrl;
+                      }
+                    }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#09111E] via-transparent to-black/30" />
 
                   {/* Logo overlay */}
-                  <div className="absolute top-3 right-3 px-2 py-0.5 rounded bg-black/70 backdrop-blur-md text-[10px] font-mono font-bold tracking-widest text-[#F5E6B8] border border-white/20">
+                  <div className="absolute top-3 right-3 px-2.5 py-1 rounded bg-black/80 backdrop-blur-md text-[11px] font-mono font-bold tracking-widest text-[#F5E6B8] border border-[#D4AF37]/40 shadow-sm">
                     {ambassador.logoText}
                   </div>
 
                   {/* Caption pill */}
                   <div className="absolute bottom-3 left-3 right-3">
-                    <span className="inline-block px-2.5 py-1 rounded bg-[#D4AF37]/20 border border-[#D4AF37]/40 text-[#F5E6B8] text-[11px] font-bold backdrop-blur-md truncate max-w-full">
+                    <span className="inline-block px-2.5 py-1 rounded bg-[#D4AF37]/25 border border-[#D4AF37]/50 text-[#F5E6B8] text-[11px] font-bold backdrop-blur-md truncate max-w-full shadow-sm">
                       {isAr ? ambassador.captionAr : ambassador.caption}
                     </span>
                   </div>
@@ -605,20 +629,25 @@ export default function SponsorsShowcase() {
                 <X className="w-5 h-5" />
               </button>
 
-              {/* Monument Hero Image */}
-              <div className="relative h-64 sm:h-72 w-full">
+              {/* Monument Hero Image with Fallback */}
+              <div className="relative h-64 sm:h-72 w-full bg-[#040812]">
                 <img
                   src={selectedAmbassador.photoUrl}
                   alt={selectedAmbassador.monumentName}
                   className="w-full h-full object-cover object-center"
+                  onError={(e) => {
+                    if (e.currentTarget.src !== selectedAmbassador.fallbackUrl) {
+                      e.currentTarget.src = selectedAmbassador.fallbackUrl;
+                    }
+                  }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#09111E] via-transparent to-black/40" />
 
                 <div className="absolute bottom-4 left-6 right-6">
-                  <span className="px-3 py-1 rounded-full bg-[#D4AF37]/20 border border-[#D4AF37]/40 text-[#E2CB85] text-xs font-bold uppercase tracking-wider backdrop-blur-md">
+                  <span className="px-3 py-1 rounded-full bg-[#D4AF37]/25 border border-[#D4AF37]/50 text-[#E2CB85] text-xs font-bold uppercase tracking-wider backdrop-blur-md shadow-sm">
                     {isAr ? selectedAmbassador.captionAr : selectedAmbassador.caption}
                   </span>
-                  <h3 className="text-2xl sm:text-3xl font-black text-white mt-2">
+                  <h3 className="text-2xl sm:text-3xl font-black text-white mt-2 drop-shadow-md">
                     {isAr ? selectedAmbassador.nameAr : selectedAmbassador.name}
                   </h3>
                 </div>
