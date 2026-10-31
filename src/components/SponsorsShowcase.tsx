@@ -351,7 +351,8 @@ export default function SponsorsShowcase() {
                       <img
                         src={ambassador.photoUrl}
                         alt={ambassador.name}
-                        className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-108"
+                        className="w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-108"
+                        style={{ objectPosition: 'top center' }}
                         loading="lazy"
                         onError={(e) => {
                           if (e.currentTarget.src !== ambassador.fallbackUrl) {
@@ -478,7 +479,8 @@ export default function SponsorsShowcase() {
                   <img
                     src={ambassador.photoUrl}
                     alt={ambassador.name}
-                    className="w-full h-full object-cover object-center group-hover:scale-108 transition-transform duration-700"
+                    className="w-full h-full object-cover object-top group-hover:scale-108 transition-transform duration-700"
+                    style={{ objectPosition: 'top center' }}
                     loading="lazy"
                     onError={(e) => {
                       if (e.currentTarget.src !== ambassador.fallbackUrl) {
@@ -589,18 +591,19 @@ export default function SponsorsShowcase() {
               </button>
 
               {/* Monument Hero Image with Fallback */}
-              <div className="relative h-64 sm:h-72 w-full bg-[#040812]">
+              <div className="relative h-72 sm:h-80 md:h-96 w-full bg-[#040812] overflow-hidden">
                 <img
                   src={selectedAmbassador.photoUrl}
                   alt={selectedAmbassador.name}
-                  className="w-full h-full object-cover object-center"
+                  className="w-full h-full object-cover object-top"
+                  style={{ objectPosition: 'top center' }}
                   onError={(e) => {
                     if (e.currentTarget.src !== selectedAmbassador.fallbackUrl) {
                       e.currentTarget.src = selectedAmbassador.fallbackUrl;
                     }
                   }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#09111E] via-transparent to-black/40" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#09111E] via-[#09111E]/30 via-35% to-transparent" />
 
                 <div className="absolute bottom-4 left-6 right-6">
                   <span className="px-3 py-1 rounded-full bg-[#D4AF37]/25 border border-[#D4AF37]/50 text-[#E2CB85] text-xs font-bold uppercase tracking-wider backdrop-blur-md shadow-sm">
