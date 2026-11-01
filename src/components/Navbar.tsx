@@ -356,15 +356,18 @@ export default function Navbar() {
             />
 
             {/* 6. Tut Hall */}
-            <a
-              href="https://my.matterport.com/show/?m=85n8j312Ur4"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-semibold tracking-wider transition-all duration-300 text-[#C5A059] bg-[#C5A059]/15 border border-[#C5A059]/40 hover:border-[#C5A059] hover:bg-[#C5A059]/25 backdrop-blur-sm"
+            <Link
+              href="/tut-hall-vr"
+              onClick={(e) => handleVrClick(e, '/tut-hall-vr')}
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-semibold tracking-wider transition-all duration-300 ${
+                pathname === '/tut-hall-vr'
+                  ? 'bg-[#C5A059] text-stone-950 shadow-sm scale-105'
+                  : 'text-[#C5A059] bg-[#C5A059]/15 border border-[#C5A059]/40 hover:border-[#C5A059] hover:bg-[#C5A059]/25 backdrop-blur-sm'
+              }`}
             >
               <Glasses className="w-3.5 h-3.5 text-[#C5A059]" />
               <span>Tut Hall</span>
-            </a>
+            </Link>
           </nav>
 
           {/* ── RIGHT: Theme Toggle + Language + Profile ────────────────────── */}
@@ -589,16 +592,17 @@ export default function Navbar() {
 
               {/* Tut Hall */}
               <div className="pt-3 border-t border-black/[0.05] dark:border-white/5">
-                <a
-                  href="https://my.matterport.com/show/?m=85n8j312Ur4"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => setMobileMenuOpen(false)}
+                <Link
+                  href="/tut-hall-vr"
+                  onClick={(e) => {
+                    setMobileMenuOpen(false);
+                    handleVrClick(e, '/tut-hall-vr');
+                  }}
                   className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-[#C5A059]/15 border border-[#C5A059]/30 text-[#C5A059] text-xs font-bold uppercase tracking-wider hover:bg-[#C5A059]/25 transition-colors"
                 >
                   <Glasses className="w-4 h-4 text-[#C5A059]" />
                   <span>Tut Hall</span>
-                </a>
+                </Link>
               </div>
             </div>
           </motion.div>
