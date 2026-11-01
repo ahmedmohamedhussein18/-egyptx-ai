@@ -1754,43 +1754,45 @@ export default function PlannerContent() {
             >
               {/* Royal Cocktail Party Effect Personalized AI Greeting Banner */}
               <motion.div
-                initial={{ opacity: 0, y: -12 }}
+                initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="mb-8 p-5 sm:p-6 rounded-3xl bg-gradient-to-r from-[#C9A84C]/25 via-[#0C1628]/95 to-[#1B6B93]/20 border-2 border-[#C9A84C] shadow-[0_0_35px_rgba(201,168,76,0.3)] backdrop-blur-md relative overflow-hidden"
+                transition={{ duration: 0.4 }}
+                className="mb-8 p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-[#C9A84C]/15 via-[#0C1628]/95 to-[#1B6B93]/15 border border-[#C9A84C]/40 shadow-[0_0_25px_rgba(201,168,76,0.15)] backdrop-blur-md relative overflow-hidden"
               >
-                <div className="absolute -right-8 -top-8 w-32 h-32 bg-[#C9A84C]/20 rounded-full blur-2xl pointer-events-none" />
-                <div className="absolute -left-8 -bottom-8 w-32 h-32 bg-[#1B6B93]/20 rounded-full blur-2xl pointer-events-none" />
+                <div className="absolute -right-8 -top-8 w-28 h-28 bg-[#C9A84C]/15 rounded-full blur-2xl pointer-events-none" />
+                <div className="absolute -left-8 -bottom-8 w-28 h-28 bg-[#1B6B93]/15 rounded-full blur-2xl pointer-events-none" />
 
-                <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#D4AF37] via-[#F3E5AB] to-[#C9A84C] text-[#030712] flex items-center justify-center shrink-0 shadow-lg shadow-[#C9A84C]/30">
-                      <Crown className="w-6 h-6 animate-pulse" />
+                <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                  <div className="flex items-center gap-3.5">
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#D4AF37] via-[#F3E5AB] to-[#C9A84C] text-[#030712] flex items-center justify-center shrink-0 shadow-md">
+                      <Crown className="w-5 h-5 text-[#030712] animate-pulse" />
                     </div>
 
-                    <div className="space-y-1">
-                      <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#C9A84C]/20 border border-[#C9A84C]/50 text-[#F5E6B8] text-[11px] font-bold uppercase tracking-widest shadow-sm">
+                    <div className="space-y-0.5">
+                      <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#C9A84C]/20 border border-[#C9A84C]/40 text-[#F5E6B8] text-[10px] font-bold uppercase tracking-wider">
                         <Sparkles className="w-3 h-3 text-[#D4AF37]" />
-                        <span>{isAr ? 'تحية ملكية مخصصة' : 'Cocktail Party Effect — VIP Royal Welcome'}</span>
+                        <span>{isAr ? 'تجربة ملكية مخصصة' : 'VIP Royal Welcome'}</span>
                       </div>
 
-                      {/* Exact Arabic greeting required: "جهزنا لك مساراً ملكياً يا [User's Name]، مصمم خصيصاً ليتناسب مع ذوقك الرفيع" */}
-                      <h3 className="text-lg sm:text-2xl font-black text-white leading-snug drop-shadow-sm" dir="rtl">
-                        جهزنا لك مساراً ملكياً يا <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#F5E6B8] via-[#D4AF37] to-[#F3E5AB] underline decoration-[#D4AF37]/50 underline-offset-4">{displayName}</span>، مصمم خصيصاً ليتناسب مع ذوقك الرفيع
-                      </h3>
-
-                      {!isAr && (
-                        <p className="text-xs sm:text-sm text-white/75 font-light pt-0.5">
-                          We have crafted a royal expedition for you, <span className="font-semibold text-[#E2CB85]">{displayName}</span>, tailored exclusively to your refined taste.
-                        </p>
-                      )}
+                      {/* Concise, elegant English greeting: "Your royal expedition is ready, [User's Name]. Tailored exclusively to your refined taste." */}
+                      <p className="text-sm sm:text-base font-medium text-white leading-relaxed">
+                        {isAr ? (
+                          <>
+                            مسارك الملكي جاهز يا <span className="text-[#F3E5AB] font-bold">{displayName}</span>. مصمم خصيصاً ليتناسب مع ذوقك الرفيع.
+                          </>
+                        ) : (
+                          <>
+                            Your royal expedition is ready, <span className="text-[#F3E5AB] font-bold">{displayName}</span>. Tailored exclusively to your refined taste.
+                          </>
+                        )}
+                      </p>
                     </div>
                   </div>
 
-                  <div className="shrink-0 self-end md:self-center">
-                    <span className="px-3.5 py-1.5 rounded-xl bg-black/60 border border-[#C9A84C]/50 text-[#E2CB85] text-xs font-mono font-bold tracking-wider shadow-inner flex items-center gap-1.5">
-                      <Crown className="w-3.5 h-3.5 text-[#D4AF37]" />
-                      VIP ROYAL EXPEDITION
+                  <div className="shrink-0 self-end sm:self-center">
+                    <span className="px-3 py-1 rounded-lg bg-black/60 border border-[#C9A84C]/40 text-[#E2CB85] text-[11px] font-mono font-bold tracking-wider shadow-inner flex items-center gap-1.5">
+                      <Crown className="w-3 h-3 text-[#D4AF37]" />
+                      VIP EXPEDITION
                     </span>
                   </div>
                 </div>
