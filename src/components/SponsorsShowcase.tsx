@@ -740,16 +740,15 @@ export default function SponsorsShowcase() {
 
           <div className="space-y-2 max-w-2xl text-center md:text-left">
             <div className="inline-flex items-center gap-2 text-xs font-bold text-[#E2CB85] tracking-wider uppercase">
-              <Sparkles className="w-3.5 h-3.5 text-[#D4AF37]" />
-              <span>{isAr ? 'انضم إلى نخبة سفراء مصر إكس' : 'Become an EgyptX Global Ambassador'}</span>
+              <span>{isAr ? '✨ دعوة VIP حصرية' : '✨ EXCLUSIVE VIP INVITATION'}</span>
             </div>
             <h3 className="text-2xl sm:text-3xl font-extrabold text-white">
-              {isAr ? 'هل تمثل مؤسسة ثقافية أو شخصية دولية مؤثرة؟' : 'Are You a Cultural Icon, Leader, or Global Brand?'}
+              {isAr ? 'قصتك تستحق أن تُخلّد بين العظماء.' : 'Your Story Belongs Among the Greats.'}
             </h3>
             <p className="text-sm text-white/70">
               {isAr
-                ? 'شارك في تسليط الضوء على سحر الحضارة المصرية برعاية تجارب سياحية حصرية وتوثيق معالم الإنسانية الخالدة.'
-                : 'Join our international heritage network to experience private VIP monument access and support digital cultural preservation.'}
+                ? 'لأنك تستحق الأفضل بكل تأكيد. أضف صورتك إلى جانب قادة العالم وأيقونات الحضارة، وخلّد رحلتك المصرية الاستثنائية.'
+                : 'Because you deserve the absolute best. Add your portrait alongside world leaders and global icons, and immortalize your exclusive Egyptian journey.'}
             </p>
           </div>
 
@@ -758,8 +757,7 @@ export default function SponsorsShowcase() {
               onClick={() => setIsJoinModalOpen(true)}
               className="px-6 py-3.5 rounded-xl font-bold text-sm bg-gradient-to-r from-[#D4AF37] to-[#E2CB85] text-[#030712] hover:shadow-[0_0_25px_rgba(212,175,55,0.4)] transition-all flex items-center justify-center gap-2 shadow-lg hover:scale-105 active:scale-95"
             >
-              <Crown className="w-4 h-4" />
-              <span>{isAr ? 'طلب الانضمام كسفير رسمي' : 'Apply as Global Ambassador'}</span>
+              <span>{isAr ? '👑 احصل على مكانتك الملكية' : '👑 Claim Your VIP Status'}</span>
             </button>
           </div>
         </div>
