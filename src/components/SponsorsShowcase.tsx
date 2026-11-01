@@ -13,7 +13,10 @@ import {
   LayoutGrid,
   Layers,
   ArrowUpRight,
-  X
+  X,
+  Trash2,
+  Upload,
+  CheckCircle2,
 } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 
@@ -36,9 +39,10 @@ export interface SponsorAmbassador {
   quoteAr: string;
   tier: string;
   tierAr: string;
+  isUserGenerated?: boolean;
 }
 
-const AMBASSADORS: SponsorAmbassador[] = [
+const INITIAL_AMBASSADORS: SponsorAmbassador[] = [
   {
     id: 'alexandria',
     name: 'King Charles III & Queen Camilla',
@@ -58,6 +62,7 @@ const AMBASSADORS: SponsorAmbassador[] = [
     quoteAr: 'زيارة ملكية لمكتبة الإسكندرية العريقة احتفاءً بصون المعرفة العالمية والتراث الثقافي الإنساني.',
     tier: 'Diamond Global Patron',
     tierAr: 'راعي عالمي ملكي',
+    isUserGenerated: false,
   },
   {
     id: 'aswan',
@@ -78,6 +83,7 @@ const AMBASSADORS: SponsorAmbassador[] = [
     quoteAr: 'معايشة سحر معابد أسوان الخالدة وربط الأجيال الشابة بعراقة التاريخ المصري.',
     tier: 'Heritage Innovation Partner',
     tierAr: 'سفير الشباب الثقافي',
+    isUserGenerated: false,
   },
   {
     id: 'citadel',
@@ -98,6 +104,7 @@ const AMBASSADORS: SponsorAmbassador[] = [
     quoteAr: 'استكشاف روائع العمارة الإسلامية وشوارع القاهرة التاريخية لتوثيق حكايات الحضارة الإنسانية.',
     tier: 'Diamond Global Patron',
     tierAr: 'سفير عالمي سينمائي',
+    isUserGenerated: false,
   },
   {
     id: 'gem',
@@ -118,6 +125,7 @@ const AMBASSADORS: SponsorAmbassador[] = [
     quoteAr: 'تمثيل الفن والإبداع المصري بفخر في المتحف المصري الكبير بجوار تمثال رمسيس الثاني العملاق.',
     tier: 'Heritage Innovation Partner',
     tierAr: 'أيقونة الفن المصري',
+    isUserGenerated: false,
   },
   {
     id: 'luxor',
@@ -138,6 +146,7 @@ const AMBASSADORS: SponsorAmbassador[] = [
     quoteAr: 'توثيق صروح وأعمدة معابد الأقصر المهيبة ونقوشها الهيروغليفية الساحرة.',
     tier: 'Official Royal Carrier',
     tierAr: 'شريك الاستكشاف السياحي',
+    isUserGenerated: false,
   },
   {
     id: 'pyramids',
@@ -158,29 +167,90 @@ const AMBASSADORS: SponsorAmbassador[] = [
     quoteAr: 'جذب ملايين المتابعين حول العالم لعجائب وأسرار أهرامات الجيزة الخالدة.',
     tier: 'Diamond Global Patron',
     tierAr: 'سفير المحتوى الرقمي',
+    isUserGenerated: false,
   },
 ];
+
+interface ToastState {
+  show: boolean;
+  title: string;
+  message: string;
+  type?: 'success' | 'info';
+}
 
 export default function SponsorsShowcase() {
   const { locale } = useLanguage();
   const isAr = locale === 'ar';
 
+  const [ambassadors, setAmbassadors] = useState<SponsorAmbassador[]>(INITIAL_AMBASSADORS);
   const [activeIndex, setActiveIndex] = useState(0);
   const [viewMode, setViewMode] = useState<'carousel' | 'papyrus'>('carousel');
   const [selectedAmbassador, setSelectedAmbassador] = useState<SponsorAmbassador | null>(null);
   const [isJoinModalOpen, setIsJoinModalOpen] = useState(false);
   const [partnerTypeFilter, setPartnerTypeFilter] = useState<'all' | 'luxor' | 'giza' | 'aswan'>('all');
 
-  const filteredAmbassadors = AMBASSADORS.filter((a) => {
-    if (partnerTypeFilter === 'luxor') return a.location.toLowerCase().includes('luxor');
-    if (partnerTypeFilter === 'giza') return a.location.toLowerCase().includes('giza') || a.location.toLowerCase().includes('cairo');
-    if (partnerTypeFilter === 'aswan') return a.location.toLowerCase().includes('aswan') || a.location.toLowerCase().includes('alexandria');
+  // Form State for Adding Custom Ambassador Card
+  const [formName, setFormName] = useState('');
+  const [formRole, setFormRole] = useState('');
+  const [formMonument, setFormMonument] = useState('Great Pyramids of Giza');
+  const [formStory, setFormStory] = useState('');
+  const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null);
+  const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
+
+  // Royal Toast Notification State
+  const [toast, setToast] = useState<ToastState>({
+    show: false,
+    title: '',
+    message: '',
+    type: 'success',
+  });
+
+  // Auto-dismiss Toast
+  useEffect(() => {
+    if (toast.show) {
+      const timer = setTimeout(() => {
+        setToast((prev) => ({ ...prev, show: false }));
+      }, 4500);
+      return () => clearTimeout(timer);
+    }
+  }, [toast.show]);
+
+  const filteredAmbassadors = ambassadors.filter((a) => {
+    if (partnerTypeFilter === 'luxor') {
+      return (
+        a.location.toLowerCase().includes('luxor') ||
+        a.monumentName.toLowerCase().includes('luxor') ||
+        a.monumentName.toLowerCase().includes('karnak')
+      );
+    }
+    if (partnerTypeFilter === 'giza') {
+      return (
+        a.location.toLowerCase().includes('giza') ||
+        a.location.toLowerCase().includes('cairo') ||
+        a.monumentName.toLowerCase().includes('pyramid')
+      );
+    }
+    if (partnerTypeFilter === 'aswan') {
+      return (
+        a.location.toLowerCase().includes('aswan') ||
+        a.location.toLowerCase().includes('alexandria') ||
+        a.monumentName.toLowerCase().includes('philae') ||
+        a.monumentName.toLowerCase().includes('alexandria')
+      );
+    }
     return true;
   });
 
+  // Clamp activeIndex whenever filteredAmbassadors length changes
+  useEffect(() => {
+    if (filteredAmbassadors.length > 0 && activeIndex >= filteredAmbassadors.length) {
+      setActiveIndex(0);
+    }
+  }, [filteredAmbassadors.length, activeIndex]);
+
   // Auto-advance 3D Carousel every 6 seconds when in carousel view
   useEffect(() => {
-    if (viewMode !== 'carousel') return;
+    if (viewMode !== 'carousel' || filteredAmbassadors.length <= 1) return;
     const interval = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % filteredAmbassadors.length);
     }, 6000);
@@ -188,11 +258,113 @@ export default function SponsorsShowcase() {
   }, [viewMode, filteredAmbassadors.length]);
 
   const handlePrev = () => {
+    if (filteredAmbassadors.length === 0) return;
     setActiveIndex((prev) => (prev - 1 + filteredAmbassadors.length) % filteredAmbassadors.length);
   };
 
   const handleNext = () => {
+    if (filteredAmbassadors.length === 0) return;
     setActiveIndex((prev) => (prev + 1) % filteredAmbassadors.length);
+  };
+
+  // Image File Upload Change
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setSelectedImageFile(file);
+      const objectUrl = URL.createObjectURL(file);
+      setImagePreviewUrl(objectUrl);
+    }
+  };
+
+  // Dynamic VIP Ambassador Addition
+  const handleAddAmbassador = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const finalPhotoUrl = imagePreviewUrl || '/images/sponsor-pyramids.jpg';
+
+    // Location mapping based on monument
+    let loc = 'Giza Plateau, Cairo';
+    let locAr = 'هضبة الجيزة، القاهرة';
+    if (formMonument.toLowerCase().includes('luxor') || formMonument.toLowerCase().includes('karnak')) {
+      loc = 'Luxor, Upper Egypt';
+      locAr = 'الأقصر، صعيد مصر';
+    } else if (formMonument.toLowerCase().includes('aswan') || formMonument.toLowerCase().includes('philae') || formMonument.toLowerCase().includes('abu simbel')) {
+      loc = 'Aswan, Upper Egypt';
+      locAr = 'أسوان، صعيد مصر';
+    } else if (formMonument.toLowerCase().includes('alexandria')) {
+      loc = 'Alexandria, Mediterranean';
+      locAr = 'الإسكندرية، البحر المتوسط';
+    }
+
+    const newAmbassador: SponsorAmbassador = {
+      id: `user-${Date.now()}`,
+      name: formName.trim(),
+      nameAr: formName.trim(),
+      category: formRole.trim() || (isAr ? 'سفير التراث الفخري' : 'VIP Cultural Ambassador'),
+      categoryAr: formRole.trim() || 'سفير التراث الفخري',
+      caption: `${isAr ? 'زيارة وتوثيق' : 'Exploring'} ${formMonument}`,
+      captionAr: `استكشاف ${formMonument}`,
+      monumentName: formMonument,
+      monumentNameAr: formMonument,
+      location: loc,
+      locationAr: locAr,
+      photoUrl: finalPhotoUrl,
+      fallbackUrl: '/images/sponsor-pyramids.jpg',
+      logoText: 'VIP AMBASSADOR',
+      quote: formStory.trim() || (isAr ? 'رحلة ملهمة بين صروح الحضارة المصرية الخالدة.' : 'An inspiring journey through the timeless wonders of Egyptian civilization.'),
+      quoteAr: formStory.trim() || 'رحلة ملهمة بين صروح الحضارة المصرية الخالدة.',
+      tier: 'Honorary Global Ambassador',
+      tierAr: 'سفير فخري عالمي',
+      isUserGenerated: true,
+    };
+
+    // Prepend new card to state
+    setAmbassadors((prev) => [newAmbassador, ...prev]);
+    setActiveIndex(0);
+    setIsJoinModalOpen(false);
+
+    // Reset Form
+    setFormName('');
+    setFormRole('');
+    setFormMonument('Great Pyramids of Giza');
+    setFormStory('');
+    setSelectedImageFile(null);
+    setImagePreviewUrl(null);
+
+    // Show Royal Success Toast
+    setToast({
+      show: true,
+      title: isAr ? 'تمت إضافة بطاقتك بنجاح! 👑' : 'Ambassador Card Added! 👑',
+      message: isAr
+        ? `أهلاً بك يا ${newAmbassador.name} كسفير رسمي في معرض EgyptX!`
+        : `Welcome ${newAmbassador.name}! Your custom ambassador card is now live on the showcase.`,
+      type: 'success',
+    });
+  };
+
+  // Selective Deletion: ONLY removes user generated cards
+  const removeCard = (id: string, e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
+
+    // Verify card is user generated
+    const target = ambassadors.find((a) => a.id === id);
+    if (!target || !target.isUserGenerated) return;
+
+    setAmbassadors((prev) => prev.filter((a) => a.id !== id));
+
+    if (selectedAmbassador?.id === id) {
+      setSelectedAmbassador(null);
+    }
+
+    setToast({
+      show: true,
+      title: isAr ? 'تم حذف البطاقة' : 'Card Removed',
+      message: isAr
+        ? `تم حذف بطاقتك المخصصة بنجاح.`
+        : `Your customized ambassador card has been safely removed.`,
+      type: 'info',
+    });
   };
 
   return (
@@ -235,7 +407,7 @@ export default function SponsorsShowcase() {
                     : 'text-white/60 hover:text-white'
                 }`}
               >
-                {isAr ? 'كافة الشخصيات (6)' : 'All Ambassadors (6)'}
+                {isAr ? `كافة الشخصيات (${ambassadors.length})` : `All Ambassadors (${ambassadors.length})`}
               </button>
               <button
                 onClick={() => { setPartnerTypeFilter('giza'); setActiveIndex(0); }}
@@ -245,7 +417,7 @@ export default function SponsorsShowcase() {
                     : 'text-white/60 hover:text-white'
                 }`}
               >
-                {isAr ? 'الأهرامات والقاهرة (3)' : 'Giza & Cairo (3)'}
+                {isAr ? 'الأهرامات والقاهرة' : 'Giza & Cairo'}
               </button>
               <button
                 onClick={() => { setPartnerTypeFilter('luxor'); setActiveIndex(0); }}
@@ -367,15 +539,30 @@ export default function SponsorsShowcase() {
                       {/* Subtle Golden Inner Border Cartouche Accent */}
                       <div className="absolute inset-2 border border-[#D4AF37]/25 rounded-2xl pointer-events-none" />
 
-                      {/* Top Overlay Badge (Role + Logo Tag) */}
+                      {/* Top Overlay Badge (Role + Logo Tag + Selective Delete) */}
                       <div className="absolute top-5 left-5 right-5 flex items-center justify-between z-10">
                         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#030712]/85 backdrop-blur-md border border-[#D4AF37]/60 text-[#E2CB85] text-[11px] font-bold shadow-[0_4px_15px_rgba(0,0,0,0.5)]">
                           <Crown className="w-3.5 h-3.5 text-[#D4AF37]" />
                           <span>{isAr ? ambassador.categoryAr : ambassador.category}</span>
                         </div>
 
-                        <div className="px-3 py-1 rounded-lg bg-[#030712]/90 backdrop-blur-md border border-[#D4AF37]/40 font-mono text-xs font-black tracking-widest text-[#F3E5AB] shadow-md">
-                          {ambassador.logoText}
+                        <div className="flex items-center gap-2">
+                          <div className="px-3 py-1 rounded-lg bg-[#030712]/90 backdrop-blur-md border border-[#D4AF37]/40 font-mono text-xs font-black tracking-widest text-[#F3E5AB] shadow-md">
+                            {ambassador.logoText}
+                          </div>
+
+                          {/* Selective Delete: Only rendered on user created cards */}
+                          {ambassador.isUserGenerated && (
+                            <button
+                              type="button"
+                              onClick={(e) => removeCard(ambassador.id, e)}
+                              className="p-1.5 rounded-lg bg-red-600/90 hover:bg-red-500 text-white border border-red-400/80 shadow-[0_0_15px_rgba(239,68,68,0.5)] transition-all hover:scale-110 active:scale-95 z-20"
+                              title={isAr ? 'حذف البطاقة المخصصة' : 'Delete Custom Card'}
+                              aria-label="Delete card"
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                            </button>
+                          )}
                         </div>
                       </div>
 
@@ -425,42 +612,44 @@ export default function SponsorsShowcase() {
             </div>
 
             {/* Navigation Arrows & Indicator Dots */}
-            <div className="mt-8 flex items-center justify-center gap-4">
-              <button
-                onClick={handlePrev}
-                className="w-12 h-12 rounded-full bg-white/5 border border-[#D4AF37]/30 hover:border-[#D4AF37] hover:bg-[#D4AF37]/20 text-[#E2CB85] flex items-center justify-center transition-all shadow-lg active:scale-95"
-                aria-label="Previous Ambassador"
-              >
-                <ChevronLeft className="w-6 h-6" />
-              </button>
+            {filteredAmbassadors.length > 1 && (
+              <div className="mt-8 flex items-center justify-center gap-4">
+                <button
+                  onClick={handlePrev}
+                  className="w-12 h-12 rounded-full bg-white/5 border border-[#D4AF37]/30 hover:border-[#D4AF37] hover:bg-[#D4AF37]/20 text-[#E2CB85] flex items-center justify-center transition-all shadow-lg active:scale-95"
+                  aria-label="Previous Ambassador"
+                >
+                  <ChevronLeft className="w-6 h-6" />
+                </button>
 
-              <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10">
-                {filteredAmbassadors.map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setActiveIndex(i)}
-                    className={`h-2 rounded-full transition-all duration-300 ${
-                      i === activeIndex
-                        ? 'w-6 bg-gradient-to-r from-[#D4AF37] to-[#F5E6B8]'
-                        : 'w-2 bg-white/20 hover:bg-white/40'
-                    }`}
-                    aria-label={`Go to slide ${i + 1}`}
-                  />
-                ))}
+                <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10">
+                  {filteredAmbassadors.map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setActiveIndex(i)}
+                      className={`h-2 rounded-full transition-all duration-300 ${
+                        i === activeIndex
+                          ? 'w-6 bg-gradient-to-r from-[#D4AF37] to-[#F5E6B8]'
+                          : 'w-2 bg-white/20 hover:bg-white/40'
+                      }`}
+                      aria-label={`Go to slide ${i + 1}`}
+                    />
+                  ))}
+                </div>
+
+                <button
+                  onClick={handleNext}
+                  className="w-12 h-12 rounded-full bg-white/5 border border-[#D4AF37]/30 hover:border-[#D4AF37] hover:bg-[#D4AF37]/20 text-[#E2CB85] flex items-center justify-center transition-all shadow-lg active:scale-95"
+                  aria-label="Next Ambassador"
+                >
+                  <ChevronRight className="w-6 h-6" />
+                </button>
               </div>
-
-              <button
-                onClick={handleNext}
-                className="w-12 h-12 rounded-full bg-white/5 border border-[#D4AF37]/30 hover:border-[#D4AF37] hover:bg-[#D4AF37]/20 text-[#E2CB85] flex items-center justify-center transition-all shadow-lg active:scale-95"
-                aria-label="Next Ambassador"
-              >
-                <ChevronRight className="w-6 h-6" />
-              </button>
-            </div>
+            )}
           </div>
         )}
 
-        {/* VIEW 2: Modern Papyrus Masonry Grid (3 columns x 2 rows) */}
+        {/* VIEW 2: Modern Papyrus Masonry Grid */}
         {viewMode === 'papyrus' && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -490,9 +679,23 @@ export default function SponsorsShowcase() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#09111E] via-transparent to-black/30" />
 
-                  {/* Logo overlay */}
-                  <div className="absolute top-3 right-3 px-2.5 py-1 rounded bg-black/80 backdrop-blur-md text-[11px] font-mono font-bold tracking-widest text-[#F5E6B8] border border-[#D4AF37]/40 shadow-sm">
-                    {ambassador.logoText}
+                  {/* Logo overlay & Selective Delete */}
+                  <div className="absolute top-3 right-3 flex items-center gap-1.5 z-10">
+                    <div className="px-2.5 py-1 rounded bg-black/80 backdrop-blur-md text-[11px] font-mono font-bold tracking-widest text-[#F5E6B8] border border-[#D4AF37]/40 shadow-sm">
+                      {ambassador.logoText}
+                    </div>
+
+                    {ambassador.isUserGenerated && (
+                      <button
+                        type="button"
+                        onClick={(e) => removeCard(ambassador.id, e)}
+                        className="p-1.5 rounded-lg bg-red-600/90 hover:bg-red-500 text-white border border-red-400/80 shadow-md transition-all hover:scale-110 active:scale-95"
+                        title={isAr ? 'حذف البطاقة المخصصة' : 'Delete Custom Card'}
+                        aria-label="Delete card"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    )}
                   </div>
 
                   {/* Caption pill */}
@@ -554,7 +757,7 @@ export default function SponsorsShowcase() {
           <div className="shrink-0 flex flex-col sm:flex-row gap-3 w-full md:w-auto">
             <button
               onClick={() => setIsJoinModalOpen(true)}
-              className="px-6 py-3.5 rounded-xl font-bold text-sm bg-gradient-to-r from-[#D4AF37] to-[#E2CB85] text-[#030712] hover:shadow-[0_0_25px_rgba(212,175,55,0.4)] transition-all flex items-center justify-center gap-2"
+              className="px-6 py-3.5 rounded-xl font-bold text-sm bg-gradient-to-r from-[#D4AF37] to-[#E2CB85] text-[#030712] hover:shadow-[0_0_25px_rgba(212,175,55,0.4)] transition-all flex items-center justify-center gap-2 shadow-lg hover:scale-105 active:scale-95"
             >
               <Crown className="w-4 h-4" />
               <span>{isAr ? 'طلب الانضمام كسفير رسمي' : 'Apply as Global Ambassador'}</span>
@@ -647,7 +850,19 @@ export default function SponsorsShowcase() {
                   </p>
                 </div>
 
-                <div className="pt-2 flex justify-end">
+                <div className="pt-2 flex items-center justify-between">
+                  {/* Selective Deletion inside Details Modal */}
+                  {selectedAmbassador.isUserGenerated ? (
+                    <button
+                      type="button"
+                      onClick={() => removeCard(selectedAmbassador.id)}
+                      className="px-4 py-2.5 rounded-xl bg-red-600/20 border border-red-500/50 text-red-300 hover:bg-red-600 hover:text-white font-bold text-xs flex items-center gap-1.5 transition-colors shadow-sm"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                      <span>{isAr ? 'حذف بطاقتي المخصصة' : 'Delete Custom Card'}</span>
+                    </button>
+                  ) : <div />}
+
                   <button
                     onClick={() => setSelectedAmbassador(null)}
                     className="px-6 py-2.5 rounded-xl bg-[#D4AF37] text-black font-bold text-xs uppercase tracking-wider hover:bg-[#E2CB85] transition-colors"
@@ -661,7 +876,7 @@ export default function SponsorsShowcase() {
         )}
       </AnimatePresence>
 
-      {/* MODAL 2: Partnership Application */}
+      {/* MODAL 2: Interactive VIP Ambassador Creator & Application Form */}
       <AnimatePresence>
         {isJoinModalOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
@@ -677,77 +892,182 @@ export default function SponsorsShowcase() {
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="relative w-full max-w-lg bg-[#0C1525] border border-[#D4AF37]/50 rounded-3xl p-6 sm:p-8 shadow-[0_25px_70px_rgba(212,175,55,0.25)] z-10"
+              className="relative w-full max-w-lg bg-[#0C1525] border border-[#D4AF37]/50 rounded-3xl p-6 sm:p-8 shadow-[0_25px_70px_rgba(212,175,55,0.25)] z-10 my-8"
             >
               <button
                 onClick={() => setIsJoinModalOpen(false)}
-                className="absolute top-4 right-4 p-2 rounded-full bg-white/5 hover:bg-white/10 text-white/60 hover:text-white"
+                className="absolute top-4 right-4 p-2 rounded-full bg-white/5 hover:bg-white/10 text-white/60 hover:text-white transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>
 
               <div className="text-center mb-6">
-                <Crown className="w-10 h-10 text-[#D4AF37] mx-auto mb-2" />
+                <Crown className="w-10 h-10 text-[#D4AF37] mx-auto mb-2 animate-bounce" />
                 <h3 className="text-2xl font-bold text-white">
-                  {isAr ? 'طلب رعاية وتمثيل رسمي' : 'Join the Global Ambassador Alliance'}
+                  {isAr ? 'إصدار بطاقة سفير رسمي' : 'Create Your VIP Ambassador Card'}
                 </h3>
-                <p className="text-xs text-white/60 mt-1">
+                <p className="text-xs text-white/60 mt-1 max-w-sm mx-auto">
                   {isAr
-                    ? 'سيقوم فريق العلاقات الدولية في EgyptX بالتواصل معكم خلال 24 ساعة.'
-                    : 'Our diplomatic and heritage team will contact your delegation within 24 hours.'}
+                    ? 'أدخل بياناتك وصورتك لإنشاء بطاقتك التفاعلية فوراً وإضافتها إلى المعرض الملكي.'
+                    : 'Personalize your card with your visit photo and story to feature instantly in the EgyptX Showcase.'}
                 </p>
               </div>
 
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  alert(isAr ? 'تم استلام طلبكم بنجاح! شكراً لدعمكم الحضارة المصرية.' : 'Your ambassador application was received successfully!');
-                  setIsJoinModalOpen(false);
-                }}
-                className="space-y-4 text-xs"
-              >
+              <form onSubmit={handleAddAmbassador} className="space-y-4 text-xs">
+                {/* Ambassador Name */}
                 <div>
-                  <label className="block text-white/70 font-semibold mb-1 uppercase">
-                    {isAr ? 'اسم الشخصية / المؤسسة' : 'Name / Organization'}
+                  <label className="block text-white/70 font-semibold mb-1 uppercase tracking-wider text-[11px]">
+                    {isAr ? 'اسم الشخصية / السفير' : 'Ambassador / Creator Name'} *
                   </label>
                   <input
                     type="text"
                     required
-                    placeholder="e.g. Cultural Delegation"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-[#D4AF37]"
+                    value={formName}
+                    onChange={(e) => setFormName(e.target.value)}
+                    placeholder={isAr ? 'مثال: د. مجدي يعقوب أو اسمك الكريم' : 'e.g. Elena Rostova or Your Name'}
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-[#D4AF37] transition-colors"
                   />
                 </div>
+
+                {/* Role / Category */}
                 <div>
-                  <label className="block text-white/70 font-semibold mb-1 uppercase">
-                    {isAr ? 'اسم المفوض الرسمي والمنصب' : 'Representative Name & Title'}
+                  <label className="block text-white/70 font-semibold mb-1 uppercase tracking-wider text-[11px]">
+                    {isAr ? 'الصفة / مجال التمثيل' : 'Role / Category Title'}
                   </label>
                   <input
                     type="text"
-                    required
-                    placeholder="e.g. Representative — Global Culture"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-[#D4AF37]"
+                    value={formRole}
+                    onChange={(e) => setFormRole(e.target.value)}
+                    placeholder={isAr ? 'مثال: سفير التراث الثقافي، رائد استكشاف' : 'e.g. VIP Cultural Ambassador, Heritage Explorer'}
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-[#D4AF37] transition-colors"
                   />
                 </div>
+
+                {/* Monument Selection */}
                 <div>
-                  <label className="block text-white/70 font-semibold mb-1 uppercase">
-                    {isAr ? 'البريد الإلكتروني' : 'Official Email'}
+                  <label className="block text-white/70 font-semibold mb-1 uppercase tracking-wider text-[11px]">
+                    {isAr ? 'المعلم المصري المرتبط بالزيارة' : 'Associated Egyptian Monument'}
                   </label>
-                  <input
-                    type="email"
+                  <select
+                    value={formMonument}
+                    onChange={(e) => setFormMonument(e.target.value)}
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#08101E] border border-white/10 text-white text-sm focus:outline-none focus:border-[#D4AF37] transition-colors"
+                  >
+                    <option value="Great Pyramids of Giza">{isAr ? 'أهرامات الجيزة الخالدة' : 'Great Pyramids of Giza'}</option>
+                    <option value="Grand Egyptian Museum (GEM)">{isAr ? 'المتحف المصري الكبير (GEM)' : 'Grand Egyptian Museum (GEM)'}</option>
+                    <option value="Karnak & Luxor Temples">{isAr ? 'معابد الكرنك والأقصر' : 'Karnak & Luxor Temples'}</option>
+                    <option value="Philae & Aswan Temples">{isAr ? 'معابد فيلة ونيل أسوان' : 'Philae & Aswan Temples'}</option>
+                    <option value="Abu Simbel Temples">{isAr ? 'معبدي أبو سمبل الخالدين' : 'Abu Simbel Temples'}</option>
+                    <option value="Bibliotheca Alexandrina">{isAr ? 'مكتبة الإسكندرية العريقة' : 'Bibliotheca Alexandrina'}</option>
+                    <option value="Citadel of Saladin & Historic Cairo">{isAr ? 'قلعة صلاح الدين والقاهرة التاريخية' : 'Citadel of Saladin & Historic Cairo'}</option>
+                    <option value="Valley of the Kings">{isAr ? 'وادي الملوك والملكات' : 'Valley of the Kings'}</option>
+                  </select>
+                </div>
+
+                {/* Image Upload Field */}
+                <div>
+                  <label className="block text-white/70 font-semibold mb-1 uppercase tracking-wider text-[11px]">
+                    {isAr ? 'صورة الزيارة أو السفير' : 'Upload Monument / Ambassador Photo'}
+                  </label>
+                  <div className="relative border-2 border-dashed border-[#D4AF37]/40 hover:border-[#D4AF37] rounded-2xl p-4 bg-white/5 hover:bg-white/10 transition-all text-center cursor-pointer group">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageChange}
+                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                    />
+                    {imagePreviewUrl ? (
+                      <div className="flex items-center gap-3">
+                        <img
+                          src={imagePreviewUrl}
+                          alt="Uploaded Preview"
+                          className="w-14 h-14 rounded-xl object-cover object-top border border-[#D4AF37]/50 shadow-md shrink-0"
+                        />
+                        <div className="text-left text-xs space-y-0.5 truncate">
+                          <p className="text-white font-medium truncate">
+                            {selectedImageFile?.name || 'custom-image.jpg'}
+                          </p>
+                          <p className="text-[#E2CB85] text-[11px] font-semibold">
+                            {isAr ? 'تم تحميل الصورة • انقر للتغيير' : 'Image ready • Click to change'}
+                          </p>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="flex flex-col items-center justify-center py-2 text-white/70 group-hover:text-white">
+                        <Upload className="w-6 h-6 text-[#D4AF37] mb-1.5 animate-pulse" />
+                        <p className="text-xs font-semibold">
+                          {isAr ? 'انقر لرفع صورة السفير أو اسحبها هنا' : 'Click or drag photo here to upload'}
+                        </p>
+                        <p className="text-[10px] text-white/40 mt-0.5">PNG, JPG, WEBP (Max 10MB)</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Your Experience / Story Textarea */}
+                <div>
+                  <label className="block text-white/70 font-semibold mb-1 uppercase tracking-wider text-[11px]">
+                    {isAr ? 'رسالة أو قصة الزيارة والانطباع' : 'Your Experience / Heritage Story'} *
+                  </label>
+                  <textarea
                     required
-                    placeholder="contact@ambassador.org"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-[#D4AF37]"
+                    rows={3}
+                    value={formStory}
+                    onChange={(e) => setFormStory(e.target.value)}
+                    placeholder={
+                      isAr
+                        ? 'شاركنا شعورك ورسالتك الشخصية عند استكشاف هذا المعلم التاريخي...'
+                        : 'Share your personal thoughts, reflection, or impression while exploring this ancient wonder...'
+                    }
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-xs leading-relaxed focus:outline-none focus:border-[#D4AF37] transition-colors"
                   />
                 </div>
+
+                {/* Submit Action */}
                 <button
                   type="submit"
-                  className="w-full py-3 rounded-xl bg-gradient-to-r from-[#D4AF37] to-[#E2CB85] text-black font-bold text-sm tracking-wide mt-2"
+                  className="w-full py-3.5 rounded-xl bg-gradient-to-r from-[#D4AF37] to-[#E2CB85] text-black font-extrabold text-sm tracking-wide shadow-[0_4px_20px_rgba(212,175,55,0.3)] hover:shadow-[0_4px_30px_rgba(212,175,55,0.5)] transition-all flex items-center justify-center gap-2 mt-2 hover:scale-[1.02] active:scale-[0.98]"
                 >
-                  {isAr ? 'إرسال طلب التمثيل' : 'Submit Ambassador Inquiry'}
+                  <Crown className="w-4 h-4 text-black" />
+                  <span>{isAr ? 'إصدار ونشر بطاقة السفير الملكية' : 'Publish VIP Ambassador Card'}</span>
                 </button>
               </form>
             </motion.div>
           </div>
+        )}
+      </AnimatePresence>
+
+      {/* Royal Toast Notification */}
+      <AnimatePresence>
+        {toast.show && (
+          <motion.div
+            initial={{ opacity: 0, y: 40, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.95 }}
+            className="fixed bottom-6 right-6 z-50 max-w-sm sm:max-w-md p-4 rounded-2xl bg-[#09111E]/95 backdrop-blur-xl border border-[#D4AF37]/60 shadow-[0_20px_50px_rgba(0,0,0,0.85)] flex items-start gap-3 text-white"
+          >
+            <div className="shrink-0 p-2 rounded-xl bg-[#D4AF37]/20 border border-[#D4AF37]/40 text-[#E2CB85]">
+              {toast.type === 'success' ? (
+                <CheckCircle2 className="w-5 h-5 text-[#4EE2A2]" />
+              ) : (
+                <Crown className="w-5 h-5 text-[#D4AF37]" />
+              )}
+            </div>
+            <div className="flex-1 min-w-0 pr-1">
+              <h4 className="text-sm font-bold text-[#F3E5AB] leading-tight">
+                {toast.title}
+              </h4>
+              <p className="text-xs text-white/80 mt-1 leading-relaxed">
+                {toast.message}
+              </p>
+            </div>
+            <button
+              onClick={() => setToast((prev) => ({ ...prev, show: false }))}
+              className="shrink-0 p-1 rounded-lg hover:bg-white/10 text-white/50 hover:text-white transition-colors"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </motion.div>
         )}
       </AnimatePresence>
     </section>
