@@ -14,7 +14,6 @@ import {
   Layers,
   ArrowUpRight,
   X,
-  Trash2,
   Upload,
   CheckCircle2,
 } from 'lucide-react';
@@ -551,16 +550,16 @@ export default function SponsorsShowcase() {
                             {ambassador.logoText}
                           </div>
 
-                          {/* Selective Delete: Only rendered on user created cards */}
+                          {/* Selective Delete: Subtle glassmorphism circle with minimal X icon */}
                           {ambassador.isUserGenerated && (
                             <button
                               type="button"
                               onClick={(e) => removeCard(ambassador.id, e)}
-                              className="p-1.5 rounded-lg bg-red-600/90 hover:bg-red-500 text-white border border-red-400/80 shadow-[0_0_15px_rgba(239,68,68,0.5)] transition-all hover:scale-110 active:scale-95 z-20"
-                              title={isAr ? 'حذف البطاقة المخصصة' : 'Delete Custom Card'}
+                              className="p-1.5 rounded-full bg-black/50 backdrop-blur-md border border-white/10 text-[#D4AF37]/75 hover:text-red-400 hover:border-red-400/40 hover:bg-black/80 shadow-sm transition-all duration-200 hover:scale-110 active:scale-95 z-20 group/del"
+                              title={isAr ? 'حذف البطاقة المخصصة' : 'Remove Custom Card'}
                               aria-label="Delete card"
                             >
-                              <Trash2 className="w-3.5 h-3.5" />
+                              <X className="w-3.5 h-3.5 transition-transform group-hover/del:rotate-90 duration-200" />
                             </button>
                           )}
                         </div>
@@ -689,11 +688,11 @@ export default function SponsorsShowcase() {
                       <button
                         type="button"
                         onClick={(e) => removeCard(ambassador.id, e)}
-                        className="p-1.5 rounded-lg bg-red-600/90 hover:bg-red-500 text-white border border-red-400/80 shadow-md transition-all hover:scale-110 active:scale-95"
-                        title={isAr ? 'حذف البطاقة المخصصة' : 'Delete Custom Card'}
+                        className="p-1.5 rounded-full bg-black/50 backdrop-blur-md border border-white/10 text-[#D4AF37]/75 hover:text-red-400 hover:border-red-400/40 hover:bg-black/80 shadow-sm transition-all duration-200 hover:scale-110 active:scale-95 group/del"
+                        title={isAr ? 'حذف البطاقة المخصصة' : 'Remove Custom Card'}
                         aria-label="Delete card"
                       >
-                        <Trash2 className="w-3.5 h-3.5" />
+                        <X className="w-3.5 h-3.5 transition-transform group-hover/del:rotate-90 duration-200" />
                       </button>
                     )}
                   </div>
@@ -856,10 +855,10 @@ export default function SponsorsShowcase() {
                     <button
                       type="button"
                       onClick={() => removeCard(selectedAmbassador.id)}
-                      className="px-4 py-2.5 rounded-xl bg-red-600/20 border border-red-500/50 text-red-300 hover:bg-red-600 hover:text-white font-bold text-xs flex items-center gap-1.5 transition-colors shadow-sm"
+                      className="px-4 py-2 rounded-xl bg-black/40 backdrop-blur-md border border-white/10 text-white/60 hover:text-red-400 hover:border-red-400/40 hover:bg-black/60 font-medium text-xs flex items-center gap-1.5 transition-all shadow-sm group/del"
                     >
-                      <Trash2 className="w-4 h-4" />
-                      <span>{isAr ? 'حذف بطاقتي المخصصة' : 'Delete Custom Card'}</span>
+                      <X className="w-3.5 h-3.5 text-[#D4AF37]/75 group-hover/del:text-red-400 transition-colors" />
+                      <span>{isAr ? 'حذف بطاقتي المخصصة' : 'Remove Custom Card'}</span>
                     </button>
                   ) : <div />}
 
