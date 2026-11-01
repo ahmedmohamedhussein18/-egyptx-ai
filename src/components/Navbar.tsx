@@ -355,19 +355,16 @@ export default function Navbar() {
               items={OFFICIAL_NAV_ITEMS}
             />
 
-            {/* 6. Meresankh VR */}
-            <Link
-              href="/gem-vr-experience"
-              onClick={(e) => handleVrClick(e, '/gem-vr-experience')}
-              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-semibold tracking-wider transition-all duration-300 ${
-                isGemVrActive
-                  ? 'bg-[#C5A059] text-stone-950 shadow-sm scale-105'
-                  : 'text-[#C5A059] bg-[#C5A059]/15 border border-[#C5A059]/40 hover:border-[#C5A059] hover:bg-[#C5A059]/25 backdrop-blur-sm'
-              }`}
+            {/* 6. Tut Hall */}
+            <a
+              href="https://my.matterport.com/show/?m=85n8j312Ur4"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-semibold tracking-wider transition-all duration-300 text-[#C5A059] bg-[#C5A059]/15 border border-[#C5A059]/40 hover:border-[#C5A059] hover:bg-[#C5A059]/25 backdrop-blur-sm"
             >
               <Glasses className="w-3.5 h-3.5 text-[#C5A059]" />
-              <span>{safeNav(t('nav.meresankhVr'), 'Meresankh VR')}</span>
-            </Link>
+              <span>Tut Hall</span>
+            </a>
           </nav>
 
           {/* ── RIGHT: Theme Toggle + Language + Profile ────────────────────── */}
@@ -590,19 +587,18 @@ export default function Navbar() {
                 </div>
               </div>
 
-              {/* Meresankh VR */}
+              {/* Tut Hall */}
               <div className="pt-3 border-t border-black/[0.05] dark:border-white/5">
-                <Link
-                  href="/gem-vr-experience"
-                  onClick={(e) => {
-                    setMobileMenuOpen(false);
-                    handleVrClick(e, '/gem-vr-experience');
-                  }}
+                <a
+                  href="https://my.matterport.com/show/?m=85n8j312Ur4"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setMobileMenuOpen(false)}
                   className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-[#C5A059]/15 border border-[#C5A059]/30 text-[#C5A059] text-xs font-bold uppercase tracking-wider hover:bg-[#C5A059]/25 transition-colors"
                 >
                   <Glasses className="w-4 h-4 text-[#C5A059]" />
-                  <span>{safeNav(t('nav.launchMeresankh'), 'Launch Meresankh VR')}</span>
-                </Link>
+                  <span>Tut Hall</span>
+                </a>
               </div>
             </div>
           </motion.div>
