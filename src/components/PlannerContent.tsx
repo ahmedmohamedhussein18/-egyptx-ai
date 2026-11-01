@@ -27,6 +27,7 @@ import Link from 'next/link';
 import { trackEvent } from '@/lib/analytics';
 
 import { useLanguage } from '@/context/LanguageContext';
+import { useAuth } from '@/context/AuthContext';
 import { createClient } from '@/lib/supabase/client';
 import ActivityCard, { Activity, DayPlan } from '@/components/ActivityCard';
 import BookingJourneyModal, { BookingJourneyDetails } from '@/components/BookingJourneyModal';
@@ -833,8 +834,20 @@ function TripAssistant() {
 
 export default function PlannerContent() {
   const { t, locale } = useLanguage();
+  const { user } = useAuth();
   const isAr = locale === 'ar';
   const supabase = createClient();
+
+  // Royal Traveler State (Cocktail Party Effect)
+  const [userName, setUserName] = useState('');
+
+  useEffect(() => {
+    if (user?.name && !userName) {
+      setUserName(user.name);
+    }
+  }, [user?.name]);
+
+  const displayName = userName.trim() || user?.name || (isAr ? 'ضيفنا الملكي' : 'Royal Guest');
   
   // Existing Form state
   const [country, setCountry] = useState('');
@@ -1085,7 +1098,8 @@ export default function PlannerContent() {
     pace,
     accessibility,
     avoidPlaces,
-    avoidCrowds
+    avoidCrowds,
+    userName: displayName
   });
 
   const handleGenerate = async () => {
@@ -1158,7 +1172,7 @@ export default function PlannerContent() {
 
       const { data: tripPlan, error: planError } = await supabase.from('trip_plans').insert({
         user_id: user.id,
-        title: JSON.stringify({ title: `Egypt Trip (${duration} Days)`, country: country || 'Unknown', city: itinerary[0]?.city || 'Egypt' }),
+        title: JSON.stringify({ title: `${displayName}'s Royal Egyptian Expedition (${duration} Days)`, country: country || 'Unknown', city: itinerary[0]?.city || 'Egypt' }),
         governorate_id: governorateId || null,
         duration_days: duration,
         budget: cleanBudget,
@@ -1349,6 +1363,34 @@ export default function PlannerContent() {
               {step === 1 && (
                 <div className="space-y-6">
                   <h3 className="text-2xl font-bold text-white mb-4">Step 1: Your Travel Group</h3>
+
+                  {/* Royal Traveler Name Capture (Cocktail Party Effect) */}
+                  <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-[#C9A84C]/15 via-white/5 to-transparent border border-[#C9A84C]/30 shadow-[0_0_20px_rgba(201,168,76,0.15)]">
+                    <label className="block text-sm font-bold text-white mb-2 flex items-center justify-between flex-wrap gap-2">
+                      <span className="flex items-center gap-2">
+                        <Crown className="w-4 h-4 text-[#C9A84C] animate-pulse" />
+                        <span>{isAr ? 'اسمك الكريم (لإضفاء الطابع الملكي المخصص على رحلتك)' : 'Your Royal Name / Title'}</span>
+                      </span>
+                      <span className="text-xs text-[#E2CB85] font-semibold">
+                        {isAr ? 'تخصيص فائق الدقة' : 'Hyper-Personalized'}
+                      </span>
+                    </label>
+                    <div className="relative max-w-md">
+                      <input
+                        type="text"
+                        value={userName}
+                        onChange={(e) => setUserName(e.target.value)}
+                        placeholder={
+                          user?.name
+                            ? user.name
+                            : isAr
+                            ? 'مثال: سمو الأمير أحمد، سارة، أو اسمك المفضل'
+                            : 'e.g. Royal Traveler, Alexander, or your name'
+                        }
+                        className="w-full bg-[#060E1A] border border-[#C9A84C]/40 focus:border-[#C9A84C] rounded-xl px-4 py-3 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-[#C9A84C]/30 text-sm shadow-inner transition-all"
+                      />
+                    </div>
+                  </div>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
                   {getTravelStyles(t).map(s => {
                       const active = travelStyle === s.id;
@@ -1634,6 +1676,27 @@ export default function PlannerContent() {
                     <label className="block text-sm font-semibold text-white/70 mb-2">Total Budget</label>
                     <input type="text" value={budget} onChange={e => setBudget(e.target.value)} placeholder="e.g. $2000" className="w-full bg-[#060E1A] border border-white/10 rounded-lg px-4 py-3 text-white" />
                   </div>
+
+                  <div className="mt-4 p-3 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between gap-3 flex-wrap">
+                    <div className="flex items-center gap-2">
+                      <Crown className="w-4 h-4 text-[#C9A84C]" />
+                      <span className="text-xs text-white/70">
+                        {isAr ? 'المسافر الملكي:' : 'Royal Traveler:'}
+                      </span>
+                      <span className="text-xs font-bold text-[#F3E5AB]">
+                        {displayName}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <input
+                        type="text"
+                        value={userName}
+                        onChange={(e) => setUserName(e.target.value)}
+                        placeholder={isAr ? 'تعديل الاسم...' : 'Change name...'}
+                        className="w-36 bg-[#060E1A] border border-white/10 focus:border-[#C9A84C]/60 rounded-lg px-2.5 py-1 text-xs text-white placeholder-white/40 focus:outline-none"
+                      />
+                    </div>
+                  </div>
                   <div className="flex justify-between pt-4">
                     <button onClick={() => setStep(3)} className="px-6 py-2 border border-white/20 text-white rounded-xl">← Back</button>
                     <button onClick={handleGenerate} disabled={!isFormValid} className="inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-[#C9A84C] to-[#E2CB85] text-[#030712] font-bold rounded-xl shadow-[0_0_20px_rgba(201,168,76,0.4)] disabled:opacity-50">
@@ -1689,11 +1752,57 @@ export default function PlannerContent() {
               transition={{ duration: 0.5 }}
               className="w-full"
             >
+              {/* Royal Cocktail Party Effect Personalized AI Greeting Banner */}
+              <motion.div
+                initial={{ opacity: 0, y: -12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="mb-8 p-5 sm:p-6 rounded-3xl bg-gradient-to-r from-[#C9A84C]/25 via-[#0C1628]/95 to-[#1B6B93]/20 border-2 border-[#C9A84C] shadow-[0_0_35px_rgba(201,168,76,0.3)] backdrop-blur-md relative overflow-hidden"
+              >
+                <div className="absolute -right-8 -top-8 w-32 h-32 bg-[#C9A84C]/20 rounded-full blur-2xl pointer-events-none" />
+                <div className="absolute -left-8 -bottom-8 w-32 h-32 bg-[#1B6B93]/20 rounded-full blur-2xl pointer-events-none" />
+
+                <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#D4AF37] via-[#F3E5AB] to-[#C9A84C] text-[#030712] flex items-center justify-center shrink-0 shadow-lg shadow-[#C9A84C]/30">
+                      <Crown className="w-6 h-6 animate-pulse" />
+                    </div>
+
+                    <div className="space-y-1">
+                      <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#C9A84C]/20 border border-[#C9A84C]/50 text-[#F5E6B8] text-[11px] font-bold uppercase tracking-widest shadow-sm">
+                        <Sparkles className="w-3 h-3 text-[#D4AF37]" />
+                        <span>{isAr ? 'تحية ملكية مخصصة' : 'Cocktail Party Effect — VIP Royal Welcome'}</span>
+                      </div>
+
+                      {/* Exact Arabic greeting required: "جهزنا لك مساراً ملكياً يا [User's Name]، مصمم خصيصاً ليتناسب مع ذوقك الرفيع" */}
+                      <h3 className="text-lg sm:text-2xl font-black text-white leading-snug drop-shadow-sm" dir="rtl">
+                        جهزنا لك مساراً ملكياً يا <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#F5E6B8] via-[#D4AF37] to-[#F3E5AB] underline decoration-[#D4AF37]/50 underline-offset-4">{displayName}</span>، مصمم خصيصاً ليتناسب مع ذوقك الرفيع
+                      </h3>
+
+                      {!isAr && (
+                        <p className="text-xs sm:text-sm text-white/75 font-light pt-0.5">
+                          We have crafted a royal expedition for you, <span className="font-semibold text-[#E2CB85]">{displayName}</span>, tailored exclusively to your refined taste.
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="shrink-0 self-end md:self-center">
+                    <span className="px-3.5 py-1.5 rounded-xl bg-black/60 border border-[#C9A84C]/50 text-[#E2CB85] text-xs font-mono font-bold tracking-wider shadow-inner flex items-center gap-1.5">
+                      <Crown className="w-3.5 h-3.5 text-[#D4AF37]" />
+                      VIP ROYAL EXPEDITION
+                    </span>
+                  </div>
+                </div>
+              </motion.div>
+
               {/* Result header */}
               <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-10 gap-6 w-full">
                   <div className="flex-1">
                     <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-[#E2CB85] to-[#C9A84C] mb-5 tracking-tight drop-shadow-sm leading-tight">
-                      Your {duration}-Day Curated Expedition Across Egypt
+                      {isAr
+                        ? `رحلة ${displayName} الملكية في مصر (${duration} أيام)`
+                        : `${displayName}'s Royal Egyptian Expedition (${duration} Days)`}
                     </h2>
                     <div className="flex flex-wrap gap-3">
                       <span className="px-4 py-2 rounded-full bg-white/5 backdrop-blur-md border border-white/10 text-white/90 font-medium shadow-sm flex items-center gap-2">
@@ -1731,6 +1840,7 @@ export default function PlannerContent() {
                       budget,
                       travelStyle,
                       cityName: destinations[0] || (itinerary && itinerary[0]?.city) || 'Egypt',
+                      travelerName: displayName,
                     })}
                     className="relative group overflow-hidden px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#C9A84C] text-[#030712] text-sm font-extrabold hover:shadow-[0_0_25px_rgba(212,175,55,0.6)] transition-all flex items-center gap-2 active:scale-95"
                   >
@@ -1785,6 +1895,7 @@ export default function PlannerContent() {
                               travelers,
                               budget,
                               travelStyle,
+                              travelerName: displayName,
                             })}
                             className="relative group overflow-hidden inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-extrabold text-[#030712] bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#C9A84C] hover:shadow-[0_0_20px_rgba(212,175,55,0.6)] transition-all duration-300 active:scale-95 border border-[#D4AF37]"
                           >
@@ -1891,6 +2002,7 @@ export default function PlannerContent() {
                           budget,
                           travelStyle,
                           cityName: destinations[0] || (itinerary && itinerary[0]?.city) || 'Egypt',
+                          travelerName: displayName,
                         })}
                         className="inline-flex items-center gap-2 px-8 py-3 rounded-xl bg-gradient-to-r from-[#D4AF37] to-[#E2CB85] text-[#030712] font-bold hover:shadow-[0_0_30px_rgba(201,168,76,0.5)] transition-all"
                       >

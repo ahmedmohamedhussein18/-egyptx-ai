@@ -30,6 +30,7 @@ export interface BookingJourneyDetails {
   travelStyle?: string | null;
   activitiesCount?: number;
   topActivityName?: string;
+  travelerName?: string;
 }
 
 interface BookingJourneyModalProps {
@@ -47,12 +48,19 @@ export default function BookingJourneyModal({
   const isAr = locale === 'ar';
 
   const [step, setStep] = useState<'form' | 'confirmed'>('form');
-  const [fullName, setFullName] = useState('');
+  const [fullName, setFullName] = useState(details?.travelerName || '');
   const [contact, setContact] = useState('');
   const [specialNote, setSpecialNote] = useState('');
   const [bookingCode, setBookingCode] = useState('');
   const [copied, setCopied] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Sync traveler name if details update
+  React.useEffect(() => {
+    if (details?.travelerName && !fullName) {
+      setFullName(details.travelerName);
+    }
+  }, [details]);
 
   // Generate unique royal confirmation code
   const handleConfirmBooking = (e?: React.FormEvent) => {
