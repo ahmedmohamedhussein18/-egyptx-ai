@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import VRAvatarOverlay from "@/components/VRAvatarOverlay";
 
 interface VRLocation {
   id: string;
@@ -161,6 +162,7 @@ export default function VREgyptSection() {
                 allowFullScreen
                 allow="vr; xr; accelerometer; gyroscope; autoplay"
               />
+              <VRAvatarOverlay siteTitle={activeTour.title} />
             </div>
 
             <div className="p-3 bg-[#070D1F] text-center text-xs text-[#D4AF37]">

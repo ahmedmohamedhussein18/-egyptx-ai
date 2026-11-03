@@ -10,6 +10,7 @@ import {
   Compass,
   Sparkles
 } from 'lucide-react';
+import VRAvatarOverlay from '@/components/VRAvatarOverlay';
 
 export default function GemVrExperiencePage() {
   const [isEquipping, setIsEquipping] = useState(false);
@@ -77,6 +78,7 @@ export default function GemVrExperiencePage() {
         allow="autoplay; fullscreen; vr; xr-spatial-tracking; gyroscope; accelerometer"
         allowFullScreen
       />
+      {isReady && <VRAvatarOverlay siteTitle="Grand Egyptian Museum 3D" />}
 
       {/* ── "PUTTING ON THE HEADSET" CINEMATIC OVERLAY ──────────────────── */}
       {!isReady && (

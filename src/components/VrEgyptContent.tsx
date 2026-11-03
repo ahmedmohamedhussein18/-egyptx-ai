@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Globe, MapPin, Lock, ArrowLeft, PlayCircle, Sparkles } from 'lucide-react';
+import VRAvatarOverlay from '@/components/VRAvatarOverlay';
 
 const destinations = [
   {
@@ -269,6 +270,7 @@ export default function VrEgyptContent() {
                   playsInline
                   controls
                 />
+                <VRAvatarOverlay siteTitle={activeSite.title} />
                 
                 {/* Embedded Typography inside the bottom of the video container for maximum immersion */}
                 <div className="absolute bottom-0 left-0 w-full p-12 bg-gradient-to-t from-black via-black/80 to-transparent">
@@ -335,14 +337,17 @@ export default function VrEgyptContent() {
               </div>
             </div>
 
-            {/* Iframe */}
-            <iframe
-              src={vrPortalSite.vrPortalUrl}
-              allowFullScreen
-              allow="vr; xr; accelerometer; gyroscope; autoplay"
-              title={`${vrPortalSite.title} VR Tour`}
-              className="w-full max-w-6xl h-[75vh] rounded-2xl border border-[#C9A84C]/20 shadow-2xl"
-            />
+            {/* Iframe + 3D Avatar Overlay */}
+            <div className="relative w-full max-w-6xl h-[75vh]">
+              <iframe
+                src={vrPortalSite.vrPortalUrl}
+                allowFullScreen
+                allow="vr; xr; accelerometer; gyroscope; autoplay"
+                title={`${vrPortalSite.title} VR Tour`}
+                className="w-full h-full rounded-2xl border border-[#C9A84C]/20 shadow-2xl"
+              />
+              <VRAvatarOverlay siteTitle={vrPortalSite.title} />
+            </div>
 
             {/* Bottom Note */}
             <div className="mt-6 text-gray-400 text-sm flex items-center gap-2">

@@ -11,8 +11,11 @@
   "dependencies": {
     "@ai-sdk/openai": "^1.2.1",
     "@google/generative-ai": "^0.24.1",
+    "@react-three/drei": "^10.7.9",
+    "@react-three/fiber": "^9.8.2",
     "@supabase/ssr": "^0.12.7",
     "@supabase/supabase-js": "^2.116.0",
+    "@types/three": "^0.186.0",
     "ai": "^4.1.66",
     "framer-motion": "^13.2.0",
     "groq-sdk": "^1.6.0",
@@ -35,6 +38,7 @@
     "remark-gfm": "^4.0.1",
     "resend": "^6.32.0",
     "rss-parser": "^3.13.0",
+    "three": "^0.186.1",
     "xlsx": "^0.18.5",
     "zod": "^4.6.7"
   },

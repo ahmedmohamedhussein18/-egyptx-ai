@@ -27,6 +27,7 @@ import {
 } from 'lucide-react';
 
 import { ArtifactItem, MonumentData, MONUMENTS, getMonumentById } from '@/lib/monuments';
+import VRAvatarOverlay from '@/components/VRAvatarOverlay';
 
 const LANGUAGE_PILLS = [
   { code: 'ar', label: 'العربية', flag: '' },
@@ -719,6 +720,7 @@ export default function VrTourDetailContent({ id }: { id: string }) {
                 allowFullScreen
                 allow="vr; xr; accelerometer; gyroscope; magnetometer; xr-spatial-tracking; autoplay"
               />
+              <VRAvatarOverlay siteTitle={monument.title} />
 
               {/* Motion Hint Badge */}
               <div className="absolute bottom-6 left-1/2 -translate-x-1/2 px-4 py-2 rounded-full bg-black/80 border border-white/20 text-xs text-white/80 backdrop-blur-md pointer-events-none flex items-center gap-2">
