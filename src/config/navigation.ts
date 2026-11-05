@@ -1,5 +1,6 @@
 import {
   Compass,
+  Navigation,
   Map,
   Palette,
   MapPin,
@@ -65,6 +66,16 @@ export const EXPLORE_NAV_ITEMS: NavDropdownItem[] = [
 ];
 
 export const EXPERIENCES_NAV_ITEMS: NavDropdownItem[] = [
+  {
+    title: 'Smart Navigator',
+    subtitle: 'Real-time GPS routing',
+    titleKey: 'nav.items.smartNavigator.title',
+    subtitleKey: 'nav.items.smartNavigator.subtitle',
+    badgeKey: 'nav.badges.gps',
+    href: '/navigator',
+    icon: Navigation,
+    badge: 'GPS',
+  },
   {
     title: 'AI Planner',
     subtitle: 'Smart custom itineraries & flow',

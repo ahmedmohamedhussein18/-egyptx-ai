@@ -33,7 +33,8 @@
       "live": "Live",
       "new": "New",
       "curated": "Curated",
-      "renaissance": "Renaissance"
+      "renaissance": "Renaissance",
+      "gps": "GPS"
     },
     "items": {
       "exploreEgypt": {
@@ -99,6 +100,10 @@
       "bookings": {
         "title": "Concierge Bookings",
         "subtitle": "Flights, palaces & private reservations"
+      },
+      "smartNavigator": {
+        "title": "Navigateur Intelligent",
+        "subtitle": "Routage GPS en temps réel"
       }
     }
   },

@@ -263,7 +263,7 @@ export default function Navbar() {
 
   const isHomeActive = pathname === '/';
   const isExploreActive = ['/explore', '/hidden-egypt', '/egyptian-culture'].includes(pathname);
-  const isExperiencesActive = ['/planner', '/ai-guide', '/vr-egypt', '/slang', '/memory-core', '/hieroglyph-scanner'].includes(pathname);
+  const isExperiencesActive = ['/planner', '/ai-guide', '/vr-egypt', '/slang', '/memory-core', '/hieroglyph-scanner', '/navigator'].includes(pathname);
   const isLifeActive = ['/news', '/videos', '/reels', '/crafts'].includes(pathname);
   const isOfficialActive = ['/egypt-official', '/bookings', '/national-projects'].includes(pathname);
   const isGemVrActive = pathname === '/gem-vr-experience';

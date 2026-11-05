@@ -33,7 +33,8 @@
       "live": "مباشر",
       "new": "جديد",
       "curated": "مختار",
-      "renaissance": "نهضة"
+      "renaissance": "نهضة",
+      "gps": "GPS"
     },
     "items": {
       "exploreEgypt": {
@@ -103,6 +104,10 @@
       "bookings": {
         "title": "الحجوزات الخاصة",
         "subtitle": "طيران وقصور وتجارب خاصة وحصرية"
+      },
+      "smartNavigator": {
+        "title": "الملاحة الذكية",
+        "subtitle": "توجيه فوري عبر نظام GPS"
       }
     }
   },
