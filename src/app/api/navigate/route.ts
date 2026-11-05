@@ -29,6 +29,42 @@ interface ModeRouteResult {
   error?: string;
 }
 
+// Format meters into readable text (e.g., "350 m" or "3.2 km")
+function formatDistance(meters?: number): string {
+  if (typeof meters !== 'number' || isNaN(meters)) return '';
+  if (meters < 1000) return `${Math.round(meters)} m`;
+  return `${(meters / 1000).toFixed(1)} km`;
+}
+
+// Format Routes API duration string ("1080s" or "45s") into readable text and integer seconds
+function formatDuration(durationStr?: string): { text: string; seconds: number } {
+  if (!durationStr) return { text: '', seconds: 0 };
+  const seconds = parseInt(durationStr.replace('s', ''), 10) || 0;
+  if (seconds < 60) return { text: '< 1 min', seconds };
+  if (seconds < 3600) {
+    const mins = Math.round(seconds / 60);
+    return { text: `${mins} min${mins === 1 ? '' : 's'}`, seconds };
+  }
+  const hours = Math.floor(seconds / 3600);
+  const mins = Math.round((seconds % 3600) / 60);
+  if (mins === 0) {
+    return { text: `${hours} hr${hours === 1 ? '' : 's'}`, seconds };
+  }
+  return { text: `${hours} hr ${mins} min${mins === 1 ? '' : 's'}`, seconds };
+}
+
+// Format ISO 8601 timestamp string into readable 12-hour time (e.g., "10:15 AM")
+function formatTime(isoString?: string): string {
+  if (!isoString) return '';
+  try {
+    const date = new Date(isoString);
+    if (isNaN(date.getTime())) return '';
+    return date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true });
+  } catch {
+    return '';
+  }
+}
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
@@ -64,89 +100,166 @@ export async function POST(req: NextRequest) {
     const originStr = `${origin.lat},${origin.lng}`;
     const cleanDest = destination.trim();
 
-    // Helper function to query Google Directions API for a mode
-    const fetchDirectionsForMode = async (mode: 'transit' | 'driving' | 'walking'): Promise<ModeRouteResult> => {
-      const url = new URL('https://maps.googleapis.com/maps/api/directions/json');
-      url.searchParams.set('origin', originStr);
-      url.searchParams.set('destination', cleanDest);
-      url.searchParams.set('mode', mode);
-      url.searchParams.set('language', language);
-      url.searchParams.set('region', 'eg'); // Bias to Egypt
-      url.searchParams.set('key', apiKey);
+    // Mapping mode to Google Routes API (v2:computeRoutes) TravelMode enum
+    const modeMap: Record<'transit' | 'driving' | 'walking', 'TRANSIT' | 'DRIVE' | 'WALK'> = {
+      transit: 'TRANSIT',
+      driving: 'DRIVE',
+      walking: 'WALK'
+    };
 
-      const res = await fetch(url.toString());
-      if (!res.ok) {
-        return { available: false, error: `Google API responded with status ${res.status}` };
-      }
+    // Query Google Routes API (v2:computeRoutes) for a specific travel mode
+    const fetchRoutesForMode = async (mode: 'transit' | 'driving' | 'walking'): Promise<ModeRouteResult> => {
+      const travelMode = modeMap[mode];
+      const apiUrl = 'https://routes.googleapis.com/directions/v2:computeRoutes';
 
-      const data = await res.json();
+      const requestBody: Record<string, any> = {
+        origin: {
+          location: {
+            latLng: {
+              latitude: origin.lat,
+              longitude: origin.lng
+            }
+          }
+        },
+        destination: {
+          address: cleanDest
+        },
+        travelMode,
+        languageCode: language,
+        regionCode: 'eg'
+      };
 
-      if (data.status !== 'OK' || !data.routes || data.routes.length === 0) {
-        return {
-          available: false,
-          error: data.error_message || data.status || 'No route found for this mode'
-        };
-      }
+      try {
+        const res = await fetch(apiUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Goog-Api-Key': apiKey,
+            'X-Goog-FieldMask': 'routes.duration,routes.distanceMeters,routes.description,routes.legs,routes.localizedValues'
+          },
+          body: JSON.stringify(requestBody)
+        });
 
-      const route = data.routes[0];
-      const leg = route.legs?.[0];
+        const data = await res.json();
 
-      if (!leg) {
-        return { available: false, error: 'No route leg returned' };
-      }
-
-      // Parse step instructions
-      const steps: TransitStep[] = (leg.steps || []).map((s: any) => {
-        // Strip HTML tags for clean text display
-        const cleanInstruction = (s.html_instructions || '')
-          .replace(/<[^>]*>/g, ' ')
-          .replace(/\s{2,}/g, ' ')
-          .trim();
-
-        const stepObj: TransitStep = {
-          instruction: cleanInstruction,
-          distance: s.distance?.text || '',
-          duration: s.duration?.text || '',
-          travelMode: s.travel_mode || ''
-        };
-
-        if (s.travel_mode === 'TRANSIT' && s.transit_details) {
-          const td = s.transit_details;
-          stepObj.transitDetails = {
-            lineName: td.line?.name || '',
-            lineShortName: td.line?.short_name || '',
-            vehicleType: td.line?.vehicle?.name || td.line?.vehicle?.type || 'Transit',
-            departureStop: td.departure_stop?.name || '',
-            arrivalStop: td.arrival_stop?.name || '',
-            numStops: td.num_stops || 1,
-            headsign: td.headsign || '',
-            lineColor: td.line?.color ? `#${td.line.color}` : undefined
+        if (!res.ok) {
+          const apiErrorMsg = data?.error?.message || data?.error?.status || `Routes API error (HTTP ${res.status})`;
+          console.error(`Google Routes API [${mode}] error:`, apiErrorMsg);
+          return {
+            available: false,
+            error: apiErrorMsg
           };
         }
 
-        return stepObj;
-      });
+        if (!data.routes || data.routes.length === 0) {
+          return {
+            available: false,
+            error: mode === 'transit' ? 'No direct metro line found' : 'No route found for this mode'
+          };
+        }
 
-      return {
-        available: true,
-        distance: leg.distance?.text,
-        duration: leg.duration?.text,
-        durationValue: leg.duration?.value,
-        summary: route.summary || leg.start_address,
-        departureTime: leg.departure_time?.text,
-        arrivalTime: leg.arrival_time?.text,
-        steps
-      };
+        const route = data.routes[0];
+        const leg = route.legs?.[0];
+
+        if (!leg) {
+          return { available: false, error: 'No route leg returned' };
+        }
+
+        // Distance & duration
+        const distanceText =
+          route.localizedValues?.distance?.text ||
+          leg.localizedValues?.distance?.text ||
+          formatDistance(route.distanceMeters ?? leg.distanceMeters);
+
+        const durationInfo = formatDuration(route.duration ?? leg.duration);
+        const durationText =
+          route.localizedValues?.duration?.text ||
+          leg.localizedValues?.duration?.text ||
+          durationInfo.text;
+
+        // Parse transit / navigation steps
+        let firstTransitDeparture: string | undefined;
+        let lastTransitArrival: string | undefined;
+
+        const rawSteps = leg.steps || [];
+        const steps: TransitStep[] = rawSteps.map((s: any) => {
+          const cleanInstruction = (s.navigationInstruction?.instructions || '')
+            .replace(/<[^>]*>/g, ' ')
+            .replace(/\s{2,}/g, ' ')
+            .trim() || (s.travelMode === 'TRANSIT'
+              ? `Take ${s.transitDetails?.transitLine?.name || s.transitDetails?.transitLine?.nameShort || 'Transit line'}`
+              : s.travelMode === 'WALK'
+              ? 'Walk'
+              : 'Drive');
+
+          const stepDistance =
+            s.localizedValues?.distance?.text ||
+            formatDistance(s.distanceMeters);
+
+          const stepDuration =
+            s.localizedValues?.staticDuration?.text ||
+            formatDuration(s.staticDuration).text;
+
+          const stepObj: TransitStep = {
+            instruction: cleanInstruction,
+            distance: stepDistance,
+            duration: stepDuration,
+            travelMode: s.travelMode === 'TRANSIT' ? 'TRANSIT' : s.travelMode === 'DRIVE' ? 'DRIVING' : 'WALKING'
+          };
+
+          if (s.travelMode === 'TRANSIT' && s.transitDetails) {
+            const td = s.transitDetails;
+            const stopDetails = td.stopDetails;
+
+            if (stopDetails?.departureTime && !firstTransitDeparture) {
+              firstTransitDeparture = stopDetails.departureTime;
+            }
+            if (stopDetails?.arrivalTime) {
+              lastTransitArrival = stopDetails.arrivalTime;
+            }
+
+            stepObj.transitDetails = {
+              lineName: td.transitLine?.name || td.transitLine?.nameShort || '',
+              lineShortName: td.transitLine?.nameShort || '',
+              vehicleType: td.transitLine?.vehicle?.name?.text || td.transitLine?.vehicle?.type || 'Transit',
+              departureStop: stopDetails?.departureStop?.name || '',
+              arrivalStop: stopDetails?.arrivalStop?.name || '',
+              numStops: td.stopCount || 1,
+              headsign: td.headsign || '',
+              lineColor: td.transitLine?.color || undefined
+            };
+          }
+
+          return stepObj;
+        });
+
+        return {
+          available: true,
+          distance: distanceText,
+          duration: durationText,
+          durationValue: durationInfo.seconds,
+          summary: route.description || undefined,
+          departureTime: formatTime(firstTransitDeparture),
+          arrivalTime: formatTime(lastTransitArrival),
+          steps
+        };
+      } catch (modeErr: any) {
+        console.error(`Exception while fetching route for mode [${mode}]:`, modeErr?.message || modeErr);
+        return {
+          available: false,
+          error: modeErr?.message || 'Failed to compute route for this mode'
+        };
+      }
     };
 
     // Query 3 modes in parallel (Transit, Driving, Walking)
     const [transitRoute, drivingRoute, walkingRoute] = await Promise.all([
-      fetchDirectionsForMode('transit'),
-      fetchDirectionsForMode('driving'),
-      fetchDirectionsForMode('walking')
+      fetchRoutesForMode('transit'),
+      fetchRoutesForMode('driving'),
+      fetchRoutesForMode('walking')
     ]);
 
-    // Construct live Google Maps deep link for immediate turn-by-turn navigation
+    // Universal Google Maps deep link for immediate live GPS navigation
     const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(originStr)}&destination=${encodeURIComponent(cleanDest)}`;
 
     return NextResponse.json({
