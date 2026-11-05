@@ -32,8 +32,8 @@ export default function KidsStoryGenerator({
   onOpenEliteModal
 }: KidsStoryGeneratorProps) {
   const [storyHeroName, setStoryHeroName] = useState(heroNameDefault);
-  const [storyCompanion, setStoryCompanion] = useState('Horus the Golden Falcon 🦅');
-  const [storyDestination, setStoryDestination] = useState('The Great Pyramid Secret Chamber 🏛️');
+  const [storyCompanion, setStoryCompanion] = useState('Horus the Golden Falcon ');
+  const [storyDestination, setStoryDestination] = useState('The Great Pyramid Secret Chamber ');
   const [isGeneratingStory, setIsGeneratingStory] = useState(false);
   const [generationPhase, setGenerationPhase] = useState('');
   const [storyUnlockedNotice, setStoryUnlockedNotice] = useState(false);
@@ -84,7 +84,7 @@ export default function KidsStoryGenerator({
       const videoSrc = data?.videoUrl || '/videos/kids-mode-welcome.mp4';
 
       setStoryVideoUrl(videoSrc);
-      setStoryVideoTitle(data?.title || `✨ مغامرة البطل ${hero} السينمائية`);
+      setStoryVideoTitle(data?.title || ` مغامرة البطل ${hero} السينمائية`);
 
       // Accompanying narrative chapters for audio narration & storytelling
       setStoryChapters({
@@ -92,17 +92,17 @@ export default function KidsStoryGenerator({
         chapters: [
           {
             title: 'Chapter 1: The Call of Ancient Sands',
-            emoji: '🌅',
+            emoji: '',
             text: `Under the glowing Nile sunset, ${hero} received a mysterious hieroglyphic parchment from ${cleanCompanion}. The ancient papyrus spoke of a legendary golden artifact hidden deep inside ${cleanDestination}. Without hesitation, ${hero} stepped forward into the grand desert sands!`,
           },
           {
             title: 'Chapter 2: The Riddle of the Sacred Spheres',
-            emoji: '🏛️',
+            emoji: '',
             text: `Arriving at the entrance of ${cleanDestination}, a great stone gate sealed the path. ${cleanCompanion} fluttered forward and read the riddle engraved in gold: "What flows forever yet never leaves Egypt?" ${hero} grinned and answered boldly: "The sacred Nile!" The stone doors slid open with a rumbling sound of wonder.`,
           },
           {
             title: 'Chapter 3: The Pharaoh\'s Eternal Blessing',
-            emoji: '👑',
+            emoji: '',
             text: `In the inner sanctuary, a gentle radiance illuminated the room. The spirit of the ancient Pharaoh appeared, bowing respectfully to ${hero}. "You have proven your courage, wisdom, and honor," proclaimed the Pharaoh, bestowing the Golden Ankh upon ${hero}. Egypt’s timeless magic was safe forever!`,
           },
         ]
@@ -116,7 +116,7 @@ export default function KidsStoryGenerator({
       console.error('Error generating kids story video:', e);
       // Fallback to built-in pharaonic kids movie
       setStoryVideoUrl('/videos/kids-mode-welcome.mp4');
-      setStoryVideoTitle(`✨ مغامرة البطل ${hero} السينمائية`);
+      setStoryVideoTitle(` مغامرة البطل ${hero} السينمائية`);
     } finally {
       setIsGeneratingStory(false);
       setGenerationPhase('');
@@ -161,7 +161,7 @@ export default function KidsStoryGenerator({
             </span>
           </div>
           <h2 className="text-2xl font-black text-white flex items-center gap-2">
-            <span>👑</span>
+            <span></span>
             <span>Become the Hero of Ancient Egypt!</span>
           </h2>
         </div>
@@ -244,10 +244,10 @@ export default function KidsStoryGenerator({
             onChange={(e) => setStoryCompanion(e.target.value)}
             className="w-full bg-[#030712] border border-white/10 rounded-xl px-3.5 py-2.5 text-white text-sm focus:border-amber-400 focus:outline-none transition-colors"
           >
-            <option>Horus the Golden Falcon 🦅</option>
-            <option>Bastet the Wise Cat 🐱</option>
-            <option>Anubis the Loyal Guide 🐺</option>
-            <option>Cleopatra the Brave Queen 👑</option>
+            <option>Horus the Golden Falcon </option>
+            <option>Bastet the Wise Cat </option>
+            <option>Anubis the Loyal Guide </option>
+            <option>Cleopatra the Brave Queen </option>
           </select>
         </div>
 
@@ -260,10 +260,10 @@ export default function KidsStoryGenerator({
             onChange={(e) => setStoryDestination(e.target.value)}
             className="w-full bg-[#030712] border border-white/10 rounded-xl px-3.5 py-2.5 text-white text-sm focus:border-amber-400 focus:outline-none transition-colors"
           >
-            <option>The Great Pyramid Secret Chamber 🏛️</option>
-            <option>The Sun Temple of Abu Simbel ☀️</option>
-            <option>The Lost Garden of Nefertiti 🌺</option>
-            <option>The Underwater Palace of Alexandria 🌊</option>
+            <option>The Great Pyramid Secret Chamber </option>
+            <option>The Sun Temple of Abu Simbel </option>
+            <option>The Lost Garden of Nefertiti </option>
+            <option>The Underwater Palace of Alexandria </option>
           </select>
         </div>
       </div>
@@ -283,12 +283,12 @@ export default function KidsStoryGenerator({
           ) : !isElite && kidsStoryUsed ? (
             <>
               <Lock className="w-4 h-4" />
-              Generate Another Video (Elite 👑)
+              Generate Another Video (Elite )
             </>
           ) : (
             <>
               <Sparkles className="w-4 h-4" />
-              Generate Magical Hero Story 🎬
+              Generate Magical Hero Story 
             </>
           )}
         </button>
@@ -334,7 +334,7 @@ export default function KidsStoryGenerator({
                   <span>AI Cinematic Story Premiere &bull; عرض الفيلم السحري</span>
                 </div>
                 <h3 className="text-xl md:text-2xl font-black text-[#D4AF37] flex items-center gap-2 tracking-wide font-sans">
-                  <span>{storyVideoTitle || `✨ مغامرة البطل ${activeHero} السينمائية`}</span>
+                  <span>{storyVideoTitle || ` مغامرة البطل ${activeHero} السينمائية`}</span>
                 </h3>
                 <p className="text-xs text-gray-300 mt-1">
                   Hero: <strong className="text-white">{activeHero}</strong> &middot; Guardian: <strong className="text-amber-300">{storyCompanion}</strong> &middot; Realm: <strong className="text-emerald-300">{storyDestination}</strong>
@@ -391,7 +391,7 @@ export default function KidsStoryGenerator({
                     ) : (
                       <>
                         <Volume2 className="w-3.5 h-3.5 text-amber-400" />
-                        Audio Narration 🗣️
+                        Audio Narration 
                       </>
                     )}
                   </button>

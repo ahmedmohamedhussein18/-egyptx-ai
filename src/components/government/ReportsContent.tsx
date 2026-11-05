@@ -131,7 +131,7 @@ export default function ReportsContent() {
                 </p>
               </div>
               <div className="text-left" dir="ltr">
-                <div className="text-[#C9A84C] font-serif text-4xl mb-1">☥</div>
+                <div className="text-[#C9A84C] font-serif text-4xl mb-1">EG</div>
                 <div className="text-xl font-bold text-[#0A1628]">EgyptX AI</div>
               </div>
             </div>

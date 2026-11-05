@@ -17,7 +17,7 @@ export default function CheckinClient({ attraction, userId }: { attraction: any,
   }, [tracked, attraction, userId]);
 
   return (
-    <div className="min-h-screen bg-[#030712] text-white flex flex-col items-center justify-center p-4 relative overflow-hidden">
+    <div className="min-h-screen bg-[#FDFBF7] dark:bg-[#030712] text-slate-900 dark:text-white flex flex-col items-center justify-center p-4 relative overflow-hidden">
       {/* Celebration background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div 
@@ -32,7 +32,7 @@ export default function CheckinClient({ attraction, userId }: { attraction: any,
         initial={{ opacity: 0, y: 50, scale: 0.9 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.5, type: "spring" }}
-        className="bg-white/5 backdrop-blur-xl border border-[#C9A84C]/30 rounded-3xl p-8 max-w-md w-full text-center shadow-[0_0_50px_rgba(201,168,76,0.15)] relative z-10"
+        className="bg-[#F8F3E9] dark:bg-white/5 backdrop-blur-xl border border-slate-200 dark:border-[#C9A84C]/30 text-slate-900 dark:text-white rounded-3xl p-8 max-w-md w-full text-center shadow-[0_0_50px_rgba(201,168,76,0.15)] relative z-10"
       >
         <motion.div
           initial={{ scale: 0 }}

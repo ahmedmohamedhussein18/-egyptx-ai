@@ -129,7 +129,7 @@ export default function SmartSiteContent() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#030712] flex flex-col items-center justify-center text-[#C9A84C]">
+      <div className="min-h-screen bg-[#FDFBF7] dark:bg-[#030712] flex flex-col items-center justify-center text-[#C9A84C]">
         <Loader2 className="w-10 h-10 animate-spin mb-4" />
         <p>Loading Smart Sites...</p>
       </div>
@@ -138,7 +138,7 @@ export default function SmartSiteContent() {
 
   if (error || attractions.length === 0) {
     return (
-      <div className="min-h-screen bg-[#030712] flex flex-col items-center justify-center text-red-500">
+      <div className="min-h-screen bg-[#FDFBF7] dark:bg-[#030712] flex flex-col items-center justify-center text-red-500">
         <AlertCircle className="w-10 h-10 mb-4" />
         <p>{error || 'No verified attractions found.'}</p>
       </div>
@@ -146,7 +146,7 @@ export default function SmartSiteContent() {
   }
 
   return (
-    <div className="min-h-screen bg-[#030712] text-white pt-24 pb-16">
+    <div className="min-h-screen bg-[#FDFBF7] dark:bg-[#030712] text-slate-900 dark:text-white pt-24 pb-16 transition-colors duration-200">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header */}

@@ -235,7 +235,7 @@ export default function GovernmentDashboardContent() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#050d1a] flex items-center justify-center">
+      <div className="min-h-screen bg-[#FDFBF7] dark:bg-[#050d1a] flex items-center justify-center text-slate-900 dark:text-white">
         <div className="w-12 h-12 border-4 border-[#C9A84C] border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
@@ -250,7 +250,7 @@ export default function GovernmentDashboardContent() {
   );
 
   return (
-    <div className="flex h-screen bg-[#050d1a] text-white overflow-hidden" dir="rtl">
+    <div className="flex h-screen bg-[#FDFBF7] dark:bg-[#050d1a] text-slate-900 dark:text-white overflow-hidden transition-colors duration-200" dir="rtl">
       
       {/* Background Pattern */}
       <div className="absolute inset-0 pointer-events-none opacity-5" 

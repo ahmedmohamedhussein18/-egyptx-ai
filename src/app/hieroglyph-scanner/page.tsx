@@ -634,7 +634,7 @@ export default function HieroglyphScannerPage() {
                     {/* Temple / Monument */}
                     <div className="p-4 rounded-2xl bg-black/40 border border-white/10 space-y-1">
                       <span className="text-[10px] uppercase font-mono tracking-wider text-gray-400">
-                        ️ Likely Origin
+                         Likely Origin
                       </span>
                       <p className="text-sm font-bold text-white">
                         {result.context.temple}

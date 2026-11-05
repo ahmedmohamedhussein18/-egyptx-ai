@@ -172,13 +172,13 @@ export default function LittlePharaohsKidsMode() {
   };
 
   return (
-    <div className="min-h-screen bg-[#070D1F] text-[#F3F4F6] p-4 md:p-10 font-sans relative overflow-hidden" dir={lang === "ar" ? "rtl" : "ltr"}>
+    <div className="min-h-screen bg-[#FDFBF7] dark:bg-[#070D1F] text-slate-900 dark:text-[#F3F4F6] p-4 md:p-10 font-sans relative overflow-hidden transition-colors duration-200" dir={lang === "ar" ? "rtl" : "ltr"}>
       
       {/* Header & Counter */}
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center bg-[#111C38] border border-[#D4AF37]/40 rounded-2xl p-6 mb-8 shadow-2xl">
+      <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center bg-[#F8F3E9] dark:bg-[#111C38] border border-slate-200 dark:border-[#D4AF37]/40 rounded-2xl p-6 mb-8 shadow-md dark:shadow-2xl text-slate-900 dark:text-white">
         <div className="flex items-center gap-4 mb-4 md:mb-0">
           <div className="w-14 h-14 rounded-2xl bg-[#D4AF37]/20 flex items-center justify-center text-3xl border border-[#D4AF37]/50 shadow-inner">
-            🦅
+            
           </div>
           <div>
             <h1 className="text-2xl font-bold text-[#D4AF37]">
@@ -204,7 +204,7 @@ export default function LittlePharaohsKidsMode() {
             onClick={handleResetProgress}
             className="text-xs bg-rose-950/60 hover:bg-rose-900 text-rose-300 px-3 py-1.5 rounded-lg border border-rose-800 transition-colors cursor-pointer"
           >
-            {lang === "ar" ? "🔄 مسح" : "🔄 Reset"}
+            {lang === "ar" ? " مسح" : " Reset"}
           </button>
           <button
             onClick={() => setLang(lang === "ar" ? "en" : "ar")}
@@ -223,16 +223,16 @@ export default function LittlePharaohsKidsMode() {
           
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-6 pb-3 border-b border-gray-800">
             <h3 className="text-xl font-bold text-[#D4AF37] flex items-center gap-2">
-              🧩 {lang === "ar" ? "بازل المعالم الفرعونية المكبر" : "Large Pharaonic Jigsaw Stage"}
+               {lang === "ar" ? "بازل المعالم الفرعونية المكبر" : "Large Pharaonic Jigsaw Stage"}
             </h3>
             <div className="flex items-center gap-4 flex-wrap">
-              <span className="text-xs text-gray-300">📊 {lang === "ar" ? "الحركات" : "Moves"}: <strong className="text-[#D4AF37] text-sm">{moves}</strong></span>
-              <span className="text-xs text-gray-300">⏱️ {lang === "ar" ? "الوقت" : "Time"}: <strong className="text-teal-400 text-sm">{seconds}s</strong></span>
+              <span className="text-xs text-gray-300"> {lang === "ar" ? "الحركات" : "Moves"}: <strong className="text-[#D4AF37] text-sm">{moves}</strong></span>
+              <span className="text-xs text-gray-300">⏱ {lang === "ar" ? "الوقت" : "Time"}: <strong className="text-teal-400 text-sm">{seconds}s</strong></span>
               <button
                 onClick={shuffleTiles}
                 className="bg-[#D4AF37] hover:bg-[#c29d30] text-[#070D1F] font-bold px-5 py-2 rounded-xl text-xs transition-transform hover:scale-105 shadow-md cursor-pointer"
               >
-                {lang === "ar" ? "خلط وبدء التحدي 🎮" : "Shuffle & Start 🎮"}
+                {lang === "ar" ? "خلط وبدء التحدي " : "Shuffle & Start "}
               </button>
             </div>
           </div>
@@ -326,7 +326,7 @@ export default function LittlePharaohsKidsMode() {
                 title="إنهاء"
                 className="w-20 h-20 rounded-full bg-gradient-to-tr from-rose-600 via-amber-500 to-[#D4AF37] hover:scale-110 active:scale-95 shadow-2xl border-4 border-white flex items-center justify-center text-3xl text-white transition-all cursor-pointer animate-bounce"
               >
-                ✓
+                
               </button>
               <span className="text-xs text-gray-300 font-bold mt-3">
                 {lang === "ar" ? "إنهاء" : "Finish"}
@@ -344,12 +344,12 @@ export default function LittlePharaohsKidsMode() {
           {/* Exact Required Feedback Messages */}
           {scanResult === "correct" && (
             <div className="mt-6 p-5 bg-emerald-950/80 border-2 border-emerald-500/80 rounded-2xl text-center text-emerald-200 text-sm font-bold shadow-2xl animate-fade-in">
-              عقلك المبدع بيكبر كل يوم! 🧠 (+50 XP)
+              عقلك المبدع بيكبر كل يوم!  (+50 XP)
             </div>
           )}
           {scanResult === "incorrect" && (
             <div className="mt-6 p-5 bg-rose-950/80 border-2 border-rose-500/80 rounded-2xl text-center text-rose-200 text-xs font-bold shadow-2xl animate-fade-in">
-              الغلط بيساعدنا نتعلّم ونكبر! 🌱 (حاول مرة أخرى لتصحيح الأماكن)
+              الغلط بيساعدنا نتعلّم ونكبر!  (حاول مرة أخرى لتصحيح الأماكن)
             </div>
           )}
 
@@ -359,14 +359,14 @@ export default function LittlePharaohsKidsMode() {
         <div className="space-y-6">
           <div className="bg-[#111C38] border border-gray-800 rounded-3xl p-6 shadow-2xl">
             <h3 className="text-sm font-bold text-[#D4AF37] mb-4 flex items-center gap-2">
-              🏛️ {lang === "ar" ? "متحف الشارات" : "Badges Museum"}
+               {lang === "ar" ? "متحف الشارات" : "Badges Museum"}
             </h3>
             <div className="space-y-3">
               {["Pyramid Builder", "Temple Explorer", "Temple Master"].map((b, idx) => {
                 const unlocked = earnedBadges.includes(b);
                 return (
                   <div key={idx} className={`p-3.5 rounded-2xl border flex items-center gap-4 ${unlocked ? 'bg-[#070D1F] border-[#D4AF37]/50 text-white' : 'bg-gray-900/40 border-gray-800/60 text-gray-600'}`}>
-                    <span className="text-2xl">{unlocked ? "🏅" : "🔒"}</span>
+                    <span className="text-2xl">{unlocked ? "" : ""}</span>
                     <div>
                       <span className={`text-xs font-bold block ${unlocked ? 'text-[#D4AF37]' : 'text-gray-500'}`}>{b}</span>
                       <span className="text-[10px] text-gray-400">{unlocked ? "مكتسب" : "مغلق"}</span>

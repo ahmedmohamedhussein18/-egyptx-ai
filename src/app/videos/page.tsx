@@ -49,7 +49,7 @@ const DOCUMENTARY_VIDEOS: VideoDoc[] = [
 
 export default function VideosPage() {
   return (
-    <main className="min-h-screen bg-[#030712] text-white pt-28 pb-24 font-sans relative overflow-hidden">
+    <main className="min-h-screen bg-[#FDFBF7] dark:bg-[#030712] text-slate-900 dark:text-white pt-28 pb-24 font-sans relative overflow-hidden transition-colors duration-200">
       {/* Ambient background glows */}
       <div className="absolute top-12 left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-gradient-to-b from-[#C9A84C]/15 via-[#1B6B93]/10 to-transparent blur-[140px] pointer-events-none" />
       <div className="absolute top-1/3 -right-40 w-96 h-96 bg-[#C9A84C]/10 rounded-full blur-[130px] pointer-events-none" />
@@ -63,10 +63,10 @@ export default function VideosPage() {
             <Sparkles className="w-4 h-4 text-[#C9A84C]" />
             Official Tourism Cinema · أفلام مصر الوثائقية
           </div>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-[#E2CB85] to-[#C9A84C] mb-3">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-slate-900 via-[#A68440] to-[#C9A84C] dark:from-white dark:via-[#E2CB85] dark:to-[#C9A84C] mb-3">
             Egypt Through a Lens 
           </h1>
-          <p className="text-lg sm:text-xl text-gray-300 font-medium">
+          <p className="text-lg sm:text-xl text-slate-600 dark:text-gray-300 font-medium">
             Official Egyptian tourism and culture videos
           </p>
 
@@ -90,7 +90,7 @@ export default function VideosPage() {
           {DOCUMENTARY_VIDEOS.map((video) => (
             <div
               key={video.videoId}
-              className="rounded-2xl overflow-hidden bg-[#0A1628] border border-[#C9A84C] hover:shadow-[0_0_35px_rgba(201,168,76,0.3)] transition-all duration-300 flex flex-col group"
+              className="rounded-2xl overflow-hidden bg-[#F8F3E9] dark:bg-[#0A1628] border border-slate-200 dark:border-[#C9A84C] hover:shadow-[0_0_35px_rgba(201,168,76,0.3)] transition-all duration-300 flex flex-col group"
             >
               {/* 16:9 Landscape Video Container */}
               <div className="relative aspect-video w-full bg-black overflow-hidden border-b border-[#C9A84C]/25">
@@ -106,7 +106,7 @@ export default function VideosPage() {
               </div>
 
               {/* Title & Info Below */}
-              <div className="p-5 sm:p-6 flex flex-col justify-between flex-1 bg-[#0A1628]/95">
+              <div className="p-5 sm:p-6 flex flex-col justify-between flex-1 bg-[#F8F3E9] dark:bg-[#0A1628]/95 text-slate-900 dark:text-white">
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-2">
                     <span className="text-xs font-bold text-[#C9A84C] bg-[#C9A84C]/15 border border-[#C9A84C]/30 px-2.5 py-0.5 rounded-full">
@@ -117,13 +117,13 @@ export default function VideosPage() {
                     </span>
                   </div>
 
-                  <h3 className="text-xl sm:text-2xl font-bold text-white group-hover:text-[#C9A84C] transition-colors leading-tight mb-1">
+                  <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white group-hover:text-[#C9A84C] transition-colors leading-tight mb-1">
                     {video.title}
                   </h3>
                   <p className="text-sm font-semibold text-[#E2CB85] font-serif mb-2">
                     {video.titleAr}
                   </p>
-                  <p className="text-sm text-gray-300 leading-relaxed mb-4">
+                  <p className="text-sm text-slate-600 dark:text-gray-300 leading-relaxed mb-4">
                     {video.description}
                   </p>
                 </div>

@@ -25,20 +25,20 @@ interface KidsBadge {
 }
 
 const getBadgeIcon = (badgeName: string, fallback = '') => {
-  if (badgeName === 'Pyramid Builder') return '🏛️';
-  if (badgeName === 'Nile Explorer') return '🌊';
-  return fallback || '👑';
+  if (badgeName === 'Pyramid Builder') return '';
+  if (badgeName === 'Nile Explorer') return '';
+  return fallback || '';
 };
 
 const getFactEmoji = (fact: { id: string; title: string; emoji?: string }) => {
-  if (fact.emoji && fact.emoji.trim() && fact.emoji !== '️') return fact.emoji;
+  if (fact.emoji && fact.emoji.trim() && fact.emoji !== '') return fact.emoji;
   const lower = (fact.title + ' ' + fact.id).toLowerCase();
-  if (lower.includes('pyramid') || lower.includes('f1')) return '🏛️';
-  if (lower.includes('nile') || lower.includes('f2')) return '🌊';
-  if (lower.includes('hieroglyph') || lower.includes('f3')) return '📜';
-  if (lower.includes('tut') || lower.includes('f4')) return '👑';
-  if (lower.includes('mumm') || lower.includes('f5')) return '🏺';
-  return '📚';
+  if (lower.includes('pyramid') || lower.includes('f1')) return '';
+  if (lower.includes('nile') || lower.includes('f2')) return '';
+  if (lower.includes('hieroglyph') || lower.includes('f3')) return '';
+  if (lower.includes('tut') || lower.includes('f4')) return '';
+  if (lower.includes('mumm') || lower.includes('f5')) return '';
+  return '';
 };
 
 export default function KidsModeContent() {
@@ -251,7 +251,7 @@ export default function KidsModeContent() {
 
   if (authLoading || !user || loading) {
     return (
-      <div className="min-h-screen bg-[#0A1628] flex items-center justify-center">
+      <div className="min-h-screen bg-[#FDFBF7] dark:bg-[#0A1628] flex items-center justify-center">
         <Loader2 className="w-8 h-8 text-[#C9A84C] animate-spin" />
       </div>
     );
@@ -260,7 +260,7 @@ export default function KidsModeContent() {
   // --- PARENTAL VERIFICATION LOCK SCREEN ---
   if (!isVerified) {
     return (
-      <div className="min-h-screen bg-[#030712] flex flex-col items-center justify-center p-4 relative overflow-hidden">
+      <div className="min-h-screen bg-[#FDFBF7] dark:bg-[#030712] flex flex-col items-center justify-center p-4 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(201,168,76,0.15),transparent_70%)] pointer-events-none" />
         <div className="relative z-10 text-center max-w-md p-8 rounded-3xl bg-[#0B1120]/80 border border-[#C9A84C]/30 backdrop-blur-xl shadow-2xl">
           <div className="w-16 h-16 rounded-2xl bg-[#C9A84C]/15 border border-[#C9A84C]/40 flex items-center justify-center mx-auto mb-4 text-[#C9A84C]">
@@ -337,11 +337,11 @@ export default function KidsModeContent() {
 
   // --- DASHBOARD VIEW ---
   return (
-    <div className="min-h-screen bg-[#0A1628] text-white pt-24 pb-16 font-sans">
+    <div className="min-h-screen bg-[#FDFBF7] dark:bg-[#0A1628] text-slate-900 dark:text-white pt-24 pb-16 font-sans transition-colors duration-200">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         
         {/* Header Section (Dashboard view) */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between bg-gradient-to-r from-[#1B6B93]/40 to-transparent p-6 rounded-3xl border border-[#1B6B93]/50">
+            <div className="flex flex-col md:flex-row md:items-center justify-between bg-[#F8F3E9] dark:bg-gradient-to-r dark:from-[#1B6B93]/40 dark:to-transparent p-6 rounded-3xl border border-slate-200 dark:border-[#1B6B93]/50 text-slate-900 dark:text-white">
               <div className="flex items-center gap-4">
                 <div className="w-16 h-16 bg-[#C9A84C] rounded-full flex items-center justify-center text-[#0A1628] border-4 border-[#0A1628] shadow-lg">
                   <Smile className="w-8 h-8" />
@@ -438,7 +438,7 @@ export default function KidsModeContent() {
                   <div>
                     <div className="flex justify-between items-center mb-6">
                       <span className="text-[#4CC9F0] font-bold uppercase text-sm tracking-wider flex items-center gap-2">
-                        <span className="text-2xl">{getBadgeIcon(activeQuiz.badgeName, '🎯')}</span>
+                        <span className="text-2xl">{getBadgeIcon(activeQuiz.badgeName, '')}</span>
                         <span>{activeQuiz.title}</span>
                       </span>
                       <span className="text-gray-400 font-medium text-sm">Question {currentQuestionIdx + 1} of {activeQuiz.questions.length}</span>
@@ -476,13 +476,13 @@ export default function KidsModeContent() {
                   <div className="text-center py-8">
                     {score === activeQuiz.questions.length ? (
                       <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="mb-6">
-                        <div className="text-6xl mb-4">{getBadgeIcon(activeQuiz.badgeName, '🏆')}</div>
-                        <h2 className="text-3xl font-bold text-[#C9A84C] mb-2">🎉 Perfect Score!</h2>
+                        <div className="text-6xl mb-4">{getBadgeIcon(activeQuiz.badgeName, '')}</div>
+                        <h2 className="text-3xl font-bold text-[#C9A84C] mb-2"> Perfect Score!</h2>
                         <p className="text-xl text-gray-300">You earned the <strong className="text-white">{activeQuiz.badgeName}</strong> badge and {score * 10} points!</p>
                       </motion.div>
                     ) : (
                       <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="mb-6">
-                        <div className="text-6xl mb-4">🎯</div>
+                        <div className="text-6xl mb-4"></div>
                         <h2 className="text-3xl font-bold text-white mb-2">Great Try!</h2>
                         <p className="text-xl text-gray-300">You scored {score} out of {activeQuiz.questions.length} and earned {score * 10} points.</p>
                         <p className="text-[#4CC9F0] mt-2">Get a perfect score to earn the badge!</p>
@@ -502,7 +502,7 @@ export default function KidsModeContent() {
                 {/* Facts Carousel */}
                 <div className="bg-gradient-to-br from-[#1B6B93]/30 to-[#0A1628] border border-[#1B6B93]/50 rounded-3xl p-6 md:p-8 backdrop-blur-md">
                   <h2 className="text-[#4CC9F0] font-bold uppercase text-sm tracking-wider mb-4 flex items-center gap-2">
-                    <span className="text-xl">📚</span>
+                    <span className="text-xl"></span>
                     <span>Did you know?</span>
                   </h2>
                   <AnimatePresence mode="wait">
@@ -530,7 +530,7 @@ export default function KidsModeContent() {
                 {/* Quizzes Grid */}
                 <div>
                   <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
-                    <span className="text-3xl">🎯</span>
+                    <span className="text-3xl"></span>
                     <span>Take a Quiz</span>
                   </h2>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -538,7 +538,7 @@ export default function KidsModeContent() {
                       const hasBadge = badges.includes(quiz.badgeKey);
                       const isPyramid = quiz.badgeName === 'Pyramid Builder' || quiz.title.includes('Pyramid');
                       const isNile = quiz.badgeName === 'Nile Explorer' || quiz.title.includes('Nile');
-                      const quizIcon = isPyramid ? '🏛️' : isNile ? '🌊' : (quiz.badgeIcon || '🎯');
+                      const quizIcon = isPyramid ? '' : isNile ? '' : (quiz.badgeIcon || '');
 
                       return (
                         <button
@@ -581,7 +581,7 @@ export default function KidsModeContent() {
                   const earned = badges.includes(quiz.badgeKey);
                   const isPyramid = quiz.badgeName === 'Pyramid Builder' || quiz.title.includes('Pyramid');
                   const isNile = quiz.badgeName === 'Nile Explorer' || quiz.title.includes('Nile');
-                  const badgeIcon = isPyramid ? '🏛️' : isNile ? '🌊' : (quiz.badgeIcon || '👑');
+                  const badgeIcon = isPyramid ? '' : isNile ? '' : (quiz.badgeIcon || '');
 
                   return (
                     <div 

@@ -103,7 +103,7 @@ export default function VrEgyptContent() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#030712] text-white font-sans overflow-x-hidden relative">
+    <div className="min-h-screen bg-[#FDFBF7] dark:bg-[#030712] text-slate-900 dark:text-white font-sans overflow-x-hidden relative transition-colors duration-200">
       {/* Intro Splash Screen */}
       <AnimatePresence>
         {showSplash && (
@@ -332,7 +332,7 @@ export default function VrEgyptContent() {
                   onClick={() => setVrPortalSite(null)}
                   className="px-3 py-1.5 bg-red-500/20 border border-red-500/40 text-red-400 hover:bg-red-500 hover:text-white rounded-xl text-xs font-bold transition-all cursor-pointer"
                 >
-                  ✕ Close VR
+                  Close VR
                 </button>
               </div>
             </div>
@@ -354,7 +354,7 @@ export default function VrEgyptContent() {
               <Globe className="w-4 h-4 text-[#C9A84C]" />
               {vrPortalSite.isMatterport ? (
                 <span className="text-[#D4AF37]">
-                  ✨ تم تفعيل جولة Matterport ثلاثية الأبعاد الحصرية لـ ({vrPortalSite.title}) بنجاح! &middot; Powered by Matterport 3D Spatial Virtual Reality
+                  تم تفعيل جولة Matterport ثلاثية الأبعاد الحصرية لـ ({vrPortalSite.title}) بنجاح! &middot; Powered by Matterport 3D Spatial Virtual Reality
                 </span>
               ) : (
                 <span>Powered by Google Street View &middot; Drag to explore 360°</span>

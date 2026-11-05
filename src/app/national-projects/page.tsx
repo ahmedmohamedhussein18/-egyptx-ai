@@ -285,10 +285,10 @@ export default function NationalProjectsPage() {
                   }`}
                 >
                   {cat === 'All' && ' '}
-                  {cat === 'Museums' && '️ '}
+                  {cat === 'Museums' && ' '}
                   {cat === 'Heritage' && ' '}
                   {cat === 'Mummies Parade' && ' '}
-                  {cat === 'Tourism' && '️ '}
+                  {cat === 'Tourism' && ' '}
                   {cat}
                 </button>
               );

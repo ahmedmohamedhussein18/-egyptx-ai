@@ -25,7 +25,7 @@ export default async function CheckinPage({ params }: { params: Promise<{ attrac
 
   if (attractionError || !attraction) {
     return (
-      <div className="min-h-screen bg-[#030712] text-white flex flex-col items-center justify-center p-4">
+      <div className="min-h-screen bg-[#FDFBF7] dark:bg-[#030712] text-slate-900 dark:text-white flex flex-col items-center justify-center p-4">
         <h1 className="text-3xl font-bold text-red-500 mb-4">Invalid Attraction</h1>
         <p className="text-gray-400 text-center">This QR code is invalid or the attraction is not currently verified.</p>
       </div>
@@ -49,7 +49,7 @@ export default async function CheckinPage({ params }: { params: Promise<{ attrac
 
   if (recentCheckins && recentCheckins.length > 0) {
     return (
-      <div className="min-h-screen bg-[#030712] text-white flex flex-col items-center justify-center p-4">
+      <div className="min-h-screen bg-[#FDFBF7] dark:bg-[#030712] text-slate-900 dark:text-white flex flex-col items-center justify-center p-4">
         <h1 className="text-3xl font-bold text-[#C9A84C] mb-4 text-center">Already Checked In!</h1>
         <p className="text-gray-400 text-center mb-8">You already checked in at {attraction.name_en} recently.</p>
         <a href="/smart-site" className="px-6 py-3 bg-[#1B6B93] rounded-xl font-bold">Go to Smart Sites</a>
@@ -70,7 +70,7 @@ export default async function CheckinPage({ params }: { params: Promise<{ attrac
   if (insertError) {
     console.error('Checkin Insert Error:', insertError);
     return (
-      <div className="min-h-screen bg-[#030712] text-white flex flex-col items-center justify-center p-4">
+      <div className="min-h-screen bg-[#FDFBF7] dark:bg-[#030712] text-slate-900 dark:text-white flex flex-col items-center justify-center p-4">
         <h1 className="text-3xl font-bold text-red-500 mb-4">Check-in Failed</h1>
         <p className="text-gray-400 text-center">An error occurred while processing your check-in. Please try again.</p>
       </div>

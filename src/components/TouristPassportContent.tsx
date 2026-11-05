@@ -125,7 +125,7 @@ export default function TouristPassportContent() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#030712] flex flex-col items-center justify-center text-[#C9A84C]">
+      <div className="min-h-screen bg-[#FDFBF7] dark:bg-[#030712] flex flex-col items-center justify-center text-[#C9A84C]">
         <Loader2 className="w-10 h-10 animate-spin mb-4" />
         <p>Loading your Passport...</p>
       </div>
@@ -133,7 +133,7 @@ export default function TouristPassportContent() {
   }
 
   return (
-    <div className="min-h-screen bg-[#030712] text-white pt-24 pb-16 font-sans">
+    <div className="min-h-screen bg-[#FDFBF7] dark:bg-[#030712] text-slate-900 dark:text-white pt-24 pb-16 font-sans transition-colors duration-200">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
         
         {/* Header Section - Digital Passport ID Card */}
@@ -146,7 +146,7 @@ export default function TouristPassportContent() {
             {/* Holographic Border Effect */}
             <div className="absolute inset-0 bg-gradient-to-br from-[#C9A84C] via-[#1B6B93] to-[#E2C779] opacity-50 group-hover:opacity-100 transition-opacity duration-700 animate-gradient-xy" />
             
-            <div className="relative bg-[#0A1628] rounded-[22px] p-6 sm:p-10 flex flex-col md:flex-row items-center gap-8 border border-white/5 backdrop-blur-2xl">
+            <div className="relative bg-[#F8F3E9] dark:bg-[#0A1628] text-slate-900 dark:text-white rounded-[22px] border border-slate-200 dark:border-white/5 p-6 sm:p-10 flex flex-col md:flex-row items-center gap-8 border border-white/5 backdrop-blur-2xl">
               
               {/* Subtle watermark background */}
               <div className="absolute inset-0 opacity-[0.03] pointer-events-none flex justify-center items-center overflow-hidden">

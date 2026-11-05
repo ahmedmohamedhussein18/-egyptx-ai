@@ -133,7 +133,7 @@ export default function HiddenGemsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#030712] text-white pt-24 pb-20 font-sans relative overflow-hidden">
+    <div className="min-h-screen bg-[#FDFBF7] dark:bg-[#030712] text-slate-900 dark:text-white pt-24 pb-20 font-sans relative overflow-hidden transition-colors duration-200">
       {/* Ambient Luxury Amber / Indigo Lighting */}
       <div className="absolute top-10 left-1/4 w-[600px] h-[600px] bg-amber-500/10 rounded-full blur-[150px] pointer-events-none" />
       <div className="absolute top-1/2 right-10 w-[500px] h-[500px] bg-indigo-600/15 rounded-full blur-[150px] pointer-events-none" />
@@ -153,7 +153,7 @@ export default function HiddenGemsPage() {
             </span>
           </h1>
 
-          <p className="text-sm sm:text-base text-slate-300/80 leading-relaxed font-normal">
+          <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300/80 leading-relaxed font-normal">
             Beyond the crowded tourist trails lies a secret Egypt known only to sovereign scholars, royalty, and elite explorers. Discover classified royal tomb ceilings, submerged palace ruins, and secluded desert waters.
           </p>
 

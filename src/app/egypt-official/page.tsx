@@ -63,7 +63,7 @@ const MINISTRIES: MinistryItem[] = [
 
 export default function EgyptOfficialPage() {
   return (
-    <main className="min-h-screen bg-[#030712] text-white pt-28 pb-20 font-sans relative overflow-hidden">
+    <main className="min-h-screen bg-[#FDFBF7] dark:bg-[#030712] text-slate-900 dark:text-white pt-28 pb-20 font-sans relative overflow-hidden transition-colors duration-200">
       {/* Ambient background lighting */}
       <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gradient-to-b from-[#C9A84C]/15 via-[#1B6B93]/10 to-transparent blur-[140px] pointer-events-none" />
       <div className="absolute top-1/3 -right-40 w-96 h-96 bg-[#C9A84C]/10 rounded-full blur-[120px] pointer-events-none" />
@@ -77,20 +77,20 @@ export default function EgyptOfficialPage() {
             <ShieldCheck className="w-4 h-4 text-[#C9A84C]" />
             Official State Portals · بوابات الدولة الرسمية
           </div>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-[#E2CB85] to-[#C9A84C] mb-4">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-slate-900 via-[#A68440] to-[#C9A84C] dark:from-white dark:via-[#E2CB85] dark:to-[#C9A84C] mb-4">
             Egypt Official
           </h1>
           <p className="text-lg sm:text-xl text-[#C9A84C] font-serif mb-2">
             مصر الرسمية · القيادة والحكومة والمؤسسات الوطنية
           </p>
-          <p className="text-sm sm:text-base text-gray-400 font-medium tracking-wide">
+          <p className="text-sm sm:text-base text-slate-600 dark:text-gray-400 font-medium tracking-wide">
             President · Government · Ministries · National Institutions
           </p>
         </div>
 
         {/* ── SECTION 1: PRESIDENT OF EGYPT ───────────────────────────────── */}
         <section className="mb-14">
-          <div className="relative overflow-hidden rounded-3xl border border-[#C9A84C]/40 hover:border-[#C9A84C] hover:shadow-[0_0_35px_rgba(201,168,76,0.3)] transition-all duration-500 shadow-[0_20px_60px_rgba(0,0,0,0.8)] bg-[#0A1628]">
+          <div className="relative overflow-hidden rounded-3xl border border-[#C9A84C]/40 hover:border-[#C9A84C] hover:shadow-[0_0_35px_rgba(201,168,76,0.3)] transition-all duration-500 shadow-[0_20px_60px_rgba(0,0,0,0.8)] bg-[#F8F3E9] dark:bg-[#0A1628]">
             {/* Egyptian Flag Accent Ribbon */}
             <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-[#CE1126] via-[#FFFFFF] to-[#000000] z-20" />
 
@@ -161,7 +161,7 @@ export default function EgyptOfficialPage() {
 
         {/* ── SECTION 2: MINISTER OF TOURISM & ANTIQUITIES ─────────────────── */}
         <section className="mb-14">
-          <div className="relative overflow-hidden rounded-3xl border border-white/10 hover:border-[#C9A84C]/60 hover:shadow-[0_0_30px_rgba(201,168,76,0.3)] transition-all duration-500 shadow-xl bg-[#0A1628]">
+          <div className="relative overflow-hidden rounded-3xl border border-white/10 hover:border-[#C9A84C]/60 hover:shadow-[0_0_30px_rgba(201,168,76,0.3)] transition-all duration-500 shadow-xl bg-[#F8F3E9] dark:bg-[#0A1628]">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 relative z-10">
               {/* Minister Portrait Column: Clean, prominent, proportional aspect ratio */}
               <div className="lg:col-span-5 relative min-h-[360px] lg:min-h-full overflow-hidden bg-black/60">
@@ -223,7 +223,7 @@ export default function EgyptOfficialPage() {
 
         {/* ── SECTION 3: DR. ZAHI HAWASS ───────────────────────────────────── */}
         <section className="mb-14">
-          <div className="relative overflow-hidden rounded-3xl border-2 border-[#C9A84C]/60 hover:border-[#C9A84C] hover:shadow-[0_0_40px_rgba(201,168,76,0.4)] transition-all duration-500 shadow-[0_15px_45px_rgba(0,0,0,0.6)] bg-[#0A1628]">
+          <div className="relative overflow-hidden rounded-3xl border-2 border-[#C9A84C]/60 hover:border-[#C9A84C] hover:shadow-[0_0_40px_rgba(201,168,76,0.4)] transition-all duration-500 shadow-[0_15px_45px_rgba(0,0,0,0.6)] bg-[#F8F3E9] dark:bg-[#0A1628]">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 relative z-10">
               {/* Dr. Zahi Hawass Portrait Column: Clean, prominent, proportional aspect ratio */}
               <div className="lg:col-span-5 relative min-h-[360px] lg:min-h-full overflow-hidden bg-black/60">

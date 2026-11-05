@@ -37,7 +37,7 @@ export default async function VrTourDetailPage({ params }: VrTourPageProps) {
   const id = resolved?.id || '1';
 
   return (
-    <main className="min-h-screen bg-[#030712] relative overflow-hidden">
+    <main className="min-h-screen bg-[#FDFBF7] dark:bg-[#030712] text-slate-900 dark:text-white relative overflow-hidden transition-colors duration-200">
       <Navbar />
       <VrTourDetailContent id={id} />
       <Footer />

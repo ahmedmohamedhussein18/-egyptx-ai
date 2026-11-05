@@ -47,8 +47,8 @@ export default function CTASection() {
             {t('cta.btn')}
           </motion.button>
           
-          <p className="text-sm text-white/40 tracking-wider flex items-center gap-2">
-            <span className="text-[#D4AF37]">✦</span> {t('cta.poweredBy')}
+          <p className="text-sm text-slate-500 dark:text-white/40 tracking-wider flex items-center gap-2">
+            {t('cta.poweredBy')}
           </p>
         </motion.div>
       </div>

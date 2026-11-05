@@ -32,10 +32,10 @@ type CallStatus = 'connecting' | 'listening' | 'speaking' | 'analyzing' | 'ended
 
 type VoicePersonality = 'Jez3JdhBInQTvlAvDOWR' | 'female' | 'male' | 'youth';
 const VOICE_OPTIONS: Array<{ id: VoicePersonality; label: string; icon: string }> = [
-  { id: 'Jez3JdhBInQTvlAvDOWR', label: '🧔🏽 Ahmed (Egyptian)', icon: '🧔🏽' },
-  { id: 'female', label: '👩 Sarah (Female)', icon: '👩' },
-  { id: 'male', label: '👨 Adam (Male)', icon: '👨' },
-  { id: 'youth', label: '👦 Liam (Youth)', icon: '👦' },
+  { id: 'Jez3JdhBInQTvlAvDOWR', label: ' Ahmed (Egyptian)', icon: '' },
+  { id: 'female', label: ' Sarah (Female)', icon: '' },
+  { id: 'male', label: ' Adam (Male)', icon: '' },
+  { id: 'youth', label: ' Liam (Youth)', icon: '' },
 ];
 
 /* ── Authentic Egyptian Eye of Horus (Wadjet) Icon ─────────────────────── */
@@ -1209,7 +1209,7 @@ export default function AIGuideVoiceCall({ isOpen, onClose }: AIGuideVoiceCallPr
               animate={{ opacity: 1, y: 0 }}
               className="mb-4 px-4 py-2 rounded-2xl bg-[#0A1628]/80 border border-[#C9A84C]/40 backdrop-blur-md shadow-[0_0_20px_rgba(201,168,76,0.2)] flex items-center gap-2.5"
             >
-              <span className="text-base">📍</span>
+              <span className="text-base"></span>
               <div className="text-left">
                 <p className="text-xs uppercase tracking-wider text-[#C9A84C] font-semibold">
                   Detected Monument
@@ -1353,7 +1353,7 @@ export default function AIGuideVoiceCall({ isOpen, onClose }: AIGuideVoiceCallPr
                 animate={{ opacity: 1, scale: 1 }}
                 className="inline-block self-center px-3.5 py-1.5 rounded-full bg-[#C9A84C]/20 border border-[#C9A84C]/40 text-xs md:text-sm text-[#E2CB85] font-medium"
               >
-                🗣️ &ldquo;{userSpeechText}&rdquo;
+                 &ldquo;{userSpeechText}&rdquo;
               </motion.div>
             )}
           </div>
@@ -1365,28 +1365,28 @@ export default function AIGuideVoiceCall({ isOpen, onClose }: AIGuideVoiceCallPr
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 hover:bg-[#C9A84C]/20 border border-white/10 hover:border-[#C9A84C]/60 text-xs text-white/80 hover:text-[#E2CB85] transition-all cursor-pointer"
             >
               <Camera className="w-3.5 h-3.5 text-[#C9A84C]" />
-              <span>{isRTL ? '📸 "صور"' : '📸 "Take Photo"'}</span>
+              <span>{isRTL ? '"صور"' : '"Take Photo"'}</span>
             </button>
             <button
               onClick={() => handleUserSpeech(isRTL ? 'اشرح' : 'explain')}
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 hover:bg-[#C9A84C]/20 border border-white/10 hover:border-[#C9A84C]/60 text-xs text-white/80 hover:text-[#E2CB85] transition-all cursor-pointer"
             >
               <BookOpen className="w-3.5 h-3.5 text-[#C9A84C]" />
-              <span>{isRTL ? '📖 "اشرح لي"' : '📖 "Explain"'}</span>
+              <span>{isRTL ? '"اشرح لي"' : '"Explain"'}</span>
             </button>
             <button
               onClick={() => handleUserSpeech(isRTL ? 'ترجم' : 'translate')}
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 hover:bg-[#C9A84C]/20 border border-white/10 hover:border-[#C9A84C]/60 text-xs text-white/80 hover:text-[#E2CB85] transition-all cursor-pointer"
             >
               <Languages className="w-3.5 h-3.5 text-[#C9A84C]" />
-              <span>{isRTL ? '🌐 "ترجم"' : '🌐 "Translate"'}</span>
+              <span>{isRTL ? '"ترجم"' : '"Translate"'}</span>
             </button>
             <button
               onClick={() => handleUserSpeech(isRTL ? 'انهي المكالمه' : 'end call')}
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 hover:bg-red-500/20 border border-white/10 hover:border-red-500/40 text-xs text-white/70 hover:text-red-300 transition-all cursor-pointer"
             >
               <PhoneOff className="w-3.5 h-3.5 text-red-400" />
-              <span>{isRTL ? '❌ "انهي المكالمة"' : '❌ "End Call"'}</span>
+              <span>{isRTL ? '"انهي المكالمة"' : '"End Call"'}</span>
             </button>
           </div>
         </div>

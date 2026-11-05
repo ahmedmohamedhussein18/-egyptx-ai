@@ -69,7 +69,7 @@ export default function CommandCenterContent() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#0a0f1e] flex items-center justify-center">
+      <div className="min-h-screen bg-[#FDFBF7] dark:bg-[#0a0f1e] flex items-center justify-center text-slate-900 dark:text-white">
         <div className="flex flex-col items-center gap-4">
           <div className="w-12 h-12 border-4 border-[#C9A84C] border-t-transparent rounded-full animate-spin"></div>
           <p className="text-[#C9A84C] font-bold text-lg animate-pulse">جاري تحميل مركز القيادة...</p>
@@ -88,12 +88,12 @@ export default function CommandCenterContent() {
   const MotionDiv = motion.div;
 
   return (
-    <div dir="rtl" className="min-h-screen bg-[#0a0f1e] text-white font-sans overflow-x-hidden relative">
+    <div dir="rtl" className="min-h-screen bg-[#FDFBF7] dark:bg-[#0a0f1e] text-slate-900 dark:text-white font-sans overflow-x-hidden relative transition-colors duration-200">
       {/* Subtle Egyptian Motif Background */}
       <div className="fixed inset-0 pointer-events-none opacity-5" style={{ backgroundImage: 'radial-gradient(#C9A84C 1px, transparent 1px)', backgroundSize: '40px 40px' }}></div>
 
       {/* HEADER */}
-      <header className="w-full bg-[#0a0f1e]/90 backdrop-blur-md sticky top-0 z-50 px-6 py-4 flex items-center justify-between shadow-lg relative border-b border-[#C9A84C]/20 overflow-hidden">
+      <header className="w-full bg-[#F8F3E9]/90 dark:bg-[#0a0f1e]/90 backdrop-blur-md sticky top-0 z-50 px-6 py-4 flex items-center justify-between shadow-lg relative border-b border-slate-200 dark:border-[#C9A84C]/20 overflow-hidden text-slate-900 dark:text-white">
         {/* Map Silhouette Background */}
         <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'url("/images/egypt-map.svg")', backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
         

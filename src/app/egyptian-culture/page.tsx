@@ -276,7 +276,7 @@ const CULTURE_SECTIONS: CultureSection[] = [
     id: 'history',
     titleAr: 'الشخصيات التاريخية الخالدة',
     titleEn: 'Historical Figures',
-    emoji: '️',
+    emoji: '',
     icon: Landmark,
     items: [
       {

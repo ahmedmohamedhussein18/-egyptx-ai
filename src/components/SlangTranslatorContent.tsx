@@ -63,7 +63,7 @@ export const LOCAL_DIALECT_OPTIONS: LanguageOption[] = [
   { code: 'ar-SA', label: '🇸🇦 خليجي (Gulf)', name: 'اللهجة الخليجية', flag: '🇸🇦' },
   { code: 'ar-LB', label: '🇱🇧 شامي (Levantine)', name: 'اللهجة الشامية', flag: '🇱🇧' },
   { code: 'ar-MA', label: '🇲🇦 مغاربي (Maghrebi)', name: 'اللهجة المغاربية', flag: '🇲🇦' },
-  { code: 'ar', label: '🌍 فصحى (Standard Arabic)', name: 'العربية الفصحى', flag: '🌍' },
+  { code: 'ar', label: 'فصحى (Standard Arabic)', name: 'العربية الفصحى', flag: '' },
 ];
 
 // Second Selector: Tourist Foreign Languages (السهم الثاني - لغة السائح الأجنبي)

@@ -94,7 +94,7 @@ export default function NewsContent() {
   const categories = getCategories(t);
 
   return (
-    <main className="relative min-h-screen bg-[#030712] font-sans">
+    <main className="relative min-h-screen bg-[#FDFBF7] dark:bg-[#030712] text-slate-900 dark:text-white font-sans transition-colors duration-200">
       <Navbar />
       
       <div className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
@@ -112,7 +112,7 @@ export default function NewsContent() {
           <motion.h1 
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-4xl md:text-6xl font-bold text-white mb-4 font-serif"
+            className="text-4xl md:text-6xl font-bold text-slate-900 dark:text-white mb-4 font-serif"
           >
             {t('news.title')}
           </motion.h1>
@@ -120,7 +120,7 @@ export default function NewsContent() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
-            className="text-xl text-gray-400 max-w-2xl mx-auto"
+            className="text-xl text-slate-600 dark:text-gray-400 max-w-2xl mx-auto"
           >
             {t('news.subtitle')}
           </motion.p>

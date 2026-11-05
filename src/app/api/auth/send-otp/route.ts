@@ -70,7 +70,7 @@ export async function POST(req: Request) {
                   <tr>
                     <td align="center" style="padding-bottom: 20px;">
                       <div style="display: inline-block; padding: 8px 18px; background-color: rgba(201, 168, 76, 0.12); border: 1px solid rgba(201, 168, 76, 0.35); border-radius: 999px; color: #E2CB85; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">
-                        ️ Parental Control Security Gate
+                        Parental Control Security Gate
                       </div>
                     </td>
                   </tr>
@@ -108,7 +108,7 @@ export async function POST(req: Request) {
                   <tr>
                     <td align="center" style="padding-bottom: 30px;">
                       <p style="margin: 0; font-size: 12px; color: rgba(255, 255, 255, 0.5);">
-                        ⏱️ This single-use code expires in <strong style="color: #E2CB85;">5 minutes</strong>.
+                        This single-use code expires in <strong style="color: #E2CB85;">5 minutes</strong>.
                       </p>
                     </td>
                   </tr>

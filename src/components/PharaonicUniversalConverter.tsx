@@ -108,11 +108,11 @@ export default function PharaonicUniversalConverter() {
     <div className="bg-[#0A1628]/80 border border-[#C9A84C]/30 rounded-2xl p-6 backdrop-blur-md w-full">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-xl font-bold text-[#C9A84C]">
-          🏺 Currency Converter
+          Currency Converter
         </h2>
         <div className="flex items-center gap-2">
           <span className={`text-xs px-2 py-1 rounded-full ${isLive ? 'bg-green-500/20 text-green-400 border border-green-500/40' : 'bg-amber-500/20 text-amber-400 border border-amber-500/40'}`}>
-            {isLive ? '🟢 Live Rates' : '🟡 Approximate'}
+            {isLive ? 'Live Rates' : 'Approximate'}
           </span>
           <button
             onClick={fetchRates}

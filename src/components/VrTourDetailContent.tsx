@@ -229,7 +229,7 @@ export default function VrTourDetailContent({ id }: { id: string }) {
   };
 
   return (
-    <div className="min-h-screen bg-[#030712] text-white pt-24 pb-20 relative overflow-hidden font-sans select-none">
+    <div className="min-h-screen bg-[#FDFBF7] dark:bg-[#030712] text-slate-900 dark:text-white pt-24 pb-20 relative overflow-hidden font-sans select-none transition-colors duration-200">
       {/* ── Background Atmospheric Lighting ────────────────────────────── */}
       <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
         <div className="absolute top-10 left-1/4 w-[600px] h-[600px] bg-[#C9A84C]/5 rounded-full blur-[160px]" />
@@ -627,7 +627,7 @@ export default function VrTourDetailContent({ id }: { id: string }) {
                     isFavorited ? 'fill-current text-[#0A1628] scale-125' : 'text-[#C9A84C]'
                   }`}
                 />
-                <span>{isFavorited ? "Added to Wishlist! ️" : "I'd Love This! (Save to Favorites)"}</span>
+                <span>{isFavorited ? "Added to Wishlist!" : "I'd Love This! (Save to Favorites)"}</span>
                 <span className="text-[11px] opacity-80 font-mono">({favoriteCount})</span>
               </button>
             </div>

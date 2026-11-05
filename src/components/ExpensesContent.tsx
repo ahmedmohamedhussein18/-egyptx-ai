@@ -117,7 +117,7 @@ export default function ExpensesContent() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#030712] flex flex-col items-center justify-center text-[#C9A84C]">
+      <div className="min-h-screen bg-[#FDFBF7] dark:bg-[#030712] flex flex-col items-center justify-center text-[#C9A84C]">
         <Loader2 className="w-10 h-10 animate-spin mb-4" />
         <p>Loading expenses...</p>
       </div>
@@ -125,7 +125,7 @@ export default function ExpensesContent() {
   }
 
   return (
-    <div className="min-h-screen bg-[#030712] text-white pt-24 pb-16">
+    <div className="min-h-screen bg-[#FDFBF7] dark:bg-[#030712] text-slate-900 dark:text-white pt-24 pb-16 transition-colors duration-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div className="text-center mb-12">
@@ -150,7 +150,7 @@ export default function ExpensesContent() {
           
           {/* Left Column: Form & Summary */}
           <div className="lg:col-span-1 space-y-8">
-            <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl p-6 shadow-xl">
+            <div className="bg-[#F8F3E9] dark:bg-white/5 backdrop-blur-md border border-slate-200 dark:border-white/10 rounded-3xl p-6 shadow-xl text-slate-900 dark:text-white">
               <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
                 <Receipt className="w-5 h-5 text-[#C9A84C]" /> Add New Expense
               </h2>
@@ -257,7 +257,7 @@ export default function ExpensesContent() {
           <div className="lg:col-span-2 space-y-8">
             
             {/* Chart */}
-            <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl p-6 shadow-xl h-[350px] flex flex-col">
+            <div className="bg-[#F8F3E9] dark:bg-white/5 backdrop-blur-md border border-slate-200 dark:border-white/10 rounded-3xl p-6 shadow-xl text-slate-900 dark:text-white h-[350px] flex flex-col">
               <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
                 <PieChartIcon className="w-5 h-5 text-[#C9A84C]" /> EGP Category Breakdown
               </h2>
@@ -294,7 +294,7 @@ export default function ExpensesContent() {
             </div>
 
             {/* List */}
-            <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl p-6 shadow-xl">
+            <div className="bg-[#F8F3E9] dark:bg-white/5 backdrop-blur-md border border-slate-200 dark:border-white/10 rounded-3xl p-6 shadow-xl text-slate-900 dark:text-white">
               <h2 className="text-xl font-bold text-white mb-6">Recent Expenses</h2>
               
               {expenses.length === 0 ? (

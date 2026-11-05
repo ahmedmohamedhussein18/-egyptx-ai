@@ -115,8 +115,8 @@ export default function FloatingAssistant() {
   useEffect(() => {
     if (isOpen && messages.length === 0) {
       const greeting = user
-        ? `Welcome, ${user.name.split(' ')[0]}! I am the **EgyptX Guide**, your friendly and encyclopedic Egyptian tour guide.\n\nAsk me anything about ancient or modern Egyptian history, monuments, Pharaohs, or current travel updates! ✨`
-        : `Welcome! I am the **EgyptX Guide**, your friendly and encyclopedic Egyptian tour guide.\n\nAsk me anything about ancient or modern Egyptian history, monuments, Pharaohs, or current travel updates! ✨`;
+        ? `Welcome, ${user.name.split(' ')[0]}! I am the **EgyptX Guide**, your friendly and encyclopedic Egyptian tour guide.\n\nAsk me anything about ancient or modern Egyptian history, monuments, Pharaohs, or current travel updates!`
+        : `Welcome! I am the **EgyptX Guide**, your friendly and encyclopedic Egyptian tour guide.\n\nAsk me anything about ancient or modern Egyptian history, monuments, Pharaohs, or current travel updates!`;
 
       setMessages([{ role: 'assistant', content: greeting }]);
     }

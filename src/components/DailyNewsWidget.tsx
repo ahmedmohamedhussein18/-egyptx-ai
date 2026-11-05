@@ -24,11 +24,11 @@ interface NewsMessage {
 }
 
 const NEWS_TOPICS = [
-  '🏛️ Grand Egyptian Museum Opening & Schedule',
-  '🏙️ New Administrative Capital Developments',
-  '🏺 Latest Saqqara & Luxor Discoveries',
-  '📈 Egypt Tourism & Aviation Updates',
-  '🇪🇬 Modern Infrastructure & Monorail Projects',
+  'Grand Egyptian Museum Opening & Schedule',
+  'New Administrative Capital Developments',
+  'Latest Saqqara & Luxor Discoveries',
+  'Egypt Tourism & Aviation Updates',
+  'Modern Infrastructure & Monorail Projects',
 ];
 
 interface FormattedNewsMessageProps {
@@ -183,7 +183,7 @@ export default function DailyNewsWidget() {
         {
           role: 'assistant',
           content:
-            '⚠️ Live News Wire is momentarily unavailable. Please check your internet connection or try again shortly.',
+            'Live News Wire is momentarily unavailable. Please check your internet connection or try again shortly.',
         },
       ]);
     } finally {

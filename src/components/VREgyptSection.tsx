@@ -116,7 +116,7 @@ export default function VREgyptSection() {
                 onClick={() => setActiveTour(loc)}
                 className="flex-1 bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-400 hover:to-yellow-500 text-black font-bold py-3 rounded-xl shadow-lg transition-all text-xs cursor-pointer text-center"
               >
-                Tour Details ➔
+                Tour Details
               </button>
               
               {/* زر 360 الخاص بمعبد أبو سمبل يفتح Matterport فوراً */}
@@ -149,7 +149,7 @@ export default function VREgyptSection() {
                 onClick={() => setActiveTour(null)}
                 className="bg-red-500/20 border border-red-500/50 text-red-400 font-bold px-4 py-1.5 rounded-xl hover:bg-red-500 hover:text-white transition-all text-xs cursor-pointer"
               >
-                ✕ Close VR
+                Close VR
               </button>
             </div>
 
@@ -167,8 +167,8 @@ export default function VREgyptSection() {
 
             <div className="p-3 bg-[#070D1F] text-center text-xs text-[#D4AF37]">
               {activeTour.isMatterport 
-                ? `✨ تم تفعيل جولة Matterport ثلاثية الأبعاد الحصرية لـ (${activeTour.title}) بنجاح!` 
-                : "💡 انقر واسحب للاستكشاف الحر."}
+                ? `تم تفعيل جولة Matterport ثلاثية الأبعاد الحصرية لـ (${activeTour.title}) بنجاح!` 
+                : "انقر واسحب للاستكشاف الحر."}
             </div>
 
           </div>

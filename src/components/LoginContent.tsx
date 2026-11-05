@@ -138,15 +138,15 @@ export default function LoginContent() {
         <div className="absolute bottom-1/4 right-1/4 w-[300px] h-[300px] bg-[#1B6B93]/10 rounded-full blur-[100px]" />
       </div>
 
-      <div className="w-full max-w-5xl bg-[#0A1628]/60 backdrop-blur-md rounded-3xl border border-[#C9A84C]/20 shadow-[0_0_50px_rgba(3,7,18,0.5)] flex flex-col md:flex-row overflow-hidden relative z-10">
+      <div className="w-full max-w-5xl bg-[#F8F3E9] dark:bg-[#0A1628]/60 backdrop-blur-md rounded-3xl border border-slate-200/80 dark:border-[#C9A84C]/20 shadow-xl dark:shadow-[0_0_50px_rgba(3,7,18,0.5)] flex flex-col md:flex-row overflow-hidden relative z-10">
         
         {/* Left Side: Form */}
         <div className="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
           <div className="mb-8">
-            <h2 className="text-3xl font-bold text-white mb-2">
+            <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">
               {isLogin ? 'Welcome Back' : 'Create an Account'}
             </h2>
-            <p className="text-white/50 text-sm">
+            <p className="text-slate-500 dark:text-white/50 text-sm">
               {isLogin 
                 ? 'Enter your credentials to access your EgyptX AI dashboard.' 
                 : `Join the ${t('login.subtitle')} today.`}
@@ -174,7 +174,7 @@ export default function LoginContent() {
                   className="space-y-4"
                 >
                   <div>
-                    <label className="block text-xs font-semibold text-white/70 mb-1 uppercase tracking-wider">
+                    <label className="block text-xs font-semibold text-slate-700 dark:text-white/70 mb-1 uppercase tracking-wider">
                       Full Name *
                     </label>
                     <input
@@ -186,13 +186,13 @@ export default function LoginContent() {
                         if (errorMsg) setErrorMsg('');
                       }}
                       placeholder="e.g. Ahmed Hassan"
-                      className="w-full bg-[#030712]/50 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-[#C9A84C]/50 transition-colors"
+                      className="w-full bg-white dark:bg-[#030712]/50 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder-white/20 focus:outline-none focus:border-[#C9A84C]/50 transition-colors"
                     />
                   </div>
                   
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs font-semibold text-white/70 mb-1 uppercase tracking-wider">
+                      <label className="block text-xs font-semibold text-slate-700 dark:text-white/70 mb-1 uppercase tracking-wider">
                         Country *
                       </label>
                       <select
@@ -202,7 +202,7 @@ export default function LoginContent() {
                           setCountry(e.target.value);
                           if (errorMsg) setErrorMsg('');
                         }}
-                        className="w-full bg-[#030712]/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#C9A84C]/50 transition-colors cursor-pointer text-sm"
+                        className="w-full bg-white dark:bg-[#030712]/50 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 text-slate-900 dark:text-white focus:outline-none focus:border-[#C9A84C]/50 transition-colors cursor-pointer text-sm"
                       >
                         <option value="" className="bg-[#0A1628] text-white">Select Country</option>
                         {COUNTRIES.map(c => (
@@ -213,13 +213,13 @@ export default function LoginContent() {
                       </select>
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold text-white/70 mb-1 uppercase tracking-wider">
+                      <label className="block text-xs font-semibold text-slate-700 dark:text-white/70 mb-1 uppercase tracking-wider">
                         Language
                       </label>
                       <select
                         value={language}
                         onChange={(e) => setLanguage(e.target.value)}
-                        className="w-full bg-[#030712]/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#C9A84C]/50 transition-colors cursor-pointer text-sm"
+                        className="w-full bg-white dark:bg-[#030712]/50 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 text-slate-900 dark:text-white focus:outline-none focus:border-[#C9A84C]/50 transition-colors cursor-pointer text-sm"
                       >
                         <option value="English" className="bg-[#0A1628] text-white">English</option>
                         <option value="Arabic" className="bg-[#0A1628] text-white">Arabic</option>
@@ -231,7 +231,7 @@ export default function LoginContent() {
             </AnimatePresence>
 
             <div>
-              <label className="block text-xs font-semibold text-white/70 mb-1 uppercase tracking-wider">
+              <label className="block text-xs font-semibold text-slate-700 dark:text-white/70 mb-1 uppercase tracking-wider">
                 Email Address *
               </label>
               <input
@@ -243,12 +243,12 @@ export default function LoginContent() {
                   if (errorMsg) setErrorMsg('');
                 }}
                 placeholder="tourist@example.com"
-                className="w-full bg-[#030712]/50 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-[#C9A84C]/50 transition-colors"
+                className="w-full bg-white dark:bg-[#030712]/50 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder-white/20 focus:outline-none focus:border-[#C9A84C]/50 transition-colors"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-white/70 mb-1 uppercase tracking-wider">
+              <label className="block text-xs font-semibold text-slate-700 dark:text-white/70 mb-1 uppercase tracking-wider">
                 Password *
               </label>
               <input
@@ -260,7 +260,7 @@ export default function LoginContent() {
                   if (errorMsg) setErrorMsg('');
                 }}
                 placeholder="••••••••"
-                className="w-full bg-[#030712]/50 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-[#C9A84C]/50 transition-colors"
+                className="w-full bg-white dark:bg-[#030712]/50 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder-white/20 focus:outline-none focus:border-[#C9A84C]/50 transition-colors"
               />
             </div>
 
@@ -310,7 +310,7 @@ export default function LoginContent() {
           </form>
 
           <div className="mt-8 text-center">
-            <p className="text-white/50 text-sm">
+            <p className="text-slate-500 dark:text-white/50 text-sm">
               {isLogin ? "Don't have an account? " : "Already have an account? "}
               <button 
                 type="button"

@@ -148,7 +148,7 @@ export function getStoryPages(
         storyText: `في عصر يوم دافئ، بينما كانت شمس مصر تلامس الأفق بنور ذهبي ساحر، وجد ${hero} برديّة قديمة تلمع بين حبات الرمال الناعمة. احتوت البردية على خريطة سرية تقود نحو ${q.title}! شعر ${hero} بأن قلبه يخفق فرحاً وشغفاً، مستعداً لخوض أعظم مغامرة في أرض الأجداد.`,
         wisdomQuote: 'كل مغامرة أسطورية تبدأ بفضول صادق وخطوة أولى نحو المجهول.',
         funFact: 'كان الفراعنة يصنعون ورق البردي من نبات ينمو على ضفاف النيل، وكتبوا عليه أسرار علومهم وأشعارهم.',
-        badge: 'مستكشف البرديات 📜',
+        badge: 'مستكشف البرديات ',
       },
       {
         pageNumber: 2,
@@ -156,7 +156,7 @@ export function getStoryPages(
         storyText: `وفجأة، شق الأفق نور ساطع وظهر ${g.name} بكامل هيبته وسحره الفريد. ابتسم لـ ${hero} وقال بصوت دافئ يملأ القلب طمأنينة: "أهلاً بك يا ${hero}، لقد اختارتك أرض مصر لأنك تمتلك قلباً شجاعاً وروحاً محبة للاستكشاف!" وقدم له تميمة مقدسة تشع ببريق الأمل.`,
         wisdomQuote: g.motto,
         funFact: `${g.title}، وكان يحظى بمحبة وتقدير فائقين في المعابد المصرية القديمة.`,
-        badge: 'حليف الحارس 🛡️',
+        badge: 'حليف الحارس ',
       },
       {
         pageNumber: 3,
@@ -164,7 +164,7 @@ export function getStoryPages(
         storyText: `وصلا إلى مشارف ${q.title}، حيث واجهتهما بوابة حجرية شاهقة حُفر عليها لغز هيروغليفي ساطع: "أنا أسير بلا أقدام، وأهب الحياة لكل وادٍ، فما أكون؟" فكر ${hero} بذكاء وابتسم قائلاً: "إنه نهر النيل الخالد!" وفي الحال، توهجت النقوش بنور فيروزي وانفتحت البوابة بسلاسة!`,
         wisdomQuote: 'قوة العقل وحسن الملاحظة يفتحان أعتى الأبواب الحجرية.',
         funFact: 'كان المصريون القدماء يطلقون على نهر النيل اسم "حعبي" إله الخصب والخير الوفير.',
-        badge: 'فاحص الألغاز 💡',
+        badge: 'فاحص الألغاز ',
       },
       {
         pageNumber: 4,
@@ -172,7 +172,7 @@ export function getStoryPages(
         storyText: `ركب ${hero} و${g.name} قارباً شراعياً مذهباً يعبر أمواج النيل الرقراقة. كانت أسراب الطيور المغردة تحلق فوقهما، بينما روى ${g.name} قصص البنائين والمهندسين الذين شيدوا هذه المعالم بدقة فلكية سبقت عصرها بآلاف السنين.`,
         wisdomQuote: 'النيل صديق وفيّ، يحفظ في طمي مياهه حكايات الملوك والعلماء.',
         funFact: 'كانت المراكب الخشبية تُصنع بدون مسامير حديدية، بل كانت تُربط بحبال سميكة بطريقة محكمة تزداد قوة بالماء.',
-        badge: 'قبطان النيل ⛵',
+        badge: 'قبطان النيل ',
       },
       {
         pageNumber: 5,
@@ -180,7 +180,7 @@ export function getStoryPages(
         storyText: `دخلا الغرفة الخفية في قلب المعبد؛ كانت الجدران مرصعة بأحجار اللازورد والذهب الخالص. في المنتصف، تبلور شعاع ضوئي يحرس السر الأكبر. قال ${g.name}: "يا ${hero}، لقد وصلت إلى هنا بفضل صدقك وعزمك النبيل."`,
         wisdomQuote: 'الكنوز الحقيقية ليست قطع الذهب، بل المعرفة التي تضيء دروب البشر.',
         funFact: 'استخدم الفراعنة حجر اللازورد الأزرق الملكي لتزيين مقابر الملوك دلالة على قدسية السماء.',
-        badge: 'حارس الغرفة السرية 🗝️',
+        badge: 'حارس الغرفة السرية ',
       },
       {
         pageNumber: 6,
@@ -188,7 +188,7 @@ export function getStoryPages(
         storyText: `ظهر ميزان العدالة "ماعت" متألقاً بنور فضي. طُلب من ${hero} أن يضع أثمن ما يملكه على كفة الميزان؛ فوضع رغبته الصادقة في مساعدة الآخرين وحماية آثار وطنه. استقرت كفتا الميزان في توازن تام، وانطلقت نغمات موسيقية ساحرة ملأت المكان!`,
         wisdomQuote: 'القلب الصادق المحب للخير أثقل في ميزان الحياة من كل أموال الدنيا.',
         funFact: 'كانت "ماعت" تمثل ميزان الكون وقيم الصدق والعدل والنظام الأخلاقي في مصر القديمة.',
-        badge: 'القلب النبيل 💖',
+        badge: 'القلب النبيل ',
       },
       {
         pageNumber: 7,
@@ -196,7 +196,7 @@ export function getStoryPages(
         storyText: `أشرقت شمس النصر وتوج ${g.name} بطلنا الصغير ${hero} بقلادة الشرف الملكية ووسام الجعران المذهب! هتفت المعالم والطيور فخراً بالبطل الشجاع: "عاش ${hero} حامي أسرار مصر!" وعاد إلى بيته فخوراً بحضارة وطنه الخالدة التي لا تموت.`,
         wisdomQuote: 'أنت الآن سفير لتاريخ عظيم، احفظ تراث أجدادك في قلبك إلى الأبد.',
         funFact: 'الجعران المجنح كان تميمة الحظ والتجدد والأمل الدائم في مصر القديمة.',
-        badge: 'وسام البطل الأسطوري 👑',
+        badge: 'وسام البطل الأسطوري ',
       },
     ],
 
@@ -207,7 +207,7 @@ export function getStoryPages(
         storyText: `On a glowing afternoon with Egyptian sun casting amber reflections over ancient sands, ${hero} found a mysterious luminous papyrus scroll. It bore a secret trail leading straight to ${q.title}! ${hero}’s heart leaped with excitement, ready to embark on an unforgettable quest.`,
         wisdomQuote: 'Every legendary quest begins with pure curiosity and a courageous first step.',
         funFact: 'Ancient Egyptians invented papyrus from reeds along the Nile, writing their poetry and architectural secrets upon it.',
-        badge: 'Scroll Explorer 📜',
+        badge: 'Scroll Explorer ',
       },
       {
         pageNumber: 2,
@@ -215,7 +215,7 @@ export function getStoryPages(
         storyText: `Suddenly, radiant golden beams parted the skies as ${g.name} descended with divine grace. Smiling warmly at ${hero}, the guardian spoke: "Welcome, brave ${hero}! Ancient Egypt chose you because your heart is pure and eager to learn." A magical talisman was placed in ${hero}’s hand.`,
         wisdomQuote: g.motto,
         funFact: `${g.title}, revered across magnificent ancient temples for millenniums.`,
-        badge: 'Guardian’s Ally 🛡️',
+        badge: 'Guardian’s Ally ',
       },
       {
         pageNumber: 3,
@@ -223,7 +223,7 @@ export function getStoryPages(
         storyText: `Arriving at the threshold of ${q.title}, they met a colossal portal glowing with sacred glyphs: "I run forever without feet, and give life to every valley—what am I?" ${hero} smiled and said proudly: "The eternal River Nile!" Instantly, the inscriptions shone turquoise and swung open!`,
         wisdomQuote: 'Sharp observation and love for nature can unlock the heaviest doors.',
         funFact: 'Egyptians called the Nile "Hapi", celebrating the miraculous annual inundation that fertilized the land.',
-        badge: 'Riddle Solver 💡',
+        badge: 'Riddle Solver ',
       },
       {
         pageNumber: 4,
@@ -231,7 +231,7 @@ export function getStoryPages(
         storyText: `Aboard an enchanted golden felucca, ${hero} and ${g.name} glided over azure ripples. Graceful ibis birds flew overhead as ${g.name} recounted how master architects built celestial monuments with pinpoint astronomical precision.`,
         wisdomQuote: 'The Nile is a faithful friend that whispers centuries of wisdom to those who listen.',
         funFact: 'Ancient Egyptian wooden boats were built without metal nails, skillfully tied with ropes that expanded when wet to stay watertight.',
-        badge: 'Nile Captain ⛵',
+        badge: 'Nile Captain ',
       },
       {
         pageNumber: 5,
@@ -239,7 +239,7 @@ export function getStoryPages(
         storyText: `Stepping into the innermost vault, surrounded by lapis lazuli and shimmering electrum, a suspended cosmic orb illuminated the chamber. ${g.name} whispered: "Look, ${hero}, this ancient sanctuary has preserved its harmony waiting for someone noble like you."`,
         wisdomQuote: 'True treasures are not gold and gems, but knowledge that brings light to humanity.',
         funFact: 'Lapis lazuli was imported through ancient trade routes because its deep blue resembled the sacred starlit night sky.',
-        badge: 'Vault Keeper 🗝️',
+        badge: 'Vault Keeper ',
       },
       {
         pageNumber: 6,
@@ -247,7 +247,7 @@ export function getStoryPages(
         storyText: `The shimmering Scales of Ma'at appeared. Asked to present the truest treasure, ${hero} placed a sincere wish to protect nature and share knowledge with all children. The scales balanced in perfect harmony, radiating warm rainbow hues!`,
         wisdomQuote: 'A loving, unselfish heart outweighs all worldly riches upon the cosmic scale.',
         funFact: 'Ma\'at was the ancient concept of truth, justice, cosmic balance, and harmony with people and nature.',
-        badge: 'Noble Heart 💖',
+        badge: 'Noble Heart ',
       },
       {
         pageNumber: 7,
@@ -255,7 +255,7 @@ export function getStoryPages(
         storyText: `Triumphant sunbeams broke through the sanctuary as ${g.name} crowned ${hero} with the golden winged scarab badge! The ancient temples echoed: "All hail ${hero}, forever guardian of Egypt’s wonders!" Returning home, ${hero} held a heart ablaze with pride in Egypt’s heritage.`,
         wisdomQuote: 'You are now an ambassador of timeless history; carry this flame wherever you go.',
         funFact: 'The winged scarab symbolized resurrection, bright dawn, and endless hope in ancient Egypt.',
-        badge: 'Legendary Hero Medal 👑',
+        badge: 'Legendary Hero Medal ',
       },
     ],
 
@@ -266,7 +266,7 @@ export function getStoryPages(
         storyText: `Par un après-midi doré caressé par le vent du désert, ${hero} découvrit un mystérieux papyrus scintillant. Il révélait un passage secret vers ${q.title}! Le cœur de ${hero} bondit de joie, impatient de vivre la plus belle des aventures égyptiennes.`,
         wisdomQuote: 'Chaque grande aventure commence par un cœur curieux et un pas courageux vers l’inconnu.',
         funFact: 'Les Égyptiens anciens fabriquaient le papyrus à partir de roseaux du Nil pour y inscrire leurs secrets.',
-        badge: 'Explorateur de Papyrus 📜',
+        badge: 'Explorateur de Papyrus ',
       },
       {
         pageNumber: 2,
@@ -274,7 +274,7 @@ export function getStoryPages(
         storyText: `Soudain, un éclat lumineux illumina le ciel et ${g.name} apparut dans toute sa majesté. D'une voix bienveillante, le gardien murmura : "Bienvenue, vaillant ${hero}! L'Égypte t'a choisi pour la pureté de ton cœur et ta soif d'apprendre."`,
         wisdomQuote: g.motto,
         funFact: `${g.title}, vénéré à travers les temples millénaires de l’Égypte antique.`,
-        badge: 'Allié du Gardien 🛡️',
+        badge: 'Allié du Gardien ',
       },
       {
         pageNumber: 3,
@@ -282,7 +282,7 @@ export function getStoryPages(
         storyText: `Arrivés devant ${q.title}, une immense porte ornée de hiéroglyphes luisants barra le chemin : "Je cours sans jambes et nourris chaque vallée, qui suis-je ?" ${hero} sourit et déclara : "Le Nil sacré !" Aussitôt, la porte s'ouvrit dans une lueur turquoise.`,
         wisdomQuote: 'L’intelligence et l’écoute de la nature ouvrent les portes les plus impénétrables.',
         funFact: 'Le Nil était célébré chaque année pour ses crues bienfaisantes fertilisant la terre noire d’Égypte.',
-        badge: 'Résolveur d’Énigmes 💡',
+        badge: 'Résolveur d’Énigmes ',
       },
       {
         pageNumber: 4,
@@ -290,7 +290,7 @@ export function getStoryPages(
         storyText: `À bord d'une felouque dorée, ${hero} et ${g.name} glissèrent sur les eaux paisibles du Nil. Des oiseaux sacrés survolaient le navire tandis que ${g.name} racontait le génie des astronomes et architectes pharaoniques.`,
         wisdomQuote: 'Le Nil est un ami fidèle qui confie la mémoire des rois à qui sait écouter.',
         funFact: 'Les barques solaires étaient assemblées sans clous métalliques grâce à des cordages ingénieux.',
-        badge: 'Capitaine du Nil ⛵',
+        badge: 'Capitaine du Nil ',
       },
       {
         pageNumber: 5,
@@ -298,7 +298,7 @@ export function getStoryPages(
         storyText: `Pénétrant dans la chambre secrète parée de lapis-lazuli et d'or fin, un orbe céleste flottait dans l'air. ${g.name} dit doucement : "${hero}, ce sanctuaire millénaire t'attendait pour réveiller sa lumière bienveillante."`,
         wisdomQuote: 'Le vrai trésor n’est pas fait d’or, mais de savoir qui éclaire le monde.',
         funFact: 'Le lapis-lazuli était considéré comme la pierre sacrée symbolisant la voûte céleste constellée.',
-        badge: 'Gardien de la Crypte 🗝️',
+        badge: 'Gardien de la Crypte ',
       },
       {
         pageNumber: 6,
@@ -306,7 +306,7 @@ export function getStoryPages(
         storyText: `La balance étincelante de Maât apparut dans un halo d'argent. ${hero} y déposa son désir sincère d'aimer, de partager et de protéger les merveilles de la terre. Les deux plateaux s'équilibrèrent dans une harmonie parfaite !`,
         wisdomQuote: 'Un cœur généreux et sincère pèse plus lourd que toutes les richesses de l’univers.',
         funFact: 'La déesse Maât incarnait la justice, la vérité et l’ordre cosmique dans la pensée égyptienne.',
-        badge: 'Cœur Noble 💖',
+        badge: 'Cœur Noble ',
       },
       {
         pageNumber: 7,
@@ -314,7 +314,7 @@ export function getStoryPages(
         storyText: `Sous les ovations des étoiles, ${g.name} remit à ${hero} la médaille d'or du scarabée ailé ! "Gloire à ${hero}, protecteur des mystères d’Égypte !" De retour chez lui, ${hero} garda pour toujours la fierté de cette civilisation immortelle.`,
         wisdomQuote: 'Tu es désormais l’ambassadeur d’une histoire éternelle ; protège-la avec fierté.',
         funFact: 'Le scarabée ailé symbolisait la renaissance, la lumière du matin et l’espoir perpétuel.',
-        badge: 'Médaille du Héros Légendaire 👑',
+        badge: 'Médaille du Héros Légendaire ',
       },
     ],
 
@@ -325,7 +325,7 @@ export function getStoryPages(
         storyText: `In un caldo pomeriggio d'Egitto con la sabbia baciata da raggi dorati, ${hero} trovò un antico papiro splendente. Conteneva una mappa segreta verso ${q.title}! Il cuore di ${hero} batté forte di felicità, pronto per la grande avventura.`,
         wisdomQuote: 'Ogni grande viaggio inizia con un cuore curioso e un primo passo coraggioso.',
         funFact: 'Gli antichi egizi ricavavano il papiro dalle piante lungo il Nilo per scrivere le loro formule magiche.',
-        badge: 'Esploratore di Papiri 📜',
+        badge: 'Esploratore di Papiri ',
       },
       {
         pageNumber: 2,
@@ -333,7 +333,7 @@ export function getStoryPages(
         storyText: `Improvvisamente, un fascio di luce squarciò il cielo e ${g.name} apparve maestoso. Sorridendo a ${hero}, disse con voce rassicurante: "Benvenuto, coraggioso ${hero}! L'Egitto ti ha scelto per la tua nobiltà d'animo."`,
         wisdomQuote: g.motto,
         funFact: `${g.title}, venerato da millenni nei più imponenti templi lungo il Nilo.`,
-        badge: 'Alleato del Guardiano 🛡️',
+        badge: 'Alleato del Guardiano ',
       },
       {
         pageNumber: 3,
@@ -341,7 +341,7 @@ export function getStoryPages(
         storyText: `Giunti davanti a ${q.title}, un portale scolpito brillò di geroglifici: "Scorro senza piedi e porto vita a ogni valle: chi sono?" ${hero} rispose prontamente: "L'eterno fiume Nilo!" Il portale si schiuse in un bagliore turchese!`,
         wisdomQuote: 'L’ingegno e l’armonia con la natura aprono anche le porte più pesanti.',
         funFact: 'Gli egizi chiamavano il Nilo "Hapi", celebrando le sue acque che rendevano fertile la terra.',
-        badge: 'Risolutore di Enigmi 💡',
+        badge: 'Risolutore di Enigmi ',
       },
       {
         pageNumber: 4,
@@ -349,7 +349,7 @@ export function getStoryPages(
         storyText: `A bordo di una feluca dorata, ${hero} e ${g.name} solcarono le calme acque fluviali mentre uccelli ibis volavano leggeri. ${g.name} narrò come gli architetti costruirono templi allineati alle stelle.`,
         wisdomQuote: 'Il Nilo è un amico fedele che custodisce i segreti della storia millenaria.',
         funFact: 'Le imbarcazioni faraoniche venivano costruite con assi di legno unite da corde speciali senza chiodi metallici.',
-        badge: 'Capitano del Nilo ⛵',
+        badge: 'Capitano del Nilo ',
       },
       {
         pageNumber: 5,
@@ -357,7 +357,7 @@ export function getStoryPages(
         storyText: `Entrati nella camera più nascosta, decorata con lapislazzuli e oro, un globo di luce sospeso brillava soavemente. ${g.name} sussurrò: "${hero}, questo antico santuario ha atteso a lungo la tua luce generosa."`,
         wisdomQuote: 'La vera ricchezza non è l’oro, ma la conoscenza che porta pace nel mondo.',
         funFact: 'I lapislazzuli venivano scelti dai faraoni perché il loro blu intenso ricordava il cielo notturno.',
-        badge: 'Custode della Cripta 🗝️',
+        badge: 'Custode della Cripta ',
       },
       {
         pageNumber: 6,
@@ -365,7 +365,7 @@ export function getStoryPages(
         storyText: `Apparve la Bilancia di Ma'at lucente d'argento. ${hero} vi depose il proprio desiderio sincero di proteggere il pianeta e amare la propria famiglia. I piatti della bilancia rimasero in perfetto equilibrio tra mille arcobaleni!`,
         wisdomQuote: 'Un cuore puro e generoso pesa più di tutti i tesori della Terra.',
         funFact: 'Ma\'at rappresentava la giustizia, l’equilibrio cosmico e l’onestà nell’antico Egitto.',
-        badge: 'Cuore Nobile 💖',
+        badge: 'Cuore Nobile ',
       },
       {
         pageNumber: 7,
@@ -373,7 +373,7 @@ export function getStoryPages(
         storyText: `Tra gli applausi celesti, ${g.name} conferì a ${hero} la medaglia d’oro dello scarabeo alato! "Gloria a ${hero}, custode dei tesori d'Egitto!" Tornato a casa, ${hero} conservò nel cuore l'orgoglio per questa civiltà eterna.`,
         wisdomQuote: 'Ora sei un custode ufficiale della storia; custodiscine la fiamma per sempre.',
         funFact: 'Lo scarabeo alato era simbolo di rinascita, nuova luce del mattino e speranza infinita.',
-        badge: 'Medaglia dell’Eroe 👑',
+        badge: 'Medaglia dell’Eroe ',
       },
     ],
 
@@ -384,7 +384,7 @@ export function getStoryPages(
         storyText: `En una tarde dorada con el sol iluminando las arenas sagradas de Egipto, ${hero} encontró un antiguo papiro resplandeciente. ¡Señalaba una ruta oculta hacia ${q.title}! El corazón de ${hero} latió con emoción, listo para vivir una aventura inolvidable.`,
         wisdomQuote: 'Toda gran aventura comienza con curiosidad sincera y un primer paso valiente.',
         funFact: 'Los antiguos egipcios creaban papiro a partir de juncos del Nilo para registrar sus conocimientos.',
-        badge: 'Explorador de Papiros 📜',
+        badge: 'Explorador de Papiros ',
       },
       {
         pageNumber: 2,
@@ -392,7 +392,7 @@ export function getStoryPages(
         storyText: `De pronto, un resplandor dorado iluminó el cielo y ${g.name} descendió con gracia divina. Mirando a ${hero}, exclamó con ternura: "¡Bienvenido, noble ${hero}! Egipto te ha elegido por la pureza de tu corazón y tu espíritu intrépido."`,
         wisdomQuote: g.motto,
         funFact: `${g.title}, adorado durante miles de años en los grandes templos egipcios.`,
-        badge: 'Aliado del Guardián 🛡️',
+        badge: 'Aliado del Guardián ',
       },
       {
         pageNumber: 3,
@@ -400,7 +400,7 @@ export function getStoryPages(
         storyText: `Llegaron a la entrada de ${q.title}, donde un gran portal mostraba jeroglíficos brillantes: "Corro sin pies y doy vida a cada valle: ¿quién soy?" ${hero} sonrió y respondió con seguridad: "¡El eterno río Nilo!" Al instante, el portal se abrió suavemente.`,
         wisdomQuote: 'La sabiduría y el respeto a la naturaleza abren las puertas más difíciles.',
         funFact: 'Los egipcios llamaban al Nilo "Hapi", honrando las aguas que fertilizaban los campos del país.',
-        badge: 'Descifrador de Enigmas 💡',
+        badge: 'Descifrador de Enigmas ',
       },
       {
         pageNumber: 4,
@@ -408,7 +408,7 @@ export function getStoryPages(
         storyText: `A bordo de una falúa dorada, ${hero} y ${g.name} surcaron las aguas tranquilas mientras aves sagradas volaban cerca. ${g.name} relató cómo los antiguos maestros alinearon sus templos con las estrellas del firmamento.`,
         wisdomQuote: 'El Nilo es un amigo leal que susurra historias milenarias a quienes saben escuchar.',
         funFact: 'Los barcos egipcios se construían uniendo maderas con cuerdas especiales sin usar clavos de hierro.',
-        badge: 'Capitán del Nilo ⛵',
+        badge: 'Capitán del Nilo ',
       },
       {
         pageNumber: 5,
@@ -416,7 +416,7 @@ export function getStoryPages(
         storyText: `Al entrar en la cámara sagrada decorada con lapislázuli y oro puro, una esfera cósmica flotaba en el centro. ${g.name} susurró: "${hero}, este santuario guardó su luz esperando la llegada de un corazón bondadoso como el tuyo."`,
         wisdomQuote: 'El mayor tesoro no es el oro, sino el conocimiento que ilumina al mundo.',
         funFact: 'El lapislázuli azul era muy cotizado porque recordaba el cielo estrellado de los dioses.',
-        badge: 'Guardián de la Cámara 🗝️',
+        badge: 'Guardián de la Cámara ',
       },
       {
         pageNumber: 6,
@@ -424,7 +424,7 @@ export function getStoryPages(
         storyText: `Apareció la Balanza de Ma'at resplandeciendo en plata. ${hero} colocó en el platillo su deseo sincero de cuidar el planeta y compartir alegría con sus amigos. ¡La balanza quedó en perfecto equilibrio emanando luz de colores!`,
         wisdomQuote: 'Un corazón bondadoso pesa más en la vida que todas las riquezas del universo.',
         funFact: 'Ma\'at representaba la verdad, la armonía universal y la justicia ética en Egipto.',
-        badge: 'Corazón Noble 💖',
+        badge: 'Corazón Noble ',
       },
       {
         pageNumber: 7,
@@ -432,7 +432,7 @@ export function getStoryPages(
         storyText: `¡${g.name} colocó sobre el pecho de ${hero} la medalla del escarabajo dorado! Todos los templos resonaron con alegría: "¡Viva ${hero}, guardián de los tesoros de Egipto!" Al volver a casa, ${hero} llevó consigo un orgullo eterno por esta gran historia.`,
         wisdomQuote: 'Ahora eres guardián oficial de la historia; mantén vivo este legado con honor.',
         funFact: 'El escarabajo alado simbolizaba el renacimiento, el nuevo amanecer y la esperanza infinita.',
-        badge: 'Medalla del Héroe Legendario 👑',
+        badge: 'Medalla del Héroe Legendario ',
       },
     ],
 
@@ -443,7 +443,7 @@ export function getStoryPages(
         storyText: `Теплым египетским днем, когда золотые лучи заката озаряли пески, ${hero} нашел загадочный светящийся папирус. На нем была тайная карта, ведущая к ${q.title}! Сердце ${hero} забилось от восторга в предвкушении великого приключения.`,
         wisdomQuote: 'Любое легендарное путешествие начинается с доброго любопытства и смелого шага.',
         funFact: 'Древние египтяне делали папирус из тростника, растущего вдоль Нила, сохраняя мудрость веков.',
-        badge: 'Исследователь Папирусов 📜',
+        badge: 'Исследователь Папирусов ',
       },
       {
         pageNumber: 2,
@@ -451,7 +451,7 @@ export function getStoryPages(
         storyText: `Внезапно небеса озарились сиянием, и перед ${hero} предстал величественный ${g.name}. С теплой улыбкой защитник произнес: "Приветствую тебя, отважный ${hero}! Земля фараонов выбрала тебя за чистое сердце и жажду знаний!"`,
         wisdomQuote: g.motto,
         funFact: `${g.title}, почитаемый в древних святилищах на протяжении тысячелетий.`,
-        badge: 'Союзник Стража 🛡️',
+        badge: 'Союзник Стража ',
       },
       {
         pageNumber: 3,
@@ -459,7 +459,7 @@ export function getStoryPages(
         storyText: `Подойдя к ${q.title}, они увидели врата с иероглифами: "Я теку без ног и дарю жизнь каждой долине. Кто я?" ${hero} с улыбкой ответил: "Это священный Нил!" Иероглифы вспыхнули бирюзой, и врата распахнулись!`,
         wisdomQuote: 'Острый ум и любовь к природе открывают даже самые неприступные двери.',
         funFact: 'Египтяне называли Нил словом "Хапи", восхваляя ежегодные разливы, дарившие богатый урожай.',
-        badge: 'Хранитель Разгадок 💡',
+        badge: 'Хранитель Разгадок ',
       },
       {
         pageNumber: 4,
@@ -467,7 +467,7 @@ export function getStoryPages(
         storyText: `На волшебной золотой фелуке ${hero} и ${g.name} скользили по бирюзовой глади реки. Стаи птиц кружили в вышине, пока ${g.name} рассказывал о строителях, воздвигавших храмы с точностью звезд.`,
         wisdomQuote: 'Нил — верный друг, открывающий тайны прошлого тем, кто умеет слушать.',
         funFact: 'Древние лодки собирались без железных гвоздей — доски скреплялись особыми канатами.',
-        badge: 'Капитан Нила ⛵',
+        badge: 'Капитан Нила ',
       },
       {
         pageNumber: 5,
@@ -475,7 +475,7 @@ export function getStoryPages(
         storyText: `Они вошли в потайную комнату, украшенную золотом и лазуритом. В центре сияла парящая звездная сфера. ${g.name} прошептал: "${hero}, святилище ждало именно твоего доброго света!"`,
         wisdomQuote: 'Истинное сокровище — это не золото, а знания, несущие свет людям.',
         funFact: 'Синий лазурит ценился фараонами как символ звездного ночного неба богов.',
-        badge: 'Хранитель Покоев 🗝️',
+        badge: 'Хранитель Покоев ',
       },
       {
         pageNumber: 6,
@@ -483,7 +483,7 @@ export function getStoryPages(
         storyText: `Появились сияющие весы Маат. ${hero} положил на чашу свое искреннее желание помогать близким и беречь историю. Чаши весов застыли в идеальном равновесии, озарившись радужными лучами!`,
         wisdomQuote: 'Искреннее и доброе сердце весит больше всех земных сокровищ.',
         funFact: 'Богиня Маат олицетворяла справедливость, истину и космический порядок.',
-        badge: 'Благородное Сердце 💖',
+        badge: 'Благородное Сердце ',
       },
       {
         pageNumber: 7,
@@ -491,7 +491,7 @@ export function getStoryPages(
         storyText: `Под сиянием звезд ${g.name} вручил ${hero} золотой медальон крылатого скарабея! "Слава ${hero}, защитнику чудес Египта!" Возвращаясь домой, ${hero} навсегда сохранил в душе гордость за великую историю.`,
         wisdomQuote: 'Теперь ты хранитель древнего наследия; неси этот свет с честью.',
         funFact: 'Крылатый скарабей символизировал возрождение, утренний рассвет и бесконечную надежду.',
-        badge: 'Медаль Легендарного Героя 👑',
+        badge: 'Медаль Легендарного Героя ',
       },
     ],
 
@@ -502,7 +502,7 @@ export function getStoryPages(
         storyText: `在一个微风和煦的午后，当夕阳为古老的埃及沙漠披上金色轻纱，${hero}发现了一卷发光的神秘莎草纸。上面绘有一幅通往${q.title}的隐秘地图！${hero}心中充满好奇与期待，准备踏上一场难忘的历史大冒险。`,
         wisdomQuote: '每一次传奇的探险，都始于纯真的好奇与迈向未知的第一步。',
         funFact: '古埃及人利用尼罗河畔生长的莎草制作纸张，并在上面书写璀璨的历史与诗歌。',
-        badge: '莎草纸探险家 📜',
+        badge: '莎草纸探险家 ',
       },
       {
         pageNumber: 2,
@@ -510,7 +510,7 @@ export function getStoryPages(
         storyText: `刹那间，天空中金光璀璨，威武仁慈的${g.name}展翅而降。神祇注视着${hero}，微笑着说：“勇敢的${hero}，古埃及大地选择你，因为你拥有一颗纯洁的心灵与对知识的热忱！”并递给小英雄一枚发光的守护护身符。`,
         wisdomQuote: g.motto,
         funFact: `${g.title}，在古埃及神庙中受到千家万户的虔诚崇敬。`,
-        badge: '守护者之友 🛡️',
+        badge: '守护者之友 ',
       },
       {
         pageNumber: 3,
@@ -518,7 +518,7 @@ export function getStoryPages(
         storyText: `来到${q.title}门前，一座刻满发光象形文字的巨门赫然耸立：“我无足却能奔流，为大地灌注生机——我是谁？”${hero}聪慧地微笑道：“是孕育文明的尼罗河！”文字随即泛起清澈的绿松石光芒，巨门缓缓开启！`,
         wisdomQuote: '智慧的思索与对大自然的观察，能解开世间最坚固的石锁。',
         funFact: '古埃及人将尼罗河水神化为“哈匹”，感谢它年复一年滋养沿岸肥沃的黑土地。',
-        badge: '字谜破解大师 💡',
+        badge: '字谜破解大师 ',
       },
       {
         pageNumber: 4,
@@ -526,7 +526,7 @@ export function getStoryPages(
         storyText: `登上泛着金光的帆船，${hero}与${g.name}在蔚蓝水面上破浪前行。圣洁的朱鹭在头顶盘旋，${g.name}娓娓道来当年建筑大师与天文学家如何借由星辰运转建造出奇迹般的殿堂。`,
         wisdomQuote: '尼罗河是忠实的朋友，在潺潺水声中向倾听者诉说千年的智慧。',
         funFact: '古埃及的大型木船不用铁钉，而是用坚韧的绳索紧密编织，遇水后膨胀更为紧固密封。',
-        badge: '尼罗河金牌船长 ⛵',
+        badge: '尼罗河金牌船长 ',
       },
       {
         pageNumber: 5,
@@ -534,7 +534,7 @@ export function getStoryPages(
         storyText: `踏入密室，四周镶嵌着青金石与耀眼纯金，正中央一颗星辰光球缓缓漂浮运转。${g.name}轻声说：“${hero}，这座神圣殿堂一直在等待如你这般善良的孩子点亮它的永恒光芒。”`,
         wisdomQuote: '真正的宝藏不是金银，而是照亮人类心灵与未来的崇高智慧。',
         funFact: '古埃及贵族视深蓝色的青金石为至宝，因其宛若布满繁星的神圣夜空。',
-        badge: '密室守门人 🗝️',
+        badge: '密室守门人 ',
       },
       {
         pageNumber: 6,
@@ -542,7 +542,7 @@ export function getStoryPages(
         storyText: `象征真理与平衡的“玛阿特神秤”闪耀着银色圣光。${hero}将渴望守护地球、珍爱家人与探索世界的赤子之心放在天平上；两端瞬间达到天衣无缝的完美平衡，彩虹光芒洒满殿堂！`,
         wisdomQuote: '一颗充满爱与善良的心，在生命的天平上远重于世间的一切财富。',
         funFact: '“玛阿特”在古埃及代表正义、真理、道德法则与宇宙和谐秩序。',
-        badge: '崇高之心 💖',
+        badge: '崇高之心 ',
       },
       {
         pageNumber: 7,
@@ -550,7 +550,7 @@ export function getStoryPages(
         storyText: `晨曦破晓，${g.name}亲手为${hero}佩戴上金色的飞翼圣甲虫勋章！神庙与群鸟齐声欢呼：“致敬${hero}，守护文明遗迹的小小英雄！”带着荣耀与自豪，${hero}踏上归途，永远铭记这片古老土地的荣光。`,
         wisdomQuote: '你现在是古老历史的小小守护者，愿你永远葆有这份自豪与探索热情。',
         funFact: '飞翼圣甲虫是古埃及重生、清晨朝阳与永恒希望的最著名神圣象征。',
-        badge: '传奇小英雄金质奖章 👑',
+        badge: '传奇小英雄金质奖章 ',
       },
     ],
   };
@@ -809,7 +809,7 @@ export default function KidsInteractiveStorybook() {
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6 px-2">
         <div className="flex items-center gap-2">
           <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-[#C9A84C] to-amber-300 flex items-center justify-center text-black font-extrabold shadow-[0_0_20px_rgba(201,168,76,0.5)]">
-            ✨
+            
           </div>
           <div>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-[#E2CB85] to-[#C9A84C]">
@@ -880,7 +880,7 @@ export default function KidsInteractiveStorybook() {
                 className="w-full bg-[#070D1F] border-2 border-[#C9A84C]/40 focus:border-[#C9A84C] rounded-2xl px-5 py-3 text-sm sm:text-base text-white placeholder-gray-500 focus:outline-none transition-all shadow-inner"
               />
               <span className="absolute end-4 top-1/2 -translate-y-1/2 text-lg">
-                👑
+                
               </span>
             </div>
           </div>
@@ -900,7 +900,7 @@ export default function KidsInteractiveStorybook() {
               {(['horus', 'anubis', 'bastet'] as GuardianId[]).map((gId) => {
                 const meta = GUARDIANS_META[gId][activeStoryLang];
                 const isSelected = selectedGuardian === gId;
-                const icon = gId === 'horus' ? '🦅' : gId === 'anubis' ? '🐺' : '🐱';
+                const icon = gId === 'horus' ? '' : gId === 'anubis' ? '' : '';
                 return (
                   <button
                     key={gId}
@@ -951,7 +951,7 @@ export default function KidsInteractiveStorybook() {
               {(['pyramid', 'abusimbel', 'ankh'] as QuestId[]).map((qId) => {
                 const meta = QUESTS_META[qId][activeStoryLang];
                 const isSelected = selectedQuest === qId;
-                const icon = qId === 'pyramid' ? '🏛️' : qId === 'abusimbel' ? '☀️' : '🗝️';
+                const icon = qId === 'pyramid' ? '' : qId === 'abusimbel' ? '' : '';
                 return (
                   <button
                     key={qId}
@@ -1017,8 +1017,8 @@ export default function KidsInteractiveStorybook() {
               <BookOpen className="w-5 h-5 fill-current" />
               <span>
                 {activeStoryLang === 'ar'
-                  ? 'افتح الكتاب الرقمي وابدأ القصة (7 فصول) ➔'
-                  : 'Open the Digital Book & Read (7 Pages) ➔'}
+                  ? 'افتح الكتاب الرقمي وابدأ القصة (7 فصول) '
+                  : 'Open the Digital Book & Read (7 Pages) '}
               </span>
             </button>
           </div>
@@ -1063,11 +1063,11 @@ export default function KidsInteractiveStorybook() {
                       : 'Loading Voice...'
                     : isSpeaking
                     ? activeStoryLang === 'ar'
-                      ? 'إيقاف السرد ⏹️'
-                      : 'Stop Narration ⏹️'
+                      ? 'إيقاف السرد ⏹'
+                      : 'Stop Narration ⏹'
                     : activeStoryLang === 'ar'
-                    ? 'اقرأ لي بصوت عالٍ 🔊'
-                    : 'Read Aloud 🔊'}
+                    ? 'اقرأ لي بصوت عالٍ '
+                    : 'Read Aloud '}
                 </span>
               </button>
 
@@ -1183,7 +1183,7 @@ export default function KidsInteractiveStorybook() {
 
                       {/* Guardian Wisdom Quote Box */}
                       <div className="mt-6 p-4 rounded-2xl bg-[#C9A84C]/10 border border-[#C9A84C]/30 flex items-start gap-3">
-                        <span className="text-2xl shrink-0 mt-0.5">📜</span>
+                        <span className="text-2xl shrink-0 mt-0.5"></span>
                         <div>
                           <span className="text-xs font-bold text-[#E2CB85] block mb-1">
                             {activeStoryLang === 'ar'
@@ -1248,8 +1248,8 @@ export default function KidsInteractiveStorybook() {
                           >
                             <span>
                               {activeStoryLang === 'ar'
-                                ? 'مبروك النصر! ابدأ قصة جديدة 👑'
-                                : 'Victory! Read New Adventure 👑'}
+                                ? 'مبروك النصر! ابدأ قصة جديدة '
+                                : 'Victory! Read New Adventure '}
                             </span>
                           </button>
                         )}

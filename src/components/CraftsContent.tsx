@@ -29,7 +29,7 @@ export default function CraftsContent() {
     : getProducts(t).filter((p: any) => p.category === activeCategory);
 
   return (
-    <div className="min-h-screen bg-[#030712] pt-24 pb-16 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[#FDFBF7] dark:bg-[#030712] text-slate-900 dark:text-white pt-24 pb-16 px-4 sm:px-6 lg:px-8 transition-colors duration-200">
       {/* Demo Banner */}
       <div className="max-w-7xl mx-auto mb-8 bg-yellow-500/20 border border-yellow-500/50 rounded-xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-yellow-500">
         <div className="flex items-start sm:items-center gap-4">
@@ -98,7 +98,7 @@ export default function CraftsContent() {
                 key={product.id}
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="bg-[#0A1628] border border-white/10 rounded-2xl overflow-hidden hover:border-[#C9A84C]/50 transition-colors group"
+                className="bg-[#F8F3E9] dark:bg-[#0A1628] border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white rounded-2xl overflow-hidden hover:border-[#C9A84C]/50 transition-colors group"
               >
                 <div className="w-full h-[200px] bg-[#030712] border-b border-white/10 relative overflow-hidden">
                   <img src={product.image} alt={product.title} className="w-full h-full object-cover" />

@@ -21,7 +21,7 @@ export default function CraftsRegisterContent() {
   };
 
   return (
-    <div className="min-h-screen bg-[#030712] flex items-center justify-center p-4">
+    <div className="min-h-screen bg-[#FDFBF7] dark:bg-[#030712] text-slate-900 dark:text-white flex items-center justify-center p-4 transition-colors duration-200">
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

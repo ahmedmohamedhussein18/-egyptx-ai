@@ -52,7 +52,7 @@ export default function MemoryCoreContent() {
   if (!mounted) return null; // Prevent hydration errors
 
   return (
-    <div className="min-h-screen bg-[#030712] text-slate-200 p-6 md:p-12 relative overflow-hidden">
+    <div className="min-h-screen bg-[#FDFBF7] dark:bg-[#030712] text-slate-900 dark:text-slate-200 p-6 md:p-12 relative overflow-hidden transition-colors duration-200">
       {/* Ambient glows */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#C9A84C]/10 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#0A1628]/50 rounded-full blur-[120px] pointer-events-none" />

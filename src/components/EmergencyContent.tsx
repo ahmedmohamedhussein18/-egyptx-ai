@@ -86,7 +86,7 @@ export default function EmergencyContent() {
   };
 
   return (
-    <div className="min-h-screen bg-[#030712] text-white pt-24 pb-16 font-sans">
+    <div className="min-h-screen bg-[#FDFBF7] dark:bg-[#030712] text-slate-900 dark:text-white pt-24 pb-16 font-sans transition-colors duration-200">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         
         {/* Banner */}

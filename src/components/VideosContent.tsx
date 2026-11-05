@@ -187,7 +187,7 @@ export default function VideosContent() {
   };
 
   return (
-    <div className="min-h-screen bg-[#030712] text-white pt-28 pb-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <div className="min-h-screen bg-[#FDFBF7] dark:bg-[#030712] text-slate-900 dark:text-white pt-28 pb-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden transition-colors duration-200">
       {/* Background Ambient Glows */}
       <div className="absolute top-20 left-1/2 -translate-x-1/2 w-[750px] h-[450px] bg-[#C9A84C]/5 rounded-full blur-[140px] pointer-events-none" />
       <div className="absolute top-[800px] left-10 w-[500px] h-[500px] bg-[#1B6B93]/10 rounded-full blur-[130px] pointer-events-none" />
@@ -200,7 +200,7 @@ export default function VideosContent() {
             <span>Cinematic Reels & Video Gallery · معرض وسائط مصر</span>
           </div>
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight">
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-[#E2CB85] to-[#C9A84C]">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-slate-900 via-[#A68440] to-[#C9A84C] dark:from-white dark:via-[#E2CB85] dark:to-[#C9A84C]">
               Egypt Reels & Cinema
             </span>
             <span className="block text-2xl sm:text-3xl font-bold text-[#E2CB85]/90 mt-2 font-arabic">
@@ -382,7 +382,7 @@ export default function VideosContent() {
                   </p>
 
                   {/* Description */}
-                  <p className="text-xs text-white/80 line-clamp-2 leading-relaxed drop-shadow">
+                  <p className="text-xs text-slate-700 dark:text-white/80 line-clamp-2 leading-relaxed drop-shadow">
                     {currentReel.description}
                   </p>
 
@@ -406,7 +406,7 @@ export default function VideosContent() {
               {/* Copied notification alert */}
               {copiedNotification && (
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 px-4 py-2 rounded-xl bg-black/90 border border-[#C9A84C] text-[#E2CB85] text-xs font-bold shadow-2xl backdrop-blur-md animate-fade-in">
-                  ✓ Link Copied to Clipboard!
+                  Link Copied to Clipboard!
                 </div>
               )}
             </div>
@@ -471,7 +471,7 @@ export default function VideosContent() {
                 <span className="text-[#C9A84C]">·</span>
                 <span className="font-arabic font-normal text-xl text-[#E2CB85]">مصر من عدسة</span>
               </h2>
-              <p className="text-xs sm:text-sm text-white/60">
+              <p className="text-xs sm:text-sm text-slate-500 dark:text-white/60">
                 Widescreen 16:9 cinematic journeys across historical dynasties and panoramic landscapes
               </p>
             </div>

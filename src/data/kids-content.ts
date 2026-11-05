@@ -38,7 +38,7 @@ export const KIDS_FACTS: Fact[] = [
     id: 'f3',
     title: 'Hieroglyphs',
     description: 'Ancient Egyptians used a writing system called hieroglyphs, which used over 700 different pictures as letters and words.',
-    emoji: '️'
+    emoji: ''
   },
   {
     id: 'f4',

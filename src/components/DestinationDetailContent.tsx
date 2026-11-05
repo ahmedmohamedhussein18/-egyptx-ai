@@ -40,7 +40,7 @@ export default function DestinationDetailContent({ id }: { id: string }) {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#030712] flex items-center justify-center">
+      <div className="min-h-screen bg-[#FDFBF7] dark:bg-[#030712] flex items-center justify-center">
         <Loader2 className="w-8 h-8 text-[#C9A84C] animate-spin" />
       </div>
     );
@@ -48,7 +48,7 @@ export default function DestinationDetailContent({ id }: { id: string }) {
 
   if (!attraction) {
     return (
-      <div className="min-h-screen bg-[#030712] flex flex-col items-center justify-center p-4">
+      <div className="min-h-screen bg-[#FDFBF7] dark:bg-[#030712] flex flex-col items-center justify-center p-4">
         <h1 className="text-2xl font-bold text-white mb-4">Destination Not Found</h1>
         <button onClick={() => router.push('/explore')} className="px-6 py-2 bg-[#C9A84C] text-[#0A1628] font-bold rounded-lg">
           Back to Explore
@@ -58,7 +58,7 @@ export default function DestinationDetailContent({ id }: { id: string }) {
   }
 
   return (
-    <div className="min-h-screen bg-[#030712] text-white pt-24 pb-16 font-sans">
+    <div className="min-h-screen bg-[#FDFBF7] dark:bg-[#030712] text-slate-900 dark:text-white pt-24 pb-16 font-sans transition-colors duration-200">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <button

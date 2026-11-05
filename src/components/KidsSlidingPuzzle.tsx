@@ -43,7 +43,7 @@ const THEMES: PuzzleTheme[] = [
 
 const T = {
   ar: {
-    title: "بازل المصريات 🧩",
+    title: "بازل المصريات ",
     subtitle: "حرّك القطع المجاورة للفراغ لإعادة بناء الصورة الأثرية",
     choose: "اختر صورة",
     start: "ابدأ اللعب",
@@ -52,21 +52,21 @@ const T = {
     time: "الوقت",
     sec: "ث",
     xp: "نقاط الخبرة",
-    reset: "🔄 مسح النقاط",
+    reset: " مسح النقاط",
     preview: "معاينة الصورة",
     hint: "اضغط أو اسحب القطعة المجاورة للفراغ",
     validate: "تحقق",
     scanning: "جارِ فحص اللوحة بالذكاء الاصطناعي...",
-    correct: "عقلك المبدع بيكبر كل يوم! 🧠",
-    wrong: "الغلط بيساعدنا نتعلّم ونكبر! 🌱",
+    correct: "عقلك المبدع بيكبر كل يوم! ",
+    wrong: "الغلط بيساعدنا نتعلّم ونكبر! ",
     xpReward: "+50 نقطة خبرة",
-    playAgain: "العب مرة أخرى 🔄",
+    playAgain: "العب مرة أخرى ",
     loading: "جارِ تحميل الصورة...",
     empty: "فراغ",
     lang: "English",
   },
   en: {
-    title: "Egyptian Sliding Puzzle 🧩",
+    title: "Egyptian Sliding Puzzle ",
     subtitle: "Slide the tiles next to the gap to rebuild the ancient image",
     choose: "Choose an image",
     start: "Start Playing",
@@ -75,15 +75,15 @@ const T = {
     time: "Time",
     sec: "s",
     xp: "XP Points",
-    reset: "🔄 Reset Points",
+    reset: " Reset Points",
     preview: "Preview image",
     hint: "Tap or drag a tile next to the gap",
     validate: "Check",
     scanning: "AI is scanning the board...",
-    correct: "Your creative mind grows every day! 🧠",
-    wrong: "Mistakes help us learn and grow! 🌱",
+    correct: "Your creative mind grows every day! ",
+    wrong: "Mistakes help us learn and grow! ",
     xpReward: "+50 XP",
-    playAgain: "Play Again 🔄",
+    playAgain: "Play Again ",
     loading: "Loading image...",
     empty: "Gap",
     lang: "عربي",
@@ -368,7 +368,7 @@ export default function KidsSlidingPuzzle() {
 
       {/* Theme selector */}
       <div className="max-w-3xl mx-auto mb-6 relative z-10">
-        <span className="text-xs font-bold text-gray-300 block mb-2">🖼️ {t.choose}</span>
+        <span className="text-xs font-bold text-gray-300 block mb-2"> {t.choose}</span>
         <div className="grid grid-cols-3 gap-3">
           {THEMES.map((th) => {
             const active = th.id === themeId;
@@ -425,7 +425,7 @@ export default function KidsSlidingPuzzle() {
             title={t.preview}
             className="p-2 rounded-xl bg-[#070D1F] border border-gray-700 hover:border-[#D4AF37] transition-all cursor-pointer text-sm"
           >
-            👁️
+            
           </button>
           <button
             type="button"
@@ -484,7 +484,7 @@ export default function KidsSlidingPuzzle() {
                     }`}
                   >
                     {empty ? (
-                      <span className="text-[10px] text-[#D4AF37]/60 font-semibold">✨ {t.empty}</span>
+                      <span className="text-[10px] text-[#D4AF37]/60 font-semibold"> {t.empty}</span>
                     ) : (
                       <span className="absolute top-1 end-1 bg-[#070D1F]/80 text-[#D4AF37] text-[10px] font-bold px-1.5 py-0.5 rounded-md border border-[#D4AF37]/40 pointer-events-none">
                         {val + 1}
@@ -534,7 +534,7 @@ export default function KidsSlidingPuzzle() {
             aria-label={t.validate}
             className="w-12 h-12 sm:w-14 sm:h-14 shrink-0 rounded-full bg-gradient-to-tr from-rose-600 to-amber-500 border-2 border-white/60 shadow-xl flex items-center justify-center text-xl text-white transition-all cursor-pointer hover:scale-110 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
           >
-            ✓
+            
           </button>
         </div>
 
@@ -545,7 +545,7 @@ export default function KidsSlidingPuzzle() {
               onClick={shuffle}
               className="bg-gradient-to-r from-[#D4AF37] to-[#E2C974] text-[#070D1F] font-extrabold px-8 py-3 rounded-2xl text-sm shadow-[0_0_25px_rgba(212,175,55,0.4)] cursor-pointer hover:scale-105 active:scale-95 transition-all"
             >
-              🎮 {t.start}
+               {t.start}
             </button>
             <p className="text-[11px] text-gray-400 mt-2">{t.hint}</p>
           </div>

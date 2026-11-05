@@ -810,7 +810,7 @@ function TripAssistant() {
             <span className="font-bold text-[#C9A84C] flex items-center gap-1.5 text-sm">
               <Sparkles className="w-4 h-4" /> Trip Assistant
             </span>
-            <button onClick={() => setIsOpen(false)} className="text-white/50 hover:text-white">✕</button>
+            <button onClick={() => setIsOpen(false)} className="text-white/50 hover:text-white">×</button>
           </div>
           <div className="flex-1 p-3 overflow-y-auto space-y-3">
             {msgs.map((m, i) => (
@@ -1515,7 +1515,7 @@ export default function PlannerContent() {
                           className="text-white/40 hover:text-white px-2 py-1 text-xs"
                           title="Clear search"
                         >
-                          ✕
+                          ×
                         </button>
                       )}
                       <button
@@ -1546,7 +1546,7 @@ export default function PlannerContent() {
                                   <span className="text-xs font-bold uppercase tracking-wider text-[#C9A84C]">AI Match Identified</span>
                                   <span className="text-white font-extrabold text-lg">→ {aiDestMatch.dest}</span>
                                   <span className="text-xs px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-semibold flex items-center gap-1">
-                                    ✓ Auto-Selected for Trip
+                                    Auto-Selected for Trip
                                   </span>
                                 </div>
                                 <p className="text-sm text-white/90 mt-1 leading-relaxed">
@@ -1923,7 +1923,7 @@ export default function PlannerContent() {
                             }`}
                           >
                             {checkedInDays[day.day] ? (
-                              '✓ تم التسجيل'
+                              'تم التسجيل'
                             ) : (
                               <>
                                 <MapPin className="w-3.5 h-3.5" />

@@ -210,11 +210,11 @@ export default function AIGuideContent() {
   };
 
   if (authLoading || !user) {
-    return <div className="min-h-screen bg-[#030712] flex items-center justify-center"><Loader2 className="w-8 h-8 text-[#C9A84C] animate-spin" /></div>;
+    return <div className="min-h-screen bg-[#FDFBF7] dark:bg-[#030712] flex items-center justify-center"><Loader2 className="w-8 h-8 text-[#C9A84C] animate-spin" /></div>;
   }
 
   return (
-    <div className="min-h-screen bg-[#030712] pt-24 pb-16 px-4 sm:px-6 lg:px-8 font-sans">
+    <div className="min-h-screen bg-[#FDFBF7] dark:bg-[#030712] text-slate-900 dark:text-white pt-24 pb-16 px-4 sm:px-6 lg:px-8 font-sans transition-colors duration-200">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-12">
           <motion.div 
@@ -324,7 +324,7 @@ export default function AIGuideContent() {
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-[#0A1628] border border-[#C9A84C]/30 rounded-3xl p-6 sm:p-8 flex-grow flex flex-col relative overflow-hidden"
+                className="bg-[#F8F3E9] dark:bg-[#0A1628] border border-slate-200 dark:border-[#C9A84C]/30 rounded-3xl p-6 sm:p-8 flex-grow flex flex-col text-slate-900 dark:text-white relative overflow-hidden"
               >
                 <div className="absolute top-0 right-0 w-32 h-32 bg-[#C9A84C]/10 rounded-full blur-[50px]" />
                 
@@ -337,7 +337,7 @@ export default function AIGuideContent() {
                 ) : (
                   <div className="flex flex-col h-full">
                     <div className="mb-6 border-b border-white/10 pb-6">
-                      <h2 className="text-3xl font-bold text-white mb-2">{result.identified_name}</h2>
+                      <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">{result.identified_name}</h2>
                       <div className="flex items-center gap-2">
                         <span className={`px-2 py-1 text-[10px] font-bold uppercase rounded-md border ${
                           result.confidence_level === 'high' ? 'bg-green-500/20 text-green-400 border-green-500/30' :
@@ -356,7 +356,7 @@ export default function AIGuideContent() {
                         </p>
                       </div>
                       <p className="text-xs text-orange-400/80 mt-4 font-medium flex items-start gap-1.5">
-                        <span className="text-orange-400">️</span> AI identification may not be 100% accurate. Always verify with official sources or on-site information.
+                        AI identification may not be 100% accurate. Always verify with official sources or on-site information.
                       </p>
                     </div>
 

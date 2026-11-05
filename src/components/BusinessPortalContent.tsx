@@ -54,7 +54,7 @@ export default function BusinessPortalContent() {
   const [activeTab, setActiveTab] = useState<BusinessType>('Hotels');
 
   return (
-    <div className="min-h-screen bg-[#030712] text-white pt-24 pb-16 font-sans">
+    <div className="min-h-screen bg-[#FDFBF7] dark:bg-[#030712] text-slate-900 dark:text-white pt-24 pb-16 font-sans transition-colors duration-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header Section */}
@@ -83,7 +83,7 @@ export default function BusinessPortalContent() {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2 }}
-            className="flex flex-wrap items-center gap-2 bg-[#0A1628] p-1.5 rounded-xl border border-white/10"
+            className="flex flex-wrap items-center gap-2 bg-slate-100 dark:bg-[#0A1628] p-1.5 rounded-xl border border-slate-200 dark:border-white/10"
           >
             {BUSINESS_TYPES.map((type) => (
               <button

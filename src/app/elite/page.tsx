@@ -43,7 +43,7 @@ export default function ElitePage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#030712] text-white pt-28 pb-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <div className="min-h-screen bg-[#FDFBF7] dark:bg-[#030712] text-slate-900 dark:text-white pt-28 pb-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden transition-colors duration-200">
       {/* Background Ambient Glows */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[850px] h-[550px] bg-[#C9A84C]/10 rounded-full blur-[160px] pointer-events-none" />
       <div className="absolute top-3/4 right-10 w-[500px] h-[500px] bg-[#1B6B93]/15 rounded-full blur-[140px] pointer-events-none" />
@@ -103,7 +103,7 @@ export default function ElitePage() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Enter your email for private early access..."
-                    className="w-full pl-11 pr-32 py-3.5 rounded-2xl bg-[#0A1628]/90 border border-[#C9A84C]/40 text-white placeholder-white/40 text-sm focus:outline-none focus:border-[#C9A84C] focus:ring-1 focus:ring-[#C9A84C] transition-all shadow-[0_0_20px_rgba(0,0,0,0.4)]"
+                    className="w-full pl-11 pr-32 py-3.5 rounded-2xl bg-white dark:bg-[#0A1628]/90 border border-slate-200 dark:border-[#C9A84C]/40 text-slate-900 dark:text-white placeholder-white/40 text-sm focus:outline-none focus:border-[#C9A84C] focus:ring-1 focus:ring-[#C9A84C] transition-all shadow-[0_0_20px_rgba(0,0,0,0.4)]"
                   />
                   <button
                     type="submit"
@@ -169,7 +169,7 @@ export default function ElitePage() {
               return (
                 <div
                   key={perk.titleEn}
-                  className="p-6 rounded-2xl bg-[#0A1628]/80 backdrop-blur-xl border border-[#C9A84C]/30 hover:border-[#C9A84C] transition-all duration-300 shadow-[0_8px_30px_rgba(0,0,0,0.5)] group flex flex-col justify-between"
+                  className="p-6 rounded-2xl bg-[#F8F3E9] dark:bg-[#0A1628]/80 backdrop-blur-xl border border-slate-200 dark:border-[#C9A84C]/30 hover:border-[#C9A84C] transition-all duration-300 shadow-[0_8px_30px_rgba(0,0,0,0.5)] group flex flex-col justify-between"
                 >
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">

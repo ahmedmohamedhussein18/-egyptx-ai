@@ -325,13 +325,13 @@ export default function PharaonicJigsawGame() {
   };
 
   return (
-    <div className="w-full min-h-screen bg-[#070D1F] text-white p-4 md:p-8 font-sans flex flex-col items-center">
+    <div className="w-full min-h-screen bg-[#FDFBF7] dark:bg-[#070D1F] text-slate-900 dark:text-white p-4 md:p-8 font-sans flex flex-col items-center transition-colors duration-200">
       
       {/* Control Bar */}
-      <div className="w-full max-w-6xl bg-[#111C38] border border-[#D4AF37]/40 rounded-2xl p-4 mb-6 flex flex-wrap items-center justify-between gap-4 shadow-xl">
+      <div className="w-full max-w-6xl bg-[#F8F3E9] dark:bg-[#111C38] border border-slate-200 dark:border-[#D4AF37]/40 text-slate-900 dark:text-white rounded-2xl p-4 mb-6 flex flex-wrap items-center justify-between gap-4 shadow-xl">
         <div className="flex items-center gap-3">
           <label className="cursor-pointer bg-[#D4AF37] hover:bg-[#c29d30] text-[#070D1F] font-bold px-4 py-2 rounded-xl text-xs sm:text-sm transition-all shadow-md flex items-center gap-2">
-            <span>📁</span>
+            <span></span>
             <span>ارفع صورتك</span>
             <input
               type="file"
@@ -345,14 +345,14 @@ export default function PharaonicJigsawGame() {
             onClick={setupPuzzlePieces}
             className="bg-gray-800 hover:bg-gray-700 text-gray-200 border border-gray-600 font-bold px-4 py-2 rounded-xl text-xs sm:text-sm transition-all"
           >
-            🔄 بدء من جديد
+             بدء من جديد
           </button>
         </div>
 
         {/* Kids Mode Toggle */}
         <div className="flex items-center gap-3 bg-[#070D1F] px-4 py-2 rounded-xl border border-[#D4AF37]/30">
           <span className="text-xs font-bold text-[#D4AF37]">
-            {isKidsMode ? "👶 Kids Mode" : "🎯 Normal Mode"}
+            {isKidsMode ? " Kids Mode" : " Normal Mode"}
           </span>
           <button
             onClick={() => setIsKidsMode(!isKidsMode)}
@@ -390,9 +390,9 @@ export default function PharaonicJigsawGame() {
         {/* Celebration Winner Banner */}
         {isGameCompleted && (
           <div className="absolute inset-0 bg-[#070D1F]/90 z-40 flex flex-col items-center justify-center p-6 text-center animate-fade-in backdrop-blur-md">
-            <div className="text-6xl mb-4 animate-bounce">🎉 🧠 🏆</div>
+            <div className="text-6xl mb-4 animate-bounce">  </div>
             <h2 className="text-2xl sm:text-3xl font-bold text-[#D4AF37] mb-2">
-              عقلك المبدع بيكبر كل يوم! 🧠
+              عقلك المبدع بيكبر كل يوم! 
             </h2>
             <p className="text-sm text-emerald-300 mb-6">
               تم تركيب جميع القطع بنجاح في {moves} حركة!
@@ -401,7 +401,7 @@ export default function PharaonicJigsawGame() {
               onClick={setupPuzzlePieces}
               className="bg-gradient-to-r from-amber-500 to-[#D4AF37] text-[#070D1F] font-bold px-8 py-3 rounded-2xl text-sm hover:scale-105 transition-all shadow-2xl"
             >
-              العب مرة أخرى 🎮
+              العب مرة أخرى 
             </button>
           </div>
         )}

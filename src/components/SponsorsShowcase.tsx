@@ -334,7 +334,7 @@ export default function SponsorsShowcase() {
     // Show Royal Success Toast
     setToast({
       show: true,
-      title: isAr ? 'تمت إضافة بطاقتك بنجاح! 👑' : 'Ambassador Card Added! 👑',
+      title: isAr ? 'تمت إضافة بطاقتك بنجاح! ' : 'Ambassador Card Added! ',
       message: isAr
         ? `أهلاً بك يا ${newAmbassador.name} كسفير رسمي في معرض EgyptX!`
         : `Welcome ${newAmbassador.name}! Your custom ambassador card is now live on the showcase.`,
@@ -367,7 +367,7 @@ export default function SponsorsShowcase() {
   };
 
   return (
-    <section className="relative py-24 md:py-32 bg-gradient-to-b from-[#030712] via-[#070E1A] to-[#030712] border-t border-[#D4AF37]/20 overflow-hidden text-white">
+    <section className="relative py-24 md:py-32 bg-[#FDFBF7] dark:bg-gradient-to-b dark:from-[#030712] dark:via-[#070E1A] dark:to-[#030712] border-t border-slate-200/80 dark:border-[#D4AF37]/20 overflow-hidden text-[#1A2332] dark:text-white transition-colors duration-200">
       {/* Subtle Pharaonic Hieroglyph Watermark & Gold Halo Backdrops */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[450px] bg-[#D4AF37]/5 rounded-full blur-[140px] pointer-events-none" />
       <div className="absolute -bottom-10 right-0 w-[500px] h-[350px] bg-[#1B6B93]/10 rounded-full blur-[120px] pointer-events-none" />
@@ -735,17 +735,17 @@ export default function SponsorsShowcase() {
         )}
 
         {/* Global Partnership CTA Banner */}
-        <div className="mt-16 rounded-3xl bg-gradient-to-r from-[#0C1628] via-[#101E35] to-[#0A1220] border border-[#D4AF37]/40 p-8 sm:p-10 shadow-[0_0_50px_rgba(212,175,55,0.15)] flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden">
+        <div className="mt-16 rounded-3xl bg-[#F8F3E9] dark:bg-gradient-to-r dark:from-[#0C1628] dark:via-[#101E35] dark:to-[#0A1220] border border-slate-200/80 dark:border-[#D4AF37]/40 p-8 sm:p-10 shadow-sm dark:shadow-[0_0_50px_rgba(212,175,55,0.15)] flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden">
           <div className="absolute -right-16 -top-16 w-52 h-52 bg-[#D4AF37]/10 rounded-full blur-3xl pointer-events-none" />
 
           <div className="space-y-2 max-w-2xl text-center md:text-left">
             <div className="inline-flex items-center gap-2 text-xs font-bold text-[#E2CB85] tracking-wider uppercase">
-              <span>{isAr ? '✨ دعوة VIP حصرية' : '✨ EXCLUSIVE VIP INVITATION'}</span>
+              <span>{isAr ? 'دعوة VIP حصرية' : 'EXCLUSIVE VIP INVITATION'}</span>
             </div>
-            <h3 className="text-2xl sm:text-3xl font-extrabold text-white">
+            <h3 className="text-2xl sm:text-3xl font-extrabold text-[#1A2332] dark:text-white">
               {isAr ? 'قصتك تستحق أن تُخلّد بين العظماء.' : 'Your Story Belongs Among the Greats.'}
             </h3>
-            <p className="text-sm text-white/70">
+            <p className="text-sm text-slate-600 dark:text-white/70">
               {isAr
                 ? 'لأنك تستحق الأفضل بكل تأكيد. أضف صورتك إلى جانب قادة العالم وأيقونات الحضارة، وخلّد رحلتك المصرية الاستثنائية.'
                 : 'Because you deserve the absolute best. Add your portrait alongside world leaders and global icons, and immortalize your exclusive Egyptian journey.'}
@@ -757,7 +757,7 @@ export default function SponsorsShowcase() {
               onClick={() => setIsJoinModalOpen(true)}
               className="px-6 py-3.5 rounded-xl font-bold text-sm bg-gradient-to-r from-[#D4AF37] to-[#E2CB85] text-[#030712] hover:shadow-[0_0_25px_rgba(212,175,55,0.4)] transition-all flex items-center justify-center gap-2 shadow-lg hover:scale-105 active:scale-95"
             >
-              <span>{isAr ? '👑 احصل على مكانتك الملكية' : '👑 Claim Your VIP Status'}</span>
+              <span>{isAr ? 'احصل على مكانتك الملكية' : 'Claim Your VIP Status'}</span>
             </button>
           </div>
         </div>
@@ -842,7 +842,7 @@ export default function SponsorsShowcase() {
                   <h4 className="text-xs uppercase font-bold text-[#D4AF37] tracking-wider">
                     {isAr ? 'بيان الزيارة والأثر الحضاري' : 'Ambassador Story & Reflection'}
                   </h4>
-                  <p className="text-sm text-white/80 leading-relaxed font-serif italic bg-[#050B14] p-4 rounded-xl border border-white/5">
+                  <p className="text-sm text-slate-700 dark:text-white/80 leading-relaxed font-serif italic bg-slate-100 dark:bg-[#050B14] p-4 rounded-xl border border-slate-200 dark:border-white/5">
                     "{isAr ? selectedAmbassador.quoteAr : selectedAmbassador.quote}"
                   </p>
                 </div>
@@ -948,7 +948,7 @@ export default function SponsorsShowcase() {
                   <select
                     value={formMonument}
                     onChange={(e) => setFormMonument(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#08101E] border border-white/10 text-white text-sm focus:outline-none focus:border-[#D4AF37] transition-colors"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-[#08101E] border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white text-sm focus:outline-none focus:border-[#D4AF37] transition-colors"
                   >
                     <option value="Great Pyramids of Giza">{isAr ? 'أهرامات الجيزة الخالدة' : 'Great Pyramids of Giza'}</option>
                     <option value="Grand Egyptian Museum (GEM)">{isAr ? 'المتحف المصري الكبير (GEM)' : 'Grand Egyptian Museum (GEM)'}</option>

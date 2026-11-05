@@ -29,15 +29,15 @@ export default function GovernmentLayout({ children, profile, rightPanel }: Gove
   ];
 
   return (
-    <div className="h-screen w-screen flex flex-col overflow-hidden bg-[#0A1628]" dir="rtl" style={{ fontFamily: "'Cairo', 'Tajawal', sans-serif" }}>
+    <div className="h-screen w-screen flex flex-col overflow-hidden bg-[#FDFBF7] dark:bg-[#0A1628] text-slate-900 dark:text-white transition-colors duration-200" dir="rtl" style={{ fontFamily: "'Cairo', 'Tajawal', sans-serif" }}>
       {/* ══════════ TOP HEADER ══════════ */}
-      <header className="h-[60px] flex items-center justify-between px-6 shrink-0 z-30 relative bg-black/40 backdrop-blur-sm">
-        <div className="absolute inset-0 bg-[url('/images/destinations/giza.jpg')] bg-cover bg-center opacity-30 pointer-events-none"></div>
-        <div className="absolute inset-0 bg-gradient-to-l from-[#0A1628] via-[#0A1628]/80 to-transparent pointer-events-none"></div>
+      <header className="h-[60px] flex items-center justify-between px-6 shrink-0 z-30 relative bg-[#F8F3E9] dark:bg-black/40 backdrop-blur-sm border-b border-slate-200 dark:border-white/10">
+        <div className="absolute inset-0 bg-[url('/images/destinations/giza.jpg')] bg-cover bg-center opacity-10 dark:opacity-30 pointer-events-none"></div>
+        <div className="absolute inset-0 bg-gradient-to-l from-[#F8F3E9] via-[#F8F3E9]/80 to-transparent dark:from-[#0A1628] dark:via-[#0A1628]/80 pointer-events-none"></div>
 
         {/* Right: Logo */}
         <div className="flex items-center gap-3 z-10" dir="ltr">
-          <div className="text-[#C9A84C] font-serif text-2xl">☥</div>
+          <div className="text-[#C9A84C] font-serif text-2xl">EG</div>
           <div>
              <div className="flex items-baseline gap-1"><h1 className="text-xl font-bold text-white leading-none">EgyptX</h1><span className="text-white text-lg font-light leading-none">AI</span></div>
              <p className="text-[7px] text-[#C9A84C] tracking-[0.1em] uppercase">National Smart Tourism Ecosystem</p>
@@ -79,7 +79,7 @@ export default function GovernmentLayout({ children, profile, rightPanel }: Gove
       {/* ══════════ THREE COLUMNS ══════════ */}
       <div className="flex flex-1 overflow-hidden h-[calc(100vh-60px)]">
         {/* ══════════ LEFT SIDEBAR ══════════ */}
-        <aside className="w-[180px] bg-[#0A1628] flex flex-col shrink-0 border-l border-[#1e2d45] z-10 relative">
+        <aside className="w-[180px] bg-[#F8F3E9] dark:bg-[#0A1628] flex flex-col shrink-0 border-l border-slate-200 dark:border-[#1e2d45] z-10 relative text-slate-900 dark:text-white">
           <nav className="flex-1 py-4">
             {MENU_ITEMS.map((item) => {
               const isActive = item.activeOn === pathname || (item.href !== '/' && pathname.startsWith(item.href) && item.href !== '/government/dashboard');
@@ -117,7 +117,7 @@ export default function GovernmentLayout({ children, profile, rightPanel }: Gove
               <p className="text-white text-[11px] leading-tight font-light">أكثر من مجرد وجهة<br/>إنها حضارة</p>
             </div>
             <div className="absolute bottom-2 right-4 flex items-center gap-1.5 opacity-60">
-               <span className="text-[#C9A84C] text-[10px]">☥</span>
+               <span className="text-[#C9A84C] text-[10px]">EG</span>
                <span className="text-white text-[7px] font-sans">EgyptX AI | وزارة السياحة والآثار</span>
             </div>
           </div>

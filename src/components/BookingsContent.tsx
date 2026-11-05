@@ -289,7 +289,7 @@ export default function BookingsContent() {
   const [activeTab, setActiveTab] = useState<TabType>('all');
 
   return (
-    <div className="min-h-screen bg-[#030712] text-white pt-28 pb-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <div className="min-h-screen bg-[#FDFBF7] dark:bg-[#030712] text-slate-900 dark:text-white pt-28 pb-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden transition-colors duration-200">
       {/* Background Decorative Glows */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[500px] bg-[#C9A84C]/5 rounded-full blur-[140px] pointer-events-none" />
       <div className="absolute top-2/3 right-10 w-[450px] h-[450px] bg-[#1B6B93]/10 rounded-full blur-[130px] pointer-events-none" />
@@ -302,7 +302,7 @@ export default function BookingsContent() {
             <span>Official Travel & Reservation Gateway · بوابة الحجوزات الرسمية</span>
           </div>
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight">
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-[#E2CB85] to-[#C9A84C]">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-slate-900 via-[#A68440] to-[#C9A84C] dark:from-white dark:via-[#E2CB85] dark:to-[#C9A84C]">
               Book Your Egypt Experience
             </span>
             <span className="block text-2xl sm:text-3xl font-bold text-[#E2CB85]/90 mt-2 font-arabic">
@@ -394,7 +394,7 @@ export default function BookingsContent() {
               {AIRLINES.map((airline) => (
                 <div
                   key={airline.nameEn}
-                  className={`relative p-6 rounded-2xl bg-[#0A1628]/80 backdrop-blur-xl border transition-all duration-300 hover:shadow-[0_10px_35px_rgba(0,0,0,0.5)] flex flex-col justify-between ${
+                  className={`relative p-6 rounded-2xl bg-[#F8F3E9] dark:bg-[#0A1628]/80 backdrop-blur-xl border-slate-200 dark:border-white/10 border transition-all duration-300 hover:shadow-[0_10px_35px_rgba(0,0,0,0.5)] flex flex-col justify-between ${
                     airline.featured
                       ? 'border-[#C9A84C]/60 shadow-[0_0_30px_rgba(201,168,76,0.12)] bg-gradient-to-br from-[#0A1628] via-[#0D1F38] to-[#0A1628]'
                       : 'border-white/10 hover:border-[#C9A84C]/40'
@@ -408,7 +408,7 @@ export default function BookingsContent() {
                         </div>
                         <div>
                           <div className="flex items-center gap-2">
-                            <h3 className="text-lg font-bold text-white">{airline.nameEn}</h3>
+                            <h3 className="text-lg font-bold text-slate-900 dark:text-white">{airline.nameEn}</h3>
                             <span className="text-sm font-semibold text-[#E2CB85] font-arabic">({airline.nameAr})</span>
                           </div>
                           <p className="text-xs text-white/50 flex items-center gap-1 mt-0.5">
@@ -513,7 +513,7 @@ export default function BookingsContent() {
             {/* Featured Historic & Luxury Hotels */}
             <div className="space-y-4 pt-4">
               <div className="flex items-center justify-between">
-                <h3 className="text-base sm:text-lg font-bold text-white flex items-center gap-2">
+                <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
                   <Star className="w-4 h-4 text-[#C9A84C] fill-[#C9A84C]" />
                   <span>Featured Egyptian Luxury & Palace Hotels</span>
                   <span className="text-xs text-white/50 font-arabic font-normal">فنادق وقصور مصر الفاخرة</span>
@@ -537,7 +537,7 @@ export default function BookingsContent() {
                               {hotel.rating}
                             </span>
                           </div>
-                          <h4 className="text-lg font-bold text-white mt-1 group-hover:text-[#E2CB85] transition-colors">
+                          <h4 className="text-lg font-bold text-slate-900 dark:text-white mt-1 group-hover:text-[#E2CB85] transition-colors">
                             {hotel.nameEn}
                           </h4>
                           <p className="text-sm font-semibold text-[#E2CB85] font-arabic">
@@ -626,14 +626,14 @@ export default function BookingsContent() {
               {RESTAURANTS.map((place) => (
                 <div
                   key={place.nameEn}
-                  className="p-5 rounded-2xl bg-[#0A1628]/80 backdrop-blur-xl border border-white/10 hover:border-[#C9A84C]/50 transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between shadow-[0_4px_20px_rgba(0,0,0,0.4)] group"
+                  className="p-5 rounded-2xl bg-[#F8F3E9] dark:bg-[#0A1628]/80 backdrop-blur-xl border-slate-200 dark:border-white/10 border border-white/10 hover:border-[#C9A84C]/50 transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between shadow-[0_4px_20px_rgba(0,0,0,0.4)] group"
                 >
                   <div className="space-y-3">
                     <div>
                       <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[#C9A84C]/15 text-[#E2CB85] border border-[#C9A84C]/30">
                         {place.cuisine}
                       </span>
-                      <h4 className="text-lg font-bold text-white mt-1.5 group-hover:text-[#E2CB85] transition-colors">
+                      <h4 className="text-lg font-bold text-slate-900 dark:text-white mt-1.5 group-hover:text-[#E2CB85] transition-colors">
                         {place.nameEn}
                       </h4>
                       <p className="text-sm font-semibold text-[#E2CB85] font-arabic">
@@ -725,7 +725,7 @@ export default function BookingsContent() {
                     </div>
 
                     <div>
-                      <h3 className="text-base sm:text-lg font-bold text-white">
+                      <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
                         {video.titleEn}
                       </h3>
                       <p className="text-sm font-semibold text-[#E2CB85] font-arabic mt-0.5">

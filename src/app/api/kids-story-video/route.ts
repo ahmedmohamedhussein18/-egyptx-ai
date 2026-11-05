@@ -26,7 +26,7 @@ export async function POST(req: Request) {
       success: true,
       videoUrl,
       heroName,
-      title: `✨ مغامرة البطل ${heroName} السينمائية`,
+      title: `مغامرة البطل ${heroName} السينمائية`,
       titleEn: `The Cinematic Quest of Hero ${heroName}`,
       prompt: constructedPrompt,
       createdAt: new Date().toISOString()

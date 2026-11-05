@@ -182,7 +182,7 @@ export default function HiddenEgyptContent() {
   }, [supabase]);
 
   return (
-    <div className="min-h-screen bg-[#030712] text-white pt-24 pb-16 font-sans">
+    <div className="min-h-screen bg-[#FDFBF7] dark:bg-[#030712] text-slate-900 dark:text-white pt-24 pb-16 font-sans transition-colors duration-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header Section */}
@@ -210,7 +210,7 @@ export default function HiddenEgyptContent() {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.2 }}
-          className="bg-gradient-to-r from-[#1B6B93]/30 via-[#0A1628] to-[#C9A84C]/20 border border-[#C9A84C]/40 rounded-2xl p-6 md:p-8 mb-12 shadow-[0_0_30px_rgba(201,168,76,0.15)] relative overflow-hidden"
+          className="bg-slate-100 dark:bg-gradient-to-r dark:from-[#1B6B93]/30 dark:via-[#0A1628] dark:to-[#C9A84C]/20 border border-slate-200 dark:border-[#C9A84C]/40 text-slate-900 dark:text-white rounded-2xl p-6 md:p-8 mb-12 shadow-[0_0_30px_rgba(201,168,76,0.15)] relative overflow-hidden"
         >
           {/* Animated background pulse */}
           <div className="absolute inset-0 bg-white/5 animate-pulse mix-blend-overlay pointer-events-none" />

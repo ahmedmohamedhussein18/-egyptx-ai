@@ -159,7 +159,7 @@ export default function TimeTravelPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#030712] text-white pt-24 pb-20 font-sans relative overflow-hidden">
+    <div className="min-h-screen bg-[#FDFBF7] dark:bg-[#030712] text-slate-900 dark:text-white pt-24 pb-20 font-sans relative overflow-hidden transition-colors duration-200">
       {/* Ambient Ancient Gold Mesh Blobs */}
       <div className="absolute top-10 left-1/4 w-[500px] h-[500px] bg-amber-500/10 rounded-full blur-[140px] pointer-events-none" />
       <div className="absolute top-1/2 right-10 w-[450px] h-[450px] bg-indigo-600/15 rounded-full blur-[140px] pointer-events-none" />

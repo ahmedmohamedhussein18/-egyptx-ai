@@ -250,7 +250,7 @@ export default function MemoriesContent() {
 
   if (authLoading || !user) {
     return (
-      <div className="min-h-screen bg-[#030712] flex items-center justify-center">
+      <div className="min-h-screen bg-[#FDFBF7] dark:bg-[#030712] flex items-center justify-center">
         <Loader2 className="w-8 h-8 text-[#C9A84C] animate-spin" />
       </div>
     );
@@ -264,7 +264,7 @@ export default function MemoriesContent() {
   });
 
   return (
-    <div className="min-h-screen bg-[#030712] text-white pt-24 pb-16 font-sans">
+    <div className="min-h-screen bg-[#FDFBF7] dark:bg-[#030712] text-slate-900 dark:text-white pt-24 pb-16 font-sans transition-colors duration-200">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header */}

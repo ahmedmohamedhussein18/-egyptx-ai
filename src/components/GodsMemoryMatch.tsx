@@ -14,15 +14,15 @@ const gods = [
 ];
 
 const DIFFICULTIES = [
-  { key: 'easy', label: 'Easy 😊', pairs: 4 },
-  { key: 'medium', label: 'Medium 🤔', pairs: 6 },
-  { key: 'hard', label: 'Hard 🔥', pairs: 8 },
+  { key: 'easy', label: 'Easy', pairs: 4 },
+  { key: 'medium', label: 'Medium', pairs: 6 },
+  { key: 'hard', label: 'Hard', pairs: 8 },
 ] as const;
 
 const WIN_MESSAGES = [
-  'Genius! You know all Egyptian Gods! 🌟',
-  'Amazing! Smart as a Pharaoh! 👑',
-  'Excellent! Isis is proud of you! ✨',
+  'Genius! You know all Egyptian Gods!',
+  'Amazing! Smart as a Pharaoh!',
+  'Excellent! Isis is proud of you!',
 ];
 
 interface CardItem {
@@ -235,7 +235,7 @@ export default function GodsMemoryMatch() {
 
       <h2 className="text-2xl md:text-3xl font-bold text-[#C9A84C] text-center mb-1">
         <span className="inline-block" style={{ animation: 'gmm-sparkle 1.6s ease-in-out infinite' }}>🃏</span> Gods Memory Match{' '}
-        <span className="inline-block" style={{ animation: 'gmm-sparkle 1.6s ease-in-out .5s infinite' }}>✨</span>
+        
       </h2>
       <p className="text-center text-sm text-gray-400 mb-6">Match the Egyptian gods! 🃏</p>
 
@@ -270,8 +270,8 @@ export default function GodsMemoryMatch() {
             <span className="px-4 py-2 rounded-xl bg-white/5 border border-[#C9A84C]/30">Attempts: {attempts}</span>
             <span className="px-4 py-2 rounded-xl bg-white/5 border border-[#C9A84C]/30">Time: {seconds} sec</span>
             <span className="px-4 py-2 rounded-xl bg-white/5 border border-[#C9A84C]/30 text-[#C9A84C]" aria-label={`${stars} stars`}>
-              {'★'.repeat(stars)}
-              <span className="text-gray-600">{'★'.repeat(3 - stars)}</span>
+              {'*'.repeat(stars)}
+              <span className="text-gray-600">{'*'.repeat(3 - stars)}</span>
             </span>
             <span className="px-4 py-2 rounded-xl bg-white/5 border border-[#C9A84C]/30">Score: {score}</span>
             <button
@@ -288,7 +288,7 @@ export default function GodsMemoryMatch() {
               className="absolute -top-2 z-10 px-5 py-2 rounded-full bg-[#C9A84C] text-[#0A1628] font-bold shadow-xl"
               style={{ animation: 'gmm-toast 1s ease forwards' }}
             >
-              ✨ Amazing!
+              Amazing!
             </div>
           )}
 
@@ -381,8 +381,8 @@ export default function GodsMemoryMatch() {
               }}
             />
           ))}
-          <div className="text-7xl mb-3" style={{ animation: 'gmm-trophy 1.6s ease-in-out infinite' }}>🏆</div>
-          <h3 className="text-2xl sm:text-4xl font-bold text-[#C9A84C] mb-4">You're a Champion! 🎉</h3>
+          <div className="text-5xl font-serif text-[#C9A84C] mb-3">*</div>
+          <h3 className="text-2xl sm:text-4xl font-bold text-[#C9A84C] mb-4">You're a Champion!</h3>
           <div className="flex flex-wrap justify-center gap-3 mb-4 text-sm font-bold">
             <span className="px-4 py-2 rounded-xl bg-white/5 border border-[#C9A84C]/40">
               Pairs: {matchedPairs}/{pairsCount}
@@ -403,7 +403,7 @@ export default function GodsMemoryMatch() {
                   animation: n <= stars ? `gmm-star .5s ease ${n * 0.25}s both` : undefined,
                 }}
               >
-                ★
+                *
               </span>
             ))}
           </div>
@@ -414,13 +414,13 @@ export default function GodsMemoryMatch() {
               onClick={() => pairsCount && startGame(pairsCount)}
               className="px-8 py-3 rounded-2xl bg-gradient-to-r from-[#C9A84C] to-[#E2C974] text-[#0A1628] font-bold hover:scale-105 active:scale-95 transition-all cursor-pointer shadow-xl"
             >
-              Play Again 🔄
+              Play Again
             </button>
             <button
               type="button"
               className="px-8 py-3 rounded-2xl bg-white/5 border border-[#C9A84C]/60 text-[#C9A84C] font-bold hover:bg-white/10 transition-all cursor-pointer"
             >
-              Share Achievement 🎊
+              Share Achievement
             </button>
           </div>
         </div>
