@@ -236,7 +236,7 @@ export default function AIGuideContent() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-gray-400 text-lg max-w-2xl mx-auto"
+            className="text-slate-700 dark:text-gray-300 text-lg max-w-2xl mx-auto font-medium"
           >
             Snap a photo of any monument, statue, or artifact to instantly identify it using EgyptX Vision AI.
           </motion.p>
@@ -271,7 +271,7 @@ export default function AIGuideContent() {
                   <Camera className="w-8 h-8 text-[#C9A84C]" />
                 </div>
                 <p className="text-slate-900 dark:text-white font-bold text-lg mb-2">Tap to Use Camera</p>
-                <p className="text-gray-500 text-sm">or upload an image</p>
+                <p className="text-slate-600 dark:text-gray-400 text-sm font-medium">or upload an image</p>
               </div>
             ) : (
               <div className="space-y-4">
@@ -316,8 +316,8 @@ export default function AIGuideContent() {
             {!result && !error && (
               <div className="bg-[#F8F3E9] dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-3xl p-8 flex-grow flex flex-col items-center justify-center text-center">
                 <Sparkles className="w-12 h-12 text-gray-600 mb-4 opacity-50" />
-                <h3 className="text-xl font-bold text-gray-400 mb-2">Awaiting Image</h3>
-                <p className="text-gray-500">Capture a monument to see its verified history and details.</p>
+                <h3 className="text-xl font-bold text-slate-700 dark:text-gray-300 mb-2">Awaiting Image</h3>
+                <p className="text-slate-600 dark:text-gray-400 font-medium">Capture a monument to see its verified history and details.</p>
               </div>
             )}
 

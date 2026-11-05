@@ -39,43 +39,43 @@ export default function Footer() {
           <Link href="/" className="inline-block">
             <h2 className="text-3xl font-serif-editorial font-bold bg-gradient-to-r from-[#A68440] via-[#C5A059] to-[#A68440] dark:from-[#FFDF73] dark:via-[#D4AF37] dark:to-[#B8860B] bg-clip-text text-transparent">{t('footer.title')}</h2>
           </Link>
-          <p className="text-slate-600 dark:text-white/50 mt-2 text-sm tracking-wide font-light">{t('footer.subtitle')}</p>
+          <p className="text-slate-700 dark:text-gray-300 mt-2 text-sm tracking-wide font-normal">{t('footer.subtitle')}</p>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-16">
           {/* Column 1 */}
           <div className="flex flex-col space-y-4">
             <h3 className="text-slate-900 dark:text-gray-200 uppercase text-xs tracking-[0.2em] font-semibold mb-2">{t('footer.explore')}</h3>
-            <Link href="/" className="text-slate-600 dark:text-gray-400 hover:text-yellow-600 dark:hover:text-[#D4AF37] transition-colors text-sm">{t('footer.home')}</Link>
-            <Link href="/planner" className="text-slate-600 dark:text-gray-400 hover:text-yellow-600 dark:hover:text-[#D4AF37] transition-colors text-sm">{t('footer.aiPlanner')}</Link>
-            <Link href="/explore" className="text-slate-600 dark:text-gray-400 hover:text-yellow-600 dark:hover:text-[#D4AF37] transition-colors text-sm">{t('footer.exploreEgypt')}</Link>
-            <Link href="/smart-site" className="text-slate-600 dark:text-gray-400 hover:text-yellow-600 dark:hover:text-[#D4AF37] transition-colors text-sm">{t('footer.smartSites')}</Link>
+            <Link href="/" className="text-slate-700 dark:text-gray-300 hover:text-yellow-700 dark:hover:text-[#D4AF37] transition-colors text-sm font-medium">{t('footer.home')}</Link>
+            <Link href="/planner" className="text-slate-700 dark:text-gray-300 hover:text-yellow-700 dark:hover:text-[#D4AF37] transition-colors text-sm font-medium">{t('footer.aiPlanner')}</Link>
+            <Link href="/explore" className="text-slate-700 dark:text-gray-300 hover:text-yellow-700 dark:hover:text-[#D4AF37] transition-colors text-sm font-medium">{t('footer.exploreEgypt')}</Link>
+            <Link href="/smart-site" className="text-slate-700 dark:text-gray-300 hover:text-yellow-700 dark:hover:text-[#D4AF37] transition-colors text-sm font-medium">{t('footer.smartSites')}</Link>
           </div>
 
           {/* Column 2 */}
           <div className="flex flex-col space-y-4">
             <h3 className="text-slate-900 dark:text-gray-200 uppercase text-xs tracking-[0.2em] font-semibold mb-2">{t('footer.experience')}</h3>
-            <Link href="/museum-ai" className="text-slate-600 dark:text-gray-400 hover:text-yellow-600 dark:hover:text-[#D4AF37] transition-colors text-sm">{t('footer.museumAi')}</Link>
-            <Link href="/hidden-egypt" className="text-slate-600 dark:text-gray-400 hover:text-yellow-600 dark:hover:text-[#D4AF37] transition-colors text-sm">{t('footer.hiddenEgypt')}</Link>
-            <Link href="/emergency" className="text-slate-600 dark:text-gray-400 hover:text-yellow-600 dark:hover:text-[#D4AF37] transition-colors text-sm">{t('footer.emergency')}</Link>
-            <Link href="/tourist-passport" className="text-slate-600 dark:text-gray-400 hover:text-yellow-600 dark:hover:text-[#D4AF37] transition-colors text-sm">{t('footer.touristPassport')}</Link>
+            <Link href="/museum-ai" className="text-slate-700 dark:text-gray-300 hover:text-yellow-700 dark:hover:text-[#D4AF37] transition-colors text-sm font-medium">{t('footer.museumAi')}</Link>
+            <Link href="/hidden-egypt" className="text-slate-700 dark:text-gray-300 hover:text-yellow-700 dark:hover:text-[#D4AF37] transition-colors text-sm font-medium">{t('footer.hiddenEgypt')}</Link>
+            <Link href="/emergency" className="text-slate-700 dark:text-gray-300 hover:text-yellow-700 dark:hover:text-[#D4AF37] transition-colors text-sm font-medium">{t('footer.emergency')}</Link>
+            <Link href="/tourist-passport" className="text-slate-700 dark:text-gray-300 hover:text-yellow-700 dark:hover:text-[#D4AF37] transition-colors text-sm font-medium">{t('footer.touristPassport')}</Link>
           </div>
 
           {/* Column 3 */}
           <div className="flex flex-col space-y-4">
             <h3 className="text-slate-900 dark:text-gray-200 uppercase text-xs tracking-[0.2em] font-semibold mb-2">{t('footer.ecosystem')}</h3>
-            <Link href="/command-center" className="text-slate-600 dark:text-gray-400 hover:text-yellow-600 dark:hover:text-[#D4AF37] transition-colors text-sm">{t('footer.commandCenter')}</Link>
-            <Link href="/business-portal" className="text-slate-600 dark:text-gray-400 hover:text-yellow-600 dark:hover:text-[#D4AF37] transition-colors text-sm">{t('footer.businessPortal')}</Link>
-            <Link href="/government/dashboard" className="text-slate-600 dark:text-gray-400 hover:text-yellow-600 dark:hover:text-[#D4AF37] transition-colors text-sm">{t('footer.government')}</Link>
-            <Link href="/national-projects" className="text-slate-600 dark:text-gray-400 hover:text-yellow-600 dark:hover:text-[#D4AF37] transition-colors text-sm">{t('footer.nationalProjects')}</Link>
+            <Link href="/command-center" className="text-slate-700 dark:text-gray-300 hover:text-yellow-700 dark:hover:text-[#D4AF37] transition-colors text-sm font-medium">{t('footer.commandCenter')}</Link>
+            <Link href="/business-portal" className="text-slate-700 dark:text-gray-300 hover:text-yellow-700 dark:hover:text-[#D4AF37] transition-colors text-sm font-medium">{t('footer.businessPortal')}</Link>
+            <Link href="/government/dashboard" className="text-slate-700 dark:text-gray-300 hover:text-yellow-700 dark:hover:text-[#D4AF37] transition-colors text-sm font-medium">{t('footer.government')}</Link>
+            <Link href="/national-projects" className="text-slate-700 dark:text-gray-300 hover:text-yellow-700 dark:hover:text-[#D4AF37] transition-colors text-sm font-medium">{t('footer.nationalProjects')}</Link>
           </div>
 
           {/* Column 4 */}
           <div className="flex flex-col space-y-4">
             <h3 className="text-slate-900 dark:text-gray-200 uppercase text-xs tracking-[0.2em] font-semibold mb-2">{t('footer.discover')}</h3>
-            <Link href="/crafts" className="text-slate-600 dark:text-gray-400 hover:text-yellow-600 dark:hover:text-[#D4AF37] transition-colors text-sm">{t('footer.egyptianCrafts')}</Link>
-            <Link href="/egyptian-culture" className="text-slate-600 dark:text-gray-400 hover:text-yellow-600 dark:hover:text-[#D4AF37] transition-colors text-sm">{t('footer.egyptianCulture')}</Link>
-            <Link href="/news" className="text-slate-600 dark:text-gray-400 hover:text-yellow-600 dark:hover:text-[#D4AF37] transition-colors text-sm">{t('footer.journal')}</Link>
+            <Link href="/crafts" className="text-slate-700 dark:text-gray-300 hover:text-yellow-700 dark:hover:text-[#D4AF37] transition-colors text-sm font-medium">{t('footer.egyptianCrafts')}</Link>
+            <Link href="/egyptian-culture" className="text-slate-700 dark:text-gray-300 hover:text-yellow-700 dark:hover:text-[#D4AF37] transition-colors text-sm font-medium">{t('footer.egyptianCulture')}</Link>
+            <Link href="/news" className="text-slate-700 dark:text-gray-300 hover:text-yellow-700 dark:hover:text-[#D4AF37] transition-colors text-sm font-medium">{t('footer.journal')}</Link>
             <li className="list-none text-sm">
               <button onClick={() => setIsContactModalOpen(true)} className="text-slate-600 dark:text-gray-400 hover:text-yellow-600 dark:hover:text-[#D4AF37] transition-colors text-left cursor-pointer">
                 {t('footer.contactUs')}
@@ -94,7 +94,7 @@ export default function Footer() {
 
         {/* Bottom Bar */}
         <div className="text-center">
-          <p className="text-slate-500 dark:text-white/30 text-xs tracking-wider">{t('footer.copy')}</p>
+          <p className="text-slate-600 dark:text-gray-400 text-xs tracking-wider font-medium">{t('footer.copy')}</p>
         </div>
 
       </div>
@@ -157,7 +157,7 @@ export default function Footer() {
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
                   <div className="p-3 rounded-2xl bg-[#F8F3E9] dark:bg-white/[0.04] border border-slate-200 dark:border-white/10 text-center">
                     <Mail className="w-4 h-4 text-[#C9A84C] mx-auto mb-1" />
-                    <span className="text-[10px] text-gray-500 dark:text-gray-400 block font-mono">{t('footer.contactModal.emailLabel')}</span>
+                    <span className="text-[10px] text-gray-600 dark:text-gray-400 block font-mono">{t('footer.contactModal.emailLabel')}</span>
                     <a href="mailto:support@egyptx.ai" className="text-xs font-semibold text-gray-900 dark:text-white hover:text-[#C9A84C] transition-colors truncate block">
                       support@egyptx.ai
                     </a>
@@ -165,7 +165,7 @@ export default function Footer() {
 
                   <div className="p-3 rounded-2xl bg-[#F8F3E9] dark:bg-white/[0.04] border border-slate-200 dark:border-white/10 text-center">
                     <Phone className="w-4 h-4 text-[#C9A84C] mx-auto mb-1" />
-                    <span className="text-[10px] text-gray-500 dark:text-gray-400 block font-mono">{t('footer.contactModal.hotlineLabel')}</span>
+                    <span className="text-[10px] text-gray-600 dark:text-gray-400 block font-mono">{t('footer.contactModal.hotlineLabel')}</span>
                     <a href="tel:19654" className="text-xs font-semibold text-gray-900 dark:text-white hover:text-[#C9A84C] transition-colors block">
                       19654 / +20 2 2735 9000
                     </a>
@@ -173,7 +173,7 @@ export default function Footer() {
 
                   <div className="p-3 rounded-2xl bg-[#F8F3E9] dark:bg-white/[0.04] border border-slate-200 dark:border-white/10 text-center">
                     <MapPin className="w-4 h-4 text-[#C9A84C] mx-auto mb-1" />
-                    <span className="text-[10px] text-gray-500 dark:text-gray-400 block font-mono">{t('footer.contactModal.hqLabel')}</span>
+                    <span className="text-[10px] text-gray-600 dark:text-gray-400 block font-mono">{t('footer.contactModal.hqLabel')}</span>
                     <span className="text-xs font-semibold text-gray-900 dark:text-white block truncate">
                       {t('footer.contactModal.hqValue')}
                     </span>

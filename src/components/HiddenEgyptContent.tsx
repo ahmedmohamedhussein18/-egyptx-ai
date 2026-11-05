@@ -199,7 +199,7 @@ export default function HiddenEgyptContent() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-xl text-gray-400 max-w-3xl mx-auto"
+            className="text-xl text-slate-700 dark:text-gray-300 max-w-3xl mx-auto font-medium"
           >
             Discover Egypt&apos;s hidden gems and help preserve its most treasured sites.
           </motion.p>
@@ -221,7 +221,7 @@ export default function HiddenEgyptContent() {
             </div>
             <div className="flex-1 text-center md:text-left">
               <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2 uppercase tracking-wide">{t('hidden.mission')}</h2>
-              <p className="text-lg text-slate-600 dark:text-gray-300">
+              <p className="text-lg text-slate-700 dark:text-gray-300">
                 Redirecting tourists to these destinations reduces congestion at major monuments while boosting local economies in underserved regions. Data models for impact are currently awaiting verified data sources.
               </p>
             </div>
@@ -244,7 +244,7 @@ export default function HiddenEgyptContent() {
             <p>{error}</p>
           </div>
         ) : attractions.length === 0 ? (
-          <div className="text-center py-20 text-gray-400">
+          <div className="text-center py-20 text-slate-700 dark:text-gray-300 font-semibold">
             No hidden gems found.
           </div>
         ) : (
@@ -318,11 +318,11 @@ export default function HiddenEgyptContent() {
                       <h3 className="text-2xl font-bold text-gray-900 dark:text-white">{dest.name_en}</h3>
                       {dest.name_ar && <span className="text-xl text-[#C9A84C] font-arabic">{dest.name_ar}</span>}
                     </div>
-                    <p className="text-gray-600 dark:text-gray-400 text-sm mb-6">{dest.description_en || `Experience the beauty of ${dest.name_en}`}</p>
+                    <p className="text-slate-700 dark:text-gray-300 text-sm mb-6 font-normal">{dest.description_en || `Experience the beauty of ${dest.name_en}`}</p>
 
                     {/* Stats & Capacity Bar */}
                     <div className="bg-white dark:bg-[#0A1628] rounded-xl p-4 mb-6 border border-gray-200 dark:border-white/5 flex flex-col items-center justify-center min-h-[80px]">
-                      <p className="text-sm text-gray-500 font-semibold italic flex items-center gap-2">
+                      <p className="text-sm text-slate-700 dark:text-gray-300 font-semibold italic flex items-center gap-2">
                         <Users className="w-4 h-4" /> {t('hidden.noData')}
                       </p>
                     </div>
@@ -332,7 +332,7 @@ export default function HiddenEgyptContent() {
                       <h4 className="text-[#1B6B93] dark:text-[#4CC9F0] text-xs font-bold uppercase tracking-wider mb-2 flex items-center gap-1">
                         <Sparkles className="w-4 h-4" /> AI Recommendation
                       </h4>
-                      <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed italic">
+                      <p className="text-slate-700 dark:text-gray-300 text-sm leading-relaxed italic font-medium">
                         Awaiting AI model predictions for this location.
                       </p>
                     </div>

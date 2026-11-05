@@ -77,7 +77,7 @@ export default function AddToCollectionButton({ photoId }: { photoId: string }) 
                 {loading ? (
                   <div className="flex justify-center py-4"><Loader2 className="w-4 h-4 text-[#C9A84C] animate-spin" /></div>
                 ) : collections.length === 0 ? (
-                  <div className="p-3 text-xs text-gray-500 text-center">No collections found. Create one first!</div>
+                  <div className="p-3 text-xs text-slate-700 dark:text-gray-400 text-center font-medium">No collections found. Create one first!</div>
                 ) : success ? (
                   <div className="p-4 flex flex-col items-center justify-center text-green-400 gap-2">
                     <Check className="w-5 h-5" />

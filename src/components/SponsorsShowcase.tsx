@@ -334,7 +334,7 @@ export default function SponsorsShowcase() {
     // Show Royal Success Toast
     setToast({
       show: true,
-      title: isAr ? 'تمت إضافة بطاقتك بنجاح! ' : 'Ambassador Card Added! ',
+      title: isAr ? 'تمت إضافة بطاقتك بنجاح!' : 'Ambassador Card Added!',
       message: isAr
         ? `أهلاً بك يا ${newAmbassador.name} كسفير رسمي في معرض EgyptX!`
         : `Welcome ${newAmbassador.name}! Your custom ambassador card is now live on the showcase.`,
@@ -386,7 +386,7 @@ export default function SponsorsShowcase() {
             {isAr ? 'نجوم العالم في أحضان حضارة مصر الخالدة' : 'Global Icons Exploring Timeless Egypt'}
           </h2>
 
-          <p className="text-base sm:text-lg text-gray-600 dark:text-white/60 leading-relaxed font-light max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg text-gray-700 dark:text-white/70 leading-relaxed font-normal max-w-2xl mx-auto">
             {isAr
               ? 'شخصيات وقادة ومؤثرون عالميون يوثقون رحلاتهم الاستثنائية بين أعظم معالم مصر التاريخية.'
               : 'Renowned world figures, cultural leaders, and digital visionaries celebrating Egypt’s iconic heritage.'}
@@ -403,7 +403,7 @@ export default function SponsorsShowcase() {
                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                   partnerTypeFilter === 'all'
                     ? 'bg-[#D4AF37] text-black shadow-md'
-                    : 'text-gray-600 hover:text-gray-900 dark:text-white/60 dark:hover:text-white'
+                    : 'text-gray-700 hover:text-gray-900 dark:text-white/70 dark:hover:text-white font-medium'
                 }`}
               >
                 {isAr ? `كافة الشخصيات (${ambassadors.length})` : `All Ambassadors (${ambassadors.length})`}
@@ -413,7 +413,7 @@ export default function SponsorsShowcase() {
                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                   partnerTypeFilter === 'giza'
                     ? 'bg-[#D4AF37] text-black shadow-md'
-                    : 'text-gray-600 hover:text-gray-900 dark:text-white/60 dark:hover:text-white'
+                    : 'text-gray-700 hover:text-gray-900 dark:text-white/70 dark:hover:text-white font-medium'
                 }`}
               >
                 {isAr ? 'الأهرامات والقاهرة' : 'Giza & Cairo'}
@@ -423,7 +423,7 @@ export default function SponsorsShowcase() {
                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                   partnerTypeFilter === 'luxor'
                     ? 'bg-[#D4AF37] text-black shadow-md'
-                    : 'text-gray-600 hover:text-gray-900 dark:text-white/60 dark:hover:text-white'
+                    : 'text-gray-700 hover:text-gray-900 dark:text-white/70 dark:hover:text-white font-medium'
                 }`}
               >
                 {isAr ? 'الأقصر' : 'Luxor'}
@@ -433,7 +433,7 @@ export default function SponsorsShowcase() {
                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                   partnerTypeFilter === 'aswan'
                     ? 'bg-[#D4AF37] text-black shadow-md'
-                    : 'text-gray-600 hover:text-gray-900 dark:text-white/60 dark:hover:text-white'
+                    : 'text-gray-700 hover:text-gray-900 dark:text-white/70 dark:hover:text-white font-medium'
                 }`}
               >
                 {isAr ? 'أسوان والإسكندرية' : 'Aswan & Alexandria'}
@@ -447,7 +447,7 @@ export default function SponsorsShowcase() {
                 className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                   viewMode === 'carousel'
                     ? 'bg-[#D4AF37]/20 border border-[#D4AF37]/40 text-[#8A661C] dark:text-[#E2CB85]'
-                    : 'text-gray-600 hover:text-gray-900 dark:text-white/60 dark:hover:text-white'
+                    : 'text-gray-700 hover:text-gray-900 dark:text-white/70 dark:hover:text-white font-medium'
                 }`}
               >
                 <Layers className="w-3.5 h-3.5" />
@@ -458,7 +458,7 @@ export default function SponsorsShowcase() {
                 className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                   viewMode === 'papyrus'
                     ? 'bg-[#D4AF37]/20 border border-[#D4AF37]/40 text-[#8A661C] dark:text-[#E2CB85]'
-                    : 'text-gray-600 hover:text-gray-900 dark:text-white/60 dark:hover:text-white'
+                    : 'text-gray-700 hover:text-gray-900 dark:text-white/70 dark:hover:text-white font-medium'
                 }`}
               >
                 <LayoutGrid className="w-3.5 h-3.5" />
@@ -581,7 +581,7 @@ export default function SponsorsShowcase() {
                         {/* Monument & Location */}
                         <div className="flex items-center gap-2 text-xs text-white/80">
                           <Compass className="w-3.5 h-3.5 text-[#4EB1E2]" />
-                          <span className="font-semibold text-slate-900 dark:text-white">
+                          <span className="font-semibold text-white">
                             {isAr ? ambassador.monumentNameAr : ambassador.monumentName}
                           </span>
                           <span className="text-white/40">•</span>
@@ -714,13 +714,13 @@ export default function SponsorsShowcase() {
                     <h4 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-[#C5A059] dark:group-hover:text-[#F5E6B8] transition-colors leading-snug">
                       {isAr ? ambassador.nameAr : ambassador.name}
                     </h4>
-                    <p className="text-xs text-gray-600 dark:text-white/60 mt-1 flex items-center gap-1">
+                    <p className="text-xs text-gray-700 dark:text-white/70 mt-1 flex items-center gap-1 font-medium">
                       <MapPin className="w-3 h-3 text-[#D4AF37]" />
                       <span>{isAr ? ambassador.monumentNameAr : ambassador.monumentName}</span>
                     </p>
                   </div>
 
-                  <p className="text-xs text-gray-700 dark:text-white/70 italic line-clamp-2 border-t border-slate-200 dark:border-white/5 pt-2 font-serif">
+                  <p className="text-xs text-gray-800 dark:text-white/70 italic line-clamp-2 border-t border-slate-200 dark:border-white/5 pt-2 font-serif font-medium">
                     "{isAr ? ambassador.quoteAr : ambassador.quote}"
                   </p>
 
@@ -745,7 +745,7 @@ export default function SponsorsShowcase() {
             <h3 className="text-2xl sm:text-3xl font-extrabold text-[#1A2332] dark:text-white">
               {isAr ? 'قصتك تستحق أن تُخلّد بين العظماء.' : 'Your Story Belongs Among the Greats.'}
             </h3>
-            <p className="text-sm text-slate-600 dark:text-white/70">
+            <p className="text-sm text-slate-800 dark:text-white/70 font-medium">
               {isAr
                 ? 'لأنك تستحق الأفضل بكل تأكيد. أضف صورتك إلى جانب قادة العالم وأيقونات الحضارة، وخلّد رحلتك المصرية الاستثنائية.'
                 : 'Because you deserve the absolute best. Add your portrait alongside world leaders and global icons, and immortalize your exclusive Egyptian journey.'}
@@ -903,7 +903,7 @@ export default function SponsorsShowcase() {
                 <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
                   {isAr ? 'إصدار بطاقة سفير رسمي' : 'Create Your VIP Ambassador Card'}
                 </h3>
-                <p className="text-xs text-gray-600 dark:text-white/60 mt-1 max-w-sm mx-auto">
+                <p className="text-xs text-gray-700 dark:text-white/70 mt-1 max-w-sm mx-auto font-medium">
                   {isAr
                     ? 'أدخل بياناتك وصورتك لإنشاء بطاقتك التفاعلية فوراً وإضافتها إلى المعرض الملكي.'
                     : 'Personalize your card with your visit photo and story to feature instantly in the EgyptX Showcase.'}
@@ -990,7 +990,7 @@ export default function SponsorsShowcase() {
                         </div>
                       </div>
                     ) : (
-                      <div className="flex flex-col items-center justify-center py-2 text-gray-600 dark:text-white/70 group-hover:text-gray-900 dark:group-hover:text-white">
+                      <div className="flex flex-col items-center justify-center py-2 text-gray-700 dark:text-white/70 group-hover:text-gray-900 dark:group-hover:text-white font-medium">
                         <Upload className="w-6 h-6 text-[#D4AF37] mb-1.5 animate-pulse" />
                         <p className="text-xs font-semibold">
                           {isAr ? 'انقر لرفع صورة السفير أو اسحبها هنا' : 'Click or drag photo here to upload'}
