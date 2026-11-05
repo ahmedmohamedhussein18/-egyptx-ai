@@ -59,24 +59,24 @@ const VOICE_OPTIONS: VoiceOption[] = [
 
 // First Selector: Local Dialects (السهم الأول - اللهجة المحلية)
 export const LOCAL_DIALECT_OPTIONS: LanguageOption[] = [
-  { code: 'ar-EG', label: '🇪🇬 مصري (Egyptian)', name: 'اللهجة المصرية', flag: '🇪🇬' },
-  { code: 'ar-SA', label: '🇸🇦 خليجي (Gulf)', name: 'اللهجة الخليجية', flag: '🇸🇦' },
-  { code: 'ar-LB', label: '🇱🇧 شامي (Levantine)', name: 'اللهجة الشامية', flag: '🇱🇧' },
-  { code: 'ar-MA', label: '🇲🇦 مغاربي (Maghrebi)', name: 'اللهجة المغاربية', flag: '🇲🇦' },
+  { code: 'ar-EG', label: 'مصري (Egyptian)', name: 'اللهجة المصرية', flag: '' },
+  { code: 'ar-SA', label: 'خليجي (Gulf)', name: 'اللهجة الخليجية', flag: '' },
+  { code: 'ar-LB', label: 'شامي (Levantine)', name: 'اللهجة الشامية', flag: '' },
+  { code: 'ar-MA', label: 'مغاربي (Maghrebi)', name: 'اللهجة المغاربية', flag: '' },
   { code: 'ar', label: 'فصحى (Standard Arabic)', name: 'العربية الفصحى', flag: '' },
 ];
 
 // Second Selector: Tourist Foreign Languages (السهم الثاني - لغة السائح الأجنبي)
 export const TOURIST_LANG_OPTIONS: LanguageOption[] = [
-  { code: 'en-US', label: '🇺🇸 English (US)', name: 'English (US)', flag: '🇺🇸' },
-  { code: 'en-GB', label: '🇬🇧 English (UK)', name: 'English (UK)', flag: '🇬🇧' },
-  { code: 'fr-FR', label: '🇫🇷 Français', name: 'Français', flag: '🇫🇷' },
-  { code: 'de-DE', label: '🇩🇪 Deutsch', name: 'Deutsch', flag: '🇩🇪' },
-  { code: 'es-ES', label: '🇪🇸 Español', name: 'Español', flag: '🇪🇸' },
-  { code: 'it-IT', label: '🇮🇹 Italiano', name: 'Italiano', flag: '🇮🇹' },
-  { code: 'ru-RU', label: '🇷🇺 Русский', name: 'Русский', flag: '🇷🇺' },
-  { code: 'zh-CN', label: '🇨🇳 中文 (Mandarin)', name: '中文', flag: '🇨🇳' },
-  { code: 'ja-JP', label: '🇯🇵 日本語', name: '日本語', flag: '🇯🇵' },
+  { code: 'en-US', label: 'English (US)', name: 'English (US)', flag: '' },
+  { code: 'en-GB', label: 'English (UK)', name: 'English (UK)', flag: '' },
+  { code: 'fr-FR', label: 'Français', name: 'Français', flag: '' },
+  { code: 'de-DE', label: 'Deutsch', name: 'Deutsch', flag: '' },
+  { code: 'es-ES', label: 'Español', name: 'Español', flag: '' },
+  { code: 'it-IT', label: 'Italiano', name: 'Italiano', flag: '' },
+  { code: 'ru-RU', label: 'Русский', name: 'Русский', flag: '' },
+  { code: 'zh-CN', label: '中文 (Mandarin)', name: '中文', flag: '' },
+  { code: 'ja-JP', label: '日本語', name: '日本語', flag: '' },
 ];
 
 const SUGGESTIONS_TOURIST = [
@@ -441,7 +441,7 @@ function UserBubble({ msg }: { msg: ChatMessage }) {
             className="w-full max-w-[200px] rounded-xl mb-2 object-cover border border-white/10"
           />
         )}
-        <p className="text-white text-sm leading-relaxed">{msg.text}</p>
+        <p className="text-slate-900 dark:text-white text-sm leading-relaxed">{msg.text}</p>
         <p className="text-white/35 text-[10px] mt-1 text-right font-mono">
           {msg.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
         </p>

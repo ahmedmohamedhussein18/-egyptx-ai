@@ -220,8 +220,8 @@ export default function HiddenEgyptContent() {
               <Target className="w-8 h-8 text-[#C9A84C]" />
             </div>
             <div className="flex-1 text-center md:text-left">
-              <h2 className="text-2xl font-bold text-white mb-2 uppercase tracking-wide">{t('hidden.mission')}</h2>
-              <p className="text-lg text-gray-300">
+              <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2 uppercase tracking-wide">{t('hidden.mission')}</h2>
+              <p className="text-lg text-slate-600 dark:text-gray-300">
                 Redirecting tourists to these destinations reduces congestion at major monuments while boosting local economies in underserved regions. Data models for impact are currently awaiting verified data sources.
               </p>
             </div>

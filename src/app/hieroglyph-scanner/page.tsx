@@ -624,7 +624,7 @@ export default function HieroglyphScannerPage() {
                     {/* Historical Era */}
                     <div className="p-4 rounded-2xl bg-black/40 border border-white/10 space-y-1">
                       <span className="text-[10px] uppercase font-mono tracking-wider text-gray-400">
-                        ⏳ Period & Dynasty
+                        Period & Dynasty
                       </span>
                       <p className="text-sm font-bold text-white">
                         {result.context.era}

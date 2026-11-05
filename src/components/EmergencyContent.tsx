@@ -108,7 +108,7 @@ export default function EmergencyContent() {
         <section>
           <div className="flex items-center gap-3 mb-6">
             <Phone className="w-6 h-6 text-[#C9A84C]" />
-            <h2 className="text-2xl font-bold text-white uppercase tracking-wider">Official Emergency Numbers</h2>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white uppercase tracking-wider">Official Emergency Numbers</h2>
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -124,11 +124,11 @@ export default function EmergencyContent() {
               >
                 <div>
                   <h3 className={`font-bold text-lg ${num.color}`}>{num.name_en}</h3>
-                  <p className="text-gray-400 text-sm font-arabic mt-0.5">{num.name_ar}</p>
+                  <p className="text-slate-600 dark:text-gray-400 text-sm font-arabic mt-0.5">{num.name_ar}</p>
                 </div>
                 <div className="flex items-center gap-4">
                   <span className={`text-3xl font-bold ${num.color} tracking-wider`}>{num.number}</span>
-                  <div className={`p-3 rounded-full bg-white/10 ${num.color}`}>
+                  <div className={`p-3 rounded-full bg-slate-200/50 dark:bg-white/10 ${num.color}`}>
                     <Phone className="w-5 h-5 fill-current" />
                   </div>
                 </div>
@@ -141,10 +141,10 @@ export default function EmergencyContent() {
         <section>
           <div className="flex items-center gap-3 mb-6">
             <MapPin className="w-6 h-6 text-[#1B6B93]" />
-            <h2 className="text-2xl font-bold text-white uppercase tracking-wider">Find Nearby Help</h2>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white uppercase tracking-wider">Find Nearby Help</h2>
           </div>
 
-          <div className="bg-[#0A1628]/80 backdrop-blur-xl border border-white/10 rounded-3xl p-6 md:p-8">
+          <div className="bg-[#F8F3E9] dark:bg-[#0A1628]/80 backdrop-blur-xl border border-slate-200 dark:border-white/10 rounded-3xl p-6 md:p-8">
             <AnimatePresence mode="wait">
               {locationState === 'idle' && (
                 <motion.div
@@ -155,8 +155,8 @@ export default function EmergencyContent() {
                   className="text-center py-8"
                 >
                   <MapIcon className="w-12 h-12 text-[#1B6B93] mx-auto mb-4 opacity-50" />
-                  <h3 className="text-xl font-bold text-white mb-2">Location Required</h3>
-                  <p className="text-gray-400 text-sm max-w-md mx-auto mb-8">
+                  <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">Location Required</h3>
+                  <p className="text-slate-600 dark:text-gray-400 text-sm max-w-md mx-auto mb-8">
                     To help you find nearby hospitals or police stations, and to provide coordinates to emergency dispatchers, we need access to your device&apos;s location.
                   </p>
                   <button
@@ -177,7 +177,7 @@ export default function EmergencyContent() {
                   className="text-center py-12"
                 >
                   <Loader2 className="w-10 h-10 text-[#C9A84C] animate-spin mx-auto mb-4" />
-                  <p className="text-gray-400">Requesting location permissions...</p>
+                  <p className="text-slate-600 dark:text-gray-400">Requesting location permissions...</p>
                 </motion.div>
               )}
 
@@ -211,21 +211,21 @@ export default function EmergencyContent() {
                   className="space-y-6"
                 >
                   {/* Coordinates Bar */}
-                  <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 bg-white/5 border border-[#C9A84C]/30 rounded-xl">
+                  <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 bg-slate-100/80 dark:bg-white/5 border border-[#C9A84C]/30 rounded-xl">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-full bg-[#C9A84C]/20 flex items-center justify-center">
                         <MapPin className="w-5 h-5 text-[#C9A84C]" />
                       </div>
                       <div>
-                        <p className="text-xs text-gray-500 uppercase font-bold tracking-wider mb-0.5">Your Current Coordinates</p>
-                        <p className="font-mono text-white tracking-wide">
+                        <p className="text-xs text-slate-500 dark:text-gray-400 uppercase font-bold tracking-wider mb-0.5">Your Current Coordinates</p>
+                        <p className="font-mono text-slate-900 dark:text-white tracking-wide">
                           {coords.lat.toFixed(6)}, {coords.lng.toFixed(6)}
                         </p>
                       </div>
                     </div>
                     <button
                       onClick={copyToClipboard}
-                      className="w-full sm:w-auto px-5 py-2.5 bg-white/10 hover:bg-white/20 border border-white/10 rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2"
+                      className="w-full sm:w-auto px-5 py-2.5 bg-slate-200 hover:bg-slate-300 dark:bg-white/10 dark:hover:bg-white/20 border border-slate-300 dark:border-white/10 text-slate-800 dark:text-white rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2"
                     >
                       {copied ? (
                         <><CheckCircle2 className="w-4 h-4 text-green-400" /> <span className="text-green-400">Copied!</span></>
@@ -237,36 +237,36 @@ export default function EmergencyContent() {
 
                   {/* Nearby facilities */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="p-5 bg-white/5 border border-white/10 rounded-xl flex flex-col">
+                    <div className="p-5 bg-slate-100/80 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl flex flex-col">
                       <div className="flex items-center gap-3 mb-3">
                         <Hospital className="w-5 h-5 text-[#1B6B93]" />
-                        <h4 className="font-bold text-white">Nearest Hospitals</h4>
+                        <h4 className="font-bold text-slate-900 dark:text-white">Nearest Hospitals</h4>
                       </div>
-                      <p className="text-sm text-gray-400 italic mb-4">
+                      <p className="text-sm text-slate-600 dark:text-gray-400 italic mb-4">
                         Find the closest medical facilities to your current location.
                       </p>
                       <a
                         href={`https://www.google.com/maps/search/hospital/@${coords.lat},${coords.lng},14z`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="mt-auto inline-flex w-full py-2.5 bg-[#1B6B93]/20 hover:bg-[#1B6B93]/40 border border-[#1B6B93]/50 text-[#4CC9F0] rounded-lg text-sm font-medium transition-colors items-center justify-center gap-2"
+                        className="mt-auto inline-flex w-full py-2.5 bg-[#1B6B93]/20 hover:bg-[#1B6B93]/40 border border-[#1B6B93]/50 text-[#1B6B93] dark:text-[#4CC9F0] rounded-lg text-sm font-medium transition-colors items-center justify-center gap-2"
                       >
                         {t('emergency.hospital')}
                       </a>
                     </div>
-                    <div className="p-5 bg-white/5 border border-white/10 rounded-xl flex flex-col">
+                    <div className="p-5 bg-slate-100/80 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl flex flex-col">
                       <div className="flex items-center gap-3 mb-3">
                         <ShieldAlert className="w-5 h-5 text-[#1B6B93]" />
-                        <h4 className="font-bold text-white">Nearest Police Station</h4>
+                        <h4 className="font-bold text-slate-900 dark:text-white">Nearest Police Station</h4>
                       </div>
-                      <p className="text-sm text-gray-400 italic mb-4">
+                      <p className="text-sm text-slate-600 dark:text-gray-400 italic mb-4">
                         Find the closest police stations to your current location.
                       </p>
                       <a
                         href={`https://www.google.com/maps/search/police+station/@${coords.lat},${coords.lng},14z`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="mt-auto inline-flex w-full py-2.5 bg-[#1B6B93]/20 hover:bg-[#1B6B93]/40 border border-[#1B6B93]/50 text-[#4CC9F0] rounded-lg text-sm font-medium transition-colors items-center justify-center gap-2"
+                        className="mt-auto inline-flex w-full py-2.5 bg-[#1B6B93]/20 hover:bg-[#1B6B93]/40 border border-[#1B6B93]/50 text-[#1B6B93] dark:text-[#4CC9F0] rounded-lg text-sm font-medium transition-colors items-center justify-center gap-2"
                       >
                         {t('emergency.police')}
                       </a>
@@ -300,19 +300,19 @@ export default function EmergencyContent() {
         <section>
           <div className="flex items-center gap-3 mb-6">
             <Volume2 className="w-6 h-6 text-[#E2C779]" />
-            <h2 className="text-2xl font-bold text-white uppercase tracking-wider">Emergency Phrases</h2>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white uppercase tracking-wider">Emergency Phrases</h2>
           </div>
           
-          <div className="bg-[#0A1628]/60 backdrop-blur-xl border border-white/5 rounded-3xl overflow-hidden">
-            <div className="p-4 bg-white/5 border-b border-white/10 text-xs text-gray-400 uppercase tracking-widest font-semibold text-center">
+          <div className="bg-[#F8F3E9] dark:bg-[#0A1628]/60 backdrop-blur-xl border border-slate-200 dark:border-white/5 rounded-3xl overflow-hidden">
+            <div className="p-4 bg-slate-100/80 dark:bg-white/5 border-b border-slate-200 dark:border-white/10 text-xs text-slate-600 dark:text-gray-400 uppercase tracking-widest font-semibold text-center">
               Static Reference • English to Arabic Translation
             </div>
-            <div className="divide-y divide-white/5">
+            <div className="divide-y divide-slate-200 dark:divide-white/5">
               {PHRASES.map((phrase, idx) => (
-                <div key={idx} className="p-5 md:p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:bg-white/5 transition-colors">
+                <div key={idx} className="p-5 md:p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:bg-slate-100/50 dark:hover:bg-white/5 transition-colors">
                   <div className="flex-1">
-                    <p className="text-lg font-medium text-white mb-1">{phrase.en}</p>
-                    <p className="text-sm text-gray-500 italic">Pronounced: {phrase.pron}</p>
+                    <p className="text-lg font-medium text-slate-900 dark:text-white mb-1">{phrase.en}</p>
+                    <p className="text-sm text-slate-500 dark:text-gray-400 italic">Pronounced: {phrase.pron}</p>
                   </div>
                   <div className="text-right">
                     <p className="text-xl font-arabic text-[#C9A84C]" dir="rtl">{phrase.ar}</p>

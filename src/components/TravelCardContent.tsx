@@ -120,7 +120,7 @@ export default function TravelCardContent() {
             className="text-center py-20 bg-white/5 border border-white/10 rounded-2xl backdrop-blur-sm max-w-3xl mx-auto"
           >
             <ImageIcon className="w-16 h-16 text-gray-500 mx-auto mb-4 opacity-50" />
-            <h2 className="text-xl font-bold text-gray-300 mb-2">No photos found</h2>
+            <h2 className="text-xl font-bold text-slate-800 dark:text-gray-300 mb-2">No photos found</h2>
             <p className="text-gray-500 mb-6 max-w-sm mx-auto">
               Upload a memory photo first to create your travel card.
             </p>
@@ -149,7 +149,7 @@ export default function TravelCardContent() {
                       <img src={photo.photo_url} alt="Thumbnail" className="w-full h-full object-cover" crossOrigin="anonymous" />
                     </div>
                     <div className="overflow-hidden">
-                      <p className="font-bold text-white truncate">{photo.attractions?.name_en || 'Unknown Location'}</p>
+                      <p className="font-bold text-slate-900 dark:text-white truncate">{photo.attractions?.name_en || 'Unknown Location'}</p>
                       <p className="text-xs text-gray-400">{new Date(photo.memory_date).toLocaleDateString()}</p>
                     </div>
                   </div>
@@ -198,7 +198,7 @@ export default function TravelCardContent() {
                       {selectedPhoto.attractions?.name_ar && (
                         <p className="font-arabic text-2xl text-[#C9A84C] mb-1 opacity-90">{selectedPhoto.attractions.name_ar}</p>
                       )}
-                      <h2 className="text-3xl font-bold text-white uppercase tracking-widest mb-2 font-serif">
+                      <h2 className="text-3xl font-bold text-slate-900 dark:text-white uppercase tracking-widest mb-2 font-serif">
                         {selectedPhoto.attractions?.name_en || 'Egypt'}
                       </h2>
                       <div className="flex items-center justify-center gap-4 text-sm text-white/80 uppercase tracking-widest">

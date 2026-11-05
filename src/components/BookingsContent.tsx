@@ -352,7 +352,7 @@ export default function BookingsContent() {
                   <Plane className="w-6 h-6" />
                 </div>
                 <div>
-                  <h2 className="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
+                  <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
                     Flights to Egypt <span className="text-[#C9A84C]">·</span> رحلات الطيران
                   </h2>
                   <p className="text-xs sm:text-sm text-white/60">
@@ -463,7 +463,7 @@ export default function BookingsContent() {
                 <Hotel className="w-6 h-6" />
               </div>
               <div>
-                <h2 className="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
+                <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
                   Hotels & Luxury Stays <span className="text-[#C9A84C]">·</span> فنادق وإقامات مصر
                 </h2>
                 <p className="text-xs sm:text-sm text-white/60">
@@ -493,7 +493,7 @@ export default function BookingsContent() {
                         {platform.badge}
                       </span>
                     </div>
-                    <h3 className="text-base font-bold text-white group-hover:text-[#E2CB85] transition-colors">
+                    <h3 className="text-base font-bold text-slate-900 dark:text-white group-hover:text-[#C5A059] dark:group-hover:text-[#E2CB85] transition-colors">
                       {platform.name}
                     </h3>
                     <p className="text-xs text-white/65 leading-relaxed">
@@ -589,7 +589,7 @@ export default function BookingsContent() {
                   <Utensils className="w-6 h-6" />
                 </div>
                 <div>
-                  <h2 className="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
+                  <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
                     Restaurants & Culinary <span className="text-[#C9A84C]">·</span> المطاعم والمطبخ المصري
                   </h2>
                   <p className="text-xs sm:text-sm text-white/60">
@@ -685,7 +685,7 @@ export default function BookingsContent() {
                 <Video className="w-6 h-6" />
               </div>
               <div>
-                <h2 className="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
+                <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
                   Egypt Through a Lens <span className="text-[#C9A84C]">·</span> مصر من عدسة
                 </h2>
                 <p className="text-xs sm:text-sm text-white/60">

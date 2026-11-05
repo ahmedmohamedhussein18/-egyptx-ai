@@ -192,7 +192,7 @@ export default function SmartSiteContent() {
         <div className="bg-white/5 backdrop-blur-lg border border-[#C9A84C]/20 rounded-3xl p-8 mb-12 text-center relative overflow-hidden">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-2xl h-full bg-[#1B6B93]/5 blur-[100px] pointer-events-none" />
           
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">{selectedSite.name_en}</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-2">{selectedSite.name_en}</h2>
           <p className="text-[#C9A84C] text-lg mb-3">{selectedSite.city || selectedSite.category}</p>
           
           {selectedSite.latitude && selectedSite.longitude && (
@@ -292,7 +292,7 @@ export default function SmartSiteContent() {
               {activeTab === 'overview' && (
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-4">
                   <h3 className="text-xl font-bold text-[#C9A84C]">What You&apos;re Looking At</h3>
-                  <p className="text-gray-300 leading-relaxed text-lg">{selectedSite.description_en || 'Information is currently being updated for this location.'}</p>
+                  <p className="text-slate-600 dark:text-gray-300 leading-relaxed text-lg">{selectedSite.description_en || 'Information is currently being updated for this location.'}</p>
                 </motion.div>
               )}
 
@@ -511,7 +511,7 @@ export default function SmartSiteContent() {
                   </div>
                   <div className="bg-white/5 p-6 rounded-xl border border-white/5">
                     <h3 className="text-xl font-bold text-[#C9A84C] mb-4">What You&apos;re Looking At</h3>
-                    <p className="text-gray-300 leading-relaxed text-lg">{selectedSite.description_en || 'Information is currently being updated for this location.'}</p>
+                    <p className="text-slate-600 dark:text-gray-300 leading-relaxed text-lg">{selectedSite.description_en || 'Information is currently being updated for this location.'}</p>
                     {language !== 'English' && (
                       <p className="text-xs text-[#1B6B93] mt-4 flex items-center gap-1"><Globe className="w-3 h-3" /> AI Translation Active</p>
                     )}

@@ -151,7 +151,7 @@ export default function ExpensesContent() {
           {/* Left Column: Form & Summary */}
           <div className="lg:col-span-1 space-y-8">
             <div className="bg-[#F8F3E9] dark:bg-white/5 backdrop-blur-md border border-slate-200 dark:border-white/10 rounded-3xl p-6 shadow-xl text-slate-900 dark:text-white">
-              <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+              <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
                 <Receipt className="w-5 h-5 text-[#C9A84C]" /> Add New Expense
               </h2>
               
@@ -258,7 +258,7 @@ export default function ExpensesContent() {
             
             {/* Chart */}
             <div className="bg-[#F8F3E9] dark:bg-white/5 backdrop-blur-md border border-slate-200 dark:border-white/10 rounded-3xl p-6 shadow-xl text-slate-900 dark:text-white h-[350px] flex flex-col">
-              <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+              <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
                 <PieChartIcon className="w-5 h-5 text-[#C9A84C]" /> EGP Category Breakdown
               </h2>
               {chartData.length > 0 ? (

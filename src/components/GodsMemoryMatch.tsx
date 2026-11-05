@@ -234,10 +234,10 @@ export default function GodsMemoryMatch() {
       `}</style>
 
       <h2 className="text-2xl md:text-3xl font-bold text-[#C9A84C] text-center mb-1">
-        <span className="inline-block" style={{ animation: 'gmm-sparkle 1.6s ease-in-out infinite' }}>🃏</span> Gods Memory Match{' '}
+        <span className="inline-block" style={{ animation: 'gmm-sparkle 1.6s ease-in-out infinite' }}></span> Gods Memory Match{' '}
         
       </h2>
-      <p className="text-center text-sm text-gray-400 mb-6">Match the Egyptian gods! 🃏</p>
+      <p className="text-center text-sm text-gray-400 mb-6">Match the Egyptian gods! </p>
 
       {/* Difficulty selector */}
       {pairsCount === null && (

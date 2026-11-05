@@ -227,7 +227,7 @@ export default function LittlePharaohsKidsMode() {
             </h3>
             <div className="flex items-center gap-4 flex-wrap">
               <span className="text-xs text-gray-300"> {lang === "ar" ? "الحركات" : "Moves"}: <strong className="text-[#D4AF37] text-sm">{moves}</strong></span>
-              <span className="text-xs text-gray-300">⏱ {lang === "ar" ? "الوقت" : "Time"}: <strong className="text-teal-400 text-sm">{seconds}s</strong></span>
+              <span className="text-xs text-gray-300">{lang === "ar" ? "الوقت" : "Time"}: <strong className="text-teal-400 text-sm">{seconds}s</strong></span>
               <button
                 onClick={shuffleTiles}
                 className="bg-[#D4AF37] hover:bg-[#c29d30] text-[#070D1F] font-bold px-5 py-2 rounded-xl text-xs transition-transform hover:scale-105 shadow-md cursor-pointer"

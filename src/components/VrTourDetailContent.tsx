@@ -314,7 +314,7 @@ export default function VrTourDetailContent({ id }: { id: string }) {
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <span className="text-xs uppercase tracking-wider font-bold text-white">
+                  <span className="text-xs uppercase tracking-wider font-bold text-slate-900 dark:text-white">
                     Historical Audio Guide
                   </span>
                   <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-[#C9A84C]/20 border border-[#C9A84C]/50 text-[#E2CB85]">

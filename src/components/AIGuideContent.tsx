@@ -227,7 +227,7 @@ export default function AIGuideContent() {
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-4xl md:text-5xl font-black text-white uppercase tracking-wider mb-4"
+            className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white uppercase tracking-wider mb-4"
           >
             AI Vision Guide
           </motion.h1>
@@ -269,7 +269,7 @@ export default function AIGuideContent() {
                 <div className="w-16 h-16 rounded-full bg-[#030712] border border-white/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                   <Camera className="w-8 h-8 text-[#C9A84C]" />
                 </div>
-                <p className="text-white font-bold text-lg mb-2">Tap to Use Camera</p>
+                <p className="text-slate-900 dark:text-white font-bold text-lg mb-2">Tap to Use Camera</p>
                 <p className="text-gray-500 text-sm">or upload an image</p>
               </div>
             ) : (
@@ -331,8 +331,8 @@ export default function AIGuideContent() {
                 {result.confidence_level === 'unable' ? (
                   <div className="flex-grow flex flex-col items-center justify-center text-center">
                     <AlertCircle className="w-12 h-12 text-yellow-500 mb-4" />
-                    <h2 className="text-2xl font-bold text-white mb-2">Cannot Identify</h2>
-                    <p className="text-gray-400">{result.ai_description}</p>
+                    <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Cannot Identify</h2>
+                    <p className="text-slate-600 dark:text-gray-400">{result.ai_description}</p>
                   </div>
                 ) : (
                   <div className="flex flex-col h-full">

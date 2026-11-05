@@ -80,17 +80,17 @@ export default function VREgyptSection() {
   const [activeTour, setActiveTour] = useState<typeof VR_LOCATIONS[0] | null>(null);
 
   return (
-    <div className="w-full max-w-6xl mx-auto p-4 md:p-6 text-white font-sans" dir="ltr">
+    <div className="w-full max-w-6xl mx-auto p-4 md:p-6 text-slate-900 dark:text-white font-sans" dir="ltr">
       
       {/* رأس القسم */}
       <div className="text-center mb-8">
         <span className="bg-[#D4AF37]/20 border border-[#D4AF37]/50 text-[#D4AF37] text-xs font-bold px-4 py-1.5 rounded-full">
           VR EGYPT ECOSYSTEM
         </span>
-        <h2 className="text-3xl font-extrabold text-white mt-2">
+        <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white mt-2">
           Immersive 360° & Matterport Tours
         </h2>
-        <p className="text-xs text-gray-300 mt-1">
+        <p className="text-xs text-slate-600 dark:text-gray-300 mt-1">
           استكشف عظمة الآثار المصرية بجولات تفاعلية ثلاثية الأبعاد.
         </p>
       </div>

@@ -18,7 +18,7 @@ import {
   Calendar
 } from 'lucide-react';
 
-export interface NationalProject {
+interface NationalProject {
   id: string;
   title: {
     en: string;
@@ -36,7 +36,7 @@ export interface NationalProject {
   stats: string;
 }
 
-export const NATIONAL_PROJECTS: NationalProject[] = [
+const NATIONAL_PROJECTS: NationalProject[] = [
   {
     id: 'gem',
     title: {

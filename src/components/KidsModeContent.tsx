@@ -347,7 +347,7 @@ export default function KidsModeContent() {
                   <Smile className="w-8 h-8" />
                 </div>
                 <div>
-                  <h1 className="text-2xl md:text-3xl font-bold text-white">Hi, {profile.nickname}!</h1>
+                  <h1 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white">Hi, {profile.nickname}!</h1>
                   <p className="text-[#4CC9F0] font-medium flex items-center gap-1.5">
                     <Star className="w-4 h-4 fill-current" />
                     <span>Explorer Level</span>

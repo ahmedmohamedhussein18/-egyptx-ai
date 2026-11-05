@@ -581,7 +581,7 @@ export default function SponsorsShowcase() {
                         {/* Monument & Location */}
                         <div className="flex items-center gap-2 text-xs text-white/80">
                           <Compass className="w-3.5 h-3.5 text-[#4EB1E2]" />
-                          <span className="font-semibold text-white drop-shadow">
+                          <span className="font-semibold text-slate-900 dark:text-white">
                             {isAr ? ambassador.monumentNameAr : ambassador.monumentName}
                           </span>
                           <span className="text-white/40">•</span>
@@ -711,7 +711,7 @@ export default function SponsorsShowcase() {
                     <span className="text-[10px] uppercase font-bold text-[#E2CB85] tracking-widest block mb-1">
                       {isAr ? ambassador.categoryAr : ambassador.category}
                     </span>
-                    <h4 className="text-lg font-bold text-white group-hover:text-[#F5E6B8] transition-colors leading-snug">
+                    <h4 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-[#C5A059] dark:group-hover:text-[#F5E6B8] transition-colors leading-snug">
                       {isAr ? ambassador.nameAr : ambassador.name}
                     </h4>
                     <p className="text-xs text-white/60 mt-1 flex items-center gap-1">

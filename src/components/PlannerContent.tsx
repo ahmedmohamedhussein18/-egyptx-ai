@@ -1882,7 +1882,7 @@ export default function PlannerContent() {
                             {day.day}
                           </div>
                           <div>
-                            <h3 className="text-lg font-bold text-white">Day {day.day} — {day.city}</h3>
+                            <h3 className="text-lg font-bold text-slate-900 dark:text-white">Day {day.day} — {day.city}</h3>
                             <p className="text-white/30 text-sm">{day.activities.length} activities planned</p>
                           </div>
                         </div>

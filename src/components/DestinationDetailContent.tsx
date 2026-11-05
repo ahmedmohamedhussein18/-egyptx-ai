@@ -87,7 +87,7 @@ export default function DestinationDetailContent({ id }: { id: string }) {
               </div>
             </div>
 
-            <div className="prose prose-invert max-w-none text-gray-300 leading-relaxed border-t border-white/10 pt-6">
+            <div className="prose max-w-none text-slate-700 dark:text-gray-300 leading-relaxed border-t border-white/10 pt-6">
               <p>{attraction.description_en || 'Experience the rich history and beauty of this Egyptian marvel. Visitors from around the world travel here to witness its grandeur.'}</p>
             </div>
 
@@ -113,7 +113,7 @@ export default function DestinationDetailContent({ id }: { id: string }) {
                 <div className="mt-8 bg-[#0A1628] border border-[#1B6B93]/30 rounded-2xl p-6 relative overflow-hidden group">
                   <div className="flex items-center gap-4 mb-4">
                     <div>
-                      <h3 className="text-xl font-bold text-white">Experience {attraction.name_en}</h3>
+                      <h3 className="text-xl font-bold text-slate-900 dark:text-white">Experience {attraction.name_en}</h3>
                     </div>
                   </div>
                   <div className="w-full rounded-xl overflow-hidden border border-white/5">

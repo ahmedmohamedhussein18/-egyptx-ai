@@ -268,20 +268,20 @@ export default function MemoriesContent() {
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 border-b border-white/10 pb-6">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 border-b border-slate-200 dark:border-white/10 pb-6">
           <div>
             <h1 className="text-3xl md:text-4xl font-bold text-[#C9A84C] uppercase tracking-wide flex items-center gap-3 mb-2">
               <Camera className="w-8 h-8" />
               Memories & Timeline
             </h1>
-            <p className="text-gray-400 font-medium tracking-wider text-sm">
+            <p className="text-slate-600 dark:text-gray-400 font-medium tracking-wider text-sm">
               Your personal travel journal and photo memories.
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-3 shrink-0">
             <button
               onClick={() => router.push('/expenses')}
-              className="px-5 py-2.5 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold rounded-lg transition-colors flex items-center gap-2"
+              className="px-5 py-2.5 bg-slate-200 hover:bg-slate-300 dark:bg-white/10 dark:hover:bg-white/20 border border-slate-300 dark:border-white/20 text-slate-800 dark:text-white font-bold rounded-lg transition-colors flex items-center gap-2"
             >
               Add Expense
             </button>
@@ -300,7 +300,7 @@ export default function MemoriesContent() {
             </button>
             <button
               onClick={openJournalModal}
-              className="px-5 py-2.5 bg-[#0A1628] border border-[#C9A84C]/50 hover:bg-[#0A1628]/80 text-[#C9A84C] font-bold rounded-lg transition-colors flex items-center gap-2"
+              className="px-5 py-2.5 bg-white dark:bg-[#0A1628] border border-[#C9A84C]/50 hover:bg-slate-50 dark:hover:bg-[#0A1628]/80 text-[#C9A84C] font-bold rounded-lg transition-colors flex items-center gap-2"
             >
               <Plus className="w-4 h-4" />
               Add Journal
@@ -309,16 +309,16 @@ export default function MemoriesContent() {
         </div>
 
         {/* Tab Switcher */}
-        <div className="flex items-center gap-4 mb-10 border-b border-white/10 pb-4">
+        <div className="flex items-center gap-4 mb-10 border-b border-slate-200 dark:border-white/10 pb-4">
           <button 
             onClick={() => setActiveTab('timeline')}
-            className={`flex items-center gap-2 font-bold uppercase tracking-wider text-sm transition-colors px-4 py-2 rounded-lg ${activeTab === 'timeline' ? 'bg-[#C9A84C]/10 text-[#C9A84C]' : 'text-gray-400 hover:text-white hover:bg-white/5'}`}
+            className={`flex items-center gap-2 font-bold uppercase tracking-wider text-sm transition-colors px-4 py-2 rounded-lg ${activeTab === 'timeline' ? 'bg-[#C9A84C]/10 text-[#C9A84C]' : 'text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5'}`}
           >
             <Calendar className="w-4 h-4" /> Timeline
           </button>
           <button 
             onClick={() => setActiveTab('collections')}
-            className={`flex items-center gap-2 font-bold uppercase tracking-wider text-sm transition-colors px-4 py-2 rounded-lg ${activeTab === 'collections' ? 'bg-[#C9A84C]/10 text-[#C9A84C]' : 'text-gray-400 hover:text-white hover:bg-white/5'}`}
+            className={`flex items-center gap-2 font-bold uppercase tracking-wider text-sm transition-colors px-4 py-2 rounded-lg ${activeTab === 'collections' ? 'bg-[#C9A84C]/10 text-[#C9A84C]' : 'text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5'}`}
           >
             <FolderHeart className="w-4 h-4" /> My Collections
           </button>
@@ -334,11 +334,11 @@ export default function MemoriesContent() {
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-center py-20 bg-white/5 border border-white/10 rounded-2xl backdrop-blur-sm"
+            className="text-center py-20 bg-[#F8F3E9] dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl backdrop-blur-sm"
           >
             <BookOpen className="w-16 h-16 text-gray-500 mx-auto mb-4 opacity-50" />
-            <h2 className="text-xl font-bold text-gray-300 mb-2">Your Egypt story starts here.</h2>
-            <p className="text-gray-500 max-w-sm mx-auto">
+            <h2 className="text-xl font-bold text-slate-800 dark:text-gray-300 mb-2">Your Egypt story starts here.</h2>
+            <p className="text-slate-600 dark:text-gray-400 max-w-sm mx-auto">
               Add your first memory or upload a photo to start tracking the places you visit.
             </p>
           </motion.div>
@@ -364,12 +364,12 @@ export default function MemoriesContent() {
                   </div>
                   {summary ? (
                     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="prose prose-invert max-w-none">
-                      <p className="text-gray-300 leading-relaxed italic border-l-2 border-[#C9A84C] pl-4 py-1">
+                      <p className="text-slate-700 dark:text-gray-300 leading-relaxed italic border-l-2 border-[#C9A84C] pl-4 py-1">
                         {summary}
                       </p>
                     </motion.div>
                   ) : (
-                    <p className="text-gray-500 text-sm">
+                    <p className="text-slate-600 dark:text-gray-400 text-sm">
                       Click generate to let AI write a personalized journal entry based on your {journals.length} written memories.
                     </p>
                   )}
@@ -388,11 +388,11 @@ export default function MemoriesContent() {
                   className="relative"
                 >
                   {/* Timeline Dot */}
-                  <div className="absolute -left-[35px] md:-left-[51px] top-4 w-5 h-5 rounded-full bg-[#030712] border-4 border-[#C9A84C] shadow-[0_0_10px_rgba(201,168,76,0.5)] z-10" />
+                  <div className="absolute -left-[35px] md:-left-[51px] top-4 w-5 h-5 rounded-full bg-[#FDFBF7] dark:bg-[#030712] border-4 border-[#C9A84C] shadow-[0_0_10px_rgba(201,168,76,0.5)] z-10" />
 
                   {item.type === 'photo' ? (
                     // Photo Card
-                    <div className="bg-[#0A1628]/80 border border-white/10 rounded-2xl overflow-hidden backdrop-blur-sm group hover:border-[#C9A84C]/50 transition-colors">
+                    <div className="bg-[#F8F3E9] dark:bg-[#0A1628]/80 border border-slate-200 dark:border-white/10 rounded-2xl overflow-hidden backdrop-blur-sm group hover:border-[#C9A84C]/50 transition-colors">
                       <div className="relative h-64 md:h-80 w-full">
                         <img src={item.photo_url} alt="Memory" className="w-full h-full object-cover" />
                         <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity flex gap-2">
@@ -403,9 +403,9 @@ export default function MemoriesContent() {
                         </div>
                       </div>
                       <div className="p-5">
-                        {item.caption && <p className="text-lg font-bold text-white mb-3">{item.caption}</p>}
+                        {item.caption && <p className="text-lg font-bold text-slate-900 dark:text-white mb-3">{item.caption}</p>}
                         <div className="flex flex-wrap gap-3">
-                          <span className="flex items-center gap-1.5 text-xs text-gray-400 bg-white/5 px-2.5 py-1 rounded-full border border-white/10">
+                          <span className="flex items-center gap-1.5 text-xs text-slate-600 dark:text-gray-400 bg-slate-100 dark:bg-white/5 px-2.5 py-1 rounded-full border border-slate-200 dark:border-white/10">
                             <Calendar className="w-3.5 h-3.5" /> {new Date(item.memory_date).toLocaleDateString()}
                           </span>
                           {item.attractions && (
@@ -418,17 +418,17 @@ export default function MemoriesContent() {
                     </div>
                   ) : (
                     // Journal Card
-                    <div className="bg-[#0A1628]/80 border border-[#C9A84C]/20 rounded-2xl p-6 backdrop-blur-sm group hover:border-[#C9A84C]/50 transition-colors relative">
+                    <div className="bg-[#F8F3E9] dark:bg-[#0A1628]/80 border border-slate-200 dark:border-[#C9A84C]/20 rounded-2xl p-6 backdrop-blur-sm group hover:border-[#C9A84C]/50 transition-colors relative">
                       <div className="absolute top-4 right-4 flex opacity-0 group-hover:opacity-100 transition-opacity gap-2">
-                        <button onClick={() => deleteJournal(item.id)} className="p-1.5 text-gray-400 hover:text-red-400 bg-white/5 rounded-md">
+                        <button onClick={() => deleteJournal(item.id)} className="p-1.5 text-slate-500 dark:text-gray-400 hover:text-red-500 bg-slate-100 dark:bg-white/5 rounded-md">
                           <Trash2 className="w-4 h-4" />
                         </button>
                       </div>
 
-                      <h3 className="text-xl font-bold text-white mb-3 pr-16">{item.title}</h3>
+                      <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3 pr-16">{item.title}</h3>
                       <div className="flex flex-wrap gap-3 mb-4">
                         {item.visited_at && (
-                          <span className="flex items-center gap-1.5 text-xs text-gray-400 bg-white/5 px-2.5 py-1 rounded-full border border-white/10">
+                          <span className="flex items-center gap-1.5 text-xs text-slate-600 dark:text-gray-400 bg-slate-100 dark:bg-white/5 px-2.5 py-1 rounded-full border border-slate-200 dark:border-white/10">
                             <Calendar className="w-3.5 h-3.5" /> {new Date(item.visited_at).toLocaleDateString()}
                           </span>
                         )}
@@ -441,7 +441,7 @@ export default function MemoriesContent() {
                           <BookOpen className="w-3.5 h-3.5" /> Journal Entry
                         </span>
                       </div>
-                      <p className="text-gray-300 text-sm leading-relaxed whitespace-pre-wrap">
+                      <p className="text-slate-600 dark:text-gray-300 text-sm leading-relaxed whitespace-pre-wrap">
                         {item.note}
                       </p>
                     </div>
@@ -465,42 +465,40 @@ export default function MemoriesContent() {
             />
             <motion.div 
               initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }}
-              className="relative w-full max-w-lg bg-[#0A1628] border border-[#C9A84C]/30 rounded-2xl shadow-2xl p-6"
+              className="relative w-full max-w-lg bg-[#FDFBF7] dark:bg-[#0A1628] border border-slate-200 dark:border-[#C9A84C]/30 rounded-2xl shadow-2xl p-6"
             >
-              <button 
-                onClick={() => setIsJournalModalOpen(false)}
-                className="absolute top-4 right-4 text-gray-400 hover:text-white"
+              <button onClick={() => setIsJournalModalOpen(false)} className="absolute top-4 right-4 text-slate-500 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white"
               >
                 <X className="w-5 h-5" />
               </button>
               
-              <h2 className="text-2xl font-bold text-white mb-6">Add Journal Entry</h2>
+              <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Add Journal Entry</h2>
 
               <form onSubmit={saveJournal} className="space-y-4">
                 <div>
-                  <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Title</label>
+                  <label className="block text-xs font-bold text-slate-600 dark:text-gray-400 uppercase tracking-wider mb-1">Title</label>
                   <input 
                     required type="text" maxLength={100}
                     value={journalForm.title} onChange={e => setJournalForm({...journalForm, title: e.target.value})}
-                    className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-[#C9A84C]"
+                    className="w-full bg-white dark:bg-white/5 border border-slate-300 dark:border-white/10 rounded-lg px-4 py-2.5 text-slate-900 dark:text-white focus:outline-none focus:border-[#C9A84C]"
                     placeholder="E.g., Sunrise at the Pyramids"
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Date</label>
+                  <label className="block text-xs font-bold text-slate-600 dark:text-gray-400 uppercase tracking-wider mb-1">Date</label>
                   <input 
                     type="date"
                     value={journalForm.visited_at} onChange={e => setJournalForm({...journalForm, visited_at: e.target.value})}
-                    className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-[#C9A84C]"
+                    className="w-full bg-white dark:bg-white/5 border border-slate-300 dark:border-white/10 rounded-lg px-4 py-2.5 text-slate-900 dark:text-white focus:outline-none focus:border-[#C9A84C]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Location (Optional)</label>
+                  <label className="block text-xs font-bold text-slate-600 dark:text-gray-400 uppercase tracking-wider mb-1">Location (Optional)</label>
                   <select
                     value={journalForm.attraction_id} onChange={e => setJournalForm({...journalForm, attraction_id: e.target.value})}
-                    className="w-full bg-[#0A1628] border border-white/10 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-[#C9A84C] appearance-none"
+                    className="w-full bg-white dark:bg-[#0A1628] border border-slate-300 dark:border-white/10 rounded-lg px-4 py-2.5 text-slate-900 dark:text-white focus:outline-none focus:border-[#C9A84C] appearance-none"
                   >
                     <option value="">-- None --</option>
                     {attractions.map(a => (
@@ -510,17 +508,17 @@ export default function MemoriesContent() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Journal Note</label>
+                  <label className="block text-xs font-bold text-slate-600 dark:text-gray-400 uppercase tracking-wider mb-1">Journal Note</label>
                   <textarea 
                     required rows={4}
                     value={journalForm.note} onChange={e => setJournalForm({...journalForm, note: e.target.value})}
-                    className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-[#C9A84C] resize-none"
+                    className="w-full bg-white dark:bg-white/5 border border-slate-300 dark:border-white/10 rounded-lg px-4 py-2.5 text-slate-900 dark:text-white focus:outline-none focus:border-[#C9A84C] resize-none"
                     placeholder="Write your memory here..."
                   />
                 </div>
 
                 <div className="pt-4 flex justify-end gap-3">
-                  <button type="button" onClick={() => setIsJournalModalOpen(false)} className="px-5 py-2 text-gray-400 hover:text-white">{t('common.cancel')}</button>
+                  <button type="button" onClick={() => setIsJournalModalOpen(false)} className="px-5 py-2 text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white">{t('common.cancel')}</button>
                   <button type="submit" disabled={saving} className="px-6 py-2 bg-[#0A1628] border border-[#C9A84C] text-[#C9A84C] hover:bg-[#C9A84C]/10 font-bold rounded-lg disabled:opacity-50 flex items-center gap-2">
                     {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Save Journal'}
                   </button>
@@ -542,23 +540,21 @@ export default function MemoriesContent() {
             />
             <motion.div 
               initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }}
-              className="relative w-full max-w-lg bg-[#0A1628] border border-[#C9A84C]/30 rounded-2xl shadow-2xl p-6"
+              className="relative w-full max-w-lg bg-[#FDFBF7] dark:bg-[#0A1628] border border-slate-200 dark:border-[#C9A84C]/30 rounded-2xl shadow-2xl p-6"
             >
-              <button 
-                onClick={() => setIsPhotoModalOpen(false)}
-                className="absolute top-4 right-4 text-gray-400 hover:text-white"
+              <button onClick={() => setIsPhotoModalOpen(false)} className="absolute top-4 right-4 text-slate-500 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white"
               >
                 <X className="w-5 h-5" />
               </button>
               
-              <h2 className="text-2xl font-bold text-white mb-6">{t('memories.upload')}</h2>
+              <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">{t('memories.upload')}</h2>
 
               <form onSubmit={savePhoto} className="space-y-4">
                 
                 {/* File Upload Area */}
                 <div 
                   onClick={() => fileInputRef.current?.click()}
-                  className={`w-full h-40 border-2 border-dashed rounded-xl flex flex-col items-center justify-center cursor-pointer transition-colors ${selectedFile ? 'border-[#C9A84C] bg-[#C9A84C]/5' : 'border-white/20 bg-white/5 hover:bg-white/10'}`}
+                  className={`w-full h-40 border-2 border-dashed rounded-xl flex flex-col items-center justify-center cursor-pointer transition-colors ${selectedFile ? 'border-[#C9A84C] bg-[#C9A84C]/5' : 'border-slate-300 dark:border-white/20 bg-slate-50 dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10'}`}
                 >
                   {selectedFile ? (
                     <div className="text-center text-[#C9A84C]">
@@ -583,30 +579,30 @@ export default function MemoriesContent() {
                 />
 
                 <div>
-                  <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">{t('memories.caption')} (Optional)</label>
+                  <label className="block text-xs font-bold text-slate-600 dark:text-gray-400 uppercase tracking-wider mb-1">{t('memories.caption')} (Optional)</label>
                   <input 
                     type="text" maxLength={150}
                     value={photoForm.caption} onChange={e => setPhotoForm({...photoForm, caption: e.target.value})}
-                    className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-[#C9A84C]"
+                    className="w-full bg-white dark:bg-white/5 border border-slate-300 dark:border-white/10 rounded-lg px-4 py-2.5 text-slate-900 dark:text-white focus:outline-none focus:border-[#C9A84C]"
                     placeholder="E.g., Beautiful view of the Nile"
                   />
                 </div>
                 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Date</label>
+                    <label className="block text-xs font-bold text-slate-600 dark:text-gray-400 uppercase tracking-wider mb-1">Date</label>
                     <input 
                       required type="date"
                       value={photoForm.memory_date} onChange={e => setPhotoForm({...photoForm, memory_date: e.target.value})}
-                      className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-[#C9A84C]"
+                      className="w-full bg-white dark:bg-white/5 border border-slate-300 dark:border-white/10 rounded-lg px-4 py-2.5 text-slate-900 dark:text-white focus:outline-none focus:border-[#C9A84C]"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Location (Optional)</label>
+                    <label className="block text-xs font-bold text-slate-600 dark:text-gray-400 uppercase tracking-wider mb-1">Location (Optional)</label>
                     <select
                       value={photoForm.attraction_id} onChange={e => setPhotoForm({...photoForm, attraction_id: e.target.value})}
-                      className="w-full bg-[#0A1628] border border-white/10 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-[#C9A84C] appearance-none"
+                      className="w-full bg-white dark:bg-[#0A1628] border border-slate-300 dark:border-white/10 rounded-lg px-4 py-2.5 text-slate-900 dark:text-white focus:outline-none focus:border-[#C9A84C] appearance-none"
                     >
                       <option value="">-- None --</option>
                       {attractions.map(a => (
@@ -617,7 +613,7 @@ export default function MemoriesContent() {
                 </div>
 
                 <div className="pt-4 flex justify-end gap-3">
-                  <button type="button" onClick={() => setIsPhotoModalOpen(false)} className="px-5 py-2 text-gray-400 hover:text-white">{t('common.cancel')}</button>
+                  <button type="button" onClick={() => setIsPhotoModalOpen(false)} className="px-5 py-2 text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white">{t('common.cancel')}</button>
                   <button type="submit" disabled={saving || !selectedFile} className="px-6 py-2 bg-[#C9A84C] hover:bg-[#E3C973] text-[#0A1628] font-bold rounded-lg disabled:opacity-50 flex items-center gap-2">
                     {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Upload Photo'}
                   </button>

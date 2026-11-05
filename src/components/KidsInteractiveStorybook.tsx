@@ -31,13 +31,13 @@ export type QuestId = 'pyramid' | 'abusimbel' | 'ankh';
 export type SupportedLang = 'en' | 'ar' | 'zh' | 'fr' | 'it' | 'es' | 'ru';
 
 export const SUPPORTED_LANGS: { id: SupportedLang; name: string; flag: string; dir: 'ltr' | 'rtl'; bcp47: string }[] = [
-  { id: 'ar', name: 'العربية', flag: '🇪🇬', dir: 'rtl', bcp47: 'ar-EG' },
-  { id: 'en', name: 'English', flag: '🇬🇧', dir: 'ltr', bcp47: 'en-US' },
-  { id: 'fr', name: 'Français', flag: '🇫🇷', dir: 'ltr', bcp47: 'fr-FR' },
-  { id: 'it', name: 'Italiano', flag: '🇮🇹', dir: 'ltr', bcp47: 'it-IT' },
-  { id: 'es', name: 'Español', flag: '🇪🇸', dir: 'ltr', bcp47: 'es-ES' },
-  { id: 'ru', name: 'Русский', flag: '🇷🇺', dir: 'ltr', bcp47: 'ru-RU' },
-  { id: 'zh', name: '中文', flag: '🇨🇳', dir: 'ltr', bcp47: 'zh-CN' },
+  { id: 'ar', name: 'العربية', flag: '', dir: 'rtl', bcp47: 'ar-EG' },
+  { id: 'en', name: 'English', flag: '', dir: 'ltr', bcp47: 'en-US' },
+  { id: 'fr', name: 'Français', flag: '', dir: 'ltr', bcp47: 'fr-FR' },
+  { id: 'it', name: 'Italiano', flag: '', dir: 'ltr', bcp47: 'it-IT' },
+  { id: 'es', name: 'Español', flag: '', dir: 'ltr', bcp47: 'es-ES' },
+  { id: 'ru', name: 'Русский', flag: '', dir: 'ltr', bcp47: 'ru-RU' },
+  { id: 'zh', name: '中文', flag: '', dir: 'ltr', bcp47: 'zh-CN' },
 ];
 
 // CRITICAL EXACT IMAGE MAPPING (9 COMBINATIONS)
@@ -1063,8 +1063,8 @@ export default function KidsInteractiveStorybook() {
                       : 'Loading Voice...'
                     : isSpeaking
                     ? activeStoryLang === 'ar'
-                      ? 'إيقاف السرد ⏹'
-                      : 'Stop Narration ⏹'
+                      ? 'إيقاف السرد'
+                      : 'Stop Narration'
                     : activeStoryLang === 'ar'
                     ? 'اقرأ لي بصوت عالٍ '
                     : 'Read Aloud '}

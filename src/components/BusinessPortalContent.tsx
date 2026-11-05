@@ -151,7 +151,7 @@ export default function BusinessPortalContent() {
                   <h3 className="text-lg font-bold text-white mb-2 flex items-center gap-2 uppercase tracking-wider">
                     AI Tourist Demand Insight
                   </h3>
-                  <p className="text-gray-300 leading-relaxed">
+                  <p className="text-slate-600 dark:text-gray-300 leading-relaxed">
                     Increased tourist interest detected in <strong className="text-[#C9A84C]">Fayoum</strong> & <strong className="text-[#C9A84C]">Siwa Oasis</strong> this month. Consider offering targeted promotions to travelers exploring <span className="text-[#4CC9F0] font-semibold border-b border-[#4CC9F0] border-dashed">Hidden Egypt</span> destinations to capture this emerging demand.
                   </p>
                 </div>
@@ -166,7 +166,7 @@ export default function BusinessPortalContent() {
               className="bg-[#0A1628]/80 backdrop-blur border border-white/10 rounded-2xl p-6"
             >
               <div className="flex justify-between items-center mb-6">
-                <h3 className="text-xl font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
                   <Tag className="w-5 h-5 text-[#C9A84C]" />
                   Your Active Offers
                 </h3>
@@ -180,7 +180,7 @@ export default function BusinessPortalContent() {
                         <Percent className="w-5 h-5" />
                       </div>
                       <div>
-                        <h4 className="font-bold text-white text-lg">{offer.title}</h4>
+                        <h4 className="font-bold text-slate-900 dark:text-white text-lg">{offer.title}</h4>
                         <div className="flex items-center gap-3 mt-1">
                           <span className="flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-green-400 bg-green-400/10 px-2 py-0.5 rounded border border-green-400/20">
                             <CheckCircle2 className="w-3 h-3" /> {offer.status}

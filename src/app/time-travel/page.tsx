@@ -175,8 +175,7 @@ export default function TimeTravelPage() {
 
           <h1 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight mb-4">
             <span className="bg-gradient-to-r from-amber-200 via-yellow-400 to-amber-500 bg-clip-text text-transparent">
-              AI Time Travel Explorer ⏳
-            </span>
+              AI Time Travel Explorer </span>
           </h1>
 
           <p className="text-sm sm:text-base text-slate-300/80 leading-relaxed font-normal">

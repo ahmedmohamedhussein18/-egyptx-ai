@@ -173,7 +173,7 @@ export default function TouristPassportContent() {
                 <h3 className="text-xl text-[#C9A84C] font-semibold uppercase tracking-widest mb-1">
                   ≡ƒç¬≡ƒç¼ EgyptX Tourist Passport
                 </h3>
-                <h1 className="text-4xl sm:text-5xl font-bold text-white mb-2 font-serif">
+                <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 dark:text-white mb-2 font-serif">
                   {userProfile?.full_name || 'Tourist'}&apos;s Journey
                 </h1>
                 
@@ -198,7 +198,7 @@ export default function TouristPassportContent() {
         <div>
           <div className="flex items-center gap-3 mb-8">
             <MapPin className="w-6 h-6 text-[#1B6B93]" />
-            <h2 className="text-2xl font-bold text-white uppercase tracking-wider" dir="rtl">زيارات موتقة</h2>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white uppercase tracking-wider" dir="rtl">زيارات موتقة</h2>
             <div className="h-px bg-white/10 flex-1 ml-4" />
           </div>
           
