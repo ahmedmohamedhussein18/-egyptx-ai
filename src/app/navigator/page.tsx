@@ -10,7 +10,7 @@ export const metadata = {
 
 export default function NavigatorPage() {
   return (
-    <main className="min-h-screen bg-[#070B13] text-white flex flex-col justify-between">
+    <main className="min-h-screen bg-[#FDFBF7] dark:bg-[#070B13] text-gray-900 dark:text-white flex flex-col justify-between transition-colors duration-200">
       <Navbar />
       <div className="pt-24 pb-16 flex-1 flex flex-col items-center justify-center">
         <SmartNavigator />
