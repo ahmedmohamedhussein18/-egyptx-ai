@@ -43,19 +43,19 @@ export default function CheckinClient({ attraction, userId }: { attraction: any,
           <CheckCircle className="w-12 h-12 text-[#030712]" strokeWidth={3} />
         </motion.div>
 
-        <h1 className="text-3xl font-bold text-white mb-2">Checked In! </h1>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Checked In!</h1>
         <p className="text-[#C9A84C] text-lg font-semibold mb-6">{attraction.name_en}</p>
 
-        <div className="bg-[#0A1628] rounded-xl p-4 mb-8 border border-white/10 flex items-center justify-center gap-2">
+        <div className="bg-white dark:bg-[#0A1628] rounded-xl p-4 mb-8 border border-gray-200 dark:border-white/10 flex items-center justify-center gap-2">
           <MapPin className="w-5 h-5 text-[#1B6B93]" />
-          <span className="text-gray-300 font-medium">{attraction.city || 'Egypt'}</span>
+          <span className="text-gray-700 dark:text-gray-300 font-medium">{attraction.city || 'Egypt'}</span>
         </div>
 
         <div className="flex flex-col gap-3">
           <Link href="/tourist-passport" className="w-full py-3 bg-[#C9A84C] text-[#030712] font-bold rounded-xl hover:shadow-[0_0_15px_rgba(201,168,76,0.4)] transition-all">
             View Digital Passport
           </Link>
-          <Link href="/smart-site" className="w-full py-3 bg-white/5 border border-white/10 text-white font-medium rounded-xl hover:bg-white/10 transition-all">
+          <Link href="/smart-site" className="w-full py-3 bg-white dark:bg-white/5 border border-gray-300 dark:border-white/10 text-gray-900 dark:text-white font-medium rounded-xl hover:bg-black/5 dark:hover:bg-white/10 transition-all">
             Continue Exploring
           </Link>
         </div>

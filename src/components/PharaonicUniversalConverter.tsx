@@ -105,7 +105,7 @@ export default function PharaonicUniversalConverter() {
   );
 
   return (
-    <div className="bg-[#0A1628]/80 border border-[#C9A84C]/30 rounded-2xl p-6 backdrop-blur-md w-full">
+    <div className="bg-[#F8F3E9] dark:bg-[#0A1628]/80 border border-[#C9A84C]/30 rounded-2xl p-6 backdrop-blur-md w-full shadow-sm">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-xl font-bold text-[#C9A84C]">
           Currency Converter
@@ -116,7 +116,7 @@ export default function PharaonicUniversalConverter() {
           </span>
           <button
             onClick={fetchRates}
-            className="p-2 rounded-xl bg-white/5 hover:bg-[#C9A84C]/20 border border-white/10 text-white/60 hover:text-[#C9A84C] transition-all cursor-pointer"
+            className="p-2 rounded-xl bg-black/[0.04] dark:bg-white/5 hover:bg-[#C9A84C]/20 border border-gray-300 dark:border-white/10 text-gray-600 dark:text-white/60 hover:text-[#C9A84C] transition-all cursor-pointer"
             title="Refresh rates"
           >
             <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
@@ -137,7 +137,7 @@ export default function PharaonicUniversalConverter() {
             step="any"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
-            className="w-full bg-[#030712] border border-white/10 rounded-xl px-4 py-3 text-white text-lg font-bold focus:border-[#C9A84C] focus:outline-none transition-colors"
+            className="w-full bg-white dark:bg-[#030712] border border-gray-300 dark:border-white/10 rounded-xl px-4 py-3 text-gray-900 dark:text-white text-lg font-bold focus:border-[#C9A84C] focus:outline-none transition-colors"
             placeholder="Enter amount..."
           />
         </div>
@@ -148,10 +148,10 @@ export default function PharaonicUniversalConverter() {
             <select
               value={from}
               onChange={(e) => setFrom(e.target.value)}
-              className="w-full bg-[#030712] border border-white/10 rounded-xl px-3 py-2.5 text-sm font-semibold text-white focus:border-[#C9A84C] focus:outline-none transition-colors cursor-pointer"
+              className="w-full bg-white dark:bg-[#030712] border border-gray-300 dark:border-white/10 rounded-xl px-3 py-2.5 text-sm font-semibold text-gray-900 dark:text-white focus:border-[#C9A84C] focus:outline-none transition-colors cursor-pointer"
             >
               {currencies.map((c) => (
-                <option key={c.code} value={c.code} className="bg-[#0A1628] text-white">
+                <option key={c.code} value={c.code} className="bg-white dark:bg-[#0A1628] text-gray-900 dark:text-white">
                   {c.flag} {c.code} - {c.name}
                 </option>
               ))}
@@ -163,7 +163,7 @@ export default function PharaonicUniversalConverter() {
               type="button"
               onClick={swap}
               title="Swap currencies"
-              className="p-2.5 rounded-xl bg-white/5 hover:bg-[#C9A84C]/20 border border-white/10 text-white/70 hover:text-[#C9A84C] transition-all cursor-pointer"
+              className="p-2.5 rounded-xl bg-black/[0.04] dark:bg-white/5 hover:bg-[#C9A84C]/20 border border-gray-300 dark:border-white/10 text-gray-700 dark:text-white/70 hover:text-[#C9A84C] transition-all cursor-pointer"
             >
               <ArrowLeftRight className="w-4 h-4" />
             </button>
@@ -174,10 +174,10 @@ export default function PharaonicUniversalConverter() {
             <select
               value={to}
               onChange={(e) => setTo(e.target.value)}
-              className="w-full bg-[#030712] border border-white/10 rounded-xl px-3 py-2.5 text-sm font-semibold text-white focus:border-[#C9A84C] focus:outline-none transition-colors cursor-pointer"
+              className="w-full bg-white dark:bg-[#030712] border border-gray-300 dark:border-white/10 rounded-xl px-3 py-2.5 text-sm font-semibold text-gray-900 dark:text-white focus:border-[#C9A84C] focus:outline-none transition-colors cursor-pointer"
             >
               {currencies.map((c) => (
-                <option key={c.code} value={c.code} className="bg-[#0A1628] text-white">
+                <option key={c.code} value={c.code} className="bg-white dark:bg-[#0A1628] text-gray-900 dark:text-white">
                   {c.flag} {c.code} - {c.name}
                 </option>
               ))}
@@ -186,12 +186,12 @@ export default function PharaonicUniversalConverter() {
         </div>
 
         {/* Result Card */}
-        <div className="bg-[#030712]/80 border border-[#C9A84C]/40 rounded-xl p-4 text-center mt-4">
+        <div className="bg-white dark:bg-[#030712]/80 border border-[#C9A84C]/40 rounded-xl p-4 text-center mt-4">
           <p className="text-xs text-gray-400 mb-1">
             {amount || '0'} {from} =
           </p>
           <div className="text-2xl sm:text-3xl font-extrabold text-[#C9A84C] tracking-wide">
-            {convert()} <span className="text-base font-bold text-white">{to}</span>
+            {convert()} <span className="text-base font-bold text-gray-900 dark:text-white">{to}</span>
           </div>
           <p className="text-[11px] text-gray-400 mt-2">
             1 {from} ≈ {((rates[to] || 1) / (rates[from] || 1)).toFixed(4)} {to}

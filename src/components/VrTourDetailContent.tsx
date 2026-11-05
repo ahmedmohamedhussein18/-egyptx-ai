@@ -243,7 +243,7 @@ export default function VrTourDetailContent({ id }: { id: string }) {
           <div className="flex flex-wrap items-center justify-between gap-4 mb-5">
             <Link
               href="/vr-egypt"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 hover:bg-[#C9A84C]/15 border border-white/10 hover:border-[#C9A84C]/60 text-xs sm:text-sm font-semibold text-white/80 hover:text-[#E2CB85] transition-all duration-300 drop-shadow-md group"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-black/[0.05] dark:bg-white/5 hover:bg-[#C9A84C]/15 border border-gray-300 dark:border-white/10 hover:border-[#C9A84C]/60 text-xs sm:text-sm font-semibold text-gray-800 dark:text-white/80 hover:text-[#8A661C] dark:hover:text-[#E2CB85] transition-all duration-300 group"
             >
               <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
               <span>← Back to Tours</span>
@@ -252,14 +252,14 @@ export default function VrTourDetailContent({ id }: { id: string }) {
             <div className="flex items-center gap-2">
               <button
                 onClick={handleShare}
-                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-medium text-white/70 hover:text-white transition-colors"
+                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-black/[0.05] dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 border border-gray-300 dark:border-white/10 text-xs font-medium text-gray-700 dark:text-white/70 hover:text-gray-900 dark:hover:text-white transition-colors"
                 title="Share Tour"
               >
                 {copiedLink ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Share2 className="w-3.5 h-3.5" />}
                 <span>{copiedLink ? 'Link Copied!' : 'Share'}</span>
               </button>
 
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#C9A84C]/15 border border-[#C9A84C]/40 text-[#E2CB85] text-xs font-mono font-semibold">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#C9A84C]/15 border border-[#C9A84C]/40 text-[#8A661C] dark:text-[#E2CB85] text-xs font-mono font-semibold">
                 <ShieldCheck className="w-3.5 h-3.5 text-[#C9A84C]" />
                 UNESCO Certified
               </span>
@@ -268,33 +268,33 @@ export default function VrTourDetailContent({ id }: { id: string }) {
 
           {/* Badges Row */}
           <div className="flex flex-wrap items-center gap-2.5 mb-3">
-            <span className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[11px] font-semibold tracking-wider uppercase text-[#C9A84C]">
+            <span className="px-3 py-1 rounded-full bg-black/[0.04] dark:bg-white/5 border border-gray-300 dark:border-white/10 text-[11px] font-semibold tracking-wider uppercase text-[#8A661C] dark:text-[#C9A84C]">
               {monument.era}
             </span>
-            <span className="px-3 py-1 rounded-full bg-[#1B6B93]/20 border border-[#1B6B93]/50 text-[11px] font-semibold tracking-wider uppercase text-cyan-300">
+            <span className="px-3 py-1 rounded-full bg-[#1B6B93]/15 dark:bg-[#1B6B93]/20 border border-[#1B6B93]/50 text-[11px] font-semibold tracking-wider uppercase text-[#1B6B93] dark:text-cyan-300">
               {monument.siteType}
             </span>
-            <span className="px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/40 text-[11px] font-semibold tracking-wider uppercase text-emerald-300">
+            <span className="px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/40 text-[11px] font-semibold tracking-wider uppercase text-emerald-700 dark:text-emerald-300">
               Interactive 360° Portal
             </span>
           </div>
 
           {/* Monument Title */}
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-[#E2CB85] to-[#C9A84C] drop-shadow-[0_0_35px_rgba(201,168,76,0.35)] leading-tight mb-2">
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-gray-900 via-[#8A661C] to-[#C9A84C] dark:from-white dark:via-[#E2CB85] dark:to-[#C9A84C] leading-tight mb-2">
             {monument.title}
           </h1>
 
-          <div className="flex flex-wrap items-center gap-4 text-xs sm:text-sm text-white/60">
+          <div className="flex flex-wrap items-center gap-4 text-xs sm:text-sm text-gray-600 dark:text-white/60">
             <div className="flex items-center gap-1.5">
               <MapPin className="w-4 h-4 text-[#C9A84C]" />
-              <span className="font-medium text-white/90">{monument.city}, {monument.governorate}</span>
+              <span className="font-medium text-gray-900 dark:text-white/90">{monument.city}, {monument.governorate}</span>
             </div>
-            <span className="text-white/30">•</span>
+            <span className="text-gray-400 dark:text-white/30">•</span>
             <div className="flex items-center gap-1.5 font-mono">
               <Compass className="w-3.5 h-3.5 text-cyan-400" />
               <span>{monument.coordinates}</span>
             </div>
-            <span className="text-white/30">•</span>
+            <span className="text-gray-400 dark:text-white/30">•</span>
             <div className="flex items-center gap-1.5">
               <Clock className="w-3.5 h-3.5 text-[#C9A84C]" />
               <span>{monument.duration} Recommended</span>
@@ -303,7 +303,7 @@ export default function VrTourDetailContent({ id }: { id: string }) {
         </div>
 
         {/* ── 2. AUDIO GUIDE BAR (ElevenLabs HD Voice) ───────────────────── */}
-        <div className="mb-8 p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-[#0B1120]/90 via-[#0B1120]/70 to-[#0B1120]/90 border border-[#C9A84C]/30 shadow-[0_0_30px_rgba(201,168,76,0.1)] backdrop-blur-md">
+        <div className="mb-8 p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-[#F8F3E9] via-[#F4ECE0] to-[#F8F3E9] dark:from-[#0B1120]/90 dark:via-[#0B1120]/70 dark:to-[#0B1120]/90 border border-[#C9A84C]/30 shadow-[0_0_30px_rgba(201,168,76,0.1)] backdrop-blur-md">
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
             {/* Left: Info & ElevenLabs badge */}
             <div className="flex items-center gap-3">
@@ -317,12 +317,12 @@ export default function VrTourDetailContent({ id }: { id: string }) {
                   <span className="text-xs uppercase tracking-wider font-bold text-slate-900 dark:text-white">
                     Historical Audio Guide
                   </span>
-                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-[#C9A84C]/20 border border-[#C9A84C]/50 text-[#E2CB85]">
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-[#C9A84C]/20 border border-[#C9A84C]/50 text-[#8A661C] dark:text-[#E2CB85]">
                     <Sparkles className="w-2.5 h-2.5 text-[#C9A84C]" />
                     HD Audio Narration
                   </span>
                 </div>
-                <p className="text-xs text-white/60 mt-0.5">
+                <p className="text-xs text-gray-600 dark:text-white/60 mt-0.5">
                   Listen to authentic historical narration in your preferred language
                 </p>
               </div>
@@ -330,7 +330,7 @@ export default function VrTourDetailContent({ id }: { id: string }) {
 
             {/* Right: Language Selection Pills & Play Button */}
             <div className="flex flex-wrap items-center gap-2.5">
-              <div className="flex items-center gap-1 bg-black/40 border border-white/10 rounded-full p-1 overflow-x-auto">
+              <div className="flex items-center gap-1 bg-white dark:bg-black/40 border border-gray-300 dark:border-white/10 rounded-full p-1 overflow-x-auto">
                 {LANGUAGE_PILLS.map((lang) => {
                   const active = selectedLang === lang.code;
                   return (
@@ -340,7 +340,7 @@ export default function VrTourDetailContent({ id }: { id: string }) {
                       className={`px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1.5 transition-all duration-200 cursor-pointer whitespace-nowrap ${
                         active
                           ? 'bg-[#C9A84C] text-[#0A1628] shadow-[0_0_12px_rgba(201,168,76,0.5)] font-bold'
-                          : 'text-white/70 hover:text-white hover:bg-white/10'
+                          : 'text-gray-700 dark:text-white/70 hover:text-gray-900 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/10'
                       }`}
                     >
                       <span>{lang.flag}</span>
@@ -359,7 +359,7 @@ export default function VrTourDetailContent({ id }: { id: string }) {
                   isPlayingAudio
                     ? 'bg-red-500/25 border border-red-500 text-red-300 shadow-[0_0_20px_rgba(239,68,68,0.4)] animate-pulse'
                     : isAudioLoading
-                    ? 'bg-white/10 border border-white/20 text-white/50 cursor-wait'
+                    ? 'bg-black/5 dark:bg-white/10 border border-gray-300 dark:border-white/20 text-gray-500 dark:text-white/50 cursor-wait'
                     : 'bg-gradient-to-r from-[#C9A84C] via-[#E2CB85] to-[#C9A84C] text-[#0A1628] hover:scale-105 active:scale-95 shadow-[0_0_25px_rgba(201,168,76,0.4)] hover:shadow-[0_0_35px_rgba(201,168,76,0.6)]'
                 }`}
               >
@@ -388,7 +388,7 @@ export default function VrTourDetailContent({ id }: { id: string }) {
             <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
-              className="mt-3 pt-3 border-t border-white/10 flex items-center justify-between text-xs text-white/80"
+              className="mt-3 pt-3 border-t border-gray-200 dark:border-white/10 flex items-center justify-between text-xs text-gray-700 dark:text-white/80"
             >
               <div className="flex items-center gap-2">
                 <div className="flex gap-0.5 items-end h-3.5">
@@ -401,13 +401,13 @@ export default function VrTourDetailContent({ id }: { id: string }) {
                     />
                   ))}
                 </div>
-                <p className="italic text-white/90 line-clamp-1">
+                <p className="italic text-gray-900 dark:text-white/90 line-clamp-1">
                   &ldquo;{monument.narrations[selectedLang] || monument.description}&rdquo;
                 </p>
               </div>
               <button
                 onClick={stopAudio}
-                className="text-[11px] text-white/50 hover:text-white underline ml-2 shrink-0"
+                className="text-[11px] text-gray-500 dark:text-white/50 hover:text-gray-900 dark:hover:text-white underline ml-2 shrink-0"
               >
                 Stop
               </button>
@@ -508,16 +508,16 @@ export default function VrTourDetailContent({ id }: { id: string }) {
           {/* ── Left / Main Content: Description & Featured Artifacts ──────── */}
           <div className="lg:col-span-2 space-y-8">
             {/* Overview & History Card */}
-            <div className="p-6 sm:p-8 rounded-3xl bg-[#0B1120]/80 border border-white/10 shadow-xl backdrop-blur-md">
-              <h2 className="text-xl sm:text-2xl font-bold text-white mb-4 flex items-center gap-2.5">
+            <div className="p-6 sm:p-8 rounded-3xl bg-[#F8F3E9] dark:bg-[#0B1120]/80 border border-gray-200 dark:border-white/10 shadow-xl backdrop-blur-md">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2.5">
                 <Landmark className="w-5 h-5 text-[#C9A84C]" />
                 Architectural History & Significance
               </h2>
-              <p className="text-gray-300 text-sm sm:text-base leading-relaxed mb-4">
+              <p className="text-gray-700 dark:text-gray-300 text-sm sm:text-base leading-relaxed mb-4">
                 {monument.description}
               </p>
-              <div className="p-4 rounded-2xl bg-white/5 border border-white/10 text-xs sm:text-sm text-gray-400 leading-relaxed">
-                <p className="font-semibold text-[#E2CB85] mb-1">Historical Context</p>
+              <div className="p-4 rounded-2xl bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 text-xs sm:text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                <p className="font-semibold text-[#8A661C] dark:text-[#E2CB85] mb-1">Historical Context</p>
                 {monument.historicalContext}
               </div>
             </div>
@@ -526,11 +526,11 @@ export default function VrTourDetailContent({ id }: { id: string }) {
             <div>
               <div className="flex items-center justify-between mb-5">
                 <div>
-                  <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                  <h3 className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
                     <Sparkles className="w-5 h-5 text-[#C9A84C]" />
                     Featured Artifacts & Sanctuaries
                   </h3>
-                  <p className="text-xs text-white/50 mt-0.5">
+                  <p className="text-xs text-gray-500 dark:text-white/50 mt-0.5">
                     Explore high-resolution highlights discovered within the complex
                   </p>
                 </div>
@@ -543,7 +543,7 @@ export default function VrTourDetailContent({ id }: { id: string }) {
                 {monument.artifacts.map((artifact) => (
                   <div
                     key={artifact.id}
-                    className="group relative overflow-hidden rounded-2xl border border-white/10 bg-[#0B1120]/90 hover:border-[#C9A84C]/50 transition-all duration-300 shadow-md hover:shadow-[0_0_30px_rgba(201,168,76,0.15)] flex flex-col"
+                    className="group relative overflow-hidden rounded-2xl border border-gray-200 dark:border-white/10 bg-[#F8F3E9] dark:bg-[#0B1120]/90 hover:border-[#C9A84C]/50 transition-all duration-300 shadow-md hover:shadow-[0_0_30px_rgba(201,168,76,0.15)] flex flex-col"
                   >
                     {/* Artifact Image with Smooth Hover Zoom */}
                     <div className="relative aspect-[4/3] w-full overflow-hidden bg-black/60">
@@ -562,14 +562,14 @@ export default function VrTourDetailContent({ id }: { id: string }) {
                     {/* Artifact Details */}
                     <div className="p-4 flex-1 flex flex-col justify-between">
                       <div>
-                        <h4 className="text-base font-bold text-white group-hover:text-[#E2CB85] transition-colors mb-1">
+                        <h4 className="text-base font-bold text-gray-900 dark:text-white group-hover:text-[#8A661C] dark:group-hover:text-[#E2CB85] transition-colors mb-1">
                           {artifact.name}
                         </h4>
-                        <p className="text-xs text-gray-400 line-clamp-2 leading-relaxed">
+                        <p className="text-xs text-gray-600 dark:text-gray-400 line-clamp-2 leading-relaxed">
                           {artifact.description}
                         </p>
                       </div>
-                      <div className="mt-3 pt-2.5 border-t border-white/5 flex items-center justify-between text-[11px] text-[#C9A84C]">
+                      <div className="mt-3 pt-2.5 border-t border-gray-200 dark:border-white/5 flex items-center justify-between text-[11px] text-[#8A661C] dark:text-[#C9A84C]">
                         <span>Cataloged Archive</span>
                         <span className="group-hover:translate-x-1 transition-transform">Details →</span>
                       </div>
@@ -583,32 +583,32 @@ export default function VrTourDetailContent({ id }: { id: string }) {
           {/* ── Right Column: Tour Details Card & Interactive Map ─────────── */}
           <div className="space-y-6">
             {/* Tour Details Card */}
-            <div className="p-6 rounded-3xl bg-[#0B1120]/80 border border-white/10 shadow-xl backdrop-blur-md space-y-5">
-              <h3 className="text-lg font-bold text-white pb-3 border-b border-white/10 flex items-center justify-between">
+            <div className="p-6 rounded-3xl bg-[#F8F3E9] dark:bg-[#0B1120]/80 border border-gray-200 dark:border-white/10 shadow-xl backdrop-blur-md space-y-5">
+              <h3 className="text-lg font-bold text-gray-900 dark:text-white pb-3 border-b border-gray-200 dark:border-white/10 flex items-center justify-between">
                 <span>Tour Specifications</span>
                 <span className="text-xs font-mono text-emerald-400">● Live VR Ready</span>
               </h3>
 
               <div className="space-y-3.5 text-xs sm:text-sm">
                 <div className="flex items-center justify-between">
-                  <span className="text-white/50">Location:</span>
-                  <span className="font-semibold text-white">{monument.city}, Egypt</span>
+                  <span className="text-gray-500 dark:text-white/50">Location:</span>
+                  <span className="font-semibold text-gray-900 dark:text-white">{monument.city}, Egypt</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-white/50">Historical Patron:</span>
-                  <span className="font-semibold text-[#E2CB85]">{monument.patron}</span>
+                  <span className="text-gray-500 dark:text-white/50">Historical Patron:</span>
+                  <span className="font-semibold text-[#8A661C] dark:text-[#E2CB85]">{monument.patron}</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-white/50">Architectural Type:</span>
-                  <span className="font-semibold text-white">{monument.siteType}</span>
+                  <span className="text-gray-500 dark:text-white/50">Architectural Type:</span>
+                  <span className="font-semibold text-gray-900 dark:text-white">{monument.siteType}</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-white/50">Estimated Duration:</span>
-                  <span className="font-semibold text-white">{monument.duration}</span>
+                  <span className="text-gray-500 dark:text-white/50">Estimated Duration:</span>
+                  <span className="font-semibold text-gray-900 dark:text-white">{monument.duration}</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-white/50">Virtual Explorers:</span>
-                  <span className="font-mono font-semibold text-cyan-300">{monument.visitors}</span>
+                  <span className="text-gray-500 dark:text-white/50">Virtual Explorers:</span>
+                  <span className="font-mono font-semibold text-[#1B6B93] dark:text-cyan-300">{monument.visitors}</span>
                 </div>
               </div>
 
@@ -619,7 +619,7 @@ export default function VrTourDetailContent({ id }: { id: string }) {
                 className={`w-full py-3.5 px-4 rounded-2xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all duration-300 cursor-pointer ${
                   isFavorited
                     ? 'bg-[#C9A84C] text-[#0A1628] shadow-[0_0_25px_rgba(201,168,76,0.6)] border border-[#E2CB85]'
-                    : 'bg-white/5 hover:bg-[#C9A84C]/15 border border-[#C9A84C]/40 text-[#E2CB85] hover:border-[#C9A84C]'
+                    : 'bg-black/[0.04] dark:bg-white/5 hover:bg-[#C9A84C]/15 border border-[#C9A84C]/40 text-[#8A661C] dark:text-[#E2CB85] hover:border-[#C9A84C]'
                 }`}
               >
                 <Heart
@@ -633,13 +633,13 @@ export default function VrTourDetailContent({ id }: { id: string }) {
             </div>
 
             {/* Interactive Styled Map Preview Card */}
-            <div className="p-6 rounded-3xl bg-[#0B1120]/80 border border-white/10 shadow-xl backdrop-blur-md">
+            <div className="p-6 rounded-3xl bg-[#F8F3E9] dark:bg-[#0B1120]/80 border border-gray-200 dark:border-white/10 shadow-xl backdrop-blur-md">
               <div className="flex items-center justify-between mb-3">
-                <h4 className="text-sm font-bold text-white flex items-center gap-2">
+                <h4 className="text-sm font-bold text-gray-900 dark:text-white flex items-center gap-2">
                   <Compass className="w-4 h-4 text-[#C9A84C]" />
                   Geographic Pinpoint
                 </h4>
-                <span className="text-[10px] font-mono text-white/50">WGS84 GPS</span>
+                <span className="text-[10px] font-mono text-gray-500 dark:text-white/50">WGS84 GPS</span>
               </div>
 
               {/* Styled Map Container */}

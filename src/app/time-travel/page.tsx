@@ -168,17 +168,17 @@ export default function TimeTravelPage() {
         
         {/* Page Header */}
         <div className="text-center max-w-3xl mx-auto mb-10">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs sm:text-sm font-semibold mb-4 shadow-[0_0_20px_rgba(245,158,11,0.2)]">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-800 dark:text-amber-300 text-xs sm:text-sm font-semibold mb-4 shadow-[0_0_20px_rgba(245,158,11,0.2)]">
             <Hourglass className="w-4 h-4 text-amber-400 animate-spin" />
             <span>4D Photogrammetric Temporal Reconstruction</span>
           </div>
 
           <h1 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight mb-4">
-            <span className="bg-gradient-to-r from-amber-200 via-yellow-400 to-amber-500 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-amber-800 via-yellow-600 to-amber-500 dark:from-amber-200 dark:via-yellow-400 dark:to-amber-500 bg-clip-text text-transparent">
               AI Time Travel Explorer </span>
           </h1>
 
-          <p className="text-sm sm:text-base text-slate-300/80 leading-relaxed font-normal">
+          <p className="text-sm sm:text-base text-gray-700 dark:text-slate-300/80 leading-relaxed font-normal">
             Witness Ancient Egypt in its 100% intact, pristine glory. Strip away millennia of desert weathering to experience mirror-polished limestone, blazing gold pyramidions, and sacred temple soundscapes.
           </p>
 
@@ -192,13 +192,13 @@ export default function TimeTravelPage() {
             ) : timeTravelUsed ? (
               <button
                 onClick={() => setShowEliteModal(true)}
-                className="px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-amber-500/15 border border-amber-500/40 text-amber-300 hover:bg-amber-500/25 transition-all flex items-center gap-1.5 shadow-md cursor-pointer"
+                className="px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-amber-500/15 border border-amber-500/40 text-amber-800 dark:text-amber-300 hover:bg-amber-500/25 transition-all flex items-center gap-1.5 shadow-md cursor-pointer"
               >
                 <Lock className="w-3.5 h-3.5 text-amber-400" />
                 1 Free Preview Consumed · Upgrade to Elite 
               </button>
             ) : (
-              <span className="px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-wider bg-gradient-to-r from-amber-400/20 via-yellow-400/20 to-amber-500/20 border border-amber-400/50 text-amber-300 flex items-center gap-1.5 shadow-[0_0_20px_rgba(245,158,11,0.3)] animate-pulse">
+              <span className="px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-wider bg-gradient-to-r from-amber-400/20 via-yellow-400/20 to-amber-500/20 border border-amber-500/50 text-amber-800 dark:text-amber-300 flex items-center gap-1.5 shadow-[0_0_20px_rgba(245,158,11,0.3)] animate-pulse">
                 <Sparkles className="w-3.5 h-3.5 text-amber-400" />
                  1 Free 4D Preview Available
               </span>
@@ -216,18 +216,18 @@ export default function TimeTravelPage() {
                 onClick={() => handleSelectMonument(monument)}
                 className={`px-5 py-3.5 rounded-2xl shrink-0 transition-all text-left border flex items-center gap-3 cursor-pointer ${
                   isSelected
-                    ? 'bg-gradient-to-r from-amber-500/20 via-yellow-500/15 to-[#0B1120] border-amber-400 shadow-[0_0_25px_rgba(245,158,11,0.25)] text-white'
-                    : 'bg-white/[0.03] border-white/10 hover:border-white/20 text-slate-400 hover:text-white'
+                    ? 'bg-gradient-to-r from-amber-500/20 via-yellow-500/15 to-[#F8F3E9] dark:to-[#0B1120] border-amber-400 shadow-[0_0_25px_rgba(245,158,11,0.25)] text-gray-900 dark:text-white'
+                    : 'bg-[#F8F3E9] dark:bg-white/[0.03] border-gray-200 dark:border-white/10 hover:border-amber-400/50 dark:hover:border-white/20 text-gray-600 dark:text-slate-400 hover:text-gray-900 dark:hover:text-white'
                 }`}
               >
                 <div className={`w-9 h-9 rounded-xl flex items-center justify-center font-bold text-xs ${
-                  isSelected ? 'bg-amber-400 text-slate-950' : 'bg-white/10 text-slate-300'
+                  isSelected ? 'bg-amber-400 text-slate-950' : 'bg-black/[0.06] dark:bg-white/10 text-gray-700 dark:text-slate-300'
                 }`}>
                   <Hourglass className="w-4 h-4" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-white whitespace-nowrap">{monument.name}</h4>
-                  <p className="text-[11px] text-amber-400 font-mono">{monument.year}</p>
+                  <h4 className="text-sm font-bold text-gray-900 dark:text-white whitespace-nowrap">{monument.name}</h4>
+                  <p className="text-[11px] text-amber-700 dark:text-amber-400 font-mono">{monument.year}</p>
                 </div>
               </button>
             );
@@ -358,8 +358,8 @@ export default function TimeTravelPage() {
           <div className="lg:col-span-4 flex flex-col gap-4">
             
             {/* Blueprint Spec Card */}
-            <div className="p-6 rounded-3xl bg-white/[0.03] border border-white/10 backdrop-blur-xl space-y-4">
-              <div className="flex items-center gap-2 pb-3 border-b border-white/10 text-amber-400">
+            <div className="p-6 rounded-3xl bg-[#F8F3E9] dark:bg-white/[0.03] border border-gray-200 dark:border-white/10 backdrop-blur-xl space-y-4">
+              <div className="flex items-center gap-2 pb-3 border-b border-gray-200 dark:border-white/10 text-amber-700 dark:text-amber-400">
                 <Layers className="w-4 h-4" />
                 <h3 className="text-xs font-black uppercase tracking-wider">
                   Archaeological Blueprint Specs
@@ -368,31 +368,31 @@ export default function TimeTravelPage() {
 
               <div>
                 <span className="text-[10px] uppercase font-mono text-slate-400 block mb-0.5">Original Outer Casing</span>
-                <p className="text-xs font-medium text-white">{selectedMonument.casingMaterial}</p>
+                <p className="text-xs font-medium text-gray-900 dark:text-white">{selectedMonument.casingMaterial}</p>
               </div>
 
               <div>
                 <span className="text-[10px] uppercase font-mono text-slate-400 block mb-0.5">Monument Dimensions</span>
-                <p className="text-xs font-medium text-white">{selectedMonument.originalHeight}</p>
+                <p className="text-xs font-medium text-gray-900 dark:text-white">{selectedMonument.originalHeight}</p>
               </div>
 
               <div>
                 <span className="text-[10px] uppercase font-mono text-slate-400 block mb-0.5">Solar Astronomical Vector</span>
-                <p className="text-xs font-medium text-white">{selectedMonument.solarAlignment}</p>
+                <p className="text-xs font-medium text-gray-900 dark:text-white">{selectedMonument.solarAlignment}</p>
               </div>
             </div>
 
             {/* Elite VIP Perks Banner */}
-            <div className="p-6 rounded-3xl bg-gradient-to-br from-amber-500/10 via-[#0A1628] to-[#040913] border border-amber-500/30 backdrop-blur-xl flex flex-col justify-between flex-1">
+            <div className="p-6 rounded-3xl bg-gradient-to-br from-amber-500/15 via-[#F8F3E9] to-[#EDE2D0] dark:from-amber-500/10 dark:via-[#0A1628] dark:to-[#040913] border border-amber-500/30 backdrop-blur-xl flex flex-col justify-between flex-1">
               <div>
-                <div className="flex items-center gap-2 mb-2 text-amber-300">
+                <div className="flex items-center gap-2 mb-2 text-amber-800 dark:text-amber-300">
                   <Crown className="w-4 h-4" />
                   <span className="text-xs font-black uppercase tracking-wider">EgyptX Elite Suite</span>
                 </div>
-                <h4 className="text-base font-bold text-white mb-2">
+                <h4 className="text-base font-bold text-gray-900 dark:text-white mb-2">
                   Unrestricted 4D Historical Power
                 </h4>
-                <p className="text-xs text-slate-300/80 leading-relaxed font-normal mb-4">
+                <p className="text-xs text-gray-700 dark:text-slate-300/80 leading-relaxed font-normal mb-4">
                   Experience ancient night sky alignments, custom monument walk-throughs, and download offline high-res architectural renders with Pharaoh Elite.
                 </p>
               </div>

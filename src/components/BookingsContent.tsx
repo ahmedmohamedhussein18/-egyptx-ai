@@ -297,7 +297,7 @@ export default function BookingsContent() {
       <div className="max-w-7xl mx-auto relative z-10 space-y-14">
         {/* Header Hero */}
         <header className="text-center space-y-4 max-w-3xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#C9A84C]/10 border border-[#C9A84C]/30 text-[#E2CB85] text-xs font-semibold uppercase tracking-wider">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#C9A84C]/10 border border-[#C9A84C]/30 text-[#8A661C] dark:text-[#E2CB85] text-xs font-semibold uppercase tracking-wider">
             <Sparkles className="w-3.5 h-3.5 text-[#C9A84C]" />
             <span>Official Travel & Reservation Gateway · بوابة الحجوزات الرسمية</span>
           </div>
@@ -305,11 +305,11 @@ export default function BookingsContent() {
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-slate-900 via-[#A68440] to-[#C9A84C] dark:from-white dark:via-[#E2CB85] dark:to-[#C9A84C]">
               Book Your Egypt Experience
             </span>
-            <span className="block text-2xl sm:text-3xl font-bold text-[#E2CB85]/90 mt-2 font-arabic">
+            <span className="block text-2xl sm:text-3xl font-bold text-[#8A661C] dark:text-[#E2CB85]/90 mt-2 font-arabic">
               احجز تجربتك المصرية
             </span>
           </h1>
-          <p className="text-white/70 text-sm sm:text-base leading-relaxed">
+          <p className="text-gray-600 dark:text-white/70 text-sm sm:text-base leading-relaxed">
             Connect seamlessly to official airline carriers, world-class luxury hotels, legendary authentic dining,
             and immerse yourself in official Egyptian tourism cinematic reels.
           </p>
@@ -332,7 +332,7 @@ export default function BookingsContent() {
                   className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer ${
                     isActive
                       ? 'bg-gradient-to-r from-[#C9A84C] to-[#E2CB85] text-[#030712] shadow-[0_0_20px_rgba(201,168,76,0.35)] scale-105'
-                      : 'bg-white/5 hover:bg-white/10 text-white/80 border border-white/10 hover:border-[#C9A84C]/40'
+                      : 'bg-[#F8F3E9] dark:bg-white/5 hover:bg-[#F2E9D8] dark:hover:bg-white/10 text-gray-700 dark:text-white/80 border border-slate-200 dark:border-white/10 hover:border-[#C9A84C]/40'
                   }`}
                 >
                   <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
@@ -346,16 +346,16 @@ export default function BookingsContent() {
         {/* ── SECTION 1: FLIGHTS TO EGYPT ── */}
         {(activeTab === 'all' || activeTab === 'flights') && (
           <section id="flights" className="space-y-6 pt-4">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 dark:border-white/10 pb-4">
               <div className="flex items-center gap-3">
-                <div className="p-2.5 rounded-xl bg-[#C9A84C]/15 border border-[#C9A84C]/30 text-[#E2CB85]">
+                <div className="p-2.5 rounded-xl bg-[#C9A84C]/15 border border-[#C9A84C]/30 text-[#8A661C] dark:text-[#E2CB85]">
                   <Plane className="w-6 h-6" />
                 </div>
                 <div>
                   <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
                     Flights to Egypt <span className="text-[#C9A84C]">·</span> رحلات الطيران
                   </h2>
-                  <p className="text-xs sm:text-sm text-white/60">
+                  <p className="text-xs sm:text-sm text-gray-600 dark:text-white/60">
                     Official booking channels with national flag carriers and premier international airlines
                   </p>
                 </div>
@@ -366,7 +366,7 @@ export default function BookingsContent() {
                 href="https://www.egyptair.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#C9A84C]/20 hover:bg-[#C9A84C]/30 border border-[#C9A84C]/60 text-[#E2CB85] text-xs sm:text-sm font-bold transition-all shadow-[0_0_15px_rgba(201,168,76,0.15)] group"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#C9A84C]/20 hover:bg-[#C9A84C]/30 border border-[#C9A84C]/60 text-[#8A661C] dark:text-[#E2CB85] text-xs sm:text-sm font-bold transition-all shadow-[0_0_15px_rgba(201,168,76,0.15)] group"
               >
                 <span>EgyptAir Official Portal</span>
                 <ExternalLink className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
@@ -374,16 +374,16 @@ export default function BookingsContent() {
             </div>
 
             {/* Disclaimer Banner */}
-            <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-start gap-3 text-amber-200/90 text-xs sm:text-sm">
+            <div className="p-4 rounded-xl bg-amber-50 dark:bg-amber-500/10 border border-amber-300 dark:border-amber-500/30 flex items-start gap-3 text-amber-900 dark:text-amber-200/90 text-xs sm:text-sm">
               <AlertCircle className="w-5 h-5 shrink-0 text-amber-400 mt-0.5" />
               <div className="space-y-0.5">
-                <p className="font-semibold text-amber-300">
+                <p className="font-semibold text-amber-800 dark:text-amber-300">
                   Official External Redirection Notice · إخلاء مسؤولية الحجوزات
                 </p>
-                <p className="text-amber-200/80">
+                <p className="text-amber-800/90 dark:text-amber-200/80">
                   EgyptX AI redirects users directly to official airline websites. We do not process payments or ticket modifications, and are not responsible for fare changes or partner policies.
                 </p>
-                <p className="text-amber-200/70 font-arabic text-xs">
+                <p className="text-amber-800/80 dark:text-amber-200/70 font-arabic text-xs">
                   تنويه: توجّه EgyptX AI المستخدمين مباشرة إلى المواقع الرسمية لشركات الطيران، ولسنا طرفاً في المعاملات المالية أو تسعير التذاكر.
                 </p>
               </div>
@@ -396,8 +396,8 @@ export default function BookingsContent() {
                   key={airline.nameEn}
                   className={`relative p-6 rounded-2xl bg-[#F8F3E9] dark:bg-[#0A1628]/80 backdrop-blur-xl border-slate-200 dark:border-white/10 border transition-all duration-300 hover:shadow-[0_10px_35px_rgba(0,0,0,0.5)] flex flex-col justify-between ${
                     airline.featured
-                      ? 'border-[#C9A84C]/60 shadow-[0_0_30px_rgba(201,168,76,0.12)] bg-gradient-to-br from-[#0A1628] via-[#0D1F38] to-[#0A1628]'
-                      : 'border-white/10 hover:border-[#C9A84C]/40'
+                      ? 'border-[#C9A84C]/60 shadow-[0_0_30px_rgba(201,168,76,0.12)] dark:bg-gradient-to-br dark:from-[#0A1628] dark:via-[#0D1F38] dark:to-[#0A1628]'
+                      : 'border-slate-200 dark:border-white/10 hover:border-[#C9A84C]/40'
                   }`}
                 >
                   <div className="space-y-4">
@@ -409,9 +409,9 @@ export default function BookingsContent() {
                         <div>
                           <div className="flex items-center gap-2">
                             <h3 className="text-lg font-bold text-slate-900 dark:text-white">{airline.nameEn}</h3>
-                            <span className="text-sm font-semibold text-[#E2CB85] font-arabic">({airline.nameAr})</span>
+                            <span className="text-sm font-semibold text-[#8A661C] dark:text-[#E2CB85] font-arabic">({airline.nameAr})</span>
                           </div>
-                          <p className="text-xs text-white/50 flex items-center gap-1 mt-0.5">
+                          <p className="text-xs text-gray-500 dark:text-white/50 flex items-center gap-1 mt-0.5">
                             <MapPin className="w-3 h-3 text-[#C9A84C]" />
                             <span>{airline.hub}</span>
                           </p>
@@ -419,22 +419,22 @@ export default function BookingsContent() {
                       </div>
 
                       {airline.badge && (
-                        <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-[#C9A84C]/20 border border-[#C9A84C]/40 text-[#E2CB85] shrink-0">
+                        <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-[#C9A84C]/20 border border-[#C9A84C]/40 text-[#8A661C] dark:text-[#E2CB85] shrink-0">
                           {airline.badge}
                         </span>
                       )}
                     </div>
 
-                    <p className="text-xs sm:text-sm text-white/75 leading-relaxed">
+                    <p className="text-xs sm:text-sm text-gray-700 dark:text-white/75 leading-relaxed">
                       {airline.descEn}
                     </p>
-                    <p className="text-xs text-[#E2CB85]/80 font-arabic leading-relaxed border-t border-white/5 pt-2">
+                    <p className="text-xs text-[#8A661C] dark:text-[#E2CB85]/80 font-arabic leading-relaxed border-t border-slate-200 dark:border-white/5 pt-2">
                       {airline.descAr}
                     </p>
                   </div>
 
-                  <div className="mt-6 pt-4 border-t border-white/10 flex items-center justify-between">
-                    <span className="text-[11px] text-white/40 flex items-center gap-1">
+                  <div className="mt-6 pt-4 border-t border-slate-200 dark:border-white/10 flex items-center justify-between">
+                    <span className="text-[11px] text-gray-500 dark:text-white/40 flex items-center gap-1">
                       <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
                       <span>Verified Official Portal</span>
                     </span>
@@ -458,7 +458,7 @@ export default function BookingsContent() {
         {/* ── SECTION 2: HOTELS IN EGYPT ── */}
         {(activeTab === 'all' || activeTab === 'hotels') && (
           <section id="hotels" className="space-y-6 pt-6">
-            <div className="border-b border-white/10 pb-4 flex items-center gap-3">
+            <div className="border-b border-slate-200 dark:border-white/10 pb-4 flex items-center gap-3">
               <div className="p-2.5 rounded-xl bg-[#1B6B93]/20 border border-[#1B6B93]/40 text-[#48CAE4]">
                 <Hotel className="w-6 h-6" />
               </div>
@@ -466,7 +466,7 @@ export default function BookingsContent() {
                 <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
                   Hotels & Luxury Stays <span className="text-[#C9A84C]">·</span> فنادق وإقامات مصر
                 </h2>
-                <p className="text-xs sm:text-sm text-white/60">
+                <p className="text-xs sm:text-sm text-gray-600 dark:text-white/60">
                   Global booking aggregators and legendary Egyptian royal palace hotels
                 </p>
               </div>
@@ -482,26 +482,26 @@ export default function BookingsContent() {
                   href={platform.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-5 rounded-2xl bg-[#0A1628]/60 backdrop-blur-xl border border-white/10 hover:border-[#C9A84C]/50 transition-all duration-300 hover:-translate-y-1 group flex flex-col justify-between"
+                  className="p-5 rounded-2xl bg-[#F8F3E9] dark:bg-[#0A1628]/60 backdrop-blur-xl border border-slate-200 dark:border-white/10 hover:border-[#C9A84C]/50 transition-all duration-300 hover:-translate-y-1 group flex flex-col justify-between shadow-sm"
                 >
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
-                      <div className="p-2 rounded-xl bg-[#C9A84C]/15 border border-[#C9A84C]/30 text-[#E2CB85]">
+                      <div className="p-2 rounded-xl bg-[#C9A84C]/15 border border-[#C9A84C]/30 text-[#8A661C] dark:text-[#E2CB85]">
                         <PlatformIcon className="w-5 h-5" />
                       </div>
-                      <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-white/10 text-[#E2CB85] border border-white/10">
+                      <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[#C9A84C]/15 dark:bg-white/10 text-[#8A661C] dark:text-[#E2CB85] border border-[#C9A84C]/30 dark:border-white/10">
                         {platform.badge}
                       </span>
                     </div>
                     <h3 className="text-base font-bold text-slate-900 dark:text-white group-hover:text-[#C5A059] dark:group-hover:text-[#E2CB85] transition-colors">
                       {platform.name}
                     </h3>
-                    <p className="text-xs text-white/65 leading-relaxed">
+                    <p className="text-xs text-gray-600 dark:text-white/65 leading-relaxed">
                       {platform.desc}
                     </p>
                   </div>
 
-                  <div className="mt-4 pt-3 border-t border-white/5 flex items-center justify-between text-xs font-semibold text-[#E2CB85]">
+                  <div className="mt-4 pt-3 border-t border-slate-200 dark:border-white/5 flex items-center justify-between text-xs font-semibold text-[#8A661C] dark:text-[#E2CB85]">
                     <span>Search Egypt Stays</span>
                     <ExternalLink className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                   </div>
@@ -516,7 +516,7 @@ export default function BookingsContent() {
                 <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
                   <Star className="w-4 h-4 text-[#C9A84C] fill-[#C9A84C]" />
                   <span>Featured Egyptian Luxury & Palace Hotels</span>
-                  <span className="text-xs text-white/50 font-arabic font-normal">فنادق وقصور مصر الفاخرة</span>
+                  <span className="text-xs text-gray-500 dark:text-white/50 font-arabic font-normal">فنادق وقصور مصر الفاخرة</span>
                 </h3>
               </div>
 
@@ -524,50 +524,50 @@ export default function BookingsContent() {
                 {FEATURED_HOTELS.map((hotel) => (
                   <div
                     key={hotel.nameEn}
-                    className="p-6 rounded-2xl bg-[#0A1628]/90 backdrop-blur-xl border border-[#C9A84C]/30 hover:border-[#C9A84C] shadow-[0_4px_25px_rgba(0,0,0,0.5)] transition-all flex flex-col justify-between group"
+                    className="p-6 rounded-2xl bg-[#F8F3E9] dark:bg-[#0A1628]/90 backdrop-blur-xl border border-[#C9A84C]/30 hover:border-[#C9A84C] shadow-sm dark:shadow-[0_4px_25px_rgba(0,0,0,0.5)] transition-all flex flex-col justify-between group"
                   >
                     <div className="space-y-3">
                       <div className="flex items-start justify-between gap-3">
                         <div>
                           <div className="flex items-center gap-2">
-                            <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[#C9A84C]/20 text-[#E2CB85] border border-[#C9A84C]/30">
+                            <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[#C9A84C]/20 text-[#8A661C] dark:text-[#E2CB85] border border-[#C9A84C]/30">
                               {hotel.highlight}
                             </span>
-                            <span className="text-xs text-emerald-400 font-medium">
+                            <span className="text-xs text-emerald-700 dark:text-emerald-400 font-medium">
                               {hotel.rating}
                             </span>
                           </div>
                           <h4 className="text-lg font-bold text-slate-900 dark:text-white mt-1 group-hover:text-[#E2CB85] transition-colors">
                             {hotel.nameEn}
                           </h4>
-                          <p className="text-sm font-semibold text-[#E2CB85] font-arabic">
+                          <p className="text-sm font-semibold text-[#8A661C] dark:text-[#E2CB85] font-arabic">
                             {hotel.nameAr}
                           </p>
                         </div>
                       </div>
 
-                      <p className="text-xs text-white/50 flex items-center gap-1.5">
+                      <p className="text-xs text-gray-500 dark:text-white/50 flex items-center gap-1.5">
                         <MapPin className="w-3.5 h-3.5 text-[#C9A84C]" />
                         <span>{hotel.location}</span>
                       </p>
 
-                      <p className="text-xs sm:text-sm text-white/75 leading-relaxed">
+                      <p className="text-xs sm:text-sm text-gray-700 dark:text-white/75 leading-relaxed">
                         {hotel.descEn}
                       </p>
-                      <p className="text-xs text-[#E2CB85]/80 font-arabic leading-relaxed border-t border-white/5 pt-2">
+                      <p className="text-xs text-[#8A661C] dark:text-[#E2CB85]/80 font-arabic leading-relaxed border-t border-slate-200 dark:border-white/5 pt-2">
                         {hotel.descAr}
                       </p>
                     </div>
 
-                    <div className="mt-5 pt-4 border-t border-white/10 flex items-center justify-between">
-                      <span className="text-[11px] text-white/40">
+                    <div className="mt-5 pt-4 border-t border-slate-200 dark:border-white/10 flex items-center justify-between">
+                      <span className="text-[11px] text-gray-500 dark:text-white/40">
                         Official Direct Website
                       </span>
                       <a
                         href={hotel.bookingUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 hover:bg-[#C9A84C] hover:text-[#030712] text-[#E2CB85] text-xs font-bold transition-all border border-[#C9A84C]/40 group-hover:shadow-[0_0_15px_rgba(201,168,76,0.3)]"
+                        className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white dark:bg-white/10 hover:bg-[#C9A84C] hover:text-[#030712] text-[#8A661C] dark:text-[#E2CB85] text-xs font-bold transition-all border border-[#C9A84C]/40 group-hover:shadow-[0_0_15px_rgba(201,168,76,0.3)]"
                       >
                         <span>Book Stay · احجز الإقامة</span>
                         <ExternalLink className="w-3.5 h-3.5" />
@@ -583,16 +583,16 @@ export default function BookingsContent() {
         {/* ── SECTION 3: RESTAURANTS & EXPERIENCES ── */}
         {(activeTab === 'all' || activeTab === 'restaurants') && (
           <section id="restaurants" className="space-y-6 pt-6">
-            <div className="border-b border-white/10 pb-4 flex items-center justify-between flex-wrap gap-4">
+            <div className="border-b border-slate-200 dark:border-white/10 pb-4 flex items-center justify-between flex-wrap gap-4">
               <div className="flex items-center gap-3">
-                <div className="p-2.5 rounded-xl bg-amber-500/20 border border-amber-500/40 text-amber-300">
+                <div className="p-2.5 rounded-xl bg-amber-500/15 dark:bg-amber-500/20 border border-amber-500/40 text-amber-700 dark:text-amber-300">
                   <Utensils className="w-6 h-6" />
                 </div>
                 <div>
                   <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
                     Restaurants & Culinary <span className="text-[#C9A84C]">·</span> المطاعم والمطبخ المصري
                   </h2>
-                  <p className="text-xs sm:text-sm text-white/60">
+                  <p className="text-xs sm:text-sm text-gray-600 dark:text-white/60">
                     Table reservations and authentic cultural culinary landmarks
                   </p>
                 </div>
@@ -604,7 +604,7 @@ export default function BookingsContent() {
                   href="https://www.thefork.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs text-white/80 hover:text-white flex items-center gap-1.5 transition-colors"
+                  className="px-3 py-1.5 rounded-xl bg-[#F8F3E9] dark:bg-white/5 hover:bg-slate-200 dark:hover:bg-white/10 border border-slate-200 dark:border-white/10 text-xs text-gray-700 dark:text-white/80 hover:text-gray-900 dark:hover:text-white flex items-center gap-1.5 transition-colors"
                 >
                   <span>TheFork</span>
                   <ExternalLink className="w-3 h-3 text-[#C9A84C]" />
@@ -613,7 +613,7 @@ export default function BookingsContent() {
                   href="https://www.opentable.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs text-white/80 hover:text-white flex items-center gap-1.5 transition-colors"
+                  className="px-3 py-1.5 rounded-xl bg-[#F8F3E9] dark:bg-white/5 hover:bg-slate-200 dark:hover:bg-white/10 border border-slate-200 dark:border-white/10 text-xs text-gray-700 dark:text-white/80 hover:text-gray-900 dark:hover:text-white flex items-center gap-1.5 transition-colors"
                 >
                   <span>OpenTable</span>
                   <ExternalLink className="w-3 h-3 text-[#C9A84C]" />
@@ -630,37 +630,37 @@ export default function BookingsContent() {
                 >
                   <div className="space-y-3">
                     <div>
-                      <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[#C9A84C]/15 text-[#E2CB85] border border-[#C9A84C]/30">
+                      <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[#C9A84C]/15 text-[#8A661C] dark:text-[#E2CB85] border border-[#C9A84C]/30">
                         {place.cuisine}
                       </span>
                       <h4 className="text-lg font-bold text-slate-900 dark:text-white mt-1.5 group-hover:text-[#E2CB85] transition-colors">
                         {place.nameEn}
                       </h4>
-                      <p className="text-sm font-semibold text-[#E2CB85] font-arabic">
+                      <p className="text-sm font-semibold text-[#8A661C] dark:text-[#E2CB85] font-arabic">
                         {place.nameAr}
                       </p>
                     </div>
 
-                    <p className="text-xs text-white/50 flex items-center gap-1">
+                    <p className="text-xs text-gray-500 dark:text-white/50 flex items-center gap-1">
                       <MapPin className="w-3 h-3 text-[#C9A84C]" />
                       <span>{place.location}</span>
                     </p>
 
-                    <p className="text-xs text-white/70 leading-relaxed">
+                    <p className="text-xs text-gray-700 dark:text-white/70 leading-relaxed">
                       {place.descEn}
                     </p>
-                    <p className="text-xs text-[#E2CB85]/80 font-arabic leading-relaxed border-t border-white/5 pt-2">
+                    <p className="text-xs text-[#8A661C] dark:text-[#E2CB85]/80 font-arabic leading-relaxed border-t border-slate-200 dark:border-white/5 pt-2">
                       {place.descAr}
                     </p>
 
-                    <div className="p-2.5 rounded-lg bg-white/5 border border-white/5 text-[11px] text-white/80">
+                    <div className="p-2.5 rounded-lg bg-white dark:bg-white/5 border border-slate-200 dark:border-white/5 text-[11px] text-gray-800 dark:text-white/80">
                       <span className="text-[#C9A84C] font-semibold">Signature: </span>
                       <span>{place.signatureDish}</span>
                     </div>
                   </div>
 
-                  <div className="mt-5 pt-3 border-t border-white/10 flex items-center justify-between">
-                    <span className="text-[10px] text-white/40">Verified Culinary Gem</span>
+                  <div className="mt-5 pt-3 border-t border-slate-200 dark:border-white/10 flex items-center justify-between">
+                    <span className="text-[10px] text-gray-500 dark:text-white/40">Verified Culinary Gem</span>
                     <a
                       href={place.bookingUrl}
                       target="_blank"
@@ -680,15 +680,15 @@ export default function BookingsContent() {
         {/* ── SECTION 4: REELS & VIDEOS ("Egypt Through a Lens") ── */}
         {(activeTab === 'all' || activeTab === 'videos') && (
           <section id="videos" className="space-y-6 pt-6">
-            <div className="border-b border-white/10 pb-4 flex items-center gap-3">
-              <div className="p-2.5 rounded-xl bg-purple-500/20 border border-purple-500/40 text-purple-300">
+            <div className="border-b border-slate-200 dark:border-white/10 pb-4 flex items-center gap-3">
+              <div className="p-2.5 rounded-xl bg-purple-500/15 dark:bg-purple-500/20 border border-purple-500/40 text-purple-700 dark:text-purple-300">
                 <Video className="w-6 h-6" />
               </div>
               <div>
                 <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
                   Egypt Through a Lens <span className="text-[#C9A84C]">·</span> مصر من عدسة
                 </h2>
-                <p className="text-xs sm:text-sm text-white/60">
+                <p className="text-xs sm:text-sm text-gray-600 dark:text-white/60">
                   Official cinematic spectacles and national tourism authority broadcasts
                 </p>
               </div>
@@ -699,7 +699,7 @@ export default function BookingsContent() {
               {VIDEOS.map((video) => (
                 <div
                   key={video.id}
-                  className="rounded-2xl bg-[#0A1628]/90 backdrop-blur-xl border border-[#C9A84C]/30 overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.6)] hover:border-[#C9A84C] transition-all duration-300 flex flex-col justify-between"
+                  className="rounded-2xl bg-[#F8F3E9] dark:bg-[#0A1628]/90 backdrop-blur-xl border border-[#C9A84C]/30 overflow-hidden shadow-sm dark:shadow-[0_8px_30px_rgba(0,0,0,0.6)] hover:border-[#C9A84C] transition-all duration-300 flex flex-col justify-between"
                 >
                   {/* YouTube Iframe Container (16:9 ratio) */}
                   <div className="relative w-full aspect-video bg-black/60 border-b border-white/10">
@@ -715,10 +715,10 @@ export default function BookingsContent() {
                   {/* Video Meta Info */}
                   <div className="p-5 sm:p-6 space-y-3">
                     <div className="flex items-center justify-between gap-2 flex-wrap">
-                      <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-[#C9A84C]/20 border border-[#C9A84C]/40 text-[#E2CB85]">
+                      <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-[#C9A84C]/20 border border-[#C9A84C]/40 text-[#8A661C] dark:text-[#E2CB85]">
                         {video.source}
                       </span>
-                      <span className="text-[11px] text-white/50 flex items-center gap-1">
+                      <span className="text-[11px] text-gray-500 dark:text-white/50 flex items-center gap-1">
                         <Play className="w-3 h-3 text-[#C9A84C]" />
                         <span>{video.duration}</span>
                       </span>
@@ -728,20 +728,20 @@ export default function BookingsContent() {
                       <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
                         {video.titleEn}
                       </h3>
-                      <p className="text-sm font-semibold text-[#E2CB85] font-arabic mt-0.5">
+                      <p className="text-sm font-semibold text-[#8A661C] dark:text-[#E2CB85] font-arabic mt-0.5">
                         {video.titleAr}
                       </p>
                     </div>
 
-                    <p className="text-xs sm:text-sm text-white/70 leading-relaxed">
+                    <p className="text-xs sm:text-sm text-gray-700 dark:text-white/70 leading-relaxed">
                       {video.descEn}
                     </p>
-                    <p className="text-xs text-[#E2CB85]/80 font-arabic leading-relaxed border-t border-white/5 pt-2">
+                    <p className="text-xs text-[#8A661C] dark:text-[#E2CB85]/80 font-arabic leading-relaxed border-t border-slate-200 dark:border-white/5 pt-2">
                       {video.descAr}
                     </p>
 
-                    <div className="pt-3 border-t border-white/10 flex items-center justify-between">
-                      <span className="text-[11px] text-white/40 flex items-center gap-1">
+                    <div className="pt-3 border-t border-slate-200 dark:border-white/10 flex items-center justify-between">
+                      <span className="text-[11px] text-gray-500 dark:text-white/40 flex items-center gap-1">
                         <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
                         <span>Experience Egypt Official</span>
                       </span>
@@ -750,7 +750,7 @@ export default function BookingsContent() {
                         href={`https://www.youtube.com/watch?v=${video.id}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-red-600/20 hover:bg-red-600 border border-red-500/40 hover:border-red-500 text-red-200 hover:text-white text-xs font-bold transition-all"
+                        className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-red-600/15 dark:bg-red-600/20 hover:bg-red-600 border border-red-500/40 hover:border-red-500 text-red-700 dark:text-red-200 hover:text-white text-xs font-bold transition-all"
                       >
                         <Play className="w-3 h-3 fill-current" />
                         <span>Watch on YouTube</span>
@@ -764,14 +764,14 @@ export default function BookingsContent() {
         )}
 
         {/* Bottom Call to Action */}
-        <div className="mt-12 p-8 rounded-3xl bg-gradient-to-r from-[#0A1628] via-[#122C38] to-[#0A1628] border border-[#C9A84C]/30 text-center space-y-4 shadow-[0_0_40px_rgba(201,168,76,0.1)]">
-          <div className="inline-flex items-center gap-2 p-2 rounded-full bg-[#C9A84C]/15 border border-[#C9A84C]/30 text-[#E2CB85]">
+        <div className="mt-12 p-8 rounded-3xl bg-[#F8F3E9] dark:bg-gradient-to-r dark:from-[#0A1628] dark:via-[#122C38] dark:to-[#0A1628] border border-[#C9A84C]/30 text-center space-y-4 shadow-sm dark:shadow-[0_0_40px_rgba(201,168,76,0.1)]">
+          <div className="inline-flex items-center gap-2 p-2 rounded-full bg-[#C9A84C]/15 border border-[#C9A84C]/30 text-[#8A661C] dark:text-[#E2CB85]">
             <Compass className="w-5 h-5 text-[#C9A84C]" />
           </div>
-          <h3 className="text-xl sm:text-2xl font-bold text-white">
+          <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
             Need an AI-Curated Custom Itinerary?
           </h3>
-          <p className="text-sm text-white/70 max-w-xl mx-auto">
+          <p className="text-sm text-gray-600 dark:text-white/70 max-w-xl mx-auto">
             EgyptX AI crafts personalized multi-day itineraries with crowd-aware scheduling, heritage sites, and private transport.
           </p>
           <div className="pt-2">

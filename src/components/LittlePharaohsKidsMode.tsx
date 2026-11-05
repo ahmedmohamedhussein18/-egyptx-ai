@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
+import { Check, Puzzle, Award, Lock } from "lucide-react";
 
 const PUZZLE_IMAGES = [
   {
@@ -178,31 +179,31 @@ export default function LittlePharaohsKidsMode() {
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center bg-[#F8F3E9] dark:bg-[#111C38] border border-slate-200 dark:border-[#D4AF37]/40 rounded-2xl p-6 mb-8 shadow-md dark:shadow-2xl text-slate-900 dark:text-white">
         <div className="flex items-center gap-4 mb-4 md:mb-0">
           <div className="w-14 h-14 rounded-2xl bg-[#D4AF37]/20 flex items-center justify-center text-3xl border border-[#D4AF37]/50 shadow-inner">
-            
+            <Puzzle className="w-7 h-7 text-[#D4AF37]" />
           </div>
           <div>
             <h1 className="text-2xl font-bold text-[#D4AF37]">
               {lang === "ar" ? "مغامرات الفراعنة الصغار — Little Pharaohs" : "Little Pharaohs Adventure"}
             </h1>
-            <p className="text-xs text-gray-300">
+            <p className="text-xs text-gray-600 dark:text-gray-300">
               {lang === "ar" ? "بازل الصورة التشكيلية المتشابكة مع الخيال الشفاف" : "Interlocking Jigsaw Puzzle with Ghost Overlay"}
             </p>
           </div>
         </div>
 
-        <div className="flex items-center gap-5 bg-[#070D1F] px-5 py-3 rounded-xl border border-[#D4AF37]/30">
+        <div className="flex items-center gap-5 bg-white dark:bg-[#070D1F] px-5 py-3 rounded-xl border border-[#D4AF37]/30">
           <div>
-            <span className="text-[10px] text-gray-400 block">{lang === "ar" ? "نقاط الخبرة (XP)" : "XP Points"}</span>
+            <span className="text-[10px] text-gray-500 dark:text-gray-400 block">{lang === "ar" ? "نقاط الخبرة (XP)" : "XP Points"}</span>
             <span className="text-lg font-bold text-[#D4AF37]">{xp} {lang === "ar" ? "نقطة" : "pts"}</span>
           </div>
-          <div className="h-6 w-[1px] bg-gray-700"></div>
+          <div className="h-6 w-[1px] bg-gray-200 dark:bg-gray-700"></div>
           <div>
-            <span className="text-[10px] text-gray-400 block">{lang === "ar" ? "الشارات" : "Badges"}</span>
-            <span className="text-lg font-bold text-teal-400">{earnedBadges.length}</span>
+            <span className="text-[10px] text-gray-500 dark:text-gray-400 block">{lang === "ar" ? "الشارات" : "Badges"}</span>
+            <span className="text-lg font-bold text-teal-700 dark:text-teal-400">{earnedBadges.length}</span>
           </div>
           <button
             onClick={handleResetProgress}
-            className="text-xs bg-rose-950/60 hover:bg-rose-900 text-rose-300 px-3 py-1.5 rounded-lg border border-rose-800 transition-colors cursor-pointer"
+            className="text-xs bg-rose-100 dark:bg-rose-950/60 hover:bg-rose-200 dark:hover:bg-rose-900 text-rose-700 dark:text-rose-300 px-3 py-1.5 rounded-lg border border-rose-300 dark:border-rose-800 transition-colors cursor-pointer"
           >
             {lang === "ar" ? " مسح" : " Reset"}
           </button>
@@ -219,15 +220,15 @@ export default function LittlePharaohsKidsMode() {
       <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-4 gap-8">
         
         {/* Large Puzzle Stage (Takes 3 columns) */}
-        <div className="lg:col-span-3 bg-[#111C38] border-2 border-[#D4AF37]/50 rounded-3xl p-6 md:p-10 shadow-2xl relative">
+        <div className="lg:col-span-3 bg-[#F8F3E9] dark:bg-[#111C38] border-2 border-[#D4AF37]/50 rounded-3xl p-6 md:p-10 shadow-2xl relative">
           
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-6 pb-3 border-b border-gray-800">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-6 pb-3 border-b border-gray-200 dark:border-gray-800">
             <h3 className="text-xl font-bold text-[#D4AF37] flex items-center gap-2">
                {lang === "ar" ? "بازل المعالم الفرعونية المكبر" : "Large Pharaonic Jigsaw Stage"}
             </h3>
             <div className="flex items-center gap-4 flex-wrap">
-              <span className="text-xs text-gray-300"> {lang === "ar" ? "الحركات" : "Moves"}: <strong className="text-[#D4AF37] text-sm">{moves}</strong></span>
-              <span className="text-xs text-gray-300">{lang === "ar" ? "الوقت" : "Time"}: <strong className="text-teal-400 text-sm">{seconds}s</strong></span>
+              <span className="text-xs text-gray-700 dark:text-gray-300"> {lang === "ar" ? "الحركات" : "Moves"}: <strong className="text-[#D4AF37] text-sm">{moves}</strong></span>
+              <span className="text-xs text-gray-700 dark:text-gray-300">{lang === "ar" ? "الوقت" : "Time"}: <strong className="text-teal-700 dark:text-teal-400 text-sm">{seconds}s</strong></span>
               <button
                 onClick={shuffleTiles}
                 className="bg-[#D4AF37] hover:bg-[#c29d30] text-[#070D1F] font-bold px-5 py-2 rounded-xl text-xs transition-transform hover:scale-105 shadow-md cursor-pointer"
@@ -248,7 +249,7 @@ export default function LittlePharaohsKidsMode() {
                   setScanResult(null);
                   setSelectedSlot(null);
                 }}
-                className={`p-2 rounded-2xl border text-xs font-bold transition-all cursor-pointer ${selectedImg === img.url ? 'border-[#D4AF37] bg-[#D4AF37]/20 text-[#D4AF37]' : 'border-gray-800 bg-[#070D1F] text-gray-400 hover:border-gray-600'}`}
+                className={`p-2 rounded-2xl border text-xs font-bold transition-all cursor-pointer ${selectedImg === img.url ? 'border-[#D4AF37] bg-[#D4AF37]/20 text-[#D4AF37]' : 'border-gray-200 dark:border-gray-800 bg-white dark:bg-[#070D1F] text-gray-600 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-600'}`}
               >
                 <div
                   className="h-16 rounded-xl mb-1 bg-cover bg-center"
@@ -326,9 +327,9 @@ export default function LittlePharaohsKidsMode() {
                 title="إنهاء"
                 className="w-20 h-20 rounded-full bg-gradient-to-tr from-rose-600 via-amber-500 to-[#D4AF37] hover:scale-110 active:scale-95 shadow-2xl border-4 border-white flex items-center justify-center text-3xl text-white transition-all cursor-pointer animate-bounce"
               >
-                
+                <Check className="w-8 h-8" />
               </button>
-              <span className="text-xs text-gray-300 font-bold mt-3">
+              <span className="text-xs text-gray-700 dark:text-gray-300 font-bold mt-3">
                 {lang === "ar" ? "إنهاء" : "Finish"}
               </span>
             </div>
@@ -336,7 +337,7 @@ export default function LittlePharaohsKidsMode() {
           </div>
 
           {!isPlaying && scanResult === null && (
-            <p className="text-center text-xs text-gray-400 mt-2">
+            <p className="text-center text-xs text-gray-600 dark:text-gray-400 mt-2">
               {lang === "ar" ? "اضغط «خلط وبدء التحدي» ثم اسحب أو اضغط القطع لتبديل أماكنها" : "Click 'Shuffle & Start', then drag or tap pieces to swap them"}
             </p>
           )}
@@ -357,7 +358,7 @@ export default function LittlePharaohsKidsMode() {
 
         {/* Sidebar Museum */}
         <div className="space-y-6">
-          <div className="bg-[#111C38] border border-gray-800 rounded-3xl p-6 shadow-2xl">
+          <div className="bg-[#F8F3E9] dark:bg-[#111C38] border border-gray-200 dark:border-gray-800 rounded-3xl p-6 shadow-2xl">
             <h3 className="text-sm font-bold text-[#D4AF37] mb-4 flex items-center gap-2">
                {lang === "ar" ? "متحف الشارات" : "Badges Museum"}
             </h3>
@@ -365,11 +366,11 @@ export default function LittlePharaohsKidsMode() {
               {["Pyramid Builder", "Temple Explorer", "Temple Master"].map((b, idx) => {
                 const unlocked = earnedBadges.includes(b);
                 return (
-                  <div key={idx} className={`p-3.5 rounded-2xl border flex items-center gap-4 ${unlocked ? 'bg-[#070D1F] border-[#D4AF37]/50 text-white' : 'bg-gray-900/40 border-gray-800/60 text-gray-600'}`}>
-                    <span className="text-2xl">{unlocked ? "" : ""}</span>
+                  <div key={idx} className={`p-3.5 rounded-2xl border flex items-center gap-4 ${unlocked ? 'bg-white dark:bg-[#070D1F] border-[#D4AF37]/50 text-gray-900 dark:text-white' : 'bg-gray-100 dark:bg-gray-900/40 border-gray-200 dark:border-gray-800/60 text-gray-500 dark:text-gray-600'}`}>
+                    <span className="flex items-center justify-center">{unlocked ? <Award className="w-6 h-6 text-[#D4AF37]" /> : <Lock className="w-5 h-5 text-gray-400" />}</span>
                     <div>
                       <span className={`text-xs font-bold block ${unlocked ? 'text-[#D4AF37]' : 'text-gray-500'}`}>{b}</span>
-                      <span className="text-[10px] text-gray-400">{unlocked ? "مكتسب" : "مغلق"}</span>
+                      <span className="text-[10px] text-gray-500 dark:text-gray-400">{unlocked ? "مكتسب" : "مغلق"}</span>
                     </div>
                   </div>
                 );

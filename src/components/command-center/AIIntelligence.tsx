@@ -19,17 +19,17 @@ const AIIntelligence: React.FC<AIIntelligenceProps> = ({ data }) => {
   }
 
   return (
-    <div className="bg-[#0A1628] rounded-xl border border-[#C9A84C]/20 p-6 shadow-[0_0_15px_rgba(201,168,76,0.1)] overflow-hidden relative">
+    <div className="bg-[#F8F3E9] dark:bg-[#0A1628] rounded-xl border border-[#C9A84C]/20 p-6 shadow-[0_0_15px_rgba(201,168,76,0.1)] overflow-hidden relative">
       <div className="absolute top-0 right-0 w-32 h-32 bg-[#C9A84C]/5 rounded-bl-full pointer-events-none" />
       
       <div className="flex items-center gap-3 mb-4 relative z-10">
-        <div className="p-2 bg-[#030712] rounded-lg border border-[#C9A84C]/30">
+        <div className="p-2 bg-white dark:bg-[#030712] rounded-lg border border-[#C9A84C]/30">
           <Brain className="w-5 h-5 text-[#C9A84C]" />
         </div>
         <h3 className="text-[#C9A84C] font-semibold tracking-wider text-sm">EGYPTX AI INTELLIGENCE</h3>
       </div>
       
-      <div className="bg-[#030712] rounded-lg p-5 border border-gray-800 relative z-10">
+      <div className="bg-white dark:bg-[#030712] rounded-lg p-5 border border-gray-200 dark:border-gray-800 relative z-10">
         <div className="flex items-start gap-4">
           <div className="mt-1">
             {hasInsight ? (
@@ -39,7 +39,7 @@ const AIIntelligence: React.FC<AIIntelligenceProps> = ({ data }) => {
             )}
           </div>
           <div>
-            <p className="text-gray-300 text-sm leading-relaxed">
+            <p className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
               {insight}
             </p>
           </div>

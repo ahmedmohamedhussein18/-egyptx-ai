@@ -50,27 +50,27 @@ export default function ReportsContent() {
   };
 
   return (
-    <div className="p-8 h-full overflow-y-auto w-full text-white bg-[#0A1628]" dir="rtl" style={{ fontFamily: "'Cairo', 'Tajawal', sans-serif" }}>
+    <div className="p-8 h-full overflow-y-auto w-full text-gray-900 dark:text-white bg-[#FDFBF7] dark:bg-[#0A1628]" dir="rtl" style={{ fontFamily: "'Cairo', 'Tajawal', sans-serif" }}>
       <div className="flex justify-between items-center mb-8">
         <div>
-          <h2 className="text-3xl font-bold text-white flex items-center gap-2">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
             <FileText className="w-8 h-8 text-[#C9A84C]" />
             التقارير والتصدير
           </h2>
-          <p className="text-gray-400 mt-2 text-sm">قم بتوليد تقارير سياحية مخصصة</p>
+          <p className="text-gray-600 dark:text-gray-400 mt-2 text-sm">قم بتوليد تقارير سياحية مخصصة</p>
         </div>
       </div>
 
-      <div className="bg-[#0D1E36]/50 border border-white/10 rounded-2xl p-6 backdrop-blur-md mb-8">
+      <div className="bg-[#F8F3E9] dark:bg-[#0D1E36]/50 border border-gray-200 dark:border-white/10 rounded-2xl p-6 backdrop-blur-md mb-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
           <div className="flex flex-col gap-2">
-            <label className="text-gray-400 text-sm flex items-center gap-2">
+            <label className="text-gray-700 dark:text-gray-400 text-sm flex items-center gap-2">
               <MapPin className="w-4 h-4" /> المحافظة
             </label>
             <select
               value={governorate}
               onChange={(e) => setGovernorate(e.target.value)}
-              className="bg-[#0A1628] border border-white/10 rounded-lg px-4 py-2 text-white outline-none focus:border-[#C9A84C] transition-colors"
+              className="bg-white dark:bg-[#0A1628] border border-gray-300 dark:border-white/10 rounded-lg px-4 py-2 text-gray-900 dark:text-white outline-none focus:border-[#C9A84C] transition-colors"
             >
               <option value="cairo">القاهرة</option>
               <option value="alexandria">الإسكندرية</option>
@@ -81,13 +81,13 @@ export default function ReportsContent() {
           </div>
 
           <div className="flex flex-col gap-2">
-            <label className="text-gray-400 text-sm flex items-center gap-2">
+            <label className="text-gray-700 dark:text-gray-400 text-sm flex items-center gap-2">
               <Calendar className="w-4 h-4" /> الفترة الزمنية
             </label>
             <select
               value={dateRange}
               onChange={(e) => setDateRange(e.target.value)}
-              className="bg-[#0A1628] border border-white/10 rounded-lg px-4 py-2 text-white outline-none focus:border-[#C9A84C] transition-colors"
+              className="bg-white dark:bg-[#0A1628] border border-gray-300 dark:border-white/10 rounded-lg px-4 py-2 text-gray-900 dark:text-white outline-none focus:border-[#C9A84C] transition-colors"
             >
               <option value="today">اليوم</option>
               <option value="7d">آخر 7 أيام</option>
@@ -186,9 +186,9 @@ export default function ReportsContent() {
           </div>
         </div>
       ) : (
-        <div className="bg-[#0D1E36]/30 border border-white/5 rounded-2xl p-12 text-center flex flex-col items-center justify-center">
+        <div className="bg-[#F8F3E9] dark:bg-[#0D1E36]/30 border border-gray-200 dark:border-white/5 rounded-2xl p-12 text-center flex flex-col items-center justify-center">
           <FileText className="w-16 h-16 text-gray-500 mb-4 opacity-50" />
-          <h3 className="text-xl font-bold text-gray-300 mb-2">لا يوجد تقرير حالياً</h3>
+          <h3 className="text-xl font-bold text-gray-800 dark:text-gray-300 mb-2">لا يوجد تقرير حالياً</h3>
           <p className="text-gray-500 max-w-md">قم بتحديد المحافظة والفترة الزمنية ثم اضغط على "توليد التقرير" لعرض البيانات.</p>
         </div>
       )}

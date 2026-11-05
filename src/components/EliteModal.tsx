@@ -205,7 +205,7 @@ export default function EliteModal({
           transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
           className={`relative w-full ${
             view === 'plans' ? 'max-w-5xl' : 'max-w-xl'
-          } bg-gradient-to-b from-[#0B1120]/95 via-[#060D1A]/95 to-[#020610]/95 backdrop-blur-2xl border border-amber-500/30 shadow-[0_0_60px_rgba(217,119,6,0.18),0_25px_80px_rgba(0,0,0,0.95)] rounded-3xl p-5 sm:p-8 text-center z-[202] my-auto overflow-hidden max-h-[92vh] overflow-y-auto before:absolute before:inset-0 before:rounded-3xl before:p-[1px] before:bg-gradient-to-b before:from-amber-400/35 before:via-white/5 before:to-transparent before:pointer-events-none transition-all duration-300`}
+          } bg-[#FDFBF7] dark:bg-gradient-to-b dark:from-[#0B1120]/95 dark:via-[#060D1A]/95 dark:to-[#020610]/95 backdrop-blur-2xl border border-amber-500/30 shadow-[0_0_60px_rgba(217,119,6,0.18),0_25px_80px_rgba(0,0,0,0.95)] rounded-3xl p-5 sm:p-8 text-center z-[202] my-auto overflow-hidden max-h-[92vh] overflow-y-auto before:absolute before:inset-0 before:rounded-3xl before:p-[1px] before:bg-gradient-to-b before:from-amber-400/35 before:via-white/5 before:to-transparent before:pointer-events-none transition-all duration-300`}
         >
           {/* Top Radial Golden Glow */}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-36 bg-gradient-to-b from-amber-400/20 to-transparent blur-3xl pointer-events-none" />
@@ -213,7 +213,7 @@ export default function EliteModal({
           {/* Minimalist Close 'X' Button */}
           <button
             onClick={handleCloseAll}
-            className="absolute top-4 right-4 sm:top-5 sm:right-5 p-2.5 text-slate-400 hover:text-white bg-white/5 hover:bg-white/10 hover:border-amber-500/40 border border-white/10 rounded-full transition-all duration-200 cursor-pointer z-30 shadow-sm"
+            className="absolute top-4 right-4 sm:top-5 sm:right-5 p-2.5 text-gray-500 dark:text-slate-400 hover:text-gray-900 dark:hover:text-white bg-slate-200/70 dark:bg-white/5 hover:bg-slate-300 dark:hover:bg-white/10 hover:border-amber-500/40 border border-slate-300 dark:border-slate-200 dark:border-white/10 rounded-full transition-all duration-200 cursor-pointer z-30 shadow-sm"
             aria-label="Close"
           >
             <X className="w-4 h-4" />
@@ -240,7 +240,7 @@ export default function EliteModal({
 
               {/* Contextual Teaser Banner if triggered from preview lock */}
               {contextMessage && (
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/15 border border-amber-400/40 text-amber-300 text-xs sm:text-sm font-semibold mb-3 shadow-[0_0_20px_rgba(245,158,11,0.25)] animate-pulse">
+                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/15 border border-amber-400/40 text-amber-800 dark:text-amber-300 text-xs sm:text-sm font-semibold mb-3 shadow-[0_0_20px_rgba(245,158,11,0.25)] animate-pulse">
                   <Sparkles className="w-4 h-4 text-amber-400 shrink-0" />
                   <span>{contextMessage}</span>
                 </div>
@@ -248,13 +248,13 @@ export default function EliteModal({
 
               {/* Title */}
               <h2 className="text-2xl sm:text-4xl font-black tracking-tight mb-2">
-                <span className="bg-gradient-to-r from-amber-200 via-yellow-400 to-amber-500 bg-clip-text text-transparent drop-shadow-sm">
+                <span className="bg-gradient-to-r from-amber-700 via-yellow-600 to-amber-800 dark:from-amber-200 dark:via-yellow-400 dark:to-amber-500 bg-clip-text text-transparent drop-shadow-sm">
                   {contextTitle || 'Experience Unrivaled Luxury & AI Heritage'}
                 </span>
               </h2>
 
               {/* Subtitle with Luxury Tone */}
-              <p className="text-xs sm:text-sm text-slate-300/80 font-normal max-w-xl mx-auto mb-6 tracking-wide leading-relaxed">
+              <p className="text-xs sm:text-sm text-gray-600 dark:text-slate-300/80 font-normal max-w-xl mx-auto mb-6 tracking-wide leading-relaxed">
                 {contextMessage 
                   ? 'Upgrade to EgyptX Elite to unlock full unrestricted access to all VIP tools, time portals, and hidden vaults.'
                   : 'The ultimate investment for elite travelers, history connoisseurs, and families seeking absolute perfection.'}
@@ -262,14 +262,14 @@ export default function EliteModal({
 
               {/* High-End Billing Cycle Selector (Monthly vs Annual VIP Pass) */}
               <div className="flex items-center justify-center mb-8">
-                <div className="p-1 bg-white/[0.04] border border-amber-500/20 rounded-2xl flex items-center gap-1.5 shadow-[0_0_25px_rgba(245,158,11,0.1)] backdrop-blur-md">
+                <div className="p-1 bg-[#F8F3E9] dark:bg-white/[0.04] border border-amber-500/30 rounded-2xl flex items-center gap-1.5 shadow-[0_0_25px_rgba(245,158,11,0.1)] backdrop-blur-md">
                   <button
                     type="button"
                     onClick={() => setBillingCycle('monthly')}
                     className={`px-4 sm:px-5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                       billingCycle === 'monthly'
-                        ? 'bg-white/15 text-white shadow-md border border-white/10'
-                        : 'text-slate-400 hover:text-white'
+                        ? 'bg-white dark:bg-white/15 text-gray-900 dark:text-white shadow-md border border-slate-200 dark:border-slate-200 dark:border-white/10'
+                        : 'text-gray-600 dark:text-slate-400 hover:text-gray-900 dark:hover:text-white'
                     }`}
                   >
                     Monthly Billing
@@ -280,14 +280,14 @@ export default function EliteModal({
                     className={`px-4 sm:px-5 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
                       billingCycle === 'annual'
                         ? 'bg-gradient-to-r from-amber-400 via-yellow-500 to-amber-500 text-slate-950 shadow-[0_0_20px_rgba(245,158,11,0.4)]'
-                        : 'text-amber-400 hover:text-amber-300'
+                        : 'text-amber-700 dark:text-amber-400 hover:text-amber-800 dark:hover:text-amber-300'
                     }`}
                   >
                     <span>Annual VIP Pass</span>
                     <span className={`px-1.5 py-0.5 rounded-full text-[9px] font-black uppercase ${
                       billingCycle === 'annual'
                         ? 'bg-slate-950/20 text-slate-950'
-                        : 'bg-amber-400/20 text-amber-300 border border-amber-400/30'
+                        : 'bg-amber-400/20 text-amber-800 dark:text-amber-300 border border-amber-400/40'
                     }`}>
                       Save 35%
                     </span>
@@ -302,10 +302,10 @@ export default function EliteModal({
                     key={plan.id}
                     className={`relative p-5 sm:p-6 rounded-3xl backdrop-blur-xl flex flex-col justify-between transition-all duration-300 ${
                       plan.highlight
-                        ? 'bg-gradient-to-b from-amber-500/[0.14] via-[#0B1120]/95 to-[#040913] border-2 border-amber-500 shadow-[0_0_40px_rgba(245,158,11,0.28)] hover:shadow-[0_0_55px_rgba(245,158,11,0.45)]'
+                        ? 'bg-[#F8F3E9] dark:bg-gradient-to-b dark:from-amber-500/[0.14] dark:via-[#0B1120]/95 dark:to-[#040913] border-2 border-amber-500 shadow-[0_0_40px_rgba(245,158,11,0.2)] hover:shadow-[0_0_55px_rgba(245,158,11,0.35)]'
                         : plan.id === 'adventurer'
-                        ? 'bg-gradient-to-b from-blue-500/[0.08] via-white/[0.02] to-transparent border border-blue-400/30 hover:border-blue-400/60 shadow-lg'
-                        : 'bg-white/[0.02] border border-white/10 hover:border-white/20'
+                        ? 'bg-[#F8F3E9] dark:bg-gradient-to-b dark:from-blue-500/[0.08] dark:via-white/[0.02] dark:to-transparent border border-blue-400/40 hover:border-blue-500/60 shadow-sm'
+                        : 'bg-[#F8F3E9] dark:bg-white/[0.02] border border-slate-200 dark:border-slate-200 dark:border-white/10 hover:border-slate-300 dark:hover:border-white/20'
                     }`}
                   >
                     {/* Floating Luxury Badges */}
@@ -331,10 +331,10 @@ export default function EliteModal({
                         <span
                           className={`px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-bold uppercase tracking-wider border ${
                             plan.highlight
-                              ? 'bg-amber-400/20 text-amber-300 border-amber-400/40'
+                              ? 'bg-amber-400/20 text-amber-800 dark:text-amber-300 border-amber-400/40'
                               : plan.id === 'adventurer'
-                              ? 'bg-blue-400/15 text-blue-300 border-blue-400/30'
-                              : 'bg-white/10 text-slate-300 border-white/15'
+                              ? 'bg-blue-400/15 text-blue-700 dark:text-blue-300 border-blue-400/30'
+                              : 'bg-slate-200/80 dark:bg-white/10 text-gray-700 dark:text-slate-300 border-slate-300 dark:border-white/15'
                           }`}
                         >
                           {plan.badge}
@@ -342,32 +342,32 @@ export default function EliteModal({
                         {plan.highlight && <Crown className="w-4 h-4 text-amber-400" />}
                       </div>
 
-                      <h3 className="text-xl font-bold text-white mb-1 flex items-center gap-1.5">
+                      <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-1 flex items-center gap-1.5">
                         <span>{plan.name}</span>
                       </h3>
-                      <p className="text-xs text-slate-400 mb-5 leading-relaxed min-h-[36px]">
+                      <p className="text-xs text-gray-600 dark:text-slate-400 mb-5 leading-relaxed min-h-[36px]">
                         {plan.desc}
                       </p>
 
                       {/* Price */}
-                      <div className="mb-5 pb-4 border-b border-white/10 flex flex-wrap items-baseline gap-1.5">
+                      <div className="mb-5 pb-4 border-b border-slate-200 dark:border-slate-200 dark:border-white/10 flex flex-wrap items-baseline gap-1.5">
                         <span
                           className={`text-3xl sm:text-4xl font-black ${
                             plan.highlight
-                              ? 'bg-gradient-to-r from-amber-200 via-yellow-400 to-amber-500 bg-clip-text text-transparent'
-                              : 'text-white'
+                              ? 'bg-gradient-to-r from-amber-700 via-yellow-600 to-amber-800 dark:from-amber-200 dark:via-yellow-400 dark:to-amber-500 bg-clip-text text-transparent'
+                              : 'text-gray-900 dark:text-white'
                           }`}
                         >
                           {activePrice(plan)}
                         </span>
                         <span className="text-xs text-slate-400 font-medium">{activePeriod(plan)}</span>
                         {billingCycle === 'annual' && plan.id === 'pharaoh' && (
-                          <span className="text-[11px] text-amber-300 font-bold ml-1 bg-amber-400/15 px-2 py-0.5 rounded-full border border-amber-400/30">
+                          <span className="text-[11px] text-amber-800 dark:text-amber-300 font-bold ml-1 bg-amber-400/15 px-2 py-0.5 rounded-full border border-amber-400/30">
                             ≈ $24.99/mo
                           </span>
                         )}
                         {billingCycle === 'annual' && plan.id === 'adventurer' && (
-                          <span className="text-[11px] text-blue-300 font-bold ml-1 bg-blue-400/15 px-2 py-0.5 rounded-full border border-blue-400/30">
+                          <span className="text-[11px] text-blue-700 dark:text-blue-300 font-bold ml-1 bg-blue-400/15 px-2 py-0.5 rounded-full border border-blue-400/30">
                             Save 20%
                           </span>
                         )}
@@ -376,12 +376,12 @@ export default function EliteModal({
                       {/* Feature Bullet Points */}
                       <ul className="space-y-3 mb-6">
                         {plan.features.map((feature, idx) => (
-                          <li key={idx} className="flex items-start gap-2.5 text-xs text-slate-300 leading-snug">
+                          <li key={idx} className="flex items-start gap-2.5 text-xs text-gray-700 dark:text-slate-300 leading-snug">
                             <span
                               className={`p-1 rounded-full shrink-0 mt-0.5 ${
                                 plan.highlight
-                                  ? 'bg-amber-400/20 text-amber-300 border border-amber-400/40'
-                                  : 'bg-white/10 text-emerald-400'
+                                  ? 'bg-amber-400/20 text-amber-700 dark:text-amber-300 border border-amber-400/40'
+                                  : 'bg-emerald-500/15 dark:bg-white/10 text-emerald-700 dark:text-emerald-400'
                               }`}
                             >
                               <Check className="w-3 h-3" />
@@ -398,7 +398,7 @@ export default function EliteModal({
                         <button
                           type="button"
                           disabled
-                          className="w-full py-3 px-4 rounded-xl bg-white/[0.04] border border-white/10 text-slate-500 font-bold text-xs uppercase tracking-wider cursor-default"
+                          className="w-full py-3 px-4 rounded-xl bg-slate-200/70 dark:bg-white/[0.04] border border-slate-300 dark:border-slate-200 dark:border-white/10 text-gray-500 dark:text-slate-500 font-bold text-xs uppercase tracking-wider cursor-default"
                         >
                           {plan.ctaText}
                         </button>
@@ -422,18 +422,18 @@ export default function EliteModal({
               </div>
 
               {/* Secure Checkout Trust Ticker */}
-              <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 text-xs font-medium text-slate-300 py-2.5 px-4 rounded-xl bg-white/[0.03] border border-white/10 shadow-inner">
-                <span className="flex items-center gap-1.5 text-amber-300">
+              <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 text-xs font-medium text-gray-700 dark:text-slate-300 py-2.5 px-4 rounded-xl bg-[#F8F3E9] dark:bg-white/[0.03] border border-slate-200 dark:border-slate-200 dark:border-white/10 shadow-inner">
+                <span className="flex items-center gap-1.5 text-amber-700 dark:text-amber-300">
                   <Zap className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
                   Instant Activation
                 </span>
-                <span className="text-white/20">•</span>
-                <span className="flex items-center gap-1.5 text-slate-200">
+                <span className="text-gray-300 dark:text-white/20">•</span>
+                <span className="flex items-center gap-1.5 text-gray-700 dark:text-slate-200">
                   <Lock className="w-3.5 h-3.5 text-emerald-400" />
                   256-Bit SSL Encrypted
                 </span>
-                <span className="text-white/20">•</span>
-                <span className="flex items-center gap-1.5 text-slate-200">
+                <span className="text-gray-300 dark:text-white/20">•</span>
+                <span className="flex items-center gap-1.5 text-gray-700 dark:text-slate-200">
                   <ShieldCheck className="w-3.5 h-3.5 text-indigo-400" />
                   Cancel Anytime
                 </span>
@@ -457,9 +457,9 @@ export default function EliteModal({
               </button>
 
               {/* Header with Security Badge */}
-              <div className="flex items-center justify-between pb-4 mb-4 border-b border-white/10">
+              <div className="flex items-center justify-between pb-4 mb-4 border-b border-slate-200 dark:border-slate-200 dark:border-white/10">
                 <div>
-                  <h3 className="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
+                  <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
                     <span>Secure Checkout</span>
                     <Shield className="w-5 h-5 text-emerald-400" />
                   </h3>
@@ -469,10 +469,10 @@ export default function EliteModal({
                 </div>
                 {/* Plan Summary Pill */}
                 <div className="text-right">
-                  <span className="px-3 py-1 rounded-full text-xs font-bold bg-amber-400/20 text-amber-300 border border-amber-400/40 inline-block mb-1">
+                  <span className="px-3 py-1 rounded-full text-xs font-bold bg-amber-400/20 text-amber-800 dark:text-amber-300 border border-amber-400/40 inline-block mb-1">
                     {displayPlanName}
                   </span>
-                  <p className="text-lg font-black text-white">
+                  <p className="text-lg font-black text-gray-900 dark:text-white">
                     {displayPrice}
                     <span className="text-[10px] text-slate-400 font-normal ml-0.5">{displayPeriod}</span>
                   </p>
@@ -516,7 +516,7 @@ export default function EliteModal({
               <form onSubmit={handlePay} className="space-y-3.5">
                 {/* Cardholder Name */}
                 <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-1">
+                  <label className="block text-xs font-semibold text-gray-700 dark:text-slate-300 mb-1">
                     Cardholder Name
                   </label>
                   <input
@@ -525,13 +525,13 @@ export default function EliteModal({
                     value={cardName}
                     onChange={(e) => setCardName(e.target.value)}
                     placeholder="John Doe"
-                    className="w-full bg-[#030712]/70 border border-white/15 focus:border-amber-400 rounded-xl px-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none transition-all shadow-inner"
+                    className="w-full bg-white dark:bg-[#030712]/70 border border-slate-300 dark:border-white/15 focus:border-amber-500 rounded-xl px-3.5 py-2.5 text-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-500 focus:outline-none transition-all shadow-inner"
                   />
                 </div>
 
                 {/* Card Number */}
                 <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-1 flex items-center justify-between">
+                  <label className="block text-xs font-semibold text-gray-700 dark:text-slate-300 mb-1 flex items-center justify-between">
                     <span>Card Number</span>
                     <span className="text-[10px] text-slate-400 flex items-center gap-1 font-mono">
                       <CreditCard className="w-3 h-3 text-amber-400" />
@@ -545,14 +545,14 @@ export default function EliteModal({
                     onChange={handleFormatCardNumber}
                     placeholder="4242 4242 4242 4242"
                     maxLength={19}
-                    className="w-full bg-[#030712]/70 border border-white/15 focus:border-amber-400 rounded-xl px-3.5 py-2.5 text-sm font-mono text-white placeholder-slate-500 focus:outline-none transition-all shadow-inner"
+                    className="w-full bg-white dark:bg-[#030712]/70 border border-slate-300 dark:border-white/15 focus:border-amber-500 rounded-xl px-3.5 py-2.5 text-sm font-mono text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-500 focus:outline-none transition-all shadow-inner"
                   />
                 </div>
 
                 {/* Expiry Date, CVV & Country */}
                 <div className="grid grid-cols-3 gap-3">
                   <div>
-                    <label className="block text-xs font-semibold text-slate-300 mb-1">
+                    <label className="block text-xs font-semibold text-gray-700 dark:text-slate-300 mb-1">
                       Expiry (MM/YY)
                     </label>
                     <input
@@ -562,11 +562,11 @@ export default function EliteModal({
                       onChange={handleFormatExpiry}
                       placeholder="MM/YY"
                       maxLength={5}
-                      className="w-full bg-[#030712]/70 border border-white/15 focus:border-amber-400 rounded-xl px-3 py-2.5 text-sm font-mono text-white placeholder-slate-500 focus:outline-none transition-all shadow-inner text-center"
+                      className="w-full bg-white dark:bg-[#030712]/70 border border-slate-300 dark:border-white/15 focus:border-amber-500 rounded-xl px-3 py-2.5 text-sm font-mono text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-500 focus:outline-none transition-all shadow-inner text-center"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-slate-300 mb-1">
+                    <label className="block text-xs font-semibold text-gray-700 dark:text-slate-300 mb-1">
                       CVV
                     </label>
                     <input
@@ -576,20 +576,20 @@ export default function EliteModal({
                       onChange={(e) => setCvv(e.target.value.replace(/\D/g, '').slice(0, 4))}
                       placeholder="•••"
                       maxLength={4}
-                      className="w-full bg-[#030712]/70 border border-white/15 focus:border-amber-400 rounded-xl px-3 py-2.5 text-sm font-mono text-white placeholder-slate-500 focus:outline-none transition-all shadow-inner text-center"
+                      className="w-full bg-white dark:bg-[#030712]/70 border border-slate-300 dark:border-white/15 focus:border-amber-500 rounded-xl px-3 py-2.5 text-sm font-mono text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-500 focus:outline-none transition-all shadow-inner text-center"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-slate-300 mb-1">
+                    <label className="block text-xs font-semibold text-gray-700 dark:text-slate-300 mb-1">
                       Country
                     </label>
                     <select
                       value={country}
                       onChange={(e) => setCountry(e.target.value)}
-                      className="w-full bg-[#030712]/70 border border-white/15 focus:border-amber-400 rounded-xl px-2.5 py-2.5 text-xs text-white focus:outline-none transition-all shadow-inner cursor-pointer"
+                      className="w-full bg-white dark:bg-[#030712]/70 border border-slate-300 dark:border-white/15 focus:border-amber-500 rounded-xl px-2.5 py-2.5 text-xs text-gray-900 dark:text-white focus:outline-none transition-all shadow-inner cursor-pointer"
                     >
                       {COUNTRIES.map((c) => (
-                        <option key={c.code} value={c.code} className="bg-[#0A1628] text-white">
+                        <option key={c.code} value={c.code} className="bg-white dark:bg-[#0A1628] text-gray-900 dark:text-white">
                           {c.name}
                         </option>
                       ))}
@@ -598,8 +598,8 @@ export default function EliteModal({
                 </div>
 
                 {/* Trust & Gateway Ticker */}
-                <div className="py-2 flex items-center justify-between text-[11px] text-slate-400 border-t border-white/10 mt-3 pt-3">
-                  <span className="flex items-center gap-1 text-slate-300">
+                <div className="py-2 flex items-center justify-between text-[11px] text-gray-500 dark:text-slate-400 border-t border-slate-200 dark:border-slate-200 dark:border-white/10 mt-3 pt-3">
+                  <span className="flex items-center gap-1 text-gray-700 dark:text-slate-300">
                     <Lock className="w-3 h-3 text-emerald-400" />
                     256-Bit SSL Encrypted
                   </span>
@@ -645,7 +645,7 @@ export default function EliteModal({
               </div>
 
               {/* Success Title */}
-              <h3 className="text-2xl sm:text-3xl font-black text-white mb-2 tracking-tight">
+              <h3 className="text-2xl sm:text-3xl font-black text-gray-900 dark:text-white mb-2 tracking-tight">
                 Payment Successful!
               </h3>
               <p className="text-sm font-semibold bg-gradient-to-r from-amber-300 to-yellow-500 bg-clip-text text-transparent mb-6">
@@ -653,22 +653,22 @@ export default function EliteModal({
               </p>
 
               {/* Transaction Receipt Card */}
-              <div className="w-full max-w-sm bg-white/[0.03] border border-white/10 rounded-2xl p-4.5 mb-6 text-left space-y-2.5 text-xs text-slate-300">
-                <div className="flex justify-between items-center pb-2 border-b border-white/10">
+              <div className="w-full max-w-sm bg-[#F8F3E9] dark:bg-white/[0.03] border border-slate-200 dark:border-slate-200 dark:border-white/10 rounded-2xl p-4.5 mb-6 text-left space-y-2.5 text-xs text-gray-700 dark:text-slate-300">
+                <div className="flex justify-between items-center pb-2 border-b border-slate-200 dark:border-white/10">
                   <span className="text-slate-400">Transaction ID</span>
-                  <span className="font-mono text-white font-medium">{transactionId}</span>
+                  <span className="font-mono text-gray-900 dark:text-white font-medium">{transactionId}</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-slate-400">Plan Activated</span>
-                  <span className="text-amber-300 font-bold">{displayPlanName}</span>
+                  <span className="text-amber-700 dark:text-amber-300 font-bold">{displayPlanName}</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-slate-400">Amount Billed</span>
-                  <span className="text-white font-bold">{displayPrice}</span>
+                  <span className="text-gray-900 dark:text-white font-bold">{displayPrice}</span>
                 </div>
-                <div className="flex justify-between items-center pt-2 border-t border-white/10">
+                <div className="flex justify-between items-center pt-2 border-t border-slate-200 dark:border-white/10">
                   <span className="text-slate-400">Access Status</span>
-                  <span className="text-emerald-400 font-semibold flex items-center gap-1">
+                  <span className="text-emerald-700 dark:text-emerald-400 font-semibold flex items-center gap-1">
                     <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                     Active (Instant VIP Unlocked)
                   </span>

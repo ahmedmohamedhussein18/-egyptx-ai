@@ -92,7 +92,7 @@ export default function BusinessPortalContent() {
                 className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 ${
                   activeTab === type.id
                     ? 'bg-[#C9A84C] text-[#030712] shadow-[0_0_15px_rgba(201,168,76,0.3)]'
-                    : 'text-gray-400 hover:text-white hover:bg-white/5'
+                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5'
                 }`}
               >
                 <type.icon className="w-4 h-4" />
@@ -112,7 +112,7 @@ export default function BusinessPortalContent() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ delay: idx * 0.05, duration: 0.2 }}
-                className="bg-[#0A1628]/80 backdrop-blur border border-[#C9A84C]/20 rounded-2xl p-5 flex items-start justify-between shadow-lg group hover:border-[#C9A84C]/50 transition-colors"
+                className="bg-[#F8F3E9] dark:bg-[#0A1628]/80 backdrop-blur border border-[#C9A84C]/25 rounded-2xl p-5 flex items-start justify-between shadow-lg group hover:border-[#C9A84C]/50 transition-colors"
               >
                 <div>
                   <p className="text-gray-400 text-sm font-medium uppercase tracking-wider mb-2">{stat.label}</p>
@@ -138,7 +138,7 @@ export default function BusinessPortalContent() {
             <motion.div 
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="bg-gradient-to-br from-[#1B6B93]/30 to-[#0A1628] backdrop-blur border border-[#4CC9F0]/30 rounded-2xl p-6 relative overflow-hidden shadow-[0_0_30px_rgba(76,201,240,0.15)]"
+              className="bg-gradient-to-br from-[#1B6B93]/15 to-[#F8F3E9] dark:from-[#1B6B93]/30 dark:to-[#0A1628] backdrop-blur border border-[#4CC9F0]/30 rounded-2xl p-6 relative overflow-hidden shadow-[0_0_30px_rgba(76,201,240,0.15)]"
             >
               {/* Shimmer effect */}
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full animate-[shimmer_3s_infinite]" />
@@ -148,11 +148,11 @@ export default function BusinessPortalContent() {
                   <Sparkles className="w-6 h-6 animate-pulse" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-white mb-2 flex items-center gap-2 uppercase tracking-wider">
+                  <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2 flex items-center gap-2 uppercase tracking-wider">
                     AI Tourist Demand Insight
                   </h3>
                   <p className="text-slate-600 dark:text-gray-300 leading-relaxed">
-                    Increased tourist interest detected in <strong className="text-[#C9A84C]">Fayoum</strong> & <strong className="text-[#C9A84C]">Siwa Oasis</strong> this month. Consider offering targeted promotions to travelers exploring <span className="text-[#4CC9F0] font-semibold border-b border-[#4CC9F0] border-dashed">Hidden Egypt</span> destinations to capture this emerging demand.
+                    Increased tourist interest detected in <strong className="text-[#C9A84C]">Fayoum</strong> & <strong className="text-[#C9A84C]">Siwa Oasis</strong> this month. Consider offering targeted promotions to travelers exploring <span className="text-[#1B6B93] dark:text-[#4CC9F0] font-semibold border-b border-[#1B6B93] dark:border-[#4CC9F0] border-dashed">Hidden Egypt</span> destinations to capture this emerging demand.
                   </p>
                 </div>
               </div>
@@ -163,7 +163,7 @@ export default function BusinessPortalContent() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="bg-[#0A1628]/80 backdrop-blur border border-white/10 rounded-2xl p-6"
+              className="bg-[#F8F3E9] dark:bg-[#0A1628]/80 backdrop-blur border border-gray-200 dark:border-white/10 rounded-2xl p-6 shadow-sm"
             >
               <div className="flex justify-between items-center mb-6">
                 <h3 className="text-xl font-bold text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
@@ -174,7 +174,7 @@ export default function BusinessPortalContent() {
               
               <div className="flex flex-col gap-4">
                 {OFFERS.map((offer) => (
-                  <div key={offer.id} className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 bg-white/5 border border-white/10 hover:border-[#C9A84C]/50 rounded-xl transition-colors gap-4">
+                  <div key={offer.id} className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 hover:border-[#C9A84C]/50 rounded-xl transition-colors gap-4">
                     <div className="flex items-center gap-4">
                       <div className={`p-3 rounded-lg ${offer.type === 'discount' ? 'bg-[#C9A84C]/20 text-[#C9A84C]' : 'bg-[#1B6B93]/30 text-[#4CC9F0]'}`}>
                         <Percent className="w-5 h-5" />
@@ -192,7 +192,7 @@ export default function BusinessPortalContent() {
                       </div>
                     </div>
                     
-                    <button className="w-full sm:w-auto px-5 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-white text-sm font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-2 shrink-0">
+                    <button className="w-full sm:w-auto px-5 py-2 bg-black/[0.05] dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 border border-gray-300 dark:border-white/10 rounded-lg text-gray-900 dark:text-white text-sm font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-2 shrink-0">
                       <Settings className="w-4 h-4" /> Manage
                     </button>
                   </div>
@@ -206,7 +206,7 @@ export default function BusinessPortalContent() {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
-            className="lg:col-span-1 bg-[#0A1628]/80 backdrop-blur border border-[#C9A84C]/20 rounded-2xl p-6 shadow-xl flex flex-col"
+            className="lg:col-span-1 bg-[#F8F3E9] dark:bg-[#0A1628]/80 backdrop-blur border border-[#C9A84C]/25 rounded-2xl p-6 shadow-xl flex flex-col"
           >
             <h3 className="text-xl font-bold text-[#C9A84C] uppercase tracking-wider mb-6 flex items-center gap-2">
               <PlusCircle className="w-5 h-5" />
@@ -219,7 +219,7 @@ export default function BusinessPortalContent() {
                 <input 
                   type="text" 
                   placeholder="e.g. 15% off dinner for couples" 
-                  className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:ring-1 focus:ring-[#C9A84C] focus:border-[#C9A84C] transition-all"
+                  className="w-full bg-white dark:bg-white/5 border border-gray-300 dark:border-white/10 rounded-lg px-4 py-3 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-[#C9A84C] focus:border-[#C9A84C] transition-all"
                 />
               </div>
               
@@ -228,7 +228,7 @@ export default function BusinessPortalContent() {
                 <textarea 
                   rows={3}
                   placeholder="Describe the exact benefit..." 
-                  className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:ring-1 focus:ring-[#C9A84C] focus:border-[#C9A84C] transition-all resize-none"
+                  className="w-full bg-white dark:bg-white/5 border border-gray-300 dark:border-white/10 rounded-lg px-4 py-3 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-[#C9A84C] focus:border-[#C9A84C] transition-all resize-none"
                 />
               </div>
 
@@ -236,7 +236,7 @@ export default function BusinessPortalContent() {
                 <label className="text-xs text-gray-400 uppercase font-bold tracking-wider">Valid Until</label>
                 <input 
                   type="date" 
-                  className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-1 focus:ring-[#C9A84C] focus:border-[#C9A84C] transition-all [color-scheme:dark]"
+                  className="w-full bg-white dark:bg-white/5 border border-gray-300 dark:border-white/10 rounded-lg px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-[#C9A84C] focus:border-[#C9A84C] transition-all dark:[color-scheme:dark]"
                 />
               </div>
 

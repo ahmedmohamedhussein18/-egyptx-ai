@@ -226,7 +226,7 @@ export default function KidsModeVerificationModal({
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.92, y: 20 }}
           transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className="relative w-full max-w-md bg-gradient-to-b from-[#0B1120] to-[#060E1A] border border-[#C9A84C]/40 rounded-3xl p-6 md:p-8 shadow-[0_25px_65px_rgba(0,0,0,0.85),0_0_45px_rgba(201,168,76,0.18)] overflow-hidden text-center z-10"
+          className="relative w-full max-w-md bg-gradient-to-b from-[#FDFBF7] to-[#F4ECE0] dark:from-[#0B1120] dark:to-[#060E1A] border border-[#C9A84C]/40 rounded-3xl p-6 md:p-8 shadow-2xl dark:shadow-[0_25px_65px_rgba(0,0,0,0.85),0_0_45px_rgba(201,168,76,0.18)] overflow-hidden text-center z-10"
         >
           {/* Ambient Egyptian Gold Glow */}
           <div className="absolute -top-24 -left-24 w-52 h-52 bg-[#C9A84C]/15 rounded-full blur-3xl pointer-events-none" />
@@ -235,7 +235,7 @@ export default function KidsModeVerificationModal({
           {/* Close Button */}
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 p-2 text-white/50 hover:text-white hover:bg-white/5 rounded-full transition-colors"
+            className="absolute top-4 right-4 p-2 text-gray-500 dark:text-white/50 hover:text-gray-900 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 rounded-full transition-colors"
             aria-label="Close"
           >
             <X className="w-5 h-5" />
@@ -244,18 +244,18 @@ export default function KidsModeVerificationModal({
           {/* Security Shield Icon */}
           <div className="relative mx-auto w-16 h-16 rounded-2xl bg-gradient-to-br from-[#C9A84C]/20 to-[#1B6B93]/20 border border-[#C9A84C]/40 flex items-center justify-center mb-5 shadow-[0_0_25px_rgba(201,168,76,0.25)]">
             <ShieldCheck className="w-8 h-8 text-[#C9A84C]" />
-            <span className="absolute -bottom-1 -right-1 p-1 bg-[#0B1120] rounded-full border border-[#C9A84C]/60">
-              <Lock className="w-3 h-3 text-[#E2CB85]" />
+            <span className="absolute -bottom-1 -right-1 p-1 bg-[#FDFBF7] dark:bg-[#0B1120] rounded-full border border-[#C9A84C]/60">
+              <Lock className="w-3 h-3 text-[#8A6D1F] dark:text-[#E2CB85]" />
             </span>
           </div>
 
           {/* Title */}
-          <h2 className="text-2xl font-extrabold text-white mb-2 tracking-tight">
+          <h2 className="text-2xl font-extrabold text-gray-900 dark:text-white mb-2 tracking-tight">
             {step === 'email' ? 'Parental Email Verification' : 'Enter Verification Code'}
           </h2>
 
           {/* Subtitle */}
-          <p className="text-sm text-white/70 leading-relaxed mb-5">
+          <p className="text-sm text-gray-600 dark:text-white/70 leading-relaxed mb-5">
             {step === 'email'
               ? 'Enter any parent email address to receive a secure 6-digit confirmation code.'
               : `We've sent a 6-digit verification code to ${emailInput}. Enter it below to unlock Kids Mode.`}
@@ -266,7 +266,7 @@ export default function KidsModeVerificationModal({
             <motion.div
               initial={{ opacity: 0, y: -5 }}
               animate={{ opacity: 1, y: 0 }}
-              className="mb-5 p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-xs text-emerald-300 flex items-center gap-2.5 text-left"
+              className="mb-5 p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-xs text-emerald-800 dark:text-emerald-300 flex items-center gap-2.5 text-left"
             >
               <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
               <span className="font-medium">{statusMessage}</span>
@@ -278,7 +278,7 @@ export default function KidsModeVerificationModal({
             <motion.div
               initial={{ opacity: 0, y: -5 }}
               animate={{ opacity: 1, y: 0 }}
-              className="mb-5 p-3.5 bg-red-500/15 border border-red-500/40 rounded-xl text-xs text-red-300 flex items-center justify-between gap-3 text-left"
+              className="mb-5 p-3.5 bg-red-500/15 border border-red-500/40 rounded-xl text-xs text-red-700 dark:text-red-300 flex items-center justify-between gap-3 text-left"
             >
               <div className="flex items-start gap-2 flex-1">
                 <AlertCircle className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
@@ -291,7 +291,7 @@ export default function KidsModeVerificationModal({
                   handleSendOtp(emailInput);
                 }}
                 disabled={isSending || !emailInput.trim()}
-                className="px-3 py-1.5 bg-red-500/25 hover:bg-red-500/40 text-white border border-red-400/50 rounded-lg text-xs font-bold transition-all shrink-0 cursor-pointer flex items-center gap-1 active:scale-95 disabled:opacity-50"
+                className="px-3 py-1.5 bg-red-500/20 hover:bg-red-500/30 text-red-800 dark:text-white border border-red-400/50 rounded-lg text-xs font-bold transition-all shrink-0 cursor-pointer flex items-center gap-1 active:scale-95 disabled:opacity-50"
               >
                 <RefreshCw className={`w-3 h-3 ${isSending ? 'animate-spin' : ''}`} />
                 <span>Retry</span>
@@ -309,8 +309,8 @@ export default function KidsModeVerificationModal({
               <div className="w-16 h-16 rounded-full bg-emerald-500/20 border-2 border-emerald-400 flex items-center justify-center text-emerald-400 shadow-[0_0_30px_rgba(16,185,129,0.4)]">
                 <CheckCircle2 className="w-10 h-10" />
               </div>
-              <h3 className="text-xl font-bold text-white">Verification Confirmed!</h3>
-              <p className="text-xs text-[#E2CB85] animate-pulse">
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white">Verification Confirmed!</h3>
+              <p className="text-xs text-[#8A6D1F] dark:text-[#E2CB85] animate-pulse">
                 Unlocking Kids Mode... Welcome young explorers! 
               </p>
             </motion.div>
@@ -318,7 +318,7 @@ export default function KidsModeVerificationModal({
             /* STEP 1: TYPE EMAIL & SEND */
             <form onSubmit={handleEmailFormSubmit} className="space-y-4">
               <div className="relative text-left">
-                <label className="block text-xs font-semibold text-white/70 mb-1.5 pl-1">
+                <label className="block text-xs font-semibold text-gray-700 dark:text-white/70 mb-1.5 pl-1">
                   Parent / Guardian Email
                 </label>
                 <div className="relative">
@@ -334,7 +334,7 @@ export default function KidsModeVerificationModal({
                     }}
                     placeholder="e.g. user@gmail.com"
                     disabled={isSending}
-                    className="w-full pl-10 pr-4 py-3 bg-[#030712]/70 border-2 border-white/15 rounded-xl text-white placeholder-white/40 focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/30 focus:outline-none transition-all text-sm font-medium"
+                    className="w-full pl-10 pr-4 py-3 bg-white dark:bg-[#030712]/70 border-2 border-gray-300 dark:border-white/15 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-white/40 focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/30 focus:outline-none transition-all text-sm font-medium"
                   />
                 </div>
               </div>
@@ -373,7 +373,7 @@ export default function KidsModeVerificationModal({
                     onChange={(e) => handleDigitChange(idx, e.target.value)}
                     onKeyDown={(e) => handleKeyDown(idx, e)}
                     disabled={isVerifying}
-                    className="w-11 h-14 sm:w-12 sm:h-14 text-center text-xl sm:text-2xl font-bold text-white bg-[#030712]/70 border-2 border-white/15 rounded-xl focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/40 focus:outline-none transition-all shadow-inner disabled:opacity-50"
+                    className="w-11 h-14 sm:w-12 sm:h-14 text-center text-xl sm:text-2xl font-bold text-gray-900 dark:text-white bg-white dark:bg-[#030712]/70 border-2 border-gray-300 dark:border-white/15 rounded-xl focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/40 focus:outline-none transition-all shadow-inner disabled:opacity-50"
                   />
                 ))}
               </div>
@@ -395,14 +395,14 @@ export default function KidsModeVerificationModal({
                   )}
                 </button>
 
-                <div className="flex items-center justify-between text-xs text-white/50 pt-1 px-1">
+                <div className="flex items-center justify-between text-xs text-gray-500 dark:text-white/50 pt-1 px-1">
                   <button
                     type="button"
                     onClick={() => {
                       setStep('email');
                       setError(null);
                     }}
-                    className="text-white/60 hover:text-white transition-colors flex items-center gap-1 cursor-pointer"
+                    className="text-gray-600 dark:text-white/60 hover:text-gray-900 dark:hover:text-white transition-colors flex items-center gap-1 cursor-pointer"
                   >
                     <ArrowLeft className="w-3.5 h-3.5" />
                     <span>Change Email</span>
@@ -412,7 +412,7 @@ export default function KidsModeVerificationModal({
                     type="button"
                     onClick={handleResendClick}
                     disabled={countdown > 0 || isSending || isVerifying}
-                    className="text-[#C9A84C] hover:text-[#E2CB85] font-semibold transition-colors flex items-center gap-1 disabled:opacity-40 disabled:hover:text-[#C9A84C] cursor-pointer"
+                    className="text-[#8A6D1F] dark:text-[#C9A84C] hover:text-[#6E5615] dark:hover:text-[#E2CB85] font-semibold transition-colors flex items-center gap-1 disabled:opacity-40 disabled:hover:text-[#C9A84C] cursor-pointer"
                   >
                     <RefreshCw className={`w-3 h-3 ${isSending ? 'animate-spin' : ''}`} />
                     {countdown > 0 ? `Resend in ${countdown}s` : 'Resend Code'}

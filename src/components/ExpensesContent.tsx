@@ -172,7 +172,7 @@ export default function ExpensesContent() {
                       required
                       value={form.amount}
                       onChange={e => setForm({...form, amount: e.target.value})}
-                      className="w-full bg-[#0A1628] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#C9A84C]"
+                      className="w-full bg-white dark:bg-[#0A1628] border border-gray-300 dark:border-white/10 rounded-xl px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:border-[#C9A84C]"
                       placeholder="e.g. 500"
                     />
                   </div>
@@ -181,7 +181,7 @@ export default function ExpensesContent() {
                     <select 
                       value={form.currency}
                       onChange={e => setForm({...form, currency: e.target.value})}
-                      className="w-full bg-[#0A1628] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#C9A84C]"
+                      className="w-full bg-white dark:bg-[#0A1628] border border-gray-300 dark:border-white/10 rounded-xl px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:border-[#C9A84C]"
                     >
                       {CURRENCIES.map(c => <option key={c} value={c}>{c}</option>)}
                     </select>
@@ -193,7 +193,7 @@ export default function ExpensesContent() {
                   <select 
                     value={form.category}
                     onChange={e => setForm({...form, category: e.target.value})}
-                    className="w-full bg-[#0A1628] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#C9A84C]"
+                    className="w-full bg-white dark:bg-[#0A1628] border border-gray-300 dark:border-white/10 rounded-xl px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:border-[#C9A84C]"
                   >
                     {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
                   </select>
@@ -206,7 +206,7 @@ export default function ExpensesContent() {
                     required
                     value={form.expense_date}
                     onChange={e => setForm({...form, expense_date: e.target.value})}
-                    className="w-full bg-[#0A1628] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#C9A84C]"
+                    className="w-full bg-white dark:bg-[#0A1628] border border-gray-300 dark:border-white/10 rounded-xl px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:border-[#C9A84C]"
                   />
                 </div>
 
@@ -216,7 +216,7 @@ export default function ExpensesContent() {
                     type="text" 
                     value={form.description}
                     onChange={e => setForm({...form, description: e.target.value})}
-                    className="w-full bg-[#0A1628] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#C9A84C]"
+                    className="w-full bg-white dark:bg-[#0A1628] border border-gray-300 dark:border-white/10 rounded-xl px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:border-[#C9A84C]"
                     placeholder="e.g. Taxi to Pyramids"
                   />
                 </div>
@@ -234,14 +234,14 @@ export default function ExpensesContent() {
 
             {/* Total Spending Summary */}
             <div className="bg-[#1B6B93]/20 border border-[#1B6B93]/30 rounded-3xl p-6 shadow-xl">
-              <h3 className="text-sm text-[#4CC9F0] uppercase tracking-wider font-bold mb-4">Total Spending Summary</h3>
+              <h3 className="text-sm text-[#1B6B93] dark:text-[#4CC9F0] uppercase tracking-wider font-bold mb-4">Total Spending Summary</h3>
               {Object.keys(totalsByCurrency).length === 0 ? (
-                <p className="text-3xl font-bold text-white">0.00</p>
+                <p className="text-3xl font-bold text-gray-900 dark:text-white">0.00</p>
               ) : (
                 <div className="space-y-3">
                   {Object.entries(totalsByCurrency).map(([curr, amt]) => (
                     <div key={curr} className="flex justify-between items-end">
-                      <span className="text-3xl font-bold text-white">
+                      <span className="text-3xl font-bold text-gray-900 dark:text-white">
                         {curr === 'USD' ? '$' : curr === 'EUR' ? '€' : curr === 'GBP' ? '£' : ''}
                         {Number(amt).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                       </span>
@@ -295,10 +295,10 @@ export default function ExpensesContent() {
 
             {/* List */}
             <div className="bg-[#F8F3E9] dark:bg-white/5 backdrop-blur-md border border-slate-200 dark:border-white/10 rounded-3xl p-6 shadow-xl text-slate-900 dark:text-white">
-              <h2 className="text-xl font-bold text-white mb-6">Recent Expenses</h2>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-6">Recent Expenses</h2>
               
               {expenses.length === 0 ? (
-                <div className="text-center py-12 bg-white/5 rounded-2xl border border-white/5">
+                <div className="text-center py-12 bg-white dark:bg-white/5 rounded-2xl border border-gray-200 dark:border-white/5">
                   <Receipt className="w-12 h-12 text-gray-600 mx-auto mb-4" />
                   <p className="text-gray-400 text-lg">{t('expenses.noExpenses')}.</p>
                   <p className="text-gray-500 mt-2">Start tracking your Egypt journey spending.</p>
@@ -306,13 +306,13 @@ export default function ExpensesContent() {
               ) : (
                 <div className="space-y-4 max-h-[500px] overflow-y-auto pr-2 scrollbar-hide">
                   {expenses.map((exp) => (
-                    <div key={exp.id} className="flex justify-between items-center p-4 bg-[#0A1628] rounded-2xl border border-white/5 hover:border-[#C9A84C]/30 transition-colors">
+                    <div key={exp.id} className="flex justify-between items-center p-4 bg-white dark:bg-[#0A1628] rounded-2xl border border-gray-200 dark:border-white/5 hover:border-[#C9A84C]/30 transition-colors">
                       <div className="flex items-start gap-4">
                         <div className="w-10 h-10 rounded-full bg-[#1B6B93]/20 flex items-center justify-center shrink-0">
                           <Tag className="w-5 h-5 text-[#4CC9F0]" />
                         </div>
                         <div>
-                          <p className="font-bold text-white">{exp.category}</p>
+                          <p className="font-bold text-gray-900 dark:text-white">{exp.category}</p>
                           <p className="text-sm text-gray-400 line-clamp-1">{exp.description || 'No note'}</p>
                           <p className="text-xs text-gray-500 mt-1 flex items-center gap-1">
                             <CalendarIcon className="w-3 h-3" /> {new Date(exp.expense_date).toLocaleDateString()}
@@ -320,7 +320,7 @@ export default function ExpensesContent() {
                         </div>
                       </div>
                       <div className="text-right shrink-0">
-                        <p className="font-bold text-lg text-white">
+                        <p className="font-bold text-lg text-gray-900 dark:text-white">
                           {Number(exp.amount).toLocaleString()} <span className="text-sm text-gray-400">{exp.currency}</span>
                         </p>
                       </div>

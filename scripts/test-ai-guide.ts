@@ -54,10 +54,10 @@ async function runEvaluation() {
     res1.reply.includes('2023') || res1.reply.includes('16 فبراير') || res1.reply.includes('February 16');
 
   if (res1.context.hasVerifiedData && hasValidDate && !hasHallucinatedDate) {
-    console.log('✅ [TEST 1 PASSED]: Strictly output November 1, 2025 with zero hallucinated dates.\n');
+    console.log(' [TEST 1 PASSED]: Strictly output November 1, 2025 with zero hallucinated dates.\n');
     passed++;
   } else {
-    console.error('❌ [TEST 1 FAILED]: Did not meet strict GEM opening date verification.\n');
+    console.error(' [TEST 1 FAILED]: Did not meet strict GEM opening date verification.\n');
   }
 
   // -------------------------------------------------------------------------
@@ -74,10 +74,10 @@ async function runEvaluation() {
   const abstainedCorrectly = res2.reply.includes('لا تتوفر لدي معلومات موثقة حول هذا الموضوع حالياً.');
 
   if (!res2.context.hasVerifiedData && abstainedCorrectly) {
-    console.log('✅ [TEST 2 PASSED]: Strictly abstained from answering about fabricated pharaoh.\n');
+    console.log(' [TEST 2 PASSED]: Strictly abstained from answering about fabricated pharaoh.\n');
     passed++;
   } else {
-    console.error('❌ [TEST 2 FAILED]: Did not abstain properly.\n');
+    console.error(' [TEST 2 FAILED]: Did not abstain properly.\n');
   }
 
   console.log('==============================================================');

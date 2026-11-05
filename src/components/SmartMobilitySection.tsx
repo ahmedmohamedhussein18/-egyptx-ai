@@ -141,7 +141,7 @@ export default function SmartMobilitySection() {
                     <button
                       type="submit"
                       disabled={loading && activeService === service.id}
-                      className="w-full py-2 bg-[#1B6B93]/20 hover:bg-[#1B6B93]/40 border border-[#1B6B93] text-white font-bold rounded-lg transition-colors text-xs uppercase flex items-center justify-center"
+                      className="w-full py-2 bg-[#1B6B93] hover:bg-[#155474] dark:bg-[#1B6B93]/20 dark:hover:bg-[#1B6B93]/40 border border-[#1B6B93] text-white font-bold rounded-lg transition-colors text-xs uppercase flex items-center justify-center"
                     >
                       {loading && activeService === service.id ? <Loader2 className="w-4 h-4 animate-spin" /> : t('home.mobility.notifyBtn')}
                     </button>

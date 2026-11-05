@@ -204,9 +204,9 @@ export default function LoginContent() {
                         }}
                         className="w-full bg-white dark:bg-[#030712]/50 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 text-slate-900 dark:text-white focus:outline-none focus:border-[#C9A84C]/50 transition-colors cursor-pointer text-sm"
                       >
-                        <option value="" className="bg-[#0A1628] text-white">Select Country</option>
+                        <option value="" className="bg-white dark:bg-[#0A1628] text-slate-900 dark:text-white">Select Country</option>
                         {COUNTRIES.map(c => (
-                          <option key={c.code} value={c.code} className="bg-[#0A1628] text-white">
+                          <option key={c.code} value={c.code} className="bg-white dark:bg-[#0A1628] text-slate-900 dark:text-white">
                             {c.name}
                           </option>
                         ))}
@@ -221,8 +221,8 @@ export default function LoginContent() {
                         onChange={(e) => setLanguage(e.target.value)}
                         className="w-full bg-white dark:bg-[#030712]/50 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 text-slate-900 dark:text-white focus:outline-none focus:border-[#C9A84C]/50 transition-colors cursor-pointer text-sm"
                       >
-                        <option value="English" className="bg-[#0A1628] text-white">English</option>
-                        <option value="Arabic" className="bg-[#0A1628] text-white">Arabic</option>
+                        <option value="English" className="bg-white dark:bg-[#0A1628] text-slate-900 dark:text-white">English</option>
+                        <option value="Arabic" className="bg-white dark:bg-[#0A1628] text-slate-900 dark:text-white">Arabic</option>
                       </select>
                     </div>
                   </div>
@@ -296,7 +296,7 @@ export default function LoginContent() {
                     setErrorMsg(err.message || 'Failed to authenticate with Google.');
                   }
                 }}
-                className="w-full mt-3 px-6 py-4 rounded-xl bg-white/5 border border-white/10 text-white font-semibold text-sm hover:bg-white/10 transition-colors flex items-center justify-center gap-3 cursor-pointer"
+                className="w-full mt-3 px-6 py-4 rounded-xl bg-white dark:bg-white/5 border border-slate-300 dark:border-white/10 text-slate-900 dark:text-white font-semibold text-sm hover:bg-slate-50 dark:hover:bg-white/10 transition-colors flex items-center justify-center gap-3 cursor-pointer"
               >
                 <svg className="w-5 h-5" viewBox="0 0 24 24">
                   <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />

@@ -269,11 +269,11 @@ export default function HieroglyphScannerPage() {
 
   return (
     <div 
-      className="relative min-h-screen bg-cover bg-center bg-no-repeat bg-fixed text-white font-sans selection:bg-amber-500 selection:text-black"
+      className="relative min-h-screen bg-cover bg-center bg-no-repeat bg-fixed text-gray-900 dark:text-white font-sans selection:bg-amber-500 selection:text-black"
       style={{ backgroundImage: "url('/Golden Hieroglyphs at Sunset.png')" }}
     >
-      {/* Dark overlay to dim background and maximize UI legibility */}
-      <div className="absolute inset-0 bg-black/70 backdrop-blur-[2px] z-0 pointer-events-none" />
+      {/* Adaptive overlay to maximize UI legibility */}
+      <div className="absolute inset-0 bg-[#FDFBF7]/92 dark:bg-black/75 backdrop-blur-[2px] z-0 pointer-events-none" />
 
       {/* Main content container with higher z-index */}
       <div className="relative z-10 flex flex-col min-h-screen">
@@ -288,23 +288,23 @@ export default function HieroglyphScannerPage() {
       />
 
       {/* ── TOP NAVIGATION BAR ────────────────────────────────────────── */}
-      <header className="sticky top-0 z-40 px-4 sm:px-8 py-4 bg-gray-950/80 backdrop-blur-xl border-b border-amber-500/20 flex items-center justify-between">
+      <header className="sticky top-0 z-40 px-4 sm:px-8 py-4 bg-[#FDFBF7]/90 dark:bg-gray-950/80 backdrop-blur-xl border-b border-amber-500/20 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <Link
             href="/"
-            className="p-2 rounded-full bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white border border-white/10 transition-colors"
+            className="p-2 rounded-full bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white border border-gray-300 dark:border-white/10 transition-colors"
             title="Back to Home"
           >
-            <ArrowLeft className="w-5 h-5 text-amber-400" />
+            <ArrowLeft className="w-5 h-5 text-amber-600 dark:text-amber-400" />
           </Link>
           <div>
-            <h1 className="text-base sm:text-lg font-black tracking-wide bg-clip-text text-transparent bg-gradient-to-r from-yellow-200 via-amber-400 to-amber-600 flex items-center gap-2">
+            <h1 className="text-base sm:text-lg font-black tracking-wide bg-clip-text text-transparent bg-gradient-to-r from-amber-700 via-amber-600 to-amber-500 dark:from-yellow-200 dark:via-amber-400 dark:to-amber-600 flex items-center gap-2">
               EgyptX Hieroglyph AI Scanner
-              <span className="hidden sm:inline-block px-2 py-0.5 rounded-full text-[10px] font-mono uppercase bg-amber-500/20 text-amber-300 border border-amber-500/40">
+              <span className="hidden sm:inline-block px-2 py-0.5 rounded-full text-[10px] font-mono uppercase bg-amber-500/20 text-amber-800 dark:text-amber-300 border border-amber-500/40">
                 Epigraphic Vision
               </span>
             </h1>
-            <p className="text-xs text-gray-400 font-light hidden sm:block">
+            <p className="text-xs text-gray-600 dark:text-gray-400 font-light hidden sm:block">
               Decipher ancient carvings, cartouches, and stelae with neural archaeology
             </p>
           </div>
@@ -313,7 +313,7 @@ export default function HieroglyphScannerPage() {
         {selectedImage && (
           <button
             onClick={handleReset}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/40 text-amber-300 text-xs font-semibold transition-all cursor-pointer"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/40 text-amber-800 dark:text-amber-300 text-xs font-semibold transition-all cursor-pointer"
           >
             <RefreshCw className="w-3.5 h-3.5" />
             <span>New Scan</span>
@@ -326,9 +326,9 @@ export default function HieroglyphScannerPage() {
         
         {/* Error Alert */}
         {error && (
-          <div className="mb-6 p-3.5 rounded-2xl bg-red-500/10 border border-red-500/30 text-red-300 text-sm flex items-center justify-between">
+          <div className="mb-6 p-3.5 rounded-2xl bg-red-500/10 border border-red-500/30 text-red-700 dark:text-red-300 text-sm flex items-center justify-between">
             <span>{error}</span>
-            <button onClick={() => setError(null)} className="p-1 hover:text-white"></button>
+            <button onClick={() => setError(null)} className="p-1 hover:text-red-900 dark:hover:text-white"><X className="w-4 h-4" /></button>
           </div>
         )}
 
@@ -337,17 +337,17 @@ export default function HieroglyphScannerPage() {
           <div className="space-y-8 animate-fade-in">
             {/* Hero Banner */}
             <div className="text-center space-y-3 max-w-2xl mx-auto py-4">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold tracking-wider uppercase bg-amber-500/15 text-amber-300 border border-amber-500/30 shadow-[0_0_15px_rgba(245,158,11,0.2)]">
-                <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold tracking-wider uppercase bg-amber-500/15 text-amber-800 dark:text-amber-300 border border-amber-500/30 shadow-[0_0_15px_rgba(245,158,11,0.2)]">
+                <Sparkles className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
                 Deciphering Royal Inscriptions
               </span>
-              <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-white">
+              <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-gray-900 dark:text-white">
                 Scan Egyptian Glyphs <br />
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-300 via-amber-400 to-yellow-500">
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-700 via-amber-600 to-yellow-600 dark:from-amber-300 dark:via-amber-400 dark:to-yellow-500">
                   Reveal Ancient Voices
                 </span>
               </h2>
-              <p className="text-sm sm:text-base text-gray-400 leading-relaxed font-light">
+              <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 leading-relaxed font-light">
                 Point your camera at temple walls, museum artifacts, or papyri. Our vision AI maps phonetic transliteration, historical dynasty, and cultural theology in real-time.
               </p>
             </div>
@@ -357,16 +357,16 @@ export default function HieroglyphScannerPage() {
               {/* Option 1: Live Camera */}
               <button
                 onClick={() => startCamera('environment')}
-                className="group relative p-8 rounded-3xl bg-white/5 hover:bg-white/[0.08] border border-amber-500/30 hover:border-amber-400/70 transition-all duration-300 flex flex-col items-center text-center shadow-lg hover:shadow-[0_0_30px_rgba(245,158,11,0.25)] cursor-pointer"
+                className="group relative p-8 rounded-3xl bg-white/90 dark:bg-white/5 hover:bg-white dark:hover:bg-white/[0.08] border border-amber-500/30 hover:border-amber-400/70 transition-all duration-300 flex flex-col items-center text-center shadow-lg hover:shadow-[0_0_30px_rgba(245,158,11,0.25)] cursor-pointer"
               >
                 <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-500/20 to-yellow-500/30 border border-amber-500/50 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                   <Camera className="w-8 h-8 text-amber-400" />
                 </div>
-                <h3 className="text-lg font-bold text-white mb-1">Open Camera</h3>
-                <p className="text-xs text-gray-400 max-w-xs leading-relaxed">
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">Open Camera</h3>
+                <p className="text-xs text-gray-600 dark:text-gray-400 max-w-xs leading-relaxed">
                   Capture carvings directly at historical sites or museum display cases.
                 </p>
-                <span className="mt-4 inline-flex items-center gap-1 text-xs font-semibold text-amber-400 group-hover:translate-x-1 transition-transform">
+                <span className="mt-4 inline-flex items-center gap-1 text-xs font-semibold text-amber-700 dark:text-amber-400 group-hover:translate-x-1 transition-transform">
                   Launch Viewfinder →
                 </span>
               </button>
@@ -374,29 +374,29 @@ export default function HieroglyphScannerPage() {
               {/* Option 2: Upload Image */}
               <button
                 onClick={() => fileInputRef.current?.click()}
-                className="group relative p-8 rounded-3xl bg-white/5 hover:bg-white/[0.08] border border-amber-500/30 hover:border-amber-400/70 transition-all duration-300 flex flex-col items-center text-center shadow-lg hover:shadow-[0_0_30px_rgba(245,158,11,0.25)] cursor-pointer"
+                className="group relative p-8 rounded-3xl bg-white/90 dark:bg-white/5 hover:bg-white dark:hover:bg-white/[0.08] border border-amber-500/30 hover:border-amber-400/70 transition-all duration-300 flex flex-col items-center text-center shadow-lg hover:shadow-[0_0_30px_rgba(245,158,11,0.25)] cursor-pointer"
               >
                 <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-500/20 to-yellow-500/30 border border-amber-500/50 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                   <Upload className="w-8 h-8 text-amber-400" />
                 </div>
-                <h3 className="text-lg font-bold text-white mb-1">Upload Photo</h3>
-                <p className="text-xs text-gray-400 max-w-xs leading-relaxed">
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">Upload Photo</h3>
+                <p className="text-xs text-gray-600 dark:text-gray-400 max-w-xs leading-relaxed">
                   Select an image of hieroglyphic text from your device gallery.
                 </p>
-                <span className="mt-4 inline-flex items-center gap-1 text-xs font-semibold text-amber-400 group-hover:translate-x-1 transition-transform">
+                <span className="mt-4 inline-flex items-center gap-1 text-xs font-semibold text-amber-700 dark:text-amber-400 group-hover:translate-x-1 transition-transform">
                   Browse Files →
                 </span>
               </button>
             </div>
 
             {/* Sample Presets Quick-Test Section */}
-            <div className="max-w-3xl mx-auto pt-6 border-t border-white/10">
+            <div className="max-w-3xl mx-auto pt-6 border-t border-gray-200 dark:border-white/10">
               <div className="flex items-center justify-between mb-3 px-1">
-                <span className="text-xs font-bold uppercase tracking-wider text-amber-400 flex items-center gap-1.5">
+                <span className="text-xs font-bold uppercase tracking-wider text-amber-700 dark:text-amber-400 flex items-center gap-1.5">
                   <BookOpen className="w-3.5 h-3.5" />
                   Or Try Sample Inscriptions
                 </span>
-                <span className="text-[11px] text-gray-400">Click to test instantly</span>
+                <span className="text-[11px] text-gray-600 dark:text-gray-400">Click to test instantly</span>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -404,12 +404,12 @@ export default function HieroglyphScannerPage() {
                   <button
                     key={idx}
                     onClick={() => handleSelectPreset(preset)}
-                    className="p-3 rounded-2xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 hover:border-amber-500/40 text-left transition-all group cursor-pointer"
+                    className="p-3 rounded-2xl bg-[#F8F3E9]/90 dark:bg-white/[0.03] hover:bg-[#EFE6D5] dark:hover:bg-white/[0.08] border border-gray-200 dark:border-white/10 hover:border-amber-500/40 text-left transition-all group cursor-pointer"
                   >
-                    <p className="text-xs font-bold text-white group-hover:text-amber-300 truncate">
+                    <p className="text-xs font-bold text-gray-900 dark:text-white group-hover:text-amber-700 dark:group-hover:text-amber-300 truncate">
                       {preset.title}
                     </p>
-                    <p className="text-[11px] text-gray-400 truncate mt-0.5 font-mono">
+                    <p className="text-[11px] text-gray-600 dark:text-gray-400 truncate mt-0.5 font-mono">
                       {preset.verifiedData.transliteration}
                     </p>
                   </button>
@@ -545,25 +545,25 @@ export default function HieroglyphScannerPage() {
                 className="space-y-6 max-w-4xl mx-auto"
               >
                 {/* 1. TRANSLITERATION CARD (Distinct High-Contrast Header) */}
-                <div className="bg-white/5 border border-amber-500/40 rounded-3xl p-6 sm:p-8 backdrop-blur-xl shadow-[0_0_35px_rgba(245,158,11,0.15)] relative overflow-hidden">
+                <div className="bg-white/90 dark:bg-white/5 border border-amber-500/40 rounded-3xl p-6 sm:p-8 backdrop-blur-xl shadow-[0_0_35px_rgba(245,158,11,0.15)] relative overflow-hidden">
                   <div className="flex items-center justify-between mb-3">
-                    <span className="text-xs uppercase font-mono tracking-widest text-amber-400 flex items-center gap-2 font-bold">
+                    <span className="text-xs uppercase font-mono tracking-widest text-amber-700 dark:text-amber-400 flex items-center gap-2 font-bold">
                       <Sparkles className="w-3.5 h-3.5" />
                       Phonetic Transliteration
                     </span>
                     <button
                       onClick={handleCopy}
-                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 hover:bg-amber-500/20 text-xs text-gray-300 hover:text-amber-300 border border-white/10 hover:border-amber-500/40 transition-all cursor-pointer"
+                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#F8F3E9] dark:bg-white/10 hover:bg-amber-500/20 text-xs text-gray-700 dark:text-gray-300 hover:text-amber-800 dark:hover:text-amber-300 border border-gray-200 dark:border-white/10 hover:border-amber-500/40 transition-all cursor-pointer"
                     >
-                      {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                      {copied ? <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
                       <span>{copied ? 'Copied' : 'Copy'}</span>
                     </button>
                   </div>
 
-                  <p className="font-serif text-2xl sm:text-4xl text-amber-200 tracking-wider font-semibold leading-relaxed drop-shadow-[0_0_15px_rgba(245,158,11,0.3)]">
+                  <p className="font-serif text-2xl sm:text-4xl text-amber-900 dark:text-amber-200 tracking-wider font-semibold leading-relaxed">
                     {result.transliteration}
                   </p>
-                  <p className="text-[11px] text-gray-400 mt-2 font-mono">
+                  <p className="text-[11px] text-gray-600 dark:text-gray-400 mt-2 font-mono">
                     Standard Egyptological convention according to the Manuel de Codage (MdC)
                   </p>
                 </div>
@@ -571,30 +571,28 @@ export default function HieroglyphScannerPage() {
                 {/* 2. ENGLISH TRANSLATION & ARABIC EXPLANATION (Side-by-Side Cards) */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                   {/* English Card */}
-                  <div className="bg-white/5 border border-amber-500/30 rounded-3xl p-6 backdrop-blur-xl shadow-lg flex flex-col justify-between">
+                  <div className="bg-white/90 dark:bg-white/5 border border-amber-500/30 rounded-3xl p-6 backdrop-blur-xl shadow-lg flex flex-col justify-between">
                     <div>
                       <div className="flex items-center gap-2 mb-3">
-                        <span className="text-base"></span>
-                        <h4 className="text-xs font-bold uppercase tracking-wider text-amber-400 font-mono">
+                        <h4 className="text-xs font-bold uppercase tracking-wider text-amber-700 dark:text-amber-400 font-mono">
                           English Translation
                         </h4>
                       </div>
-                      <blockquote className="text-base sm:text-lg text-white font-medium leading-relaxed italic border-l-2 border-amber-500/50 pl-3">
+                      <blockquote className="text-base sm:text-lg text-gray-900 dark:text-white font-medium leading-relaxed italic border-l-2 border-amber-500/50 pl-3">
                         &ldquo;{result.englishTranslation}&rdquo;
                       </blockquote>
                     </div>
                   </div>
 
                   {/* Arabic Explanation Card */}
-                  <div className="bg-white/5 border border-amber-500/30 rounded-3xl p-6 backdrop-blur-xl shadow-lg flex flex-col justify-between" dir="rtl">
+                  <div className="bg-white/90 dark:bg-white/5 border border-amber-500/30 rounded-3xl p-6 backdrop-blur-xl shadow-lg flex flex-col justify-between" dir="rtl">
                     <div>
                       <div className="flex items-center gap-2 mb-3">
-                        <span className="text-base"></span>
-                        <h4 className="text-xs font-bold uppercase tracking-wider text-amber-400 font-mono">
+                        <h4 className="text-xs font-bold uppercase tracking-wider text-amber-700 dark:text-amber-400 font-mono">
                           الشرح والتفسير العربي
                         </h4>
                       </div>
-                      <p className="text-base sm:text-lg text-amber-100 font-medium leading-relaxed">
+                      <p className="text-base sm:text-lg text-amber-900 dark:text-amber-100 font-medium leading-relaxed">
                         {result.arabicExplanation}
                       </p>
                     </div>
@@ -602,51 +600,51 @@ export default function HieroglyphScannerPage() {
                 </div>
 
                 {/* 3. HISTORICAL CONTEXT GRID (4 Cells: King, Era, Temple, Meaning) */}
-                <div className="bg-white/5 border border-amber-500/30 rounded-3xl p-6 sm:p-8 backdrop-blur-xl shadow-lg space-y-4">
+                <div className="bg-white/90 dark:bg-white/5 border border-amber-500/30 rounded-3xl p-6 sm:p-8 backdrop-blur-xl shadow-lg space-y-4">
                   <div className="flex items-center gap-2">
-                    <Layers className="w-4 h-4 text-amber-400" />
-                    <h4 className="text-xs font-bold uppercase tracking-wider text-amber-400 font-mono">
+                    <Layers className="w-4 h-4 text-amber-700 dark:text-amber-400" />
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-amber-700 dark:text-amber-400 font-mono">
                       Historical Context & Provenance
                     </h4>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                     {/* Person / King */}
-                    <div className="p-4 rounded-2xl bg-black/40 border border-white/10 space-y-1">
-                      <span className="text-[10px] uppercase font-mono tracking-wider text-gray-400">
+                    <div className="p-4 rounded-2xl bg-[#F8F3E9] dark:bg-black/40 border border-gray-200 dark:border-white/10 space-y-1">
+                      <span className="text-[10px] uppercase font-mono tracking-wider text-gray-600 dark:text-gray-400">
                          Figure / Deity
                       </span>
-                      <p className="text-sm font-bold text-white">
+                      <p className="text-sm font-bold text-gray-900 dark:text-white">
                         {result.context.personOrKing}
                       </p>
                     </div>
 
                     {/* Historical Era */}
-                    <div className="p-4 rounded-2xl bg-black/40 border border-white/10 space-y-1">
-                      <span className="text-[10px] uppercase font-mono tracking-wider text-gray-400">
+                    <div className="p-4 rounded-2xl bg-[#F8F3E9] dark:bg-black/40 border border-gray-200 dark:border-white/10 space-y-1">
+                      <span className="text-[10px] uppercase font-mono tracking-wider text-gray-600 dark:text-gray-400">
                         Period & Dynasty
                       </span>
-                      <p className="text-sm font-bold text-white">
+                      <p className="text-sm font-bold text-gray-900 dark:text-white">
                         {result.context.era}
                       </p>
                     </div>
 
                     {/* Temple / Monument */}
-                    <div className="p-4 rounded-2xl bg-black/40 border border-white/10 space-y-1">
-                      <span className="text-[10px] uppercase font-mono tracking-wider text-gray-400">
+                    <div className="p-4 rounded-2xl bg-[#F8F3E9] dark:bg-black/40 border border-gray-200 dark:border-white/10 space-y-1">
+                      <span className="text-[10px] uppercase font-mono tracking-wider text-gray-600 dark:text-gray-400">
                          Likely Origin
                       </span>
-                      <p className="text-sm font-bold text-white">
+                      <p className="text-sm font-bold text-gray-900 dark:text-white">
                         {result.context.temple}
                       </p>
                     </div>
 
                     {/* Cultural Meaning */}
-                    <div className="p-4 rounded-2xl bg-black/40 border border-white/10 space-y-1">
-                      <span className="text-[10px] uppercase font-mono tracking-wider text-gray-400">
+                    <div className="p-4 rounded-2xl bg-[#F8F3E9] dark:bg-black/40 border border-gray-200 dark:border-white/10 space-y-1">
+                      <span className="text-[10px] uppercase font-mono tracking-wider text-gray-600 dark:text-gray-400">
                          Epigraphic Purpose
                       </span>
-                      <p className="text-sm font-semibold text-gray-200 text-xs leading-relaxed">
+                      <p className="text-sm font-semibold text-gray-700 dark:text-gray-200 text-xs leading-relaxed">
                         {result.context.meaning}
                       </p>
                     </div>
@@ -654,17 +652,17 @@ export default function HieroglyphScannerPage() {
                 </div>
 
                 {/* 4. METADATA & CONFIDENCE SCORE */}
-                <div className="bg-white/5 border border-amber-500/30 rounded-3xl p-5 backdrop-blur-xl shadow-lg flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div className="bg-white/90 dark:bg-white/5 border border-amber-500/30 rounded-3xl p-5 backdrop-blur-xl shadow-lg flex flex-col sm:flex-row items-center justify-between gap-4">
                   <div className="flex items-center gap-3 w-full sm:w-auto">
-                    <div className="p-2.5 rounded-2xl bg-amber-500/20 border border-amber-500/40 text-amber-300">
+                    <div className="p-2.5 rounded-2xl bg-amber-500/20 border border-amber-500/40 text-amber-700 dark:text-amber-300">
                       <ShieldCheck className="w-5 h-5" />
                     </div>
                     <div>
-                      <p className="text-xs font-bold text-white flex items-center gap-2">
+                      <p className="text-xs font-bold text-gray-900 dark:text-white flex items-center gap-2">
                         Confidence Rating:
-                        <span className="text-amber-400 font-mono">{result.metadata.confidence}</span>
+                        <span className="text-amber-700 dark:text-amber-400 font-mono">{result.metadata.confidence}</span>
                       </p>
-                      <p className="text-[11px] text-gray-400">
+                      <p className="text-[11px] text-gray-600 dark:text-gray-400">
                         Verified against {result.metadata.source}
                       </p>
                     </div>
@@ -672,7 +670,7 @@ export default function HieroglyphScannerPage() {
 
                   {/* Progress bar visual */}
                   <div className="w-full sm:w-48 space-y-1">
-                    <div className="h-2 w-full bg-white/10 rounded-full overflow-hidden">
+                    <div className="h-2 w-full bg-gray-200 dark:bg-white/10 rounded-full overflow-hidden">
                       <div 
                         className="h-full bg-gradient-to-r from-amber-500 to-yellow-300 rounded-full transition-all duration-1000 shadow-[0_0_10px_#f59e0b]"
                         style={{ width: result.metadata.confidence }}
@@ -695,7 +693,7 @@ export default function HieroglyphScannerPage() {
 
                   <Link
                     href="/planner"
-                    className="px-6 py-3 rounded-full bg-white/10 hover:bg-white/15 border border-white/20 text-white font-semibold text-sm transition-all flex items-center gap-2"
+                    className="px-6 py-3 rounded-full bg-[#F8F3E9] dark:bg-white/10 hover:bg-[#EFE6D5] dark:hover:bg-white/15 border border-gray-300 dark:border-white/20 text-gray-900 dark:text-white font-semibold text-sm transition-all flex items-center gap-2"
                   >
                     <span>Add to AI Travel Plan</span>
                     <ChevronRight className="w-4 h-4 text-amber-400" />

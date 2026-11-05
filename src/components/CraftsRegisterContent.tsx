@@ -25,11 +25,11 @@ export default function CraftsRegisterContent() {
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="w-full max-w-md bg-[#0A1628] border border-[#C9A84C]/20 rounded-3xl p-8 relative overflow-hidden"
+        className="w-full max-w-md bg-[#F8F3E9] dark:bg-[#0A1628] border border-[#C9A84C]/25 rounded-3xl p-8 relative overflow-hidden shadow-xl"
       >
         <button
           onClick={() => router.push('/crafts')}
-          className="flex items-center gap-2 text-gray-400 hover:text-white mb-8 transition-colors text-sm font-medium"
+          className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white mb-8 transition-colors text-sm font-medium"
         >
           <ArrowLeft className="w-4 h-4" /> Back to Marketplace
         </button>
@@ -37,10 +37,10 @@ export default function CraftsRegisterContent() {
         {!submitted ? (
           <>
             <div className="mb-8">
-              <div className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-6">
+              <div className="w-16 h-16 rounded-2xl bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 flex items-center justify-center mb-6">
                 <Store className="w-8 h-8 text-[#C9A84C]" />
               </div>
-              <h1 className="text-2xl font-bold text-white uppercase tracking-wider mb-2">
+              <h1 className="text-2xl font-bold text-gray-900 dark:text-white uppercase tracking-wider mb-2">
                 Artisan Registration
               </h1>
               <p className="text-gray-400 text-sm leading-relaxed">
@@ -56,7 +56,7 @@ export default function CraftsRegisterContent() {
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#C9A84C] transition-colors"
+                  className="w-full bg-white dark:bg-white/5 border border-gray-300 dark:border-white/10 rounded-xl px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:border-[#C9A84C] transition-colors"
                   placeholder="Your name"
                 />
               </div>
@@ -68,7 +68,7 @@ export default function CraftsRegisterContent() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#C9A84C] transition-colors"
+                  className="w-full bg-white dark:bg-white/5 border border-gray-300 dark:border-white/10 rounded-xl px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:border-[#C9A84C] transition-colors"
                   placeholder="artisan@example.com"
                 />
               </div>
@@ -88,7 +88,7 @@ export default function CraftsRegisterContent() {
             className="text-center py-8"
           >
             <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-6" />
-            <h2 className="text-2xl font-bold text-white mb-2">Request Received!</h2>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Request Received!</h2>
             <p className="text-gray-400 mb-8">
               Thank you, {name}. We will contact you at {email} as soon as the artisan platform goes live.
             </p>

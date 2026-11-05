@@ -29,7 +29,7 @@ import {
   type NavDropdownItem,
 } from '@/config/navigation';
 
-function LanguageSelector({ locale, setLocale }: { locale: string; setLocale: (loc: string) => void }) {
+function LanguageSelector({ locale, setLocale, solidNav }: { locale: string; setLocale: (loc: string) => void; solidNav: boolean }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const current = NAV_LANGUAGES.find((l) => l.code === locale) || NAV_LANGUAGES[0];
@@ -46,7 +46,11 @@ function LanguageSelector({ locale, setLocale }: { locale: string; setLocale: (l
     <div className="relative" ref={ref}>
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] font-semibold tracking-wider bg-black/[0.04] dark:bg-white/5 hover:bg-black/[0.08] dark:hover:bg-white/10 border border-black/[0.08] dark:border-white/10 rounded-full transition-colors text-[#1A2332] dark:text-gray-200 cursor-pointer"
+        className={`flex items-center gap-1.5 px-3 py-1.5 text-[11px] font-semibold tracking-wider rounded-full transition-colors cursor-pointer border ${
+          solidNav
+            ? 'bg-black/[0.04] dark:bg-white/5 hover:bg-black/[0.08] dark:hover:bg-white/10 border-black/[0.08] dark:border-white/10 text-[#1A2332] dark:text-gray-200'
+            : 'bg-black/35 hover:bg-black/55 border-white/20 text-white backdrop-blur-md'
+        }`}
         aria-label="Select Language"
       >
         <span className="text-[10px] text-[#C5A059] font-mono">{current.short}</span>
@@ -263,6 +267,7 @@ export default function Navbar() {
   const isLifeActive = ['/news', '/videos', '/reels', '/crafts'].includes(pathname);
   const isOfficialActive = ['/egypt-official', '/bookings', '/national-projects'].includes(pathname);
   const isGemVrActive = pathname === '/gem-vr-experience';
+  const solidNav = scrolled || pathname !== '/';
 
   const navLinkBase =
     'relative flex items-center gap-1 text-xs uppercase tracking-[0.14em] font-medium transition-colors py-2 whitespace-nowrap after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-full after:h-[1.5px] after:transition-transform after:duration-300 after:origin-center';
@@ -270,7 +275,7 @@ export default function Navbar() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled
+        solidNav
           ? 'backdrop-blur-xl bg-[#FDFBF7]/90 dark:bg-[#0B0F19]/90 border-b border-black/[0.06] dark:border-[#D4AF37]/20 py-3 shadow-[0_16px_40px_rgba(26,35,50,0.06)] dark:shadow-[0_16px_40px_rgba(0,0,0,0.4)]'
           : 'bg-transparent py-4'
       }`}
@@ -286,7 +291,7 @@ export default function Navbar() {
               <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="1.75"/>
             </svg>
             <span className={`text-xl font-bold tracking-tight transition-colors ${
-              scrolled
+              solidNav
                 ? 'text-[#1A2332] dark:text-white'
                 : 'text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.7)]'
             }`}>
@@ -302,7 +307,7 @@ export default function Navbar() {
               className={`${navLinkBase} ${
                 isHomeActive
                   ? 'text-[#C5A059] dark:text-[#D4AF37] font-semibold after:bg-[#C5A059] after:scale-x-100'
-                  : scrolled
+                  : solidNav
                   ? 'text-[#1A2332] hover:text-[#C5A059] dark:text-gray-200 dark:hover:text-[#D4AF37] after:bg-[#C5A059] after:scale-x-0 hover:after:scale-x-100'
                   : 'text-white/90 hover:text-white dark:text-gray-200 dark:hover:text-[#D4AF37] after:bg-[#C5A059] after:scale-x-0 hover:after:scale-x-100 drop-shadow-[0_1px_2px_rgba(0,0,0,0.6)]'
               }`}
@@ -317,7 +322,7 @@ export default function Navbar() {
               headerTitle={safeNav(t('nav.headers.destinations'), 'Destinations')}
               isActive={isExploreActive}
               currentPath={pathname}
-              scrolled={scrolled}
+              scrolled={solidNav}
               items={EXPLORE_NAV_ITEMS}
             />
 
@@ -328,7 +333,7 @@ export default function Navbar() {
               headerTitle={safeNav(t('nav.headers.aiExperiences'), 'AI Experiences')}
               isActive={isExperiencesActive}
               currentPath={pathname}
-              scrolled={scrolled}
+              scrolled={solidNav}
               items={EXPERIENCES_NAV_ITEMS}
               onVrClick={handleVrClick}
             />
@@ -340,7 +345,7 @@ export default function Navbar() {
               headerTitle={safeNav(t('nav.headers.lifeAndCulture'), 'Life & Culture')}
               isActive={isLifeActive}
               currentPath={pathname}
-              scrolled={scrolled}
+              scrolled={solidNav}
               items={LIFE_NAV_ITEMS}
             />
 
@@ -351,7 +356,7 @@ export default function Navbar() {
               headerTitle={safeNav(t('nav.headers.officialAndBookings'), 'Official & Bookings')}
               isActive={isOfficialActive}
               currentPath={pathname}
-              scrolled={scrolled}
+              scrolled={solidNav}
               items={OFFICIAL_NAV_ITEMS}
             />
 
@@ -373,7 +378,7 @@ export default function Navbar() {
           {/* ── RIGHT: Theme Toggle + Language + Profile ────────────────────── */}
           <div className="flex items-center gap-2.5 sm:gap-3">
             <ThemeToggle />
-            <LanguageSelector locale={locale} setLocale={setLocale} />
+            <LanguageSelector locale={locale} setLocale={setLocale} solidNav={solidNav} />
 
             {/* User Dropdown / Login */}
             {user ? (
@@ -381,7 +386,7 @@ export default function Navbar() {
                 <button
                   onClick={() => setUserDropdownOpen(!userDropdownOpen)}
                   className={`flex items-center gap-2 pl-1 pr-3 py-1 rounded-full transition-colors cursor-pointer border ${
-                    scrolled
+                    solidNav
                       ? 'bg-black/[0.04] dark:bg-white/5 hover:bg-black/[0.07] dark:hover:bg-white/10 border-black/[0.06] dark:border-white/10'
                       : 'bg-black/40 hover:bg-black/60 border-white/20 backdrop-blur-md'
                   }`}
@@ -391,7 +396,7 @@ export default function Navbar() {
                     {user.name ? user.name.charAt(0) : 'U'}
                   </div>
                   <span className={`text-xs font-semibold max-w-[80px] sm:max-w-[100px] truncate hidden sm:inline ${
-                    scrolled ? 'text-[#1A2332] dark:text-white' : 'text-white'
+                    solidNav ? 'text-[#1A2332] dark:text-white' : 'text-white'
                   }`}>
                     {user.name ? user.name.split(' ')[0] : 'User'}
                   </span>
@@ -459,7 +464,7 @@ export default function Navbar() {
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className={`lg:hidden p-2 rounded-lg transition-colors cursor-pointer ${
-                scrolled
+                solidNav
                   ? 'text-[#1A2332] dark:text-gray-300 hover:bg-black/[0.04] dark:hover:bg-white/5'
                   : 'text-white hover:bg-white/10'
               }`}

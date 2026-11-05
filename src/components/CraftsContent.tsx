@@ -46,8 +46,8 @@ export default function CraftsContent() {
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-12">
         {/* Sidebar / Filters */}
         <div className="w-full md:w-64 shrink-0">
-          <div className="bg-[#0A1628] border border-[#C9A84C]/20 rounded-2xl p-6 sticky top-28">
-            <h2 className="text-xl font-bold text-white mb-6 uppercase tracking-wider flex items-center gap-2">
+          <div className="bg-[#F8F3E9] dark:bg-[#0A1628] border border-[#C9A84C]/25 rounded-2xl p-6 sticky top-28 shadow-sm">
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-6 uppercase tracking-wider flex items-center gap-2">
               <Filter className="w-5 h-5 text-[#C9A84C]" /> Categories
             </h2>
             <div className="flex flex-col gap-2">
@@ -58,14 +58,14 @@ export default function CraftsContent() {
                   className={`text-left px-4 py-3 rounded-xl font-medium transition-colors ${
                     activeCategory === category.id 
                     ? 'bg-[#C9A84C] text-[#0A1628]' 
-                    : 'text-gray-400 hover:bg-white/5 hover:text-white'
+                    : 'text-gray-600 dark:text-gray-400 hover:bg-black/5 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white'
                   }`}
                 >{category.label}</button>
               ))}
             </div>
 
-            <div className="mt-12 pt-8 border-t border-white/10">
-              <h3 className="text-white font-bold mb-4 uppercase tracking-wider text-sm flex items-center gap-2">
+            <div className="mt-12 pt-8 border-t border-gray-200 dark:border-white/10">
+              <h3 className="text-gray-900 dark:text-white font-bold mb-4 uppercase tracking-wider text-sm flex items-center gap-2">
                 <Store className="w-4 h-4 text-[#C9A84C]" /> Are you an artisan?
               </h3>
               <p className="text-gray-400 text-xs leading-relaxed mb-6">
@@ -84,7 +84,7 @@ export default function CraftsContent() {
         {/* Product Grid */}
         <div className="flex-grow">
           <div className="mb-8">
-            <h1 className="text-4xl md:text-5xl font-bold text-white uppercase tracking-wider mb-4">
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white uppercase tracking-wider mb-4">
               Egyptian Crafts
             </h1>
             <p className="text-gray-400 max-w-2xl text-lg">
@@ -109,16 +109,16 @@ export default function CraftsContent() {
                     <span className="text-[#C9A84C] text-xs font-bold uppercase tracking-widest leading-tight pr-2">
                       {product.category}
                     </span>
-                    <span className="text-white font-bold bg-[#1B6B93]/30 px-2 py-1 rounded text-sm border border-[#1B6B93]/50 shrink-0">
+                    <span className="text-[#1B6B93] dark:text-white font-bold bg-[#1B6B93]/15 dark:bg-[#1B6B93]/30 px-2 py-1 rounded text-sm border border-[#1B6B93]/50 shrink-0">
                       {product.price}
                     </span>
                   </div>
-                  <h3 className="text-white font-bold text-lg mb-auto">
+                  <h3 className="text-gray-900 dark:text-white font-bold text-lg mb-auto">
                     {product.title}
                   </h3>
                   
                   {/* Strict label enforcement */}
-                  <div className="mt-4 bg-white/5 border border-white/10 rounded-lg py-2 px-3 text-center">
+                  <div className="mt-4 bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg py-2 px-3 text-center">
                     <span className="text-gray-400 text-xs font-semibold uppercase tracking-wider">
                       Illustrative Demo Product
                     </span>
@@ -129,7 +129,7 @@ export default function CraftsContent() {
           </div>
 
           {filteredProducts.length === 0 && (
-            <div className="text-center py-20 bg-[#0A1628] rounded-2xl border border-white/10">
+            <div className="text-center py-20 bg-[#F8F3E9] dark:bg-[#0A1628] rounded-2xl border border-gray-200 dark:border-white/10">
               <Store className="w-12 h-12 text-gray-500 mx-auto mb-4" />
               <p className="text-gray-400">No demo products in this category.</p>
             </div>

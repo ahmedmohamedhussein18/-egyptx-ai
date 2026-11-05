@@ -5,14 +5,14 @@ let c = fs.readFileSync('src/components/Navbar.tsx', 'utf8');
 const langSelectorCode = `
 // --- Language Selector ---
 const languages = [
-  { code: 'en', label: 'English', flag: '🇬🇧' },
-  { code: 'ar', label: 'العربية', flag: '🇪🇬' },
-  { code: 'fr', label: 'Français', flag: '🇫🇷' },
-  { code: 'de', label: 'Deutsch', flag: '🇩🇪' },
-  { code: 'it', label: 'Italiano', flag: '🇮🇹' },
-  { code: 'es', label: 'Español', flag: '🇪🇸' },
-  { code: 'zh', label: '中文', flag: '🇨🇳' },
-  { code: 'ru', label: 'Русский', flag: '🇷🇺' }
+  { code: 'en', label: 'English', flag: '' },
+  { code: 'ar', label: 'العربية', flag: '' },
+  { code: 'fr', label: 'Français', flag: '' },
+  { code: 'de', label: 'Deutsch', flag: '' },
+  { code: 'it', label: 'Italiano', flag: '' },
+  { code: 'es', label: 'Español', flag: '' },
+  { code: 'zh', label: '中文', flag: '' },
+  { code: 'ru', label: 'Русский', flag: '' }
 ];
 
 function LanguageSelector({ locale, setLocale }: { locale: string, setLocale: (loc: string) => void }) {

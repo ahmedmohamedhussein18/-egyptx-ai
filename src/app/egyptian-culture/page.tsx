@@ -403,17 +403,17 @@ export default function EgyptianCulturePage() {
 
         {/* ── HEADER ──────────────────────────────────────────────────────── */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#C9A84C]/10 border border-[#C9A84C]/30 text-xs font-semibold text-[#E2CB85] uppercase tracking-widest mb-4">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#C9A84C]/10 border border-[#C9A84C]/30 text-xs font-semibold text-[#8A661C] dark:text-[#E2CB85] uppercase tracking-widest mb-4">
             <Sparkles className="w-4 h-4 text-[#C9A84C]" />
             National Cultural Heritage · التراث الثقافي الخالد
           </div>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-[#E2CB85] to-[#C9A84C] mb-3">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-[#8A661C] to-[#C9A84C] dark:from-white dark:via-[#E2CB85] dark:to-[#C9A84C] mb-3">
             Egyptian Culture
           </h1>
           <p className="text-xl sm:text-2xl text-[#C9A84C] font-serif mb-2">
             الثقافة المصرية · رموز التاريخ والفن والإبداع
           </p>
-          <p className="text-sm sm:text-base text-gray-400 font-medium">
+          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 font-medium">
             Discover Egypt’s legendary icons across arts, music, cinema, literature, sports, and world history.
           </p>
 
@@ -425,7 +425,6 @@ export default function EgyptianCulturePage() {
                 href={`#${sec.id}`}
                 className="px-3 py-1 rounded-full bg-[#F8F3E9] dark:bg-white/5 hover:bg-[#C9A84C]/20 border border-slate-200 dark:border-white/10 hover:border-[#C9A84C]/40 text-xs text-[#1A2332] dark:text-white/80 hover:text-[#C5A059] dark:hover:text-[#E2CB85] transition-all shadow-sm"
               >
-                <span>{sec.emoji}</span>{' '}
                 <span>{sec.titleEn}</span>
               </a>
             ))}

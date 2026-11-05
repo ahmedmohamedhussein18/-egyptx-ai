@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Eye, Check } from "lucide-react";
 
 type Lang = "ar" | "en";
 
@@ -333,26 +334,26 @@ export default function KidsSlidingPuzzle() {
   return (
     <div
       dir={dir}
-      className="w-full bg-[#070D1F] text-[#F3F4F6] py-8 px-4 sm:px-6 rounded-3xl border border-[#D4AF37]/30 shadow-2xl relative overflow-hidden"
+      className="w-full bg-[#FDFBF7] dark:bg-[#070D1F] text-gray-900 dark:text-[#F3F4F6] py-8 px-4 sm:px-6 rounded-3xl border border-[#D4AF37]/30 shadow-2xl relative overflow-hidden"
     >
       <div className="absolute -top-32 -right-32 w-80 h-80 bg-[#D4AF37]/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute -bottom-32 -left-32 w-80 h-80 bg-[#1B6B93]/20 rounded-full blur-3xl pointer-events-none" />
 
       {/* Local counter bar (single source of XP in kids mode) */}
-      <div className="max-w-3xl mx-auto mb-6 relative z-10 flex flex-col sm:flex-row items-center justify-between gap-3 bg-[#111C38] border border-[#D4AF37]/40 rounded-2xl p-4 shadow-xl">
+      <div className="max-w-3xl mx-auto mb-6 relative z-10 flex flex-col sm:flex-row items-center justify-between gap-3 bg-[#F8F3E9] dark:bg-[#111C38] border border-[#D4AF37]/40 rounded-2xl p-4 shadow-xl">
         <div>
           <h2 className="text-xl font-extrabold text-[#D4AF37]">{t.title}</h2>
-          <p className="text-[11px] text-gray-300">{t.subtitle}</p>
+          <p className="text-[11px] text-gray-600 dark:text-gray-300">{t.subtitle}</p>
         </div>
-        <div className="flex items-center gap-3 bg-[#070D1F] px-4 py-2 rounded-xl border border-[#D4AF37]/30">
+        <div className="flex items-center gap-3 bg-white dark:bg-[#070D1F] px-4 py-2 rounded-xl border border-[#D4AF37]/30">
           <div>
-            <span className="text-[10px] text-gray-400 block">{t.xp}</span>
+            <span className="text-[10px] text-gray-500 dark:text-gray-400 block">{t.xp}</span>
             <span className="text-base font-bold text-[#D4AF37]">{xp}</span>
           </div>
           <button
             type="button"
             onClick={resetPoints}
-            className="text-[11px] bg-rose-950/60 hover:bg-rose-900 text-rose-300 px-2.5 py-1 rounded-lg border border-rose-800 transition-colors cursor-pointer"
+            className="text-[11px] bg-rose-100 dark:bg-rose-950/60 hover:bg-rose-200 dark:hover:bg-rose-900 text-rose-700 dark:text-rose-300 px-2.5 py-1 rounded-lg border border-rose-300 dark:border-rose-800 transition-colors cursor-pointer"
           >
             {t.reset}
           </button>
@@ -368,7 +369,7 @@ export default function KidsSlidingPuzzle() {
 
       {/* Theme selector */}
       <div className="max-w-3xl mx-auto mb-6 relative z-10">
-        <span className="text-xs font-bold text-gray-300 block mb-2"> {t.choose}</span>
+        <span className="text-xs font-bold text-gray-700 dark:text-gray-300 block mb-2"> {t.choose}</span>
         <div className="grid grid-cols-3 gap-3">
           {THEMES.map((th) => {
             const active = th.id === themeId;
@@ -379,8 +380,8 @@ export default function KidsSlidingPuzzle() {
                 onClick={() => selectTheme(th.id)}
                 className={`rounded-2xl p-2 transition-all cursor-pointer text-start overflow-hidden ${
                   active
-                    ? "bg-[#111C38] border-2 border-[#D4AF37] shadow-[0_0_20px_rgba(212,175,55,0.35)]"
-                    : "bg-[#0A1022]/80 border border-gray-800 hover:border-[#D4AF37]/50"
+                    ? "bg-[#F8F3E9] dark:bg-[#111C38] border-2 border-[#D4AF37] shadow-[0_0_20px_rgba(212,175,55,0.35)]"
+                    : "bg-white dark:bg-[#0A1022]/80 border border-gray-200 dark:border-gray-800 hover:border-[#D4AF37]/50"
                 }`}
               >
                 <div className="w-full h-20 sm:h-24 rounded-xl overflow-hidden bg-[#0A1022] border border-white/10">
@@ -394,10 +395,10 @@ export default function KidsSlidingPuzzle() {
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <h4 className={`text-[11px] sm:text-xs font-bold mt-2 leading-tight ${active ? "text-[#D4AF37]" : "text-white"}`}>
+                <h4 className={`text-[11px] sm:text-xs font-bold mt-2 leading-tight ${active ? "text-[#D4AF37]" : "text-gray-900 dark:text-white"}`}>
                   {th.name[lang]}
                 </h4>
-                <p className="hidden sm:block text-[10px] text-gray-400 line-clamp-1">{th.desc[lang]}</p>
+                <p className="hidden sm:block text-[10px] text-gray-600 dark:text-gray-400 line-clamp-1">{th.desc[lang]}</p>
               </button>
             );
           })}
@@ -405,15 +406,15 @@ export default function KidsSlidingPuzzle() {
       </div>
 
       {/* Stats right above the board */}
-      <div className="max-w-sm mx-auto mb-4 relative z-10 flex items-center justify-between gap-3 bg-[#111C38] border border-[#D4AF37]/30 rounded-2xl p-3 shadow-xl">
+      <div className="max-w-sm mx-auto mb-4 relative z-10 flex items-center justify-between gap-3 bg-[#F8F3E9] dark:bg-[#111C38] border border-[#D4AF37]/30 rounded-2xl p-3 shadow-xl">
         <div className="text-center flex-1">
-          <span className="text-[10px] text-gray-400 block">{t.moves}</span>
+          <span className="text-[10px] text-gray-500 dark:text-gray-400 block">{t.moves}</span>
           <span className="text-lg font-extrabold text-[#D4AF37]">{moves}</span>
         </div>
-        <div className="h-8 w-px bg-gray-700" />
+        <div className="h-8 w-px bg-gray-200 dark:bg-gray-700" />
         <div className="text-center flex-1">
-          <span className="text-[10px] text-gray-400 block">{t.time}</span>
-          <span className="text-lg font-extrabold text-teal-300" dir="ltr">
+          <span className="text-[10px] text-gray-500 dark:text-gray-400 block">{t.time}</span>
+          <span className="text-lg font-extrabold text-teal-700 dark:text-teal-300" dir="ltr">
             {seconds}
             {t.sec}
           </span>
@@ -423,9 +424,9 @@ export default function KidsSlidingPuzzle() {
             type="button"
             onClick={() => setShowPreview((v) => !v)}
             title={t.preview}
-            className="p-2 rounded-xl bg-[#070D1F] border border-gray-700 hover:border-[#D4AF37] transition-all cursor-pointer text-sm"
+            className="p-2 rounded-xl bg-white dark:bg-[#070D1F] border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-200 hover:border-[#D4AF37] transition-all cursor-pointer text-sm"
           >
-            
+            <Eye className="w-4 h-4" />
           </button>
           <button
             type="button"
@@ -445,7 +446,7 @@ export default function KidsSlidingPuzzle() {
             exit={{ opacity: 0, height: 0 }}
             className="max-w-sm mx-auto mb-4 overflow-hidden relative z-10"
           >
-            <div className="p-2 bg-[#111C38] border border-[#D4AF37]/50 rounded-2xl flex justify-center">
+            <div className="p-2 bg-[#F8F3E9] dark:bg-[#111C38] border border-[#D4AF37]/50 rounded-2xl flex justify-center">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={boardSrc} alt={theme.name[lang]} referrerPolicy="no-referrer" className="w-56 h-56 object-cover rounded-xl" />
             </div>
@@ -534,7 +535,7 @@ export default function KidsSlidingPuzzle() {
             aria-label={t.validate}
             className="w-12 h-12 sm:w-14 sm:h-14 shrink-0 rounded-full bg-gradient-to-tr from-rose-600 to-amber-500 border-2 border-white/60 shadow-xl flex items-center justify-center text-xl text-white transition-all cursor-pointer hover:scale-110 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
           >
-            
+            <Check className="w-6 h-6" />
           </button>
         </div>
 
@@ -547,7 +548,7 @@ export default function KidsSlidingPuzzle() {
             >
                {t.start}
             </button>
-            <p className="text-[11px] text-gray-400 mt-2">{t.hint}</p>
+            <p className="text-[11px] text-gray-600 dark:text-gray-400 mt-2">{t.hint}</p>
           </div>
         )}
 

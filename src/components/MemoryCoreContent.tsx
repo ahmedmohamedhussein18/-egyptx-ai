@@ -59,11 +59,11 @@ export default function MemoryCoreContent() {
 
       <div className="max-w-6xl mx-auto relative z-10">
         <header className="mb-12 text-center md:text-left flex flex-col md:flex-row items-center gap-4">
-          <div className="p-4 bg-white/5 rounded-2xl border border-white/10 backdrop-blur-sm inline-flex">
+          <div className="p-4 bg-[#F8F3E9] dark:bg-white/5 rounded-2xl border border-gray-200 dark:border-white/10 backdrop-blur-sm inline-flex">
             <Brain className="w-10 h-10 text-[#C9A84C]" />
           </div>
           <div>
-            <h1 className="text-3xl md:text-5xl font-bold bg-gradient-to-r from-[#C9A84C] to-yellow-200 bg-clip-text text-transparent">
+            <h1 className="text-3xl md:text-5xl font-bold bg-gradient-to-r from-[#8A661C] to-[#C9A84C] dark:from-[#C9A84C] dark:to-yellow-200 bg-clip-text text-transparent">
               EgyptX Memory Core
             </h1>
             <p className="text-slate-400 mt-2 text-lg">Your AI remembers everything</p>
@@ -76,12 +76,12 @@ export default function MemoryCoreContent() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="bg-white/5 backdrop-blur-xl border border-[#C9A84C]/20 rounded-2xl p-6 shadow-[0_0_30px_rgba(201,168,76,0.05)] hover:shadow-[0_0_40px_rgba(201,168,76,0.1)] transition-all flex flex-col h-full"
+            className="bg-[#F8F3E9] dark:bg-white/5 backdrop-blur-xl border border-[#C9A84C]/25 rounded-2xl p-6 shadow-[0_0_30px_rgba(201,168,76,0.05)] hover:shadow-[0_0_40px_rgba(201,168,76,0.1)] transition-all flex flex-col h-full"
           >
             <div className="flex justify-between items-center mb-6">
               <div className="flex items-center gap-3 text-[#C9A84C]">
                 <MapPin className="w-6 h-6" />
-                <h2 className="text-xl font-semibold text-white">Saved Itineraries</h2>
+                <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Saved Itineraries</h2>
               </div>
               <span className="bg-[#C9A84C]/20 text-[#C9A84C] text-xs font-bold px-2.5 py-1 rounded-full">
                 {savedTrips.length}
@@ -99,8 +99,8 @@ export default function MemoryCoreContent() {
               ) : (
                 <ul className="space-y-3">
                   {savedTrips.map((trip, idx) => (
-                    <li key={idx} className="flex items-center justify-between p-3 bg-black/20 rounded-xl border border-white/5">
-                      <span className="font-medium text-slate-200 truncate">
+                    <li key={idx} className="flex items-center justify-between p-3 bg-white dark:bg-black/20 rounded-xl border border-gray-200 dark:border-white/5">
+                      <span className="font-medium text-gray-800 dark:text-slate-200 truncate">
                         {trip.destination || trip.title || trip.name || 'Unnamed Trip'}
                       </span>
                       <div className="w-2 h-2 rounded-full bg-[#C9A84C] shadow-[0_0_8px_#C9A84C]" />
@@ -116,14 +116,14 @@ export default function MemoryCoreContent() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="bg-white/5 backdrop-blur-xl border border-[#1B6B93]/30 rounded-2xl p-6 shadow-[0_0_30px_rgba(27,107,147,0.05)] hover:shadow-[0_0_40px_rgba(27,107,147,0.1)] transition-all flex flex-col h-full"
+            className="bg-[#F8F3E9] dark:bg-white/5 backdrop-blur-xl border border-[#1B6B93]/30 rounded-2xl p-6 shadow-[0_0_30px_rgba(27,107,147,0.05)] hover:shadow-[0_0_40px_rgba(27,107,147,0.1)] transition-all flex flex-col h-full"
           >
             <div className="flex justify-between items-center mb-6">
               <div className="flex items-center gap-3 text-[#1B6B93]">
                 <Languages className="w-6 h-6 text-blue-400" />
-                <h2 className="text-xl font-semibold text-white">Translation History</h2>
+                <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Translation History</h2>
               </div>
-              <span className="bg-blue-500/20 text-blue-300 text-xs font-bold px-2.5 py-1 rounded-full">
+              <span className="bg-blue-500/20 text-blue-700 dark:text-blue-300 text-xs font-bold px-2.5 py-1 rounded-full">
                 {translationHistory.length}
               </span>
             </div>
@@ -139,7 +139,7 @@ export default function MemoryCoreContent() {
               ) : (
                 <ul className="space-y-4">
                   {translationHistory.slice(0, 10).map((entry, idx) => (
-                    <li key={idx} className="p-3 bg-black/20 rounded-xl border border-white/5 text-sm">
+                    <li key={idx} className="p-3 bg-white dark:bg-black/20 rounded-xl border border-gray-200 dark:border-white/5 text-sm">
                       <div className="text-slate-400 mb-1 line-clamp-1">{entry.input}</div>
                       <div className="text-[#C9A84C] font-medium line-clamp-2">→ {entry.translation}</div>
                       {entry.timestamp && <div className="text-[10px] text-slate-500 mt-2 text-right">{new Date(entry.timestamp).toLocaleDateString()}</div>}
@@ -155,14 +155,14 @@ export default function MemoryCoreContent() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="bg-white/5 backdrop-blur-xl border border-purple-500/30 rounded-2xl p-6 shadow-[0_0_30px_rgba(168,85,247,0.05)] hover:shadow-[0_0_40px_rgba(168,85,247,0.1)] transition-all flex flex-col h-full"
+            className="bg-[#F8F3E9] dark:bg-white/5 backdrop-blur-xl border border-purple-500/30 rounded-2xl p-6 shadow-[0_0_30px_rgba(168,85,247,0.05)] hover:shadow-[0_0_40px_rgba(168,85,247,0.1)] transition-all flex flex-col h-full"
           >
             <div className="flex justify-between items-center mb-6">
               <div className="flex items-center gap-3 text-purple-400">
                 <Sparkles className="w-6 h-6" />
-                <h2 className="text-xl font-semibold text-white">VR Experiences</h2>
+                <h2 className="text-xl font-semibold text-gray-900 dark:text-white">VR Experiences</h2>
               </div>
-              <span className="bg-purple-500/20 text-purple-300 text-xs font-bold px-2.5 py-1 rounded-full">
+              <span className="bg-purple-500/20 text-purple-700 dark:text-purple-300 text-xs font-bold px-2.5 py-1 rounded-full">
                 {vrVisited.length}
               </span>
             </div>
@@ -178,7 +178,7 @@ export default function MemoryCoreContent() {
               ) : (
                 <div className="flex flex-wrap gap-2">
                   {vrVisited.map((location, idx) => (
-                    <span key={idx} className="px-3 py-1.5 bg-purple-500/10 border border-purple-500/30 text-purple-200 text-sm rounded-full">
+                    <span key={idx} className="px-3 py-1.5 bg-purple-500/10 border border-purple-500/30 text-purple-800 dark:text-purple-200 text-sm rounded-full">
                       {location}
                     </span>
                   ))}

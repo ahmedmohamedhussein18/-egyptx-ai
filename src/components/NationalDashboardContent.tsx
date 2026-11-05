@@ -11,6 +11,7 @@ import * as htmlToImage from 'html-to-image';
 import jsPDF from 'jspdf';
 import * as XLSX from 'xlsx';
 import dynamic from 'next/dynamic';
+import { stripEmojis } from '@/lib/strip-emojis';
 
 const MapLeaflet = dynamic(() => import('@/components/MapLeaflet'), { ssr: false });
 
@@ -230,25 +231,25 @@ export default function NationalDashboardContent() {
       <div className="max-w-7xl mx-auto space-y-8" ref={dashboardRef}>
         
         {/* Header */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 bg-[#030712] p-8 rounded-3xl border border-[#C9A84C]/30">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 bg-[#F8F3E9] dark:bg-[#030712] p-8 rounded-3xl border border-[#C9A84C]/30">
           <div>
             <div className="flex items-center gap-3 mb-2">
               <ShieldCheck className="w-8 h-8 text-[#C9A84C]" />
-              <h1 className="text-3xl font-bold text-white uppercase tracking-wider">
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-white uppercase tracking-wider">
                 EgyptX Tourism Intelligence
               </h1>
             </div>
             <p className="text-xl text-[#C9A84C] font-bold">
               National Command Center
             </p>
-            <p className="text-sm text-gray-400 mt-2">
+            <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
               Data Source: EgyptX First-Party Analytics | Generated: {new Date().toLocaleString()}
             </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-4">
             <button
               onClick={exportExcel}
-              className="px-6 py-3 bg-green-600/20 border border-green-500/50 hover:bg-green-600/40 text-green-400 font-bold rounded-lg transition-colors flex items-center gap-2"
+              className="px-6 py-3 bg-green-600/15 dark:bg-green-600/20 border border-green-500/50 hover:bg-green-600/30 dark:hover:bg-green-600/40 text-green-700 dark:text-green-400 font-bold rounded-lg transition-colors flex items-center gap-2"
             >
               <Download className="w-5 h-5" /> Export Excel
             </button>
@@ -269,12 +270,12 @@ export default function NationalDashboardContent() {
             { title: 'Total Planner Requests', value: stats.plannerReqs, icon: <TrendingUp className="w-6 h-6 text-purple-400" />, color: 'border-purple-400/30' },
             { title: 'Total Active Tourists', value: stats.activeUsers, icon: <Users className="w-6 h-6 text-green-400" />, color: 'border-green-400/30' }
           ].map((kpi, idx) => (
-            <div key={idx} className={`bg-[#030712] p-6 rounded-2xl border ${kpi.color}`}>
+            <div key={idx} className={`bg-[#F8F3E9] dark:bg-[#030712] p-6 rounded-2xl border ${kpi.color}`}>
               <div className="flex justify-between items-start mb-4">
-                <p className="text-gray-400 font-bold uppercase tracking-wider text-xs">{kpi.title}</p>
+                <p className="text-gray-600 dark:text-gray-400 font-bold uppercase tracking-wider text-xs">{kpi.title}</p>
                 {kpi.icon}
               </div>
-              <h2 className="text-4xl font-bold text-white">{kpi.value.toLocaleString()}</h2>
+              <h2 className="text-4xl font-bold text-gray-900 dark:text-white">{kpi.value.toLocaleString()}</h2>
             </div>
           ))}
         </div>
@@ -282,8 +283,8 @@ export default function NationalDashboardContent() {
         {/* Chart & Top Attractions */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           
-          <div className="lg:col-span-2 bg-[#030712] p-6 rounded-3xl border border-white/10 h-[450px] flex flex-col">
-            <h3 className="text-lg font-bold text-white mb-6 uppercase tracking-wider flex items-center gap-2">
+          <div className="lg:col-span-2 bg-[#F8F3E9] dark:bg-[#030712] p-6 rounded-3xl border border-gray-200 dark:border-white/10 h-[450px] flex flex-col">
+            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-6 uppercase tracking-wider flex items-center gap-2">
               <BarChart2 className="w-5 h-5 text-[#C9A84C]" /> Governorate Comparison
             </h3>
             <div className="flex-grow">
@@ -308,18 +309,18 @@ export default function NationalDashboardContent() {
           </div>
 
           <div className="lg:col-span-1 space-y-8">
-            <div className="bg-[#030712] p-6 rounded-3xl border border-white/10 flex flex-col h-[450px]">
-              <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider">Top Attractions (National)</h3>
+            <div className="bg-[#F8F3E9] dark:bg-[#030712] p-6 rounded-3xl border border-gray-200 dark:border-white/10 flex flex-col h-[450px]">
+              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 uppercase tracking-wider">Top Attractions (National)</h3>
               <div className="flex-grow overflow-y-auto custom-scrollbar pr-2 space-y-4">
                 {topAttractions.length > 0 ? (
                   topAttractions.map((attr, idx) => (
-                    <div key={attr.id} className="bg-white/5 p-4 rounded-xl border border-white/10 flex items-center gap-4">
+                    <div key={attr.id} className="bg-white dark:bg-white/5 p-4 rounded-xl border border-gray-200 dark:border-white/10 flex items-center gap-4">
                       <div className="w-8 h-8 rounded-full bg-[#C9A84C]/20 text-[#C9A84C] flex items-center justify-center font-bold shrink-0">
                         {idx + 1}
                       </div>
                       <div className="overflow-hidden">
-                        <p className="font-bold text-white truncate text-sm">{attr.name_en}</p>
-                        <p className="text-xs text-gray-400">{attr.views} views</p>
+                        <p className="font-bold text-gray-900 dark:text-white truncate text-sm">{attr.name_en}</p>
+                        <p className="text-xs text-gray-600 dark:text-gray-400">{attr.views} views</p>
                       </div>
                     </div>
                   ))
@@ -337,16 +338,16 @@ export default function NationalDashboardContent() {
           
           <div className="bg-[#C9A84C]/10 p-6 rounded-3xl border border-[#C9A84C]/30 flex flex-col">
             <h3 className="text-lg font-bold text-[#C9A84C] mb-4 uppercase tracking-wider">National AI Agent</h3>
-            <p className="text-sm text-gray-400 mb-6">Ask questions about national tourism trends. The AI analyzes real-time verified metrics across the entire country.</p>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">Ask questions about national tourism trends. The AI analyzes real-time verified metrics across the entire country.</p>
             
             <form onSubmit={handleAiAsk} className="mt-auto space-y-4">
-              <div className="bg-[#030712] p-4 rounded-xl border border-white/10 h-40 overflow-y-auto custom-scrollbar text-sm text-gray-300">
+              <div className="bg-white dark:bg-[#030712] p-4 rounded-xl border border-gray-200 dark:border-white/10 h-40 overflow-y-auto custom-scrollbar text-sm text-gray-800 dark:text-gray-300">
                 {aiLoading ? (
                   <span className="flex items-center gap-2"><Loader2 className="w-4 h-4 animate-spin text-[#C9A84C]" /> AI is thinking...</span>
                 ) : aiResponse ? (
-                  aiResponse
+                  stripEmojis(aiResponse)
                 ) : (
-                  <span className="text-gray-600 italic">Example: "Which governorate is leading in AI Planner requests?"</span>
+                  <span className="text-gray-500 dark:text-gray-600 italic">Example: "Which governorate is leading in AI Planner requests?"</span>
                 )}
               </div>
               <input 
@@ -354,7 +355,7 @@ export default function NationalDashboardContent() {
                 value={aiQuery}
                 onChange={e => setAiQuery(e.target.value)}
                 placeholder="Ask national data..."
-                className="w-full bg-[#030712] border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#C9A84C]"
+                className="w-full bg-white dark:bg-[#030712] border border-gray-300 dark:border-white/20 rounded-lg px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:border-[#C9A84C]"
               />
               <button type="submit" disabled={aiLoading || !aiQuery} className="w-full py-3 bg-[#C9A84C] text-[#0A1628] hover:bg-white font-bold rounded-lg transition-colors">
                 Ask National AI
@@ -362,14 +363,14 @@ export default function NationalDashboardContent() {
             </form>
           </div>
 
-          <div className="bg-[#030712] p-6 rounded-3xl border border-white/10">
-            <h3 className="text-lg font-bold text-white mb-6 uppercase tracking-wider flex items-center gap-2">
+          <div className="bg-[#F8F3E9] dark:bg-[#030712] p-6 rounded-3xl border border-gray-200 dark:border-white/10">
+            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-6 uppercase tracking-wider flex items-center gap-2">
               <MapIcon className="w-5 h-5 text-[#C9A84C]" /> National Map Overview
             </h3>
             {attractions.length > 0 ? (
               <MapLeaflet attractions={attractions} />
             ) : (
-              <div className="h-[300px] flex items-center justify-center text-gray-500 border border-dashed border-white/10 rounded-2xl">
+              <div className="h-[300px] flex items-center justify-center text-gray-500 border border-dashed border-gray-300 dark:border-white/10 rounded-2xl">
                 No attractions mapped yet.
               </div>
             )}

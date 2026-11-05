@@ -12,6 +12,7 @@ import {
   Menu, X, Calendar, Search
 } from 'lucide-react';
 import dynamic from 'next/dynamic';
+import { stripEmojis } from '@/lib/strip-emojis';
 
 const CairoMap = dynamic(() => import('@/components/CairoMap'), { ssr: false });
 
@@ -259,7 +260,7 @@ export default function GovernmentDashboardContent() {
       {/* LEFT SIDEBAR (Dark, collapsible) */}
       <motion.div 
         animate={{ width: sidebarOpen ? 240 : 80 }}
-        className="relative z-20 h-full bg-[#030812] border-l border-[#C9A84C]/20 flex flex-col transition-all duration-300 shadow-[5px_0_15px_rgba(0,0,0,0.5)]"
+        className="relative z-20 h-full bg-[#F8F3E9] dark:bg-[#030812] border-l border-[#C9A84C]/20 flex flex-col transition-all duration-300 shadow-lg dark:shadow-[5px_0_15px_rgba(0,0,0,0.5)]"
       >
         <div className="p-4 flex items-center justify-between border-b border-white/5">
           {sidebarOpen && (
@@ -280,7 +281,7 @@ export default function GovernmentDashboardContent() {
               className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
                 activeTab === item.id 
                 ? 'bg-gradient-to-r from-[#C9A84C]/20 to-transparent border-r-2 border-[#C9A84C] text-[#C9A84C]' 
-                : 'text-white/60 hover:text-white hover:bg-white/5'
+                : 'text-slate-600 dark:text-white/60 hover:text-slate-900 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5'
               } ${!sidebarOpen && 'justify-center px-0'}`}
               title={item.label}
             >
@@ -295,7 +296,7 @@ export default function GovernmentDashboardContent() {
       <div className="flex-1 flex flex-col h-full overflow-hidden relative z-10" ref={dashboardRef}>
         
         {/* HEADER */}
-        <header className="h-20 bg-[#071221]/90 backdrop-blur-md border-b border-[#C9A84C]/20 flex items-center justify-between px-6 relative shrink-0">
+        <header className="h-20 bg-[#F8F3E9]/90 dark:bg-[#071221]/90 backdrop-blur-md border-b border-[#C9A84C]/20 flex items-center justify-between px-6 relative shrink-0">
           <div className="absolute inset-0 opacity-10 pointer-events-none" 
                style={{ backgroundImage: 'url("/images/giza.jpg")', backgroundSize: 'cover', backgroundPosition: 'center 30%' }}></div>
           
@@ -309,24 +310,24 @@ export default function GovernmentDashboardContent() {
               <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#C9A84C] to-[#e3c973]">
                 مركز الذكاء السياحي - القاهرة
               </h1>
-              <p className="text-xs text-white/50">لوحة تحكم سياحية متكاملة لمحافظة القاهرة</p>
+              <p className="text-xs text-slate-600 dark:text-white/50">لوحة تحكم سياحية متكاملة لمحافظة القاهرة</p>
             </div>
           </div>
 
           <div className="flex items-center gap-6 relative z-10">
             <div className="text-right">
               <div className="text-sm font-bold">{currentTime.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' })}</div>
-              <div className="text-xs text-white/50">{currentTime.toLocaleDateString('ar-EG', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</div>
+              <div className="text-xs text-slate-600 dark:text-white/50">{currentTime.toLocaleDateString('ar-EG', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</div>
             </div>
-            <div className="w-px h-8 bg-white/10"></div>
+            <div className="w-px h-8 bg-slate-300 dark:bg-white/10"></div>
             <div className="flex items-center gap-3">
               <div className="text-right">
-                <div className="text-sm font-bold text-white">{profile.firstName} {profile.lastName}</div>
+                <div className="text-sm font-bold text-slate-900 dark:text-white">{profile.firstName} {profile.lastName}</div>
                 <div className="text-[10px] uppercase tracking-wider text-[#C9A84C] bg-[#C9A84C]/10 px-2 py-0.5 rounded-full inline-block mt-0.5">
                   مدير المحافظة
                 </div>
               </div>
-              <div className="w-10 h-10 rounded-full bg-gradient-to-r from-[#C9A84C] to-[#1a3a5c] flex items-center justify-center font-bold text-lg shadow-lg">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-r from-[#C9A84C] to-[#1a3a5c] text-white flex items-center justify-center font-bold text-lg shadow-lg">
                 {profile.firstName.charAt(0)}
               </div>
             </div>
@@ -358,16 +359,16 @@ export default function GovernmentDashboardContent() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.1 }}
-                className="bg-white/[0.02] backdrop-blur-md border border-[#C9A84C]/20 rounded-2xl p-4 relative overflow-hidden group hover:border-[#C9A84C]/50 transition-colors"
+                className="bg-[#F8F3E9] dark:bg-white/[0.02] backdrop-blur-md border border-[#C9A84C]/20 rounded-2xl p-4 relative overflow-hidden group hover:border-[#C9A84C]/50 transition-colors"
               >
                 <div className={`absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl ${kpi.color} to-transparent opacity-10 rounded-bl-full`}></div>
                 <div className="flex justify-between items-start mb-2">
-                  <h3 className="text-xs font-medium text-white/60">{kpi.label}</h3>
-                  <div className="p-1.5 bg-white/5 rounded-lg text-[#C9A84C]">
+                  <h3 className="text-xs font-medium text-slate-600 dark:text-white/60">{kpi.label}</h3>
+                  <div className="p-1.5 bg-[#C9A84C]/10 dark:bg-white/5 rounded-lg text-[#C9A84C]">
                     <kpi.icon className="w-4 h-4" />
                   </div>
                 </div>
-                <div className="text-2xl font-bold text-white mb-1">
+                <div className="text-2xl font-bold text-slate-900 dark:text-white mb-1">
                   {kpi.textOnly ? kpi.value : <AnimatedCounter value={Number(kpi.value) || 0} />}
                 </div>
                 {!kpi.textOnly && kpi.trend && (
@@ -386,9 +387,9 @@ export default function GovernmentDashboardContent() {
             <motion.div 
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="w-full lg:w-[35%] bg-[#081324] border border-[#C9A84C]/20 rounded-2xl overflow-hidden relative flex flex-col"
+              className="w-full lg:w-[35%] bg-[#F8F3E9] dark:bg-[#081324] border border-[#C9A84C]/20 rounded-2xl overflow-hidden relative flex flex-col"
             >
-              <div className="p-4 border-b border-white/5 flex items-center gap-2 bg-[#050d1a]">
+              <div className="p-4 border-b border-slate-200 dark:border-white/5 flex items-center gap-2 bg-white/70 dark:bg-[#050d1a]">
                 <Map className="w-5 h-5 text-[#C9A84C]" />
                 <h2 className="font-bold">خريطة معالم القاهرة التراثية</h2>
               </div>
@@ -402,7 +403,7 @@ export default function GovernmentDashboardContent() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.2 }}
-              className="w-full lg:w-[35%] bg-[#081324] border border-[#C9A84C]/20 rounded-2xl p-4 flex flex-col"
+              className="w-full lg:w-[35%] bg-[#F8F3E9] dark:bg-[#081324] border border-[#C9A84C]/20 rounded-2xl p-4 flex flex-col"
             >
               <div className="flex items-center gap-2 mb-4">
                 <BarChart3 className="w-5 h-5 text-[#C9A84C]" />
@@ -420,7 +421,7 @@ export default function GovernmentDashboardContent() {
                     </LineChart>
                   </ResponsiveContainer>
                 ) : (
-                  <div className="h-full flex flex-col items-center justify-center text-white/30">
+                  <div className="h-full flex flex-col items-center justify-center text-slate-400 dark:text-white/30">
                     <BarChart3 className="w-12 h-12 mb-2 opacity-20" />
                     <p className="text-sm">لا توجد بيانات كافية</p>
                   </div>
@@ -443,7 +444,7 @@ export default function GovernmentDashboardContent() {
                     </BarChart>
                   </ResponsiveContainer>
                 ) : (
-                  <div className="h-full flex items-center justify-center text-white/30 text-sm">لا توجد بيانات كافية</div>
+                  <div className="h-full flex items-center justify-center text-slate-400 dark:text-white/30 text-sm">لا توجد بيانات كافية</div>
                 )}
               </div>
             </motion.div>
@@ -453,9 +454,9 @@ export default function GovernmentDashboardContent() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.4 }}
-              className="w-full lg:w-[30%] bg-[#081324] border border-[#C9A84C]/20 rounded-2xl flex flex-col overflow-hidden"
+              className="w-full lg:w-[30%] bg-[#F8F3E9] dark:bg-[#081324] border border-[#C9A84C]/20 rounded-2xl flex flex-col overflow-hidden"
             >
-              <div className="p-4 bg-gradient-to-r from-[#050d1a] to-[#0A1628] border-b border-[#C9A84C]/20 flex items-center justify-between">
+              <div className="p-4 bg-gradient-to-r from-white to-[#F8F3E9] dark:from-[#050d1a] dark:to-[#0A1628] border-b border-[#C9A84C]/20 flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Bot className="w-5 h-5 text-[#C9A84C]" />
                   <h2 className="font-bold">المستشار الذكي للقاهرة</h2>
@@ -469,9 +470,9 @@ export default function GovernmentDashboardContent() {
                     <div className={`max-w-[85%] p-3 rounded-2xl text-sm leading-relaxed ${
                       msg.role === 'user' 
                         ? 'bg-[#C9A84C] text-[#050d1a] rounded-tr-none font-medium' 
-                        : 'bg-white/5 border border-white/10 text-white/90 rounded-tl-none'
+                        : 'bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-800 dark:text-white/90 rounded-tl-none'
                     }`}>
-                      {msg.content}
+                      {stripEmojis(msg.content)}
                     </div>
                   </div>
                 ))}
@@ -487,10 +488,10 @@ export default function GovernmentDashboardContent() {
                 <div ref={chatEndRef} />
               </div>
               
-              <div className="p-3 border-t border-white/5 bg-[#050d1a]">
+              <div className="p-3 border-t border-slate-200 dark:border-white/5 bg-white/70 dark:bg-[#050d1a]">
                 <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
                   {['أكثر المعالم زيارة؟', 'تحليل الأداء', 'معالم تحتاج ترويج'].map(q => (
-                    <button key={q} onClick={(e) => handleChat(e, q)} className="whitespace-nowrap px-3 py-1 bg-white/5 hover:bg-[#C9A84C]/20 hover:text-[#C9A84C] border border-white/10 rounded-full text-xs transition-colors">
+                    <button key={q} onClick={(e) => handleChat(e, q)} className="whitespace-nowrap px-3 py-1 bg-white dark:bg-white/5 hover:bg-[#C9A84C]/20 hover:text-[#C9A84C] border border-slate-200 dark:border-white/10 rounded-full text-xs transition-colors">
                       {q}
                     </button>
                   ))}
@@ -501,7 +502,7 @@ export default function GovernmentDashboardContent() {
                     value={chatMessage}
                     onChange={(e) => setChatMessage(e.target.value)}
                     placeholder="اسأل المستشار..."
-                    className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-[#C9A84C] transition-colors"
+                    className="flex-1 bg-white dark:bg-white/5 border border-slate-300 dark:border-white/10 rounded-xl px-4 py-2 text-sm text-slate-900 dark:text-white focus:outline-none focus:border-[#C9A84C] transition-colors"
                   />
                   <button disabled={chatLoading} className="p-2 bg-[#C9A84C] hover:bg-[#e3c973] text-[#050d1a] rounded-xl transition-colors disabled:opacity-50">
                     <Send className="w-5 h-5 rtl:-scale-x-100" />
@@ -516,7 +517,7 @@ export default function GovernmentDashboardContent() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6 }}
-            className="bg-[#081324] border border-[#C9A84C]/20 rounded-2xl p-6"
+            className="bg-[#F8F3E9] dark:bg-[#081324] border border-[#C9A84C]/20 rounded-2xl p-6"
           >
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-bold flex items-center gap-2">
@@ -524,13 +525,13 @@ export default function GovernmentDashboardContent() {
                 سجل معالم القاهرة
               </h2>
               <div className="relative">
-                <Search className="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 text-white/40" />
+                <Search className="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-white/40" />
                 <input 
                   type="text" 
                   placeholder="بحث في المعالم..." 
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="bg-white/5 border border-white/10 rounded-lg pl-4 pr-10 py-2 text-sm focus:border-[#C9A84C] outline-none w-64"
+                  className="bg-white dark:bg-white/5 border border-slate-300 dark:border-white/10 rounded-lg pl-4 pr-10 py-2 text-sm text-slate-900 dark:text-white focus:border-[#C9A84C] outline-none w-64"
                 />
               </div>
             </div>
@@ -538,7 +539,7 @@ export default function GovernmentDashboardContent() {
             <div className="overflow-x-auto">
               <table className="w-full text-sm text-right">
                 <thead>
-                  <tr className="border-b border-white/10 text-white/50">
+                  <tr className="border-b border-slate-200 dark:border-white/10 text-slate-600 dark:text-white/50">
                     <th className="pb-3 px-4 font-medium">الاسم بالعربية</th>
                     <th className="pb-3 px-4 font-medium">الاسم بالإنجليزية</th>
                     <th className="pb-3 px-4 font-medium">الفئة</th>
@@ -554,13 +555,13 @@ export default function GovernmentDashboardContent() {
                       'Museums': 'bg-[#1B6B93]/20 text-[#4CC9F0] border-[#1B6B93]/50',
                       'Religious Sites': 'bg-[#2ECC71]/20 text-[#2ECC71] border-[#2ECC71]/30',
                     };
-                    const colorClass = categoryColors[attr.category] || 'bg-white/10 text-white/70 border-white/20';
+                    const colorClass = categoryColors[attr.category] || 'bg-slate-200 dark:bg-white/10 text-slate-700 dark:text-white/70 border-slate-300 dark:border-white/20';
                     const checkins = charts.topAttractionsTable?.find((t: any) => t.id === attr.id)?.checkins || Math.floor(Math.random() * 50);
 
                     return (
-                      <tr key={attr.id} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                      <tr key={attr.id} className="border-b border-slate-200/70 dark:border-white/5 hover:bg-black/[0.02] dark:hover:bg-white/[0.02] transition-colors">
                         <td className="py-4 px-4 font-bold">{attr.name_ar || attr.name_en}</td>
-                        <td className="py-4 px-4 text-white/70 font-mono text-xs">{attr.name_en}</td>
+                        <td className="py-4 px-4 text-slate-600 dark:text-white/70 font-mono text-xs">{attr.name_en}</td>
                         <td className="py-4 px-4">
                           <span className={`px-2.5 py-1 rounded-md text-[10px] font-bold border ${colorClass}`}>
                             {attr.category || 'عام'}
@@ -573,7 +574,7 @@ export default function GovernmentDashboardContent() {
                           </div>
                         </td>
                         <td className="py-4 px-4 text-center">
-                          <button className="text-xs text-[#C9A84C] hover:text-white transition-colors bg-white/5 hover:bg-[#C9A84C] px-3 py-1.5 rounded-lg border border-white/10 hover:border-[#C9A84C]">
+                          <button className="text-xs text-[#8A6D1F] dark:text-[#C9A84C] hover:text-white transition-colors bg-white dark:bg-white/5 hover:bg-[#C9A84C] px-3 py-1.5 rounded-lg border border-slate-200 dark:border-white/10 hover:border-[#C9A84C]">
                             عرض التفاصيل
                           </button>
                         </td>
@@ -583,23 +584,23 @@ export default function GovernmentDashboardContent() {
                 </tbody>
               </table>
               {filteredAttractions.length === 0 && (
-                <div className="text-center py-10 text-white/40">لا توجد نتائج مطابقة</div>
+                <div className="text-center py-10 text-slate-500 dark:text-white/40">لا توجد نتائج مطابقة</div>
               )}
             </div>
           </motion.div>
         </div>
 
         {/* 4. BOTTOM ACTION BAR */}
-        <div className="h-16 bg-[#030812] border-t border-[#C9A84C]/20 flex items-center justify-between px-6 shrink-0">
-          <div className="flex items-center gap-2 text-white/40 text-xs">
+        <div className="h-16 bg-[#F8F3E9] dark:bg-[#030812] border-t border-[#C9A84C]/20 flex items-center justify-between px-6 shrink-0">
+          <div className="flex items-center gap-2 text-slate-600 dark:text-white/40 text-xs">
             <CheckCircle className="w-4 h-4 text-emerald-500" />
             بيانات محدثة تلقائياً • آخر تحديث: {currentTime.toLocaleTimeString('ar-EG')}
           </div>
           <div className="flex items-center gap-3">
-            <button onClick={fetchData} className="p-2 hover:bg-white/5 rounded-lg text-white/60 hover:text-white transition-colors">
+            <button onClick={fetchData} className="p-2 hover:bg-black/5 dark:hover:bg-white/5 rounded-lg text-slate-600 dark:text-white/60 hover:text-slate-900 dark:hover:text-white transition-colors">
               <RefreshCw className="w-5 h-5" />
             </button>
-            <button onClick={exportExcel} className="flex items-center gap-2 px-4 py-2 bg-transparent border border-white/20 hover:border-white/50 rounded-lg text-sm transition-colors">
+            <button onClick={exportExcel} className="flex items-center gap-2 px-4 py-2 bg-transparent border border-slate-300 dark:border-white/20 hover:border-slate-500 dark:hover:border-white/50 rounded-lg text-sm transition-colors">
               <Database className="w-4 h-4" />
               تصدير Excel
             </button>

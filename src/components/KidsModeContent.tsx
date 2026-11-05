@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '@/context/AuthContext';
 import { createClient } from '@/lib/supabase/client';
+import { stripEmojis } from '@/lib/strip-emojis';
 import { KIDS_FACTS, KIDS_QUIZZES, QuizTopic } from '@/data/kids-content';
 import { Smile, Star, Award, ChevronRight, CheckCircle2, XCircle, Loader2, Sparkles, Play, Pause, Volume2, VolumeX, Lock, Crown, BookOpen, Wand2 } from 'lucide-react';
 import KidsModeVerificationModal from '@/components/KidsModeVerificationModal';
@@ -24,22 +25,8 @@ interface KidsBadge {
   badge_key: string;
 }
 
-const getBadgeIcon = (badgeName: string, fallback = '') => {
-  if (badgeName === 'Pyramid Builder') return '';
-  if (badgeName === 'Nile Explorer') return '';
-  return fallback || '';
-};
-
-const getFactEmoji = (fact: { id: string; title: string; emoji?: string }) => {
-  if (fact.emoji && fact.emoji.trim() && fact.emoji !== '') return fact.emoji;
-  const lower = (fact.title + ' ' + fact.id).toLowerCase();
-  if (lower.includes('pyramid') || lower.includes('f1')) return '';
-  if (lower.includes('nile') || lower.includes('f2')) return '';
-  if (lower.includes('hieroglyph') || lower.includes('f3')) return '';
-  if (lower.includes('tut') || lower.includes('f4')) return '';
-  if (lower.includes('mumm') || lower.includes('f5')) return '';
-  return '';
-};
+const getBadgeIcon = (_badgeName: string, _fallback = '') => '';
+const getFactEmoji = (_fact: { id: string; title: string; emoji?: string }) => '';
 
 export default function KidsModeContent() {
   const { t } = useLanguage();
@@ -262,12 +249,12 @@ export default function KidsModeContent() {
     return (
       <div className="min-h-screen bg-[#FDFBF7] dark:bg-[#030712] flex flex-col items-center justify-center p-4 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(201,168,76,0.15),transparent_70%)] pointer-events-none" />
-        <div className="relative z-10 text-center max-w-md p-8 rounded-3xl bg-[#0B1120]/80 border border-[#C9A84C]/30 backdrop-blur-xl shadow-2xl">
+        <div className="relative z-10 text-center max-w-md p-8 rounded-3xl bg-[#F8F3E9] dark:bg-[#0B1120]/80 border border-[#C9A84C]/30 backdrop-blur-xl shadow-2xl">
           <div className="w-16 h-16 rounded-2xl bg-[#C9A84C]/15 border border-[#C9A84C]/40 flex items-center justify-center mx-auto mb-4 text-[#C9A84C]">
             <Lock className="w-8 h-8" />
           </div>
-          <h2 className="text-2xl font-bold text-white mb-2">Kids Mode Protected</h2>
-          <p className="text-sm text-white/60 mb-6">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Kids Mode Protected</h2>
+          <p className="text-sm text-gray-600 dark:text-white/60 mb-6">
             Parental email verification is required to unlock educational games, pharaoh avatars, and interactive quizzes safely.
           </p>
           <button
@@ -297,15 +284,15 @@ export default function KidsModeContent() {
   // --- ONBOARDING VIEW ---
   if (!profile) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-[#0A1628] to-[#1B6B93] text-white flex flex-col items-center justify-center p-4 pt-20">
+      <div className="min-h-screen bg-[#FDFBF7] dark:bg-gradient-to-b dark:from-[#0A1628] dark:to-[#1B6B93] text-gray-900 dark:text-white flex flex-col items-center justify-center p-4 pt-20">
         <motion.div 
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="bg-white/10 backdrop-blur-md border border-white/20 p-8 md:p-12 rounded-[2rem] shadow-2xl text-center max-w-lg w-full"
+          className="bg-[#F8F3E9] dark:bg-white/10 backdrop-blur-md border border-slate-200 dark:border-white/20 p-8 md:p-12 rounded-[2rem] shadow-2xl text-center max-w-lg w-full"
         >
           <Smile className="w-20 h-20 text-[#C9A84C] mx-auto mb-6" />
-          <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">Welcome Explorer!</h1>
-          <p className="text-lg text-gray-200 mb-8">Let&apos;s get started! What&apos;s your nickname?</p>
+          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">Welcome Explorer!</h1>
+          <p className="text-lg text-gray-700 dark:text-gray-200 mb-8">Let&apos;s get started! What&apos;s your nickname?</p>
           
           <form onSubmit={createProfile} className="space-y-4">
             <input
@@ -315,7 +302,7 @@ export default function KidsModeContent() {
               placeholder="Your Nickname"
               value={nicknameInput}
               onChange={e => setNicknameInput(e.target.value)}
-              className="w-full text-center text-xl bg-white/20 border-2 border-white/30 rounded-2xl px-6 py-4 text-white placeholder:text-gray-300 focus:outline-none focus:border-[#C9A84C]"
+              className="w-full text-center text-xl bg-white dark:bg-white/20 border-2 border-slate-300 dark:border-white/30 rounded-2xl px-6 py-4 text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-300 focus:outline-none focus:border-[#C9A84C]"
             />
             <button 
               type="submit" 
@@ -325,7 +312,7 @@ export default function KidsModeContent() {
               {savingProfile ? <Loader2 className="w-6 h-6 animate-spin" /> : 'Start Exploring!'}
             </button>
           </form>
-          <p className="text-xs text-white/50 mt-6 text-left">
+          <p className="text-xs text-gray-500 dark:text-white/50 mt-6 text-left">
             Parents: We only store this nickname to track progress. No personal data is collected.
           </p>
         </motion.div>
@@ -348,26 +335,26 @@ export default function KidsModeContent() {
                 </div>
                 <div>
                   <h1 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white">Hi, {profile.nickname}!</h1>
-                  <p className="text-[#4CC9F0] font-medium flex items-center gap-1.5">
+                  <p className="text-[#1B6B93] dark:text-[#4CC9F0] font-medium flex items-center gap-1.5">
                     <Star className="w-4 h-4 fill-current" />
                     <span>Explorer Level</span>
                   </p>
                 </div>
               </div>
-              <div className="mt-4 md:mt-0 flex items-center gap-2 bg-[#0A1628] px-6 py-3 rounded-2xl border border-white/10 shadow-inner">
+              <div className="mt-4 md:mt-0 flex items-center gap-2 bg-white dark:bg-[#0A1628] px-6 py-3 rounded-2xl border border-slate-200 dark:border-white/10 shadow-inner">
                 <span className="text-[#C9A84C] font-bold text-3xl">{profile.points}</span>
                 <span className="text-gray-400 font-medium text-sm uppercase tracking-wider">Points</span>
               </div>
             </div>
 
             {/* Welcome Video Section */}
-            <div className="bg-gradient-to-br from-[#1B6B93]/10 to-[#0A1628] border border-[#1B6B93]/30 rounded-3xl overflow-hidden p-6 md:p-8 flex flex-col md:flex-row items-center gap-8">
+            <div className="bg-[#F8F3E9] dark:bg-gradient-to-br dark:from-[#1B6B93]/10 dark:to-[#0A1628] border border-slate-200 dark:border-[#1B6B93]/30 rounded-3xl overflow-hidden p-6 md:p-8 flex flex-col md:flex-row items-center gap-8">
               <div className="flex-1">
-                <h2 className="text-2xl md:text-3xl font-bold text-white mb-4 flex items-center gap-3">
+                <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-3">
                   <Sparkles className="w-7 h-7 text-[#C9A84C]" />
                   <span>Welcome to Kids Mode!</span>
                 </h2>
-            <p className="text-gray-300 mb-6 leading-relaxed">
+            <p className="text-gray-700 dark:text-gray-300 mb-6 leading-relaxed">
               Watch this quick video to learn how to explore, earn points, and unlock awesome badges in your journey through Ancient Egypt!
             </p>
           </div>
@@ -433,23 +420,23 @@ export default function KidsModeContent() {
             
             {/* Active Quiz Area */}
             {activeQuiz ? (
-              <div className="bg-white/5 border-2 border-[#1B6B93] rounded-3xl p-6 md:p-8 backdrop-blur-md">
+              <div className="bg-[#F8F3E9] dark:bg-white/5 border-2 border-[#1B6B93] rounded-3xl p-6 md:p-8 backdrop-blur-md">
                 {!quizFinished ? (
                   <div>
                     <div className="flex justify-between items-center mb-6">
-                      <span className="text-[#4CC9F0] font-bold uppercase text-sm tracking-wider flex items-center gap-2">
+                      <span className="text-[#1B6B93] dark:text-[#4CC9F0] font-bold uppercase text-sm tracking-wider flex items-center gap-2">
                         <span className="text-2xl">{getBadgeIcon(activeQuiz.badgeName, '')}</span>
                         <span>{activeQuiz.title}</span>
                       </span>
                       <span className="text-gray-400 font-medium text-sm">Question {currentQuestionIdx + 1} of {activeQuiz.questions.length}</span>
                     </div>
-                    <h2 className="text-2xl md:text-3xl font-bold text-white mb-8">
+                    <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-8">
                       {activeQuiz.questions[currentQuestionIdx].question}
                     </h2>
                     
                     <div className="space-y-3">
                       {activeQuiz.questions[currentQuestionIdx].options.map((opt, idx) => {
-                        let btnStyle = "bg-[#0A1628] border-gray-700 hover:border-[#C9A84C] hover:bg-white/5 text-white";
+                        let btnStyle = "bg-white dark:bg-[#0A1628] border-slate-300 dark:border-gray-700 hover:border-[#C9A84C] hover:bg-amber-50/40 dark:hover:bg-white/5 text-gray-900 dark:text-white";
                         if (selectedOption === idx) {
                           if (isCorrect) btnStyle = "bg-green-500/20 border-green-500 text-green-400";
                           else btnStyle = "bg-red-500/20 border-red-500 text-red-400";
@@ -478,19 +465,19 @@ export default function KidsModeContent() {
                       <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="mb-6">
                         <div className="text-6xl mb-4">{getBadgeIcon(activeQuiz.badgeName, '')}</div>
                         <h2 className="text-3xl font-bold text-[#C9A84C] mb-2"> Perfect Score!</h2>
-                        <p className="text-xl text-gray-300">You earned the <strong className="text-white">{activeQuiz.badgeName}</strong> badge and {score * 10} points!</p>
+                        <p className="text-xl text-gray-700 dark:text-gray-300">You earned the <strong className="text-gray-900 dark:text-white">{activeQuiz.badgeName}</strong> badge and {score * 10} points!</p>
                       </motion.div>
                     ) : (
                       <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="mb-6">
                         <div className="text-6xl mb-4"></div>
-                        <h2 className="text-3xl font-bold text-white mb-2">Great Try!</h2>
-                        <p className="text-xl text-gray-300">You scored {score} out of {activeQuiz.questions.length} and earned {score * 10} points.</p>
-                        <p className="text-[#4CC9F0] mt-2">Get a perfect score to earn the badge!</p>
+                        <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Great Try!</h2>
+                        <p className="text-xl text-gray-700 dark:text-gray-300">You scored {score} out of {activeQuiz.questions.length} and earned {score * 10} points.</p>
+                        <p className="text-[#1B6B93] dark:text-[#4CC9F0] mt-2 font-medium">Get a perfect score to earn the badge!</p>
                       </motion.div>
                     )}
                     <button
                       onClick={() => setActiveQuiz(null)}
-                      className="px-8 py-3 bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl font-bold text-white transition-colors"
+                      className="px-8 py-3 bg-white dark:bg-white/10 hover:bg-slate-100 dark:hover:bg-white/20 border border-slate-300 dark:border-white/20 rounded-xl font-bold text-gray-900 dark:text-white transition-colors"
                     >
                       Back to Dashboard
                     </button>
@@ -500,8 +487,8 @@ export default function KidsModeContent() {
             ) : (
               <>
                 {/* Facts Carousel */}
-                <div className="bg-gradient-to-br from-[#1B6B93]/30 to-[#0A1628] border border-[#1B6B93]/50 rounded-3xl p-6 md:p-8 backdrop-blur-md">
-                  <h2 className="text-[#4CC9F0] font-bold uppercase text-sm tracking-wider mb-4 flex items-center gap-2">
+                <div className="bg-[#F8F3E9] dark:bg-gradient-to-br dark:from-[#1B6B93]/30 dark:to-[#0A1628] border border-slate-200 dark:border-[#1B6B93]/50 rounded-3xl p-6 md:p-8 backdrop-blur-md">
+                  <h2 className="text-[#1B6B93] dark:text-[#4CC9F0] font-bold uppercase text-sm tracking-wider mb-4 flex items-center gap-2">
                     <span className="text-xl"></span>
                     <span>Did you know?</span>
                   </h2>
@@ -513,12 +500,12 @@ export default function KidsModeContent() {
                       exit={{ opacity: 0, x: -20 }}
                       className="flex flex-col sm:flex-row gap-6 items-center sm:items-start"
                     >
-                      <div className="text-6xl bg-black/30 w-24 h-24 rounded-2xl flex items-center justify-center shrink-0 border border-white/10 shadow-inner">
-                        {getFactEmoji(currentFact)}
+                      <div className="bg-white dark:bg-black/30 w-24 h-24 rounded-2xl flex items-center justify-center shrink-0 border border-slate-200 dark:border-white/10 shadow-inner">
+                        <Sparkles className="w-10 h-10 text-[#C9A84C]" />
                       </div>
                       <div>
-                        <h3 className="text-2xl font-bold text-[#C9A84C] mb-2">{currentFact.title}</h3>
-                        <p className="text-lg text-gray-200 leading-relaxed">{currentFact.description}</p>
+                        <h3 className="text-2xl font-bold text-[#8A661C] dark:text-[#C9A84C] mb-2">{stripEmojis(currentFact.title)}</h3>
+                        <p className="text-lg text-gray-700 dark:text-gray-200 leading-relaxed">{stripEmojis(currentFact.description)}</p>
                       </div>
                     </motion.div>
                   </AnimatePresence>
@@ -529,7 +516,7 @@ export default function KidsModeContent() {
 
                 {/* Quizzes Grid */}
                 <div>
-                  <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
                     <span className="text-3xl"></span>
                     <span>Take a Quiz</span>
                   </h2>
@@ -544,19 +531,19 @@ export default function KidsModeContent() {
                         <button
                           key={quiz.id}
                           onClick={() => startQuiz(quiz)}
-                          className="bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl p-5 text-left transition-all group flex flex-col justify-between"
+                          className="bg-[#F8F3E9] hover:bg-[#F2E9D8] dark:bg-white/5 dark:hover:bg-white/10 border border-slate-200 dark:border-white/10 rounded-2xl p-5 text-left transition-all group flex flex-col justify-between"
                         >
                           <div>
                             <div className="flex justify-between items-start mb-3">
-                              <span className="text-4xl">{quizIcon}</span>
+                              <Award className="w-8 h-8 text-[#C9A84C]" />
                               {hasBadge && <CheckCircle2 className="w-6 h-6 text-green-500" />}
                             </div>
-                            <h3 className="text-xl font-bold text-gray-200 group-hover:text-[#C9A84C] transition-colors">
+                            <h3 className="text-xl font-bold text-gray-900 dark:text-gray-200 group-hover:text-[#C9A84C] transition-colors">
                               {quiz.title}
                             </h3>
-                            <p className="text-sm text-gray-400 mt-1">{quiz.questions.length} questions</p>
+                            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">{quiz.questions.length} questions</p>
                           </div>
-                          <div className="mt-4 text-[#4CC9F0] font-medium flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity -translate-x-2 group-hover:translate-x-0">
+                          <div className="mt-4 text-[#1B6B93] dark:text-[#4CC9F0] font-medium flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity -translate-x-2 group-hover:translate-x-0">
                             Play Now <ChevronRight className="w-4 h-4" />
                           </div>
                         </button>
@@ -570,8 +557,8 @@ export default function KidsModeContent() {
 
           {/* Sidebar (Right) */}
           <div className="lg:col-span-1">
-            <div className="bg-white/5 border border-white/10 rounded-3xl p-6 backdrop-blur-md sticky top-28">
-              <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+            <div className="bg-[#F8F3E9] dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-3xl p-6 backdrop-blur-md sticky top-28">
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
                 <Award className="w-6 h-6 text-[#C9A84C]" />
                 <span>My Badges</span>
               </h2>
@@ -589,10 +576,10 @@ export default function KidsModeContent() {
                       className={`aspect-square rounded-2xl flex flex-col items-center justify-center p-3 text-center transition-all ${
                         earned 
                           ? 'bg-gradient-to-br from-[#C9A84C]/20 to-[#C9A84C]/5 border border-[#C9A84C]/50 shadow-[0_0_15px_rgba(201,168,76,0.2)]' 
-                          : 'bg-black/30 border border-white/5 grayscale opacity-50'
+                          : 'bg-white dark:bg-black/30 border border-slate-200 dark:border-white/5 grayscale opacity-50'
                       }`}
                     >
-                      <span className="text-4xl mb-2 drop-shadow-md">{badgeIcon}</span>
+                      <Award className="w-8 h-8 text-[#C9A84C] mb-2" />
                       <span className={`text-xs font-bold leading-tight ${earned ? 'text-[#C9A84C]' : 'text-gray-500'}`}>
                         {quiz.badgeName}
                       </span>

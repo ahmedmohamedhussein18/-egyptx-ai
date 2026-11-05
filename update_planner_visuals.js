@@ -45,7 +45,7 @@ const newStep3Code = `<h3 className="text-2xl font-bold text-white mb-4">Step 3:
                             
                             <div className="absolute bottom-3 left-3 right-3 flex justify-between items-end">
                               <span className={\`font-bold text-lg \${active ? 'text-[#C9A84C]' : 'text-white'}\`}>{dest.name}</span>
-                              {active && <span className="w-6 h-6 rounded-full bg-[#C9A84C] text-[#030712] flex items-center justify-center text-xs font-bold shadow-lg">✓</span>}
+                              {active && <span className="w-6 h-6 rounded-full bg-[#C9A84C] text-[#030712] flex items-center justify-center text-xs font-bold shadow-lg"></span>}
                             </div>
                           </div>
                         )

@@ -198,7 +198,7 @@ export default function TravelCardContent() {
                       {selectedPhoto.attractions?.name_ar && (
                         <p className="font-arabic text-2xl text-[#C9A84C] mb-1 opacity-90">{selectedPhoto.attractions.name_ar}</p>
                       )}
-                      <h2 className="text-3xl font-bold text-slate-900 dark:text-white uppercase tracking-widest mb-2 font-serif">
+                      <h2 className="text-3xl font-bold text-white uppercase tracking-widest mb-2 font-serif">
                         {selectedPhoto.attractions?.name_en || 'Egypt'}
                       </h2>
                       <div className="flex items-center justify-center gap-4 text-sm text-white/80 uppercase tracking-widest">

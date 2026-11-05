@@ -102,44 +102,44 @@ export default function EgyptOfficialPage() {
                   alt="President Abdel Fattah El-Sisi"
                   className="w-full h-full object-cover object-top transition-transform duration-700 hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0A1628] via-transparent to-transparent lg:hidden" />
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-[#0A1628] hidden lg:block" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#F8F3E9] dark:from-[#0A1628] via-transparent to-transparent lg:hidden" />
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-[#F8F3E9] dark:to-[#0A1628] hidden lg:block" />
               </div>
 
               {/* Text & Portal Column */}
               <div className="lg:col-span-7 p-8 sm:p-10 flex flex-col justify-between space-y-6">
                 <div className="space-y-4">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-[#C9A84C]/20 border border-[#C9A84C]/40 text-xs font-bold text-[#E2CB85] backdrop-blur-sm">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-[#C9A84C]/20 border border-[#C9A84C]/40 text-xs font-bold text-[#8A661C] dark:text-[#E2CB85] backdrop-blur-sm">
                     <span>جمهورية مصر العربية</span>
                     <span>·</span>
                     <span>Arab Republic of Egypt</span>
                   </div>
 
                   <div>
-                    <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-tight drop-shadow-md">
+                    <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white leading-tight">
                       الرئيس عبد الفتاح السيسي
                     </h2>
                     <p className="text-xl sm:text-2xl text-[#C9A84C] font-semibold mt-1 drop-shadow">
                       President Abdel Fattah El-Sisi
                     </p>
-                    <p className="text-sm text-gray-300 font-medium mt-1">
+                    <p className="text-sm text-gray-600 dark:text-gray-300 font-medium mt-1">
                       رئيس جمهورية مصر العربية · President of the Arab Republic of Egypt
                     </p>
                   </div>
 
                   {/* Presidential Vision Quote */}
-                  <div className="relative bg-black/40 border-l-4 border-[#C9A84C] rounded-r-2xl p-5 backdrop-blur-md">
-                    <p className="text-sm sm:text-base text-gray-100 leading-relaxed font-serif italic mb-3">
+                  <div className="relative bg-white/80 dark:bg-black/40 border-l-4 border-[#C9A84C] rounded-r-2xl p-5 backdrop-blur-md shadow-sm">
+                    <p className="text-sm sm:text-base text-gray-800 dark:text-gray-100 leading-relaxed font-serif italic mb-3">
                       &ldquo;مصر تفتح ذراعيها للعالم أجمع، حاملةً رسالة سلام وتاريخ وحضارة تمتد لآلاف السنين. نواصل العمل بكل عزم على صون تراثنا الإنساني العريق وتطوير مقاصدنا السياحية لتظل مصر دوماً منارة للحضارة والإلهام.&rdquo;
                     </p>
-                    <p className="text-xs sm:text-sm text-gray-300 leading-relaxed italic">
+                    <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 leading-relaxed italic">
                       &ldquo;Egypt opens its arms to the whole world, carrying a message of peace, timeless heritage, and civilizational depth. We are determined to safeguard our world heritage and advance our tourism destinations so Egypt remains an eternal beacon of culture and inspiration.&rdquo;
                     </p>
                   </div>
                 </div>
 
-                <div className="pt-4 border-t border-white/10 flex flex-wrap items-center justify-between gap-4">
-                  <div className="flex items-center gap-2 text-xs text-gray-300">
+                <div className="pt-4 border-t border-slate-200 dark:border-white/10 flex flex-wrap items-center justify-between gap-4">
+                  <div className="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-300">
                     <ShieldCheck className="w-4 h-4 text-[#C9A84C] shrink-0" />
                     <span>Presidency of Egypt Official Records · الموقع الرسمي لرئاسة الجمهورية</span>
                   </div>
@@ -161,7 +161,7 @@ export default function EgyptOfficialPage() {
 
         {/* ── SECTION 2: MINISTER OF TOURISM & ANTIQUITIES ─────────────────── */}
         <section className="mb-14">
-          <div className="relative overflow-hidden rounded-3xl border border-white/10 hover:border-[#C9A84C]/60 hover:shadow-[0_0_30px_rgba(201,168,76,0.3)] transition-all duration-500 shadow-xl bg-[#F8F3E9] dark:bg-[#0A1628]">
+          <div className="relative overflow-hidden rounded-3xl border border-slate-200 dark:border-white/10 hover:border-[#C9A84C]/60 hover:shadow-[0_0_30px_rgba(201,168,76,0.3)] transition-all duration-500 shadow-xl bg-[#F8F3E9] dark:bg-[#0A1628]">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 relative z-10">
               {/* Minister Portrait Column: Clean, prominent, proportional aspect ratio */}
               <div className="lg:col-span-5 relative min-h-[360px] lg:min-h-full overflow-hidden bg-black/60">
@@ -170,20 +170,20 @@ export default function EgyptOfficialPage() {
                   alt="Sherif Fathy · Minister of Tourism and Antiquities"
                   className="w-full h-full object-cover object-top transition-transform duration-700 hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0A1628] via-transparent to-transparent lg:hidden" />
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-[#0A1628] hidden lg:block" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#F8F3E9] dark:from-[#0A1628] via-transparent to-transparent lg:hidden" />
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-[#F8F3E9] dark:to-[#0A1628] hidden lg:block" />
               </div>
 
               {/* Text & Portal Column */}
               <div className="lg:col-span-7 p-8 sm:p-10 flex flex-col justify-between space-y-6">
                 <div className="space-y-4">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#1B6B93]/30 border border-[#1B6B93]/50 text-xs font-semibold text-cyan-200 backdrop-blur-sm">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#1B6B93]/15 dark:bg-[#1B6B93]/30 border border-[#1B6B93]/40 text-xs font-semibold text-[#1B6B93] dark:text-cyan-200 backdrop-blur-sm">
                     <Landmark className="w-3.5 h-3.5" />
                     وزارة السياحة والآثار · Ministry of Tourism and Antiquities
                   </div>
 
                   <div>
-                    <h2 className="text-2xl sm:text-3xl font-bold text-white drop-shadow-md">
+                    <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
                       شريف فتحي · وزير السياحة والآثار
                     </h2>
                     <p className="text-lg text-[#C9A84C] font-semibold mt-0.5 drop-shadow">
@@ -191,17 +191,17 @@ export default function EgyptOfficialPage() {
                     </p>
                   </div>
 
-                  <p className="text-sm sm:text-base text-gray-200 leading-relaxed drop-shadow">
+                  <p className="text-sm sm:text-base text-gray-700 dark:text-gray-200 leading-relaxed">
                     قيادة الاستراتيجية الوطنية للسياحة المستدامة، وتطوير البنية التحتية للمواقع الأثرية الكبرى في الجيزة والأقصر وأسوان، وتسريع رقمنة الخدمات السياحية والتذاكر الإلكترونية وتشغيل المتحف المصري الكبير (GEM) لتقديم تجربة عالمية تليق بمكانة مصر التاريخية.
                   </p>
 
-                  <p className="text-xs sm:text-sm text-gray-300 leading-relaxed italic drop-shadow">
+                  <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 leading-relaxed italic">
                     Spearheading the National Sustainable Tourism Strategy, infrastructure modernization across world heritage sites in Giza, Luxor, and Aswan, alongside full digital ticketing and the grand opening of the Grand Egyptian Museum (GEM).
                   </p>
                 </div>
 
-                <div className="pt-4 border-t border-white/10 flex flex-wrap items-center justify-between gap-4">
-                  <div className="flex items-center gap-2 text-xs text-gray-300">
+                <div className="pt-4 border-t border-slate-200 dark:border-white/10 flex flex-wrap items-center justify-between gap-4">
+                  <div className="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-300">
                     <ShieldCheck className="w-4 h-4 text-[#C9A84C] shrink-0" />
                     <span>Ministry of Tourism & Antiquities Official Portal · mota.gov.eg</span>
                   </div>
@@ -210,7 +210,7 @@ export default function EgyptOfficialPage() {
                     href="https://mota.gov.eg"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white/10 hover:bg-[#C9A84C] hover:text-[#030712] text-xs font-semibold text-white transition-all shadow-md shrink-0"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white dark:bg-white/10 hover:bg-[#C9A84C] hover:text-[#030712] border border-slate-200 dark:border-transparent text-xs font-semibold text-gray-900 dark:text-white transition-all shadow-sm shrink-0"
                   >
                     <span>دخول البوابة الإلكترونية</span>
                     <ExternalLink className="w-3.5 h-3.5" />
@@ -232,41 +232,41 @@ export default function EgyptOfficialPage() {
                   alt="Dr. Zahi Hawass"
                   className="w-full h-full object-cover object-top transition-transform duration-700 hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0A1628] via-transparent to-transparent lg:hidden" />
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-[#0A1628] hidden lg:block" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#F8F3E9] dark:from-[#0A1628] via-transparent to-transparent lg:hidden" />
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-[#F8F3E9] dark:to-[#0A1628] hidden lg:block" />
               </div>
 
               {/* Text & Portal Column */}
               <div className="lg:col-span-7 p-8 sm:p-10 flex flex-col justify-between space-y-6">
                 <div className="space-y-4">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#C9A84C]/20 border border-[#C9A84C]/40 text-xs font-bold text-[#E2CB85] backdrop-blur-sm">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#C9A84C]/20 border border-[#C9A84C]/40 text-xs font-bold text-[#8A661C] dark:text-[#E2CB85] backdrop-blur-sm">
                     <Award className="w-3.5 h-3.5 text-[#C9A84C]" />
                     شخصية أثرية عالمية · World-Renowned Egyptologist
                   </div>
 
                   <div>
-                    <h2 className="text-2xl sm:text-3xl font-bold text-white drop-shadow-md">
+                    <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
                       د. زاهي حواس
                     </h2>
                     <p className="text-xl text-[#C9A84C] font-semibold drop-shadow">
                       Dr. Zahi Hawass
                     </p>
-                    <p className="text-sm text-gray-300 font-medium">
+                    <p className="text-sm text-gray-600 dark:text-gray-300 font-medium">
                       عالم الآثار والمصريات الشهير · وزير الآثار الأسبق
                     </p>
                   </div>
 
-                  <p className="text-sm sm:text-base text-gray-200 leading-relaxed drop-shadow">
+                  <p className="text-sm sm:text-base text-gray-700 dark:text-gray-200 leading-relaxed">
                     يُعد الدكتور زاهي حواس أحد أبرز علماء المصريات في العصر الحديث وأكثرهم تأثيراً على الساحة الدولية. قاد العديد من أهم الحفائر والاكتشافات الأثرية في أهرامات الجيزة، وسقارة، ووادي الملوك، ومن أبرزها مقابر بناة الأهرام، والمدينة الذهبية المفقودة في الأقصر، إلى جانب جهوده الرائدة في استرداد الآثار المصرية ونشر سحر الحضارة الفرعونية حول العالم.
                   </p>
 
-                  <p className="text-xs sm:text-sm text-gray-300 leading-relaxed italic drop-shadow">
+                  <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 leading-relaxed italic">
                     Dr. Zahi Hawass is one of the world’s most eminent archaeologists and the leading authority on ancient Egyptian civilization. Having spearheaded groundbreaking excavations at Giza, Saqqara, and the Valley of the Kings, he remains an international icon advocating for the preservation and celebration of Egypt’s cultural heritage.
                   </p>
                 </div>
 
-                <div className="pt-4 border-t border-white/10 flex flex-wrap items-center justify-between gap-4">
-                  <div className="flex items-center gap-2 text-xs text-gray-300">
+                <div className="pt-4 border-t border-slate-200 dark:border-white/10 flex flex-wrap items-center justify-between gap-4">
+                  <div className="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-300">
                     <ShieldCheck className="w-4 h-4 text-[#C9A84C] shrink-0" />
                     <span>Official Portal of Dr. Zahi Hawass · drhawass.com</span>
                   </div>
@@ -289,11 +289,11 @@ export default function EgyptOfficialPage() {
         {/* ── SECTION 4: KEY MINISTRIES & INSTITUTIONS GRID ────────────────── */}
         <section>
           <div className="mb-8">
-            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2 flex items-center gap-2">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2 flex items-center gap-2">
               <Building2 className="w-6 h-6 text-[#C9A84C]" />
               الوزارات والمؤسسات الوطنية الرئيسية
             </h2>
-            <p className="text-sm text-gray-400">
+            <p className="text-sm text-gray-600 dark:text-gray-400">
               Key Ministries & Official State Heritage Authorities
             </p>
           </div>

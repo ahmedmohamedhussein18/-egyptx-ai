@@ -49,7 +49,7 @@ export default function DestinationDetailContent({ id }: { id: string }) {
   if (!attraction) {
     return (
       <div className="min-h-screen bg-[#FDFBF7] dark:bg-[#030712] flex flex-col items-center justify-center p-4">
-        <h1 className="text-2xl font-bold text-white mb-4">Destination Not Found</h1>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Destination Not Found</h1>
         <button onClick={() => router.push('/explore')} className="px-6 py-2 bg-[#C9A84C] text-[#0A1628] font-bold rounded-lg">
           Back to Explore
         </button>
@@ -63,7 +63,7 @@ export default function DestinationDetailContent({ id }: { id: string }) {
         
         <button
           onClick={() => router.push('/explore')}
-          className="flex items-center gap-2 text-gray-400 hover:text-white mb-8 transition-colors"
+          className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white mb-8 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" /> Back to Explore
         </button>
@@ -74,20 +74,20 @@ export default function DestinationDetailContent({ id }: { id: string }) {
           <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="space-y-6">
             <div>
               {attraction.name_ar && <p className="font-arabic text-3xl text-[#C9A84C] mb-2">{attraction.name_ar}</p>}
-              <h1 className="text-4xl md:text-5xl font-bold text-white uppercase tracking-wider mb-4">
+              <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white uppercase tracking-wider mb-4">
                 {attraction.name_en}
               </h1>
               <div className="flex flex-wrap gap-4 text-sm font-medium">
-                <span className="flex items-center gap-1.5 text-gray-300 bg-white/5 px-3 py-1.5 rounded-full border border-white/10">
+                <span className="flex items-center gap-1.5 text-gray-700 dark:text-gray-300 bg-black/[0.04] dark:bg-white/5 px-3 py-1.5 rounded-full border border-gray-200 dark:border-white/10">
                   <MapPin className="w-4 h-4 text-[#C9A84C]" /> {attraction.city}{attraction.governorates?.name_en ? `, ${attraction.governorates.name_en}` : ''}
                 </span>
-                <span className="flex items-center gap-1.5 text-[#4CC9F0] bg-[#4CC9F0]/10 px-3 py-1.5 rounded-full border border-[#4CC9F0]/20">
+                <span className="flex items-center gap-1.5 text-[#1B6B93] dark:text-[#4CC9F0] bg-[#4CC9F0]/10 px-3 py-1.5 rounded-full border border-[#4CC9F0]/30">
                   <Compass className="w-4 h-4" /> {attraction.category}
                 </span>
               </div>
             </div>
 
-            <div className="prose max-w-none text-slate-700 dark:text-gray-300 leading-relaxed border-t border-white/10 pt-6">
+            <div className="prose max-w-none text-slate-700 dark:text-gray-300 leading-relaxed border-t border-gray-200 dark:border-white/10 pt-6">
               <p>{attraction.description_en || 'Experience the rich history and beauty of this Egyptian marvel. Visitors from around the world travel here to witness its grandeur.'}</p>
             </div>
 
@@ -110,7 +110,7 @@ export default function DestinationDetailContent({ id }: { id: string }) {
               if (!videoSrc) return null;
 
               return (
-                <div className="mt-8 bg-[#0A1628] border border-[#1B6B93]/30 rounded-2xl p-6 relative overflow-hidden group">
+                <div className="mt-8 bg-[#F8F3E9] dark:bg-[#0A1628] border border-[#1B6B93]/30 rounded-2xl p-6 relative overflow-hidden group">
                   <div className="flex items-center gap-4 mb-4">
                     <div>
                       <h3 className="text-xl font-bold text-slate-900 dark:text-white">Experience {attraction.name_en}</h3>

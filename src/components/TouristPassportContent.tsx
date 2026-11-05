@@ -171,20 +171,20 @@ export default function TouristPassportContent() {
               {/* ID Details */}
               <div className="flex-1 text-center md:text-left z-10">
                 <h3 className="text-xl text-[#C9A84C] font-semibold uppercase tracking-widest mb-1">
-                  ≡ƒç¬≡ƒç¼ EgyptX Tourist Passport
+                  EgyptX Tourist Passport
                 </h3>
                 <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 dark:text-white mb-2 font-serif">
                   {userProfile?.full_name || 'Tourist'}&apos;s Journey
                 </h1>
                 
                 <div className="grid grid-cols-2 gap-4 mt-6">
-                  <div className="bg-white/5 rounded-lg p-3 border border-white/5">
+                  <div className="bg-white/80 dark:bg-white/5 rounded-lg p-3 border border-slate-200 dark:border-white/5">
                     <p className="text-[10px] text-gray-500 uppercase font-bold tracking-wider mb-1">{t('passport.totalStamps')}</p>
-                    <p className="font-mono text-[#4CC9F0] text-sm">{totalStamps} زيارات موتقة | {explored.length} رحلات مخطهة</p>
+                    <p className="font-mono text-[#1B6B93] dark:text-[#4CC9F0] text-sm font-semibold">{totalStamps} زيارات موتقة | {explored.length} رحلات مخطهة</p>
                   </div>
-                  <div className="bg-white/5 rounded-lg p-3 border border-white/5">
+                  <div className="bg-white/80 dark:bg-white/5 rounded-lg p-3 border border-slate-200 dark:border-white/5">
                     <p className="text-[10px] text-gray-500 uppercase font-bold tracking-wider mb-1">{t('passport.status')}</p>
-                    <p className="font-mono text-green-400 text-sm flex items-center gap-1 justify-center md:justify-start">
+                    <p className="font-mono text-emerald-700 dark:text-green-400 text-sm font-semibold flex items-center gap-1 justify-center md:justify-start">
                       <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" /> Verified
                     </p>
                   </div>
@@ -199,7 +199,7 @@ export default function TouristPassportContent() {
           <div className="flex items-center gap-3 mb-8">
             <MapPin className="w-6 h-6 text-[#1B6B93]" />
             <h2 className="text-2xl font-bold text-slate-900 dark:text-white uppercase tracking-wider" dir="rtl">زيارات موتقة</h2>
-            <div className="h-px bg-white/10 flex-1 ml-4" />
+            <div className="h-px bg-slate-200 dark:bg-white/10 flex-1 ml-4" />
           </div>
           
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 justify-items-center">
@@ -210,7 +210,7 @@ export default function TouristPassportContent() {
                   initial={{ opacity: 0, scale: 0.5, rotate: 0 }}
                   animate={{ opacity: 1, scale: 1, rotate: stamp.angle }}
                   transition={{ delay: index * 0.1, type: "spring", stiffness: 100 }}
-                  className="w-32 h-32 rounded-full border-[3px] border-dashed border-[#C9A84C]/70 flex flex-col items-center justify-center p-2 relative group hover:border-[#C9A84C] transition-colors bg-[#0A1628]/40"
+                  className="w-32 h-32 rounded-full border-[3px] border-dashed border-[#C9A84C]/70 flex flex-col items-center justify-center p-2 relative group hover:border-[#C9A84C] transition-colors bg-[#F8F3E9] dark:bg-[#0A1628]/40"
                   style={{ 
                     boxShadow: 'inset 0 0 15px rgba(201,168,76,0.1), 0 0 15px rgba(201,168,76,0.1)',
                   }}
@@ -230,7 +230,7 @@ export default function TouristPassportContent() {
                 </motion.div>
               ))
             ) : (
-              <div className="col-span-full py-10 text-center text-gray-400 italic bg-white/5 border border-white/10 rounded-2xl w-full p-8">
+              <div className="col-span-full py-10 text-center text-gray-600 dark:text-gray-400 italic bg-[#F8F3E9] dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl w-full p-8">
                 <p className="mb-2">{t('passport.start')}.</p>
                 <p className="text-sm">Visit Smart Sites and check in with QR codes.</p>
               </div>
@@ -245,9 +245,9 @@ export default function TouristPassportContent() {
             <div className="flex items-center gap-3 mb-4">
               <Compass className="w-6 h-6 text-[#C9A84C]" />
               <h2 className="text-2xl font-bold text-[#C9A84C] uppercase tracking-wider" dir="rtl">رحلاتي المخطهة (Planned Trips)</h2>
-              <div className="h-px bg-white/10 flex-1 ml-4" />
+              <div className="h-px bg-slate-200 dark:bg-white/10 flex-1 ml-4" />
             </div>
-            <p className="text-sm text-gray-400 mb-8 text-right" dir="rtl">
+            <p className="text-sm text-gray-600 dark:text-gray-400 mb-8 text-right" dir="rtl">
               الزیارات الموثقة تتطلب مسح QR Code فی الموقع الفعلٍ. الرحلات المخططة ه، رحلات أنشأتها بالذكاء الاصطناعو.
             </p>
             
@@ -258,14 +258,14 @@ export default function TouristPassportContent() {
                   initial={{ opacity: 0, scale: 0.5, rotate: 0 }}
                   animate={{ opacity: 1, scale: 1, rotate: stamp.angle }}
                   transition={{ delay: index * 0.1, type: "spring", stiffness: 100 }}
-                  className="w-36 h-36 rounded-full border-[2px] border-solid border-[#C9A84C]/50 flex flex-col items-center justify-center p-2 relative group hover:border-[#C9A84C] transition-colors bg-[#0A1628]/20"
+                  className="w-36 h-36 rounded-full border-[2px] border-solid border-[#C9A84C]/50 flex flex-col items-center justify-center p-2 relative group hover:border-[#C9A84C] transition-colors bg-[#F8F3E9] dark:bg-[#0A1628]/20"
                 >
-                  <span className="text-[10px] font-bold text-gray-300 text-center leading-tight uppercase px-1">
+                  <span className="text-[10px] font-bold text-gray-800 dark:text-gray-300 text-center leading-tight uppercase px-1">
                     {stamp.name}
                   </span>
                   <div className="text-[9px] font-bold text-[#C9A84C] my-0.5 tracking-wider uppercase px-1.5 py-0.5 mt-1 border border-[#C9A84C]/40 rounded bg-white/5 flex items-center gap-1">
                     <span>{stamp.country}</span> </div>
-                  <div className="text-[9px] font-bold text-white/80 my-0.5 tracking-wider uppercase px-1.5 py-0.5 border border-white/20 rounded bg-white/5 flex items-center gap-1">
+                  <div className="text-[9px] font-bold text-gray-700 dark:text-white/80 my-0.5 tracking-wider uppercase px-1.5 py-0.5 border border-slate-300 dark:border-white/20 rounded bg-white dark:bg-white/5 flex items-center gap-1">
                     <span>{stamp.duration} أيام</span> </div>
                   <span className="text-[7px] font-mono text-gray-500 uppercase mt-1">
                     {stamp.date}
@@ -280,8 +280,8 @@ export default function TouristPassportContent() {
         <div>
           <div className="flex items-center gap-3 mb-8">
             <Award className="w-6 h-6 text-[#1B6B93]" />
-            <h2 className="text-2xl font-bold text-white uppercase tracking-wider">{t('passport.achievements')}</h2>
-            <div className="h-px bg-white/10 flex-1 ml-4" />
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white uppercase tracking-wider">{t('passport.achievements')}</h2>
+            <div className="h-px bg-slate-200 dark:bg-white/10 flex-1 ml-4" />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -293,8 +293,8 @@ export default function TouristPassportContent() {
                 transition={{ delay: idx * 0.1 }}
                 className={`relative overflow-hidden rounded-2xl p-6 border transition-all flex gap-4 items-center ${
                   badge.locked 
-                    ? 'bg-white/5 border-white/10 grayscale opacity-60' 
-                    : 'bg-[#0A1628]/80 backdrop-blur border-[#C9A84C]/30 hover:border-[#C9A84C] shadow-[0_4px_20px_rgba(0,0,0,0.5)]'
+                    ? 'bg-slate-100 dark:bg-white/5 border-slate-200 dark:border-white/10 grayscale opacity-60' 
+                    : 'bg-[#F8F3E9] dark:bg-[#0A1628]/80 backdrop-blur border-[#C9A84C]/40 hover:border-[#C9A84C] shadow-sm dark:shadow-[0_4px_20px_rgba(0,0,0,0.5)]'
                 }`}
               >
                 {badge.locked ? (
@@ -308,10 +308,10 @@ export default function TouristPassportContent() {
                 )}
                 
                 <div>
-                  <h3 className={`font-bold text-lg mb-1 ${badge.locked ? 'text-gray-400' : 'text-white'}`}>
+                  <h3 className={`font-bold text-lg mb-1 ${badge.locked ? 'text-gray-500 dark:text-gray-400' : 'text-gray-900 dark:text-white'}`}>
                     {badge.title}
                   </h3>
-                  <p className="text-sm text-gray-400">
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
                     {badge.desc}
                   </p>
                 </div>

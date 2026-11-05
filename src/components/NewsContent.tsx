@@ -138,7 +138,7 @@ export default function NewsContent() {
               className={`px-6 py-2 rounded-full border transition-all duration-300 font-medium ${
                 activeCategory === cat.id
                   ? 'bg-[#C9A84C] text-[#030712] border-[#C9A84C] shadow-[0_0_15px_rgba(201,168,76,0.4)]'
-                  : 'bg-white/5 text-gray-300 border-[#C9A84C]/30 hover:border-[#C9A84C] hover:text-white hover:bg-white/10'
+                  : 'bg-white dark:bg-white/5 text-gray-700 dark:text-gray-300 border-[#C9A84C]/30 hover:border-[#C9A84C] hover:text-gray-900 dark:hover:text-white hover:bg-[#F8F3E9] dark:hover:bg-white/10'
               }`}
             >
               {cat.label}
@@ -158,7 +158,7 @@ export default function NewsContent() {
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.9 }}
                   transition={{ duration: 0.3, delay: index * 0.05 }}
-                  className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden group hover:border-[#C9A84C]/50 transition-all shadow-lg flex flex-col h-full"
+                  className="bg-[#F8F3E9] dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-2xl overflow-hidden group hover:border-[#C9A84C]/50 transition-all shadow-lg flex flex-col h-full"
                 >
                   <div className="h-56 relative overflow-hidden bg-gray-900">
                     <img
@@ -184,15 +184,15 @@ export default function NewsContent() {
                       <span>{new Date(article.date).toLocaleDateString()}</span>
                     </div>
 
-                    <h3 className="text-xl font-bold text-white mb-3 leading-tight group-hover:text-[#C9A84C] transition-colors">
+                    <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 leading-tight group-hover:text-[#C9A84C] transition-colors">
                       {article.title}
                     </h3>
 
-                    <p className="text-gray-400 text-sm mb-6 flex-grow line-clamp-3">
+                    <p className="text-gray-600 dark:text-gray-400 text-sm mb-6 flex-grow line-clamp-3">
                       {article.description}
                     </p>
 
-                    <div className="flex items-center justify-between mt-auto pt-4 border-t border-white/10">
+                    <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-200 dark:border-white/10">
                       <span className="text-xs text-gray-500 font-medium truncate max-w-[60%]">
                         {article.source}
                       </span>
@@ -214,8 +214,8 @@ export default function NewsContent() {
                 animate={{ opacity: 1 }}
                 className="col-span-full py-20 text-center"
               >
-                <Newspaper className="w-16 h-16 text-white/20 mx-auto mb-4" />
-                <h3 className="text-xl text-white font-medium mb-2">{t('news.noArticles')}</h3>
+                <Newspaper className="w-16 h-16 text-gray-300 dark:text-white/20 mx-auto mb-4" />
+                <h3 className="text-xl text-gray-900 dark:text-white font-medium mb-2">{t('news.noArticles')}</h3>
               </motion.div>
             )}
           </AnimatePresence>

@@ -112,7 +112,7 @@ export default function BookingJourneyModal({
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.92, y: 20 }}
           transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-          className="relative w-full max-w-xl bg-gradient-to-b from-[#0F192C] via-[#0A1220] to-[#050A14] border border-[#D4AF37]/40 rounded-3xl p-6 sm:p-8 shadow-[0_20px_70px_rgba(212,175,55,0.25)] overflow-hidden z-10 text-white"
+          className="relative w-full max-w-xl bg-[#FDFBF7] dark:bg-gradient-to-b dark:from-[#0F192C] dark:via-[#0A1220] dark:to-[#050A14] border border-[#D4AF37]/40 rounded-3xl p-6 sm:p-8 shadow-[0_20px_70px_rgba(212,175,55,0.25)] overflow-hidden z-10 text-gray-900 dark:text-white"
         >
           {/* Subtle Pharaonic Hieroglyphic Glow Aura */}
           <div className="absolute -top-24 -right-24 w-60 h-60 bg-[#D4AF37]/15 rounded-full blur-3xl pointer-events-none" />
@@ -121,7 +121,7 @@ export default function BookingJourneyModal({
           {/* Close button */}
           <button
             onClick={handleResetAndClose}
-            className="absolute top-5 right-5 p-2 rounded-full bg-white/5 hover:bg-white/10 text-white/60 hover:text-white transition-colors border border-white/10"
+            className="absolute top-5 right-5 p-2 rounded-full bg-slate-200/70 dark:bg-white/5 hover:bg-slate-300 dark:hover:bg-white/10 text-gray-600 dark:text-white/60 hover:text-gray-900 dark:hover:text-white transition-colors border border-slate-300 dark:border-white/10"
             aria-label="Close"
           >
             <X className="w-5 h-5" />
@@ -135,11 +135,11 @@ export default function BookingJourneyModal({
                 <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-[#D4AF37]/20 via-[#C9A84C]/10 to-transparent border border-[#D4AF37]/50 shadow-[0_0_25px_rgba(212,175,55,0.3)] mb-3">
                   <Crown className="w-7 h-7 text-[#E2CB85] animate-pulse" />
                 </div>
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#D4AF37]/10 border border-[#D4AF37]/30 text-[#E2CB85] text-xs font-semibold uppercase tracking-widest mb-2">
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#D4AF37]/10 border border-[#D4AF37]/30 text-[#8A661C] dark:text-[#E2CB85] text-xs font-semibold uppercase tracking-widest mb-2">
                   <Sparkles className="w-3.5 h-3.5 text-[#D4AF37]" />
                   <span>{isAr ? 'حجز مسار ملكي معتمد' : 'Royal Expedition Registry'}</span>
                 </div>
-                <h3 className="text-2xl sm:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-[#F3E5AB] to-[#D4AF37]">
+                <h3 className="text-2xl sm:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 via-[#8A661C] to-[#D4AF37] dark:from-white dark:via-[#F3E5AB] dark:to-[#D4AF37]">
                   {details?.dayNumber
                     ? isAr
                       ? `تسجيل / حجز اليوم ${details.dayNumber} — ${details.cityName || 'مصر'}`
@@ -148,7 +148,7 @@ export default function BookingJourneyModal({
                     ? 'تسجيل وحجز الرحلة المصرية الكاملة'
                     : 'Register & Book Your Curated Egypt Journey'}
                 </h3>
-                <p className="text-sm text-white/60 mt-1.5 max-w-md mx-auto">
+                <p className="text-sm text-gray-600 dark:text-white/60 mt-1.5 max-w-md mx-auto">
                   {isAr
                     ? 'ثبّت حجز مسارك السياحي المخصص واحصل على باقة المرشد الذكي وتصريح الزيارة الملكي فوراً.'
                     : 'Confirm your custom itinerary with priority monument access and an instant Royal Journey Passport.'}
@@ -156,20 +156,20 @@ export default function BookingJourneyModal({
               </div>
 
               {/* Itinerary Summary Snapshot */}
-              <div className="bg-[#050D1A]/80 border border-[#D4AF37]/20 rounded-2xl p-4 mb-6 backdrop-blur-sm">
+              <div className="bg-[#F8F3E9] dark:bg-[#050D1A]/80 border border-[#D4AF37]/30 rounded-2xl p-4 mb-6 backdrop-blur-sm">
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs">
                   <div className="flex items-center gap-2">
                     <MapPin className="w-4 h-4 text-[#D4AF37]" />
                     <div>
-                      <span className="text-white/40 block">{isAr ? 'الوجهة' : 'Destination'}</span>
-                      <span className="font-semibold text-white/90">{details?.cityName || 'Egypt'}</span>
+                      <span className="text-gray-500 dark:text-white/40 block">{isAr ? 'الوجهة' : 'Destination'}</span>
+                      <span className="font-semibold text-gray-900 dark:text-white/90">{details?.cityName || 'Egypt'}</span>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
                     <Users className="w-4 h-4 text-[#4EB1E2]" />
                     <div>
-                      <span className="text-white/40 block">{isAr ? 'المسافرين' : 'Travelers'}</span>
-                      <span className="font-semibold text-white/90">
+                      <span className="text-gray-500 dark:text-white/40 block">{isAr ? 'المسافرين' : 'Travelers'}</span>
+                      <span className="font-semibold text-gray-900 dark:text-white/90">
                         {details?.travelers || 1} {isAr ? 'أفراد' : 'Person(s)'}
                       </span>
                     </div>
@@ -177,17 +177,17 @@ export default function BookingJourneyModal({
                   <div className="flex items-center gap-2 col-span-2 sm:col-span-1">
                     <CreditCard className="w-4 h-4 text-[#19A974]" />
                     <div>
-                      <span className="text-white/40 block">{isAr ? 'المستوى' : 'Budget'}</span>
-                      <span className="font-semibold text-[#E2CB85]">{details?.budget || 'VIP Royal'}</span>
+                      <span className="text-gray-500 dark:text-white/40 block">{isAr ? 'المستوى' : 'Budget'}</span>
+                      <span className="font-semibold text-[#8A661C] dark:text-[#E2CB85]">{details?.budget || 'VIP Royal'}</span>
                     </div>
                   </div>
                 </div>
 
                 {details?.topActivityName && (
-                  <div className="mt-3 pt-3 border-t border-white/5 flex items-center gap-2 text-xs text-white/70">
+                  <div className="mt-3 pt-3 border-t border-slate-200 dark:border-white/5 flex items-center gap-2 text-xs text-gray-700 dark:text-white/70">
                     <Compass className="w-3.5 h-3.5 text-[#D4AF37]" />
                     <span className="truncate">
-                      {isAr ? 'أبرز معالم اليوم:' : 'Highlight:'} <strong className="text-white">{details.topActivityName}</strong>
+                      {isAr ? 'أبرز معالم اليوم:' : 'Highlight:'} <strong className="text-gray-900 dark:text-white">{details.topActivityName}</strong>
                     </span>
                   </div>
                 )}
@@ -196,7 +196,7 @@ export default function BookingJourneyModal({
               {/* Booking Form */}
               <form onSubmit={handleConfirmBooking} className="space-y-4">
                 <div>
-                  <label className="block text-xs font-semibold text-white/70 uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-semibold text-gray-700 dark:text-white/70 uppercase tracking-wider mb-1.5">
                     {isAr ? 'اسم المسافر / قائد الرحلة' : 'Lead Traveler Name'}
                   </label>
                   <input
@@ -205,12 +205,12 @@ export default function BookingJourneyModal({
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
                     placeholder={isAr ? 'مثال: أحمد محمود أو د. سارة' : 'e.g. Lord Alexander / Dr. Sophia'}
-                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-white/30 text-sm focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] transition-all"
+                    className="w-full px-4 py-3 rounded-xl bg-white dark:bg-white/5 border border-slate-300 dark:border-white/10 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-white/30 text-sm focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] transition-all"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-white/70 uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-semibold text-gray-700 dark:text-white/70 uppercase tracking-wider mb-1.5">
                     {isAr ? 'البريد الإلكتروني أو رقم الواتساب' : 'Email or WhatsApp Number'}
                   </label>
                   <input
@@ -219,12 +219,12 @@ export default function BookingJourneyModal({
                     value={contact}
                     onChange={(e) => setContact(e.target.value)}
                     placeholder={isAr ? 'لتأكيد الحجز وتلقي كود التصريح' : 'To receive your confirmation voucher'}
-                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-white/30 text-sm focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] transition-all"
+                    className="w-full px-4 py-3 rounded-xl bg-white dark:bg-white/5 border border-slate-300 dark:border-white/10 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-white/30 text-sm focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] transition-all"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-white/70 uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-semibold text-gray-700 dark:text-white/70 uppercase tracking-wider mb-1.5">
                     {isAr ? 'طلبات خاصة (اختياري)' : 'Special Requests (Optional)'}
                   </label>
                   <input
@@ -232,7 +232,7 @@ export default function BookingJourneyModal({
                     value={specialNote}
                     onChange={(e) => setSpecialNote(e.target.value)}
                     placeholder={isAr ? 'فلوكة نيلية عند الغروب، إرشاد لغوي، مقعد متحرك...' : 'Nile Felucca sunset, Egyptologist guide, dietary requests...'}
-                    className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder-white/30 text-sm focus:outline-none focus:border-[#D4AF37] transition-all"
+                    className="w-full px-4 py-2.5 rounded-xl bg-white dark:bg-white/5 border border-slate-300 dark:border-white/10 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-white/30 text-sm focus:outline-none focus:border-[#D4AF37] transition-all"
                   />
                 </div>
 
@@ -256,7 +256,7 @@ export default function BookingJourneyModal({
                   </button>
                 </div>
 
-                <p className="text-[11px] text-center text-white/40 flex items-center justify-center gap-1.5 mt-2">
+                <p className="text-[11px] text-center text-gray-500 dark:text-white/40 flex items-center justify-center gap-1.5 mt-2">
                   <ShieldCheck className="w-3.5 h-3.5 text-[#19A974]" />
                   <span>{isAr ? 'حجز مجاني ومضمون 100% عبر مظلة EgyptX للسياحة الذكية' : '100% Guaranteed & Endorsed by EgyptX Smart Tourism'}</span>
                 </p>
@@ -279,51 +279,51 @@ export default function BookingJourneyModal({
                 <span>{isAr ? 'تم التأكيد رسمياً' : 'Confirmed & Sealed'}</span>
               </div>
 
-              <h3 className="text-2xl sm:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-[#F3E5AB] to-[#D4AF37] mb-2">
+              <h3 className="text-2xl sm:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 via-[#8A661C] to-[#D4AF37] dark:from-white dark:via-[#F3E5AB] dark:to-[#D4AF37] mb-2">
                 {isAr ? 'تم تأكيد رحلتك الفرعونية بنجاح!' : 'Your Egyptian Journey is Confirmed!'}
               </h3>
 
-              <p className="text-sm text-white/70 max-w-md mx-auto mb-6">
+              <p className="text-sm text-gray-700 dark:text-white/70 max-w-md mx-auto mb-6">
                 {isAr
                   ? `أهلاً بك يا ${fullName || 'صديقنا العزيز'}! تم ربط خط سيرك الملكي بالمرشد الذكي EgyptX وتأكيد تصريحك.`
                   : `Congratulations ${fullName || 'Voyager'}! Your royal itinerary is logged into the EgyptX Heritage Network.`}
               </p>
 
               {/* Royal Papyrus Digital Pass Card */}
-              <div className="relative bg-[#050B16] border-2 border-[#D4AF37]/50 rounded-2xl p-5 mb-6 shadow-[0_0_30px_rgba(212,175,55,0.15)] text-left">
-                <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-3">
+              <div className="relative bg-[#F8F3E9] dark:bg-[#050B16] border-2 border-[#D4AF37]/50 rounded-2xl p-5 mb-6 shadow-[0_0_30px_rgba(212,175,55,0.15)] text-left">
+                <div className="flex items-center justify-between border-b border-slate-200 dark:border-white/10 pb-3 mb-3">
                   <div className="flex items-center gap-2">
                     <Crown className="w-5 h-5 text-[#D4AF37]" />
-                    <span className="text-xs font-bold tracking-widest text-[#E2CB85] uppercase">
+                    <span className="text-xs font-bold tracking-widest text-[#8A661C] dark:text-[#E2CB85] uppercase">
                       EGYPTX ROYAL VOYAGE PASS
                     </span>
                   </div>
-                  <span className="text-[11px] font-mono bg-[#D4AF37]/15 text-[#E2CB85] px-2 py-0.5 rounded border border-[#D4AF37]/30">
+                  <span className="text-[11px] font-mono bg-[#D4AF37]/15 text-[#8A661C] dark:text-[#E2CB85] px-2 py-0.5 rounded border border-[#D4AF37]/30">
                     VIP 2026
                   </span>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4 text-xs mb-3">
                   <div>
-                    <span className="text-white/40 block text-[10px] uppercase">{isAr ? 'المسافر' : 'Traveler'}</span>
-                    <span className="font-bold text-white text-sm truncate block">{fullName || 'EgyptX Guest'}</span>
+                    <span className="text-gray-500 dark:text-white/40 block text-[10px] uppercase">{isAr ? 'المسافر' : 'Traveler'}</span>
+                    <span className="font-bold text-gray-900 dark:text-white text-sm truncate block">{fullName || 'EgyptX Guest'}</span>
                   </div>
                   <div>
-                    <span className="text-white/40 block text-[10px] uppercase">{isAr ? 'الوجهة واليوم' : 'Expedition Scope'}</span>
-                    <span className="font-bold text-[#E2CB85] text-sm block">
+                    <span className="text-gray-500 dark:text-white/40 block text-[10px] uppercase">{isAr ? 'الوجهة واليوم' : 'Expedition Scope'}</span>
+                    <span className="font-bold text-[#8A661C] dark:text-[#E2CB85] text-sm block">
                       {details?.dayNumber ? `Day ${details.dayNumber} (${details.cityName})` : `${details?.duration || 7} Days in Egypt`}
                     </span>
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between bg-white/5 rounded-xl p-3 border border-white/10">
+                <div className="flex items-center justify-between bg-white dark:bg-white/5 rounded-xl p-3 border border-slate-200 dark:border-white/10">
                   <div>
-                    <span className="text-white/40 block text-[10px] uppercase">{isAr ? 'كود الحجز الملكي' : 'Royal Booking Code'}</span>
-                    <span className="font-mono font-extrabold text-[#F3E5AB] text-base tracking-wider">{bookingCode}</span>
+                    <span className="text-gray-500 dark:text-white/40 block text-[10px] uppercase">{isAr ? 'كود الحجز الملكي' : 'Royal Booking Code'}</span>
+                    <span className="font-mono font-extrabold text-[#8A661C] dark:text-[#F3E5AB] text-base tracking-wider">{bookingCode}</span>
                   </div>
                   <button
                     onClick={handleCopyCode}
-                    className="p-2 rounded-lg bg-white/10 hover:bg-white/20 text-white/80 hover:text-white transition-colors flex items-center gap-1.5 text-xs font-semibold"
+                    className="p-2 rounded-lg bg-slate-100 dark:bg-white/10 hover:bg-slate-200 dark:hover:bg-white/20 text-gray-700 dark:text-white/80 hover:text-gray-900 dark:hover:text-white transition-colors flex items-center gap-1.5 text-xs font-semibold"
                   >
                     {copied ? (
                       <>
@@ -341,7 +341,7 @@ export default function BookingJourneyModal({
 
                 {/* Pharaonic Blessing */}
                 <div className="mt-3 text-center">
-                  <p className="text-[11px] italic text-[#E2CB85]/80 font-serif">
+                  <p className="text-[11px] italic text-[#8A661C] dark:text-[#E2CB85]/80 font-serif">
                     {isAr
                       ? '«لتصحبكم بركات رع ونيل مصر الخالد في كل خطوة على أرض الفراعنة»'
                       : '"May the eternal majesty of the Nile and the warmth of Ra watch over your voyage."'}

@@ -181,7 +181,7 @@ export default function ActivityCard({ act, actIdx, dayIdx, cityName = 'Cairo' }
     >
       {actIdx > 0 && (
         <div className="ml-1 pl-4 border-l border-dashed border-[#C9A84C]/40 py-3">
-          <span className="inline-flex items-center gap-1 bg-[#0A1628] border border-[#C9A84C]/30 text-[#E2CB85] text-xs px-3 py-1.5 rounded-md shadow-[0_0_10px_rgba(201,168,76,0.15)] font-medium">
+          <span className="inline-flex items-center gap-1 bg-white dark:bg-[#0A1628] border border-[#C9A84C]/30 text-[#8A661C] dark:text-[#E2CB85] text-xs px-3 py-1.5 rounded-md shadow-sm font-medium">
             {(act as any).transport || (actIdx % 2 === 0 ? 'Taxi - 25 mins' : 'Walking - 10 mins')}
           </span>
         </div>
@@ -239,7 +239,7 @@ export default function ActivityCard({ act, actIdx, dayIdx, cityName = 'Cairo' }
                 }}
               />
 
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0A1628] via-[#0A1628]/25 to-transparent sm:bg-gradient-to-r sm:from-transparent sm:to-[#0A1628] pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent sm:bg-gradient-to-r sm:from-transparent sm:to-[#F8F3E9]/60 dark:sm:to-[#0A1628] pointer-events-none" />
 
               <div className="absolute top-3 left-3 bg-white/90 dark:bg-[#030712]/90 backdrop-blur-md text-slate-900 dark:text-[#E2CB85] px-3 py-1.5 rounded-lg text-xs font-bold border border-slate-200 dark:border-[#C9A84C]/40 shadow-lg flex items-center gap-2 z-10">
                 {act.time}
@@ -248,7 +248,7 @@ export default function ActivityCard({ act, actIdx, dayIdx, cityName = 'Cairo' }
 
             <div className="p-6 flex-1 flex flex-col justify-center relative z-10 space-y-4">
               <div className="flex flex-wrap items-center gap-3">
-                <span className="text-xs px-3 py-1 rounded-full bg-[#C9A84C]/15 text-[#E2CB85] border border-[#C9A84C]/30 uppercase tracking-widest font-bold shadow-sm">
+                <span className="text-xs px-3 py-1 rounded-full bg-[#C9A84C]/15 text-[#8A661C] dark:text-[#E2CB85] border border-[#C9A84C]/30 uppercase tracking-widest font-bold shadow-sm">
                   {act.type}
                 </span>
                 {act.cost && (
@@ -265,17 +265,17 @@ export default function ActivityCard({ act, actIdx, dayIdx, cityName = 'Cairo' }
                 {act.description}
               </p>
 
-              <div className="pt-4 mt-2 border-t border-white/10 space-y-3">
+              <div className="pt-4 mt-2 border-t border-slate-200 dark:border-white/10 space-y-3">
                 {act.tip && (
                   <div className="flex items-start gap-3 text-sm text-[#1B6B93] bg-[#1B6B93]/10 p-2.5 rounded-lg border border-[#1B6B93]/20">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#1B6B93] mt-1.5 shrink-0" />
-                    <span><strong className="text-white/90">Tip:</strong> {act.tip}</span>
+                    <span><strong className="text-gray-900 dark:text-white/90">Tip:</strong> {act.tip}</span>
                   </div>
                 )}
                 {act.fact && (
-                  <div className="flex items-start gap-3 text-sm text-[#C9A84C]/90 bg-[#C9A84C]/5 p-2.5 rounded-lg border border-[#C9A84C]/20">
+                  <div className="flex items-start gap-3 text-sm text-[#8A661C] dark:text-[#C9A84C]/90 bg-[#C9A84C]/10 dark:bg-[#C9A84C]/5 p-2.5 rounded-lg border border-[#C9A84C]/25">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#C9A84C] mt-1.5 shrink-0" />
-                    <span><strong className="text-[#E2CB85]">Did you know?</strong> {act.fact}</span>
+                    <span><strong className="text-gray-900 dark:text-[#E2CB85]">Did you know?</strong> {act.fact}</span>
                   </div>
                 )}
               </div>

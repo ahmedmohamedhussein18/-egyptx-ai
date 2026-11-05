@@ -259,7 +259,7 @@ export default function HiddenEgyptContent() {
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1 * idx }}
-                  className="relative bg-white/5 backdrop-blur border border-[#C9A84C]/20 rounded-3xl overflow-hidden hover:border-[#C9A84C]/60 transition-all group flex flex-col shadow-lg"
+                  className="relative bg-[#F8F3E9] dark:bg-white/5 backdrop-blur border border-gray-200 dark:border-[#C9A84C]/20 rounded-3xl overflow-hidden hover:border-[#C9A84C]/60 transition-all group flex flex-col shadow-lg"
                 >
                   {/* Frosted Gold Lock Overlay for Locked Elite Vaults */}
                   {isLocked && (
@@ -315,13 +315,13 @@ export default function HiddenEgyptContent() {
                   {/* Content */}
                   <div className="p-6 flex flex-col flex-grow">
                     <div className="flex justify-between items-start mb-1">
-                      <h3 className="text-2xl font-bold text-white">{dest.name_en}</h3>
+                      <h3 className="text-2xl font-bold text-gray-900 dark:text-white">{dest.name_en}</h3>
                       {dest.name_ar && <span className="text-xl text-[#C9A84C] font-arabic">{dest.name_ar}</span>}
                     </div>
-                    <p className="text-gray-400 text-sm mb-6">{dest.description_en || `Experience the beauty of ${dest.name_en}`}</p>
+                    <p className="text-gray-600 dark:text-gray-400 text-sm mb-6">{dest.description_en || `Experience the beauty of ${dest.name_en}`}</p>
 
                     {/* Stats & Capacity Bar */}
-                    <div className="bg-[#0A1628] rounded-xl p-4 mb-6 border border-white/5 flex flex-col items-center justify-center min-h-[80px]">
+                    <div className="bg-white dark:bg-[#0A1628] rounded-xl p-4 mb-6 border border-gray-200 dark:border-white/5 flex flex-col items-center justify-center min-h-[80px]">
                       <p className="text-sm text-gray-500 font-semibold italic flex items-center gap-2">
                         <Users className="w-4 h-4" /> {t('hidden.noData')}
                       </p>
@@ -329,10 +329,10 @@ export default function HiddenEgyptContent() {
 
                     {/* AI Recommendation Callout */}
                     <div className="bg-[#1B6B93]/10 border border-[#1B6B93]/30 rounded-xl p-4 mb-6 flex-grow">
-                      <h4 className="text-[#4CC9F0] text-xs font-bold uppercase tracking-wider mb-2 flex items-center gap-1">
+                      <h4 className="text-[#1B6B93] dark:text-[#4CC9F0] text-xs font-bold uppercase tracking-wider mb-2 flex items-center gap-1">
                         <Sparkles className="w-4 h-4" /> AI Recommendation
                       </h4>
-                      <p className="text-gray-300 text-sm leading-relaxed italic text-gray-500">
+                      <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed italic">
                         Awaiting AI model predictions for this location.
                       </p>
                     </div>
@@ -344,7 +344,7 @@ export default function HiddenEgyptContent() {
                         }
                         trackEvent('attraction_view', { attraction_id: dest.id, governorate_id: dest.governorate_id });
                       }}
-                      className="w-full py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-white font-medium flex justify-center items-center gap-2 transition-colors mt-auto group-hover:bg-[#C9A84C] group-hover:text-[#030712] group-hover:border-[#C9A84C] cursor-pointer"
+                      className="w-full py-3 bg-black/[0.05] dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 border border-gray-300 dark:border-white/10 rounded-xl text-gray-900 dark:text-white font-medium flex justify-center items-center gap-2 transition-colors mt-auto group-hover:bg-[#C9A84C] group-hover:text-[#030712] group-hover:border-[#C9A84C] cursor-pointer"
                     >
                       Explore Destination
                       <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />

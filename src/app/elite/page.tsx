@@ -52,7 +52,7 @@ export default function ElitePage() {
         {/* Hero Section */}
         <div className="text-center space-y-6 max-w-3xl mx-auto">
           {/* VIP Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-[#C9A84C]/20 via-[#E2CB85]/25 to-[#C9A84C]/20 border border-[#C9A84C]/60 text-[#E2CB85] text-xs font-bold uppercase tracking-widest shadow-[0_0_20px_rgba(201,168,76,0.2)]">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-[#C9A84C]/20 via-[#E2CB85]/25 to-[#C9A84C]/20 border border-[#C9A84C]/60 text-[#8A661C] dark:text-[#E2CB85] text-xs font-bold uppercase tracking-widest shadow-[0_0_20px_rgba(201,168,76,0.2)]">
             <Crown className="w-4 h-4 text-[#C9A84C] animate-pulse" />
             <span>Invitation-Only Sanctuary · النخبة المصرية</span>
           </div>
@@ -60,36 +60,36 @@ export default function ElitePage() {
           {/* Title */}
           <div className="space-y-2">
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight">
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-[#E2CB85] to-[#C9A84C]">
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-[#8A661C] to-[#C9A84C] dark:from-white dark:via-[#E2CB85] dark:to-[#C9A84C]">
                 EgyptX Elite
               </span>
             </h1>
-            <p className="text-2xl sm:text-3xl font-bold text-[#E2CB85] font-arabic">
+            <p className="text-2xl sm:text-3xl font-bold text-[#8A661C] dark:text-[#E2CB85] font-arabic">
               مصر إكس إيليت · تجارب الملوك والأساطير
             </p>
           </div>
 
           {/* Subtitle */}
-          <p className="text-lg sm:text-xl text-white/85 font-medium leading-relaxed max-w-2xl mx-auto">
-            Premium Egyptian Experiences — <span className="text-[#E2CB85] underline decoration-[#C9A84C]/50 underline-offset-4">Coming Soon</span>
+          <p className="text-lg sm:text-xl text-gray-800 dark:text-white/85 font-medium leading-relaxed max-w-2xl mx-auto">
+            Premium Egyptian Experiences — <span className="text-[#8A661C] dark:text-[#E2CB85] underline decoration-[#C9A84C]/50 underline-offset-4">Coming Soon</span>
           </p>
 
-          <p className="text-sm text-white/60 leading-relaxed max-w-xl mx-auto">
+          <p className="text-sm text-gray-600 dark:text-white/60 leading-relaxed max-w-xl mx-auto">
             The ultimate luxury travel tier for distinguished connoisseurs, private collectors, and travelers seeking unprecedented access to ancient sanctuaries and bespoke royal hospitality.
           </p>
 
           {/* Early Access Email Signup Form */}
           <div className="pt-4 max-w-md mx-auto">
             {submitted ? (
-              <div className="p-5 rounded-2xl bg-[#0A1628]/90 border border-emerald-500/50 shadow-[0_0_30px_rgba(16,185,129,0.2)] text-center space-y-2 animate-fade-in">
+              <div className="p-5 rounded-2xl bg-[#F8F3E9] dark:bg-[#0A1628]/90 border border-emerald-500/50 shadow-sm dark:shadow-[0_0_30px_rgba(16,185,129,0.2)] text-center space-y-2 animate-fade-in">
                 <div className="w-10 h-10 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto">
                   <CheckCircle2 className="w-6 h-6" />
                 </div>
-                <h3 className="text-base font-bold text-white">VIP Request Received · تم تسجيلك بنجاح</h3>
-                <p className="text-xs text-white/70">
+                <h3 className="text-base font-bold text-gray-900 dark:text-white">VIP Request Received · تم تسجيلك بنجاح</h3>
+                <p className="text-xs text-gray-600 dark:text-white/70">
                   You are registered for early access. Our private concierge team will notify you as soon as admissions open.
                 </p>
-                <span className="text-[11px] font-mono text-[#E2CB85]">
+                <span className="text-[11px] font-mono text-[#8A661C] dark:text-[#E2CB85]">
                   Status: Priority Waitlist #{Math.floor(Math.random() * 40) + 12}
                 </span>
               </div>
@@ -103,7 +103,7 @@ export default function ElitePage() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Enter your email for private early access..."
-                    className="w-full pl-11 pr-32 py-3.5 rounded-2xl bg-white dark:bg-[#0A1628]/90 border border-slate-200 dark:border-[#C9A84C]/40 text-slate-900 dark:text-white placeholder-white/40 text-sm focus:outline-none focus:border-[#C9A84C] focus:ring-1 focus:ring-[#C9A84C] transition-all shadow-[0_0_20px_rgba(0,0,0,0.4)]"
+                    className="w-full pl-11 pr-32 py-3.5 rounded-2xl bg-white dark:bg-[#0A1628]/90 border border-slate-200 dark:border-[#C9A84C]/40 text-slate-900 dark:text-white placeholder-gray-400 dark:placeholder-white/40 text-sm focus:outline-none focus:border-[#C9A84C] focus:ring-1 focus:ring-[#C9A84C] transition-all shadow-sm dark:shadow-[0_0_20px_rgba(0,0,0,0.4)]"
                   />
                   <button
                     type="submit"
@@ -113,7 +113,7 @@ export default function ElitePage() {
                     {loading ? 'Joining...' : 'Request Access'}
                   </button>
                 </div>
-                <p className="text-[11px] text-white/40 text-center flex items-center justify-center gap-1">
+                <p className="text-[11px] text-gray-500 dark:text-white/40 text-center flex items-center justify-center gap-1">
                   <ShieldCheck className="w-3.5 h-3.5 text-[#C9A84C]" />
                   <span>Strictly confidential · Limited inaugural memberships</span>
                 </p>
@@ -125,11 +125,11 @@ export default function ElitePage() {
         {/* Exclusive Perks Preview Grid */}
         <div className="space-y-6">
           <div className="text-center space-y-1">
-            <h2 className="text-xl sm:text-2xl font-bold text-white flex items-center justify-center gap-2">
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white flex items-center justify-center gap-2">
               <Gem className="w-5 h-5 text-[#C9A84C]" />
               <span>What Awaits in EgyptX Elite</span>
             </h2>
-            <p className="text-xs sm:text-sm text-white/50">
+            <p className="text-xs sm:text-sm text-gray-500 dark:text-white/50">
               Unrivaled privileges designed for high-profile international guests
             </p>
           </div>
@@ -169,35 +169,35 @@ export default function ElitePage() {
               return (
                 <div
                   key={perk.titleEn}
-                  className="p-6 rounded-2xl bg-[#F8F3E9] dark:bg-[#0A1628]/80 backdrop-blur-xl border border-slate-200 dark:border-[#C9A84C]/30 hover:border-[#C9A84C] transition-all duration-300 shadow-[0_8px_30px_rgba(0,0,0,0.5)] group flex flex-col justify-between"
+                  className="p-6 rounded-2xl bg-[#F8F3E9] dark:bg-[#0A1628]/80 backdrop-blur-xl border border-slate-200 dark:border-[#C9A84C]/30 hover:border-[#C9A84C] transition-all duration-300 shadow-sm dark:shadow-[0_8px_30px_rgba(0,0,0,0.5)] group flex flex-col justify-between"
                 >
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
                       <div className="w-10 h-10 rounded-xl bg-[#C9A84C]/15 border border-[#C9A84C]/40 text-[#E2CB85] flex items-center justify-center">
                         <Icon className="w-5 h-5 text-[#C9A84C]" />
                       </div>
-                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#C9A84C]/20 border border-[#C9A84C]/40 text-[#E2CB85]">
+                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#C9A84C]/20 border border-[#C9A84C]/40 text-[#8A661C] dark:text-[#E2CB85]">
                         {perk.tag}
                       </span>
                     </div>
 
                     <div>
-                      <h3 className="text-lg font-bold text-white group-hover:text-[#E2CB85] transition-colors">
+                      <h3 className="text-lg font-bold text-gray-900 dark:text-white group-hover:text-[#8A661C] dark:group-hover:text-[#E2CB85] transition-colors">
                         {perk.titleEn}
                       </h3>
-                      <p className="text-xs font-semibold text-[#E2CB85] font-arabic mt-0.5">
+                      <p className="text-xs font-semibold text-[#8A661C] dark:text-[#E2CB85] font-arabic mt-0.5">
                         {perk.titleAr}
                       </p>
                     </div>
 
-                    <p className="text-xs sm:text-sm text-white/70 leading-relaxed">
+                    <p className="text-xs sm:text-sm text-gray-700 dark:text-white/70 leading-relaxed">
                       {perk.desc}
                     </p>
                   </div>
 
-                  <div className="pt-4 border-t border-white/5 flex items-center justify-between mt-4">
-                    <span className="text-[10px] text-white/40">Guaranteed Discretion</span>
-                    <span className="text-xs font-semibold text-[#E2CB85] flex items-center gap-1">
+                  <div className="pt-4 border-t border-slate-200 dark:border-white/5 flex items-center justify-between mt-4">
+                    <span className="text-[10px] text-gray-500 dark:text-white/40">Guaranteed Discretion</span>
+                    <span className="text-xs font-semibold text-[#8A661C] dark:text-[#E2CB85] flex items-center gap-1">
                       <span>Elite Tier</span>
                       <Crown className="w-3.5 h-3.5 text-[#C9A84C]" />
                     </span>
@@ -209,7 +209,7 @@ export default function ElitePage() {
         </div>
 
         {/* Footer Navigation Back to Site */}
-        <div className="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/50">
+        <div className="pt-8 border-t border-slate-200 dark:border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-500 dark:text-white/50">
           <Link href="/" className="hover:text-[#C9A84C] transition-colors flex items-center gap-1">
             <span>← Return to EgyptX AI Home</span>
           </Link>

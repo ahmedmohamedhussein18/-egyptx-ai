@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { stripEmojis } from '@/lib/strip-emojis';
 import {
   Newspaper,
   X,
@@ -35,13 +36,14 @@ interface FormattedNewsMessageProps {
   content: string;
 }
 
-function FormattedNewsMessage({ content }: FormattedNewsMessageProps) {
+function FormattedNewsMessage({ content: rawContent }: FormattedNewsMessageProps) {
+  const content = stripEmojis(rawContent);
   const isArabic = /[\u0600-\u06FF]/.test(content);
 
   return (
     <div
       dir={isArabic ? 'rtl' : 'ltr'}
-      className={`text-sm leading-relaxed text-slate-100 ${
+      className={`text-sm leading-relaxed text-gray-800 dark:text-slate-100 ${
         isArabic ? 'text-right font-sans' : 'text-left'
       }`}
     >
@@ -50,9 +52,9 @@ function FormattedNewsMessage({ content }: FormattedNewsMessageProps) {
         components={{
           p: ({ children }) => <p className="mb-2 last:mb-0 leading-relaxed">{children}</p>,
           strong: ({ children }) => (
-            <strong className="font-semibold text-[#00E5FF] tracking-wide">{children}</strong>
+            <strong className="font-semibold text-[#1B6B93] dark:text-[#00E5FF] tracking-wide">{children}</strong>
           ),
-          em: ({ children }) => <em className="italic text-slate-200">{children}</em>,
+          em: ({ children }) => <em className="italic text-gray-700 dark:text-slate-200">{children}</em>,
           ul: ({ children }) => (
             <ul className={`my-2 space-y-1 list-disc ${isArabic ? 'pr-5' : 'pl-5'}`}>{children}</ul>
           ),
@@ -75,7 +77,7 @@ function FormattedNewsMessage({ content }: FormattedNewsMessageProps) {
           ),
           blockquote: ({ children }) => (
             <blockquote
-              className={`my-2 py-1 italic text-slate-300 bg-white/5 rounded border-[#00E5FF]/60 ${
+              className={`my-2 py-1 italic text-gray-700 dark:text-slate-300 bg-sky-50/60 dark:bg-white/5 rounded border-[#1B6B93]/40 dark:border-[#00E5FF]/60 ${
                 isArabic ? 'border-r-2 pr-3' : 'border-l-2 pl-3'
               }`}
             >
@@ -231,17 +233,17 @@ export default function DailyNewsWidget() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 30, scale: 0.95 }}
             transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed bottom-0 right-0 w-full h-[100dvh] md:bottom-24 md:right-24 md:w-[440px] md:h-[620px] z-[100] flex flex-col bg-[#05111E]/95 backdrop-blur-2xl md:rounded-2xl border-t md:border border-[#00E5FF]/30 shadow-[0_20px_60px_rgba(0,0,0,0.8),0_0_40px_rgba(0,229,255,0.2)] overflow-hidden"
+            className="fixed bottom-0 right-0 w-full h-[100dvh] md:bottom-24 md:right-24 md:w-[440px] md:h-[620px] z-[100] flex flex-col bg-[#FDFBF7]/98 dark:bg-[#05111E]/95 backdrop-blur-2xl md:rounded-2xl border-t md:border border-slate-200 dark:border-[#00E5FF]/30 shadow-2xl dark:shadow-[0_20px_60px_rgba(0,0,0,0.8),0_0_40px_rgba(0,229,255,0.2)] overflow-hidden"
           >
             {/* Header: Cyber-Newsroom Aesthetic */}
-            <div className="px-5 py-4 border-b border-[#00E5FF]/20 bg-gradient-to-r from-[#071E36]/80 via-[#0A2C4C]/60 to-[#05111E]/80 backdrop-blur-md flex items-center justify-between">
+            <div className="px-5 py-4 border-b border-slate-200 dark:border-[#00E5FF]/20 bg-[#F8F3E9] dark:bg-gradient-to-r dark:from-[#071E36]/80 dark:via-[#0A2C4C]/60 dark:to-[#05111E]/80 backdrop-blur-md flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="relative flex items-center justify-center w-9 h-9 rounded-xl bg-[#00E5FF]/10 border border-[#00E5FF]/40 text-[#00E5FF] shadow-[0_0_15px_rgba(0,229,255,0.3)]">
                   <Globe className="w-5 h-5 animate-spin-slow" />
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
-                    <h3 className="text-white font-bold text-sm tracking-wide">
+                    <h3 className="text-gray-900 dark:text-white font-bold text-sm tracking-wide">
                       EgyptX Live News Wire
                     </h3>
                     <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-[#10B981]/20 border border-[#10B981]/40 text-[#10B981]">
@@ -249,7 +251,7 @@ export default function DailyNewsWidget() {
                       LIVE
                     </span>
                   </div>
-                  <p className="text-white/50 text-[11px] flex items-center gap-1">
+                  <p className="text-gray-500 dark:text-white/50 text-[11px] flex items-center gap-1">
                     <span>Google Search Grounded</span>
                     <span>•</span>
                     <span className="text-[#00E5FF]">Real-Time Verified</span>
@@ -259,7 +261,7 @@ export default function DailyNewsWidget() {
 
               <button
                 onClick={() => setIsOpen(false)}
-                className="p-2 text-white/50 hover:text-white hover:bg-white/10 rounded-xl transition-colors"
+                className="p-2 text-gray-500 dark:text-white/50 hover:text-gray-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-white/10 rounded-xl transition-colors"
                 aria-label="Close News Widget"
               >
                 <X className="w-5 h-5" />
@@ -267,10 +269,10 @@ export default function DailyNewsWidget() {
             </div>
 
             {/* Live Ticker Bar */}
-            <div className="px-4 py-2 bg-[#020914] border-b border-white/5 flex items-center gap-2 text-[11px] text-[#00E5FF]/80">
+            <div className="px-4 py-2 bg-slate-100 dark:bg-[#020914] border-b border-slate-200 dark:border-white/5 flex items-center gap-2 text-[11px] text-[#1B6B93] dark:text-[#00E5FF]/80">
               <TrendingUp className="w-3.5 h-3.5 text-[#00E5FF] shrink-0" />
-              <span className="font-semibold text-white/90 shrink-0">Live Topics:</span>
-              <span className="truncate text-white/60">
+              <span className="font-semibold text-gray-800 dark:text-white/90 shrink-0">Live Topics:</span>
+              <span className="truncate text-gray-600 dark:text-white/60">
                 New Capital, GEM Openings, Saqqara Discoveries, Red Sea Ports
               </span>
             </div>
@@ -286,7 +288,7 @@ export default function DailyNewsWidget() {
                     className={`max-w-[88%] rounded-2xl px-4 py-3 text-sm leading-relaxed shadow-md ${
                       msg.role === 'user'
                         ? 'bg-gradient-to-r from-[#00E5FF] to-[#0099FF] text-[#030712] font-semibold'
-                        : 'bg-[#091D33]/90 text-white/90 border border-[#00E5FF]/20 backdrop-blur-md'
+                        : 'bg-[#F8F3E9] dark:bg-[#091D33]/90 text-gray-800 dark:text-white/90 border border-slate-200 dark:border-[#00E5FF]/20 backdrop-blur-md'
                     }`}
                   >
                     {msg.role === 'assistant' ? (
@@ -303,7 +305,7 @@ export default function DailyNewsWidget() {
               {/* Quick News Topic Pills (Shown when only greeting exists) */}
               {messages.length === 1 && (
                 <div className="mt-2 space-y-2">
-                  <div className="flex items-center gap-1.5 text-xs text-white/50 font-medium px-1">
+                  <div className="flex items-center gap-1.5 text-xs text-gray-500 dark:text-white/50 font-medium px-1">
                     <Sparkles className="w-3.5 h-3.5 text-[#00E5FF]" />
                     <span>Popular Live Queries</span>
                   </div>
@@ -312,7 +314,7 @@ export default function DailyNewsWidget() {
                       <button
                         key={idx}
                         onClick={() => handleSend(topic)}
-                        className="text-left px-3.5 py-2.5 rounded-xl bg-[#09223D]/60 hover:bg-[#00E5FF]/10 border border-[#00E5FF]/20 hover:border-[#00E5FF]/50 text-white/80 hover:text-white text-xs transition-all duration-200 flex items-center justify-between group"
+                        className="text-left px-3.5 py-2.5 rounded-xl bg-white dark:bg-[#09223D]/60 hover:bg-sky-50 dark:hover:bg-[#00E5FF]/10 border border-slate-200 dark:border-[#00E5FF]/20 hover:border-[#1B6B93]/40 dark:hover:border-[#00E5FF]/50 text-gray-800 dark:text-white/80 hover:text-gray-900 dark:hover:text-white text-xs transition-all duration-200 flex items-center justify-between group"
                       >
                         <span className="truncate">{topic}</span>
                         <Search className="w-3 h-3 text-[#00E5FF] opacity-0 group-hover:opacity-100 transition-opacity shrink-0 ml-2" />
@@ -336,7 +338,7 @@ export default function DailyNewsWidget() {
             </div>
 
             {/* Input Bar */}
-            <div className="p-3.5 bg-[#020A14] border-t border-[#00E5FF]/20">
+            <div className="p-3.5 bg-[#F8F3E9] dark:bg-[#020A14] border-t border-slate-200 dark:border-[#00E5FF]/20">
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
@@ -350,9 +352,9 @@ export default function DailyNewsWidget() {
                     value={inputText}
                     onChange={(e) => setInputText(e.target.value)}
                     placeholder="Search today's Egypt news or projects..."
-                    className="w-full bg-[#081B30] border border-white/10 focus:border-[#00E5FF]/60 rounded-xl pl-3.5 pr-10 py-2.5 text-xs text-white placeholder-white/35 outline-none transition-colors"
+                    className="w-full bg-white dark:bg-[#081B30] border border-slate-300 dark:border-white/10 focus:border-[#1B6B93] dark:focus:border-[#00E5FF]/60 rounded-xl pl-3.5 pr-10 py-2.5 text-xs text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-white/35 outline-none transition-colors"
                   />
-                  <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30 pointer-events-none" />
+                  <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 dark:text-white/30 pointer-events-none" />
                 </div>
 
                 <button
@@ -364,7 +366,7 @@ export default function DailyNewsWidget() {
                   <Send className="w-4 h-4" />
                 </button>
               </form>
-              <div className="mt-1.5 flex items-center justify-between text-[10px] text-white/40 px-1">
+              <div className="mt-1.5 flex items-center justify-between text-[10px] text-gray-500 dark:text-white/40 px-1">
                 <span>Direct Live Grounding</span>
                 <span>Historical facts? Use the Gold Guide</span>
               </div>

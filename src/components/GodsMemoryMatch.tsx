@@ -202,7 +202,7 @@ export default function GodsMemoryMatch() {
     <section
       id="gods-memory-match"
       dir="ltr"
-      className="bg-[#0A1628] border border-[#C9A84C]/40 rounded-2xl p-5 md:p-8 shadow-xl text-white"
+      className="bg-[#F8F3E9] dark:bg-[#0A1628] border border-[#C9A84C]/40 rounded-2xl p-5 md:p-8 shadow-xl text-gray-900 dark:text-white"
     >
       <style>{`
         .gmm-card{width:80px;height:110px;perspective:800px}
@@ -237,12 +237,12 @@ export default function GodsMemoryMatch() {
         <span className="inline-block" style={{ animation: 'gmm-sparkle 1.6s ease-in-out infinite' }}></span> Gods Memory Match{' '}
         
       </h2>
-      <p className="text-center text-sm text-gray-400 mb-6">Match the Egyptian gods! </p>
+      <p className="text-center text-sm text-gray-600 dark:text-gray-400 mb-6">Match the Egyptian gods!</p>
 
       {/* Difficulty selector */}
       {pairsCount === null && (
         <div className="flex flex-col items-center gap-4">
-          <p className="text-gray-300 font-bold">Choose difficulty</p>
+          <p className="text-gray-700 dark:text-gray-300 font-bold">Choose difficulty</p>
           <div className="flex flex-wrap justify-center gap-3">
             {DIFFICULTIES.map((d) => (
               <button
@@ -250,7 +250,7 @@ export default function GodsMemoryMatch() {
                 type="button"
                 id={`gmm-difficulty-${d.key}`}
                 onClick={() => startGame(d.pairs)}
-                className="px-6 py-3 rounded-2xl bg-white/5 hover:bg-[#C9A84C] hover:text-[#0A1628] border border-[#C9A84C]/60 text-[#C9A84C] font-bold transition-all hover:scale-105 active:scale-95 cursor-pointer"
+                className="px-6 py-3 rounded-2xl bg-white dark:bg-white/5 hover:bg-[#C9A84C] hover:text-[#0A1628] border border-[#C9A84C]/60 text-[#8A6D1F] dark:text-[#C9A84C] font-bold transition-all hover:scale-105 active:scale-95 cursor-pointer"
               >
                 {d.label}
                 <span className="block text-xs font-normal opacity-80">{d.pairs} pairs</span>
@@ -264,20 +264,20 @@ export default function GodsMemoryMatch() {
       {pairsCount !== null && (
         <div className="flex flex-col items-center gap-5 relative">
           <div className="flex flex-wrap items-center justify-center gap-3 text-sm font-bold">
-            <span className="px-4 py-2 rounded-xl bg-white/5 border border-[#C9A84C]/30">
+            <span className="px-4 py-2 rounded-xl bg-white dark:bg-white/5 border border-[#C9A84C]/30">
               Pairs: {matchedPairs}/{pairsCount}
             </span>
-            <span className="px-4 py-2 rounded-xl bg-white/5 border border-[#C9A84C]/30">Attempts: {attempts}</span>
-            <span className="px-4 py-2 rounded-xl bg-white/5 border border-[#C9A84C]/30">Time: {seconds} sec</span>
-            <span className="px-4 py-2 rounded-xl bg-white/5 border border-[#C9A84C]/30 text-[#C9A84C]" aria-label={`${stars} stars`}>
+            <span className="px-4 py-2 rounded-xl bg-white dark:bg-white/5 border border-[#C9A84C]/30">Attempts: {attempts}</span>
+            <span className="px-4 py-2 rounded-xl bg-white dark:bg-white/5 border border-[#C9A84C]/30">Time: {seconds} sec</span>
+            <span className="px-4 py-2 rounded-xl bg-white dark:bg-white/5 border border-[#C9A84C]/30 text-[#C9A84C]" aria-label={`${stars} stars`}>
               {'*'.repeat(stars)}
-              <span className="text-gray-600">{'*'.repeat(3 - stars)}</span>
+              <span className="text-gray-400 dark:text-gray-600">{'*'.repeat(3 - stars)}</span>
             </span>
-            <span className="px-4 py-2 rounded-xl bg-white/5 border border-[#C9A84C]/30">Score: {score}</span>
+            <span className="px-4 py-2 rounded-xl bg-white dark:bg-white/5 border border-[#C9A84C]/30">Score: {score}</span>
             <button
               type="button"
               onClick={backToMenu}
-              className="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-[#C9A84C]/50 text-[#C9A84C] cursor-pointer transition-colors"
+              className="px-4 py-2 rounded-xl bg-white dark:bg-white/5 hover:bg-gray-100 dark:hover:bg-white/10 border border-[#C9A84C]/50 text-[#8A6D1F] dark:text-[#C9A84C] cursor-pointer transition-colors"
             >
               Change Level
             </button>
@@ -367,7 +367,7 @@ export default function GodsMemoryMatch() {
 
       {/* Win screen */}
       {won && (
-        <div className="fixed inset-0 z-50 bg-[#0A1628]/95 backdrop-blur-md flex flex-col items-center justify-center p-6 text-center overflow-hidden">
+        <div className="fixed inset-0 z-50 bg-[#0A1628]/95 backdrop-blur-md flex flex-col items-center justify-center p-6 text-center text-white overflow-hidden">
           {Array.from({ length: 40 }).map((_, i) => (
             <span
               key={i}

@@ -208,7 +208,7 @@ export default function DestinationsSection() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               transition={{ duration: 0.3 }}
-              className="relative w-[95%] sm:w-full max-w-[600px] bg-[#0a0a0a] rounded-2xl overflow-hidden shadow-2xl border border-white/10"
+              className="relative w-[95%] sm:w-full max-w-[600px] bg-[#FDFBF7] dark:bg-[#0a0a0a] rounded-2xl overflow-hidden shadow-2xl border border-slate-200 dark:border-white/10"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Close Button */}
@@ -238,7 +238,7 @@ export default function DestinationsSection() {
               {/* Content */}
               <div className="p-6 md:p-8">
                 <h3 className="text-3xl font-bold text-[#C9A84C] mb-4">{selectedDestination.name}</h3>
-                <p className="text-gray-300 leading-relaxed mb-8 text-sm md:text-base">
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-8 text-sm md:text-base">
                   {selectedDestination.description}
                 </p>
                 <Link

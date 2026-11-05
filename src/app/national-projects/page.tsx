@@ -15,7 +15,8 @@ import {
   Layers,
   ChevronRight,
   ShieldCheck,
-  Calendar
+  Calendar,
+  X
 } from 'lucide-react';
 
 interface NationalProject {
@@ -188,33 +189,33 @@ export default function NationalProjectsPage() {
 
   return (
     <div 
-      className="relative min-h-screen bg-cover bg-center bg-no-repeat bg-fixed text-white font-sans selection:bg-amber-500 selection:text-black"
+      className="relative min-h-screen bg-cover bg-center bg-no-repeat bg-fixed text-gray-900 dark:text-white font-sans selection:bg-amber-500 selection:text-black"
       style={{ backgroundImage: "url('/Golden Hieroglyphs at Sunset.png')" }}
     >
-      {/* Dark Overlay for Readability */}
-      <div className="absolute inset-0 bg-black/85 backdrop-blur-[2px] z-0 pointer-events-none" />
+      {/* Adaptive Overlay for Readability */}
+      <div className="absolute inset-0 bg-[#FDFBF7]/92 dark:bg-black/85 backdrop-blur-[2px] z-0 pointer-events-none" />
 
       {/* Main Content Container */}
       <div className="relative z-10 flex flex-col min-h-screen">
 
         {/* ── TOP HEADER ────────────────────────────────────────────────── */}
-        <header className="sticky top-0 z-40 px-4 sm:px-8 py-4 bg-gray-950/80 backdrop-blur-xl border-b border-amber-500/20 flex items-center justify-between">
+        <header className="sticky top-0 z-40 px-4 sm:px-8 py-4 bg-[#FDFBF7]/90 dark:bg-gray-950/80 backdrop-blur-xl border-b border-amber-500/20 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Link
               href="/"
-              className="p-2 rounded-full bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white border border-white/10 transition-colors"
+              className="p-2 rounded-full bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white border border-gray-300 dark:border-white/10 transition-colors"
               title="Back to Home"
             >
-              <ArrowLeft className="w-5 h-5 text-amber-400" />
+              <ArrowLeft className="w-5 h-5 text-amber-600 dark:text-amber-400" />
             </Link>
             <div>
-              <h1 className="text-base sm:text-lg font-black tracking-wide bg-clip-text text-transparent bg-gradient-to-r from-yellow-200 via-amber-400 to-amber-600 flex items-center gap-2">
+              <h1 className="text-base sm:text-lg font-black tracking-wide bg-clip-text text-transparent bg-gradient-to-r from-amber-700 via-amber-600 to-amber-500 dark:from-yellow-200 dark:via-amber-400 dark:to-amber-600 flex items-center gap-2">
                 National Projects of Egypt
-                <span className="hidden sm:inline-block px-2 py-0.5 rounded-full text-[10px] font-mono uppercase bg-amber-500/20 text-amber-300 border border-amber-500/40">
+                <span className="hidden sm:inline-block px-2 py-0.5 rounded-full text-[10px] font-mono uppercase bg-amber-500/20 text-amber-800 dark:text-amber-300 border border-amber-500/40">
                   المشروعات القومية
                 </span>
               </h1>
-              <p className="text-xs text-gray-400 font-light hidden sm:block">
+              <p className="text-xs text-gray-600 dark:text-gray-400 font-light hidden sm:block">
                 Celebrating modern megaprojects, heritage preservation, and tourism excellence
               </p>
             </div>
@@ -222,7 +223,7 @@ export default function NationalProjectsPage() {
 
           <Link
             href="/planner"
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gradient-to-r from-amber-500/20 to-yellow-500/20 hover:from-amber-500/30 hover:to-yellow-500/30 border border-amber-500/40 text-amber-300 text-xs font-semibold transition-all cursor-pointer shadow-md"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gradient-to-r from-amber-500/20 to-yellow-500/20 hover:from-amber-500/30 hover:to-yellow-500/30 border border-amber-500/40 text-amber-800 dark:text-amber-300 text-xs font-semibold transition-all cursor-pointer shadow-md"
           >
             <Compass className="w-3.5 h-3.5" />
             <span className="hidden sm:inline">Plan Your Tour</span>
@@ -232,19 +233,19 @@ export default function NationalProjectsPage() {
 
         {/* ── HERO BANNER SECTION ───────────────────────────────────────── */}
         <section className="max-w-6xl mx-auto px-4 sm:px-6 pt-10 sm:pt-16 pb-8 text-center">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-300 text-xs font-semibold mb-4 shadow-[0_0_20px_rgba(245,158,11,0.2)]">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-800 dark:text-amber-300 text-xs font-semibold mb-4 shadow-[0_0_20px_rgba(245,158,11,0.2)]">
             <Sparkles className="w-3.5 h-3.5 text-amber-400" />
             <span>Egypt&apos;s 2030 Tourism & Heritage Vision</span>
           </div>
 
-          <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white mb-4 leading-tight">
+          <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-gray-900 dark:text-white mb-4 leading-tight">
             Egypt&apos;s Modern Renaissance <br />
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-300 via-amber-400 to-yellow-500">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-700 via-amber-600 to-yellow-600 dark:from-amber-300 dark:via-amber-400 dark:to-yellow-500">
               نهضة مصر الحديثة
             </span>
           </h2>
 
-          <p className="max-w-3xl mx-auto text-sm sm:text-base text-gray-300 font-light leading-relaxed mb-8">
+          <p className="max-w-3xl mx-auto text-sm sm:text-base text-gray-700 dark:text-gray-300 font-light leading-relaxed mb-8">
             From the monumental halls of the Grand Egyptian Museum and the historic Royal Mummies Parade 
             to restored ancient avenues and sustainable Mediterranean coasts, discover how Egypt is reimagining 
             its legacy for the next thousand years.
@@ -252,21 +253,21 @@ export default function NationalProjectsPage() {
 
           {/* Key Metrics Ribbon */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 max-w-4xl mx-auto mb-10">
-            <div className="p-3.5 sm:p-4 rounded-2xl bg-white/5 border border-amber-500/20 backdrop-blur-md">
-              <span className="text-xl sm:text-2xl font-black text-amber-300 block">100,000+</span>
-              <span className="text-[11px] text-gray-400 font-medium">Relics Curated at GEM</span>
+            <div className="p-3.5 sm:p-4 rounded-2xl bg-[#F8F3E9]/90 dark:bg-white/5 border border-amber-500/20 backdrop-blur-md">
+              <span className="text-xl sm:text-2xl font-black text-amber-700 dark:text-amber-300 block">100,000+</span>
+              <span className="text-[11px] text-gray-600 dark:text-gray-400 font-medium">Relics Curated at GEM</span>
             </div>
-            <div className="p-3.5 sm:p-4 rounded-2xl bg-white/5 border border-amber-500/20 backdrop-blur-md">
-              <span className="text-xl sm:text-2xl font-black text-amber-300 block">22</span>
-              <span className="text-[11px] text-gray-400 font-medium">Royal Mummies Enshrined</span>
+            <div className="p-3.5 sm:p-4 rounded-2xl bg-[#F8F3E9]/90 dark:bg-white/5 border border-amber-500/20 backdrop-blur-md">
+              <span className="text-xl sm:text-2xl font-black text-amber-700 dark:text-amber-300 block">22</span>
+              <span className="text-[11px] text-gray-600 dark:text-gray-400 font-medium">Royal Mummies Enshrined</span>
             </div>
-            <div className="p-3.5 sm:p-4 rounded-2xl bg-white/5 border border-amber-500/20 backdrop-blur-md">
-              <span className="text-xl sm:text-2xl font-black text-amber-300 block">2.7 km</span>
-              <span className="text-[11px] text-gray-400 font-medium">Avenue of Sphinxes</span>
+            <div className="p-3.5 sm:p-4 rounded-2xl bg-[#F8F3E9]/90 dark:bg-white/5 border border-amber-500/20 backdrop-blur-md">
+              <span className="text-xl sm:text-2xl font-black text-amber-700 dark:text-amber-300 block">2.7 km</span>
+              <span className="text-[11px] text-gray-600 dark:text-gray-400 font-medium">Avenue of Sphinxes</span>
             </div>
-            <div className="p-3.5 sm:p-4 rounded-2xl bg-white/5 border border-amber-500/20 backdrop-blur-md">
-              <span className="text-xl sm:text-2xl font-black text-amber-300 block">100%</span>
-              <span className="text-[11px] text-gray-400 font-medium">Sustainable Heritage</span>
+            <div className="p-3.5 sm:p-4 rounded-2xl bg-[#F8F3E9]/90 dark:bg-white/5 border border-amber-500/20 backdrop-blur-md">
+              <span className="text-xl sm:text-2xl font-black text-amber-700 dark:text-amber-300 block">100%</span>
+              <span className="text-[11px] text-gray-600 dark:text-gray-400 font-medium">Sustainable Heritage</span>
             </div>
           </div>
 
@@ -281,7 +282,7 @@ export default function NationalProjectsPage() {
                   className={`px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300 cursor-pointer ${
                     isActive
                       ? 'bg-gradient-to-r from-amber-500 to-yellow-400 text-gray-950 shadow-[0_0_20px_rgba(245,158,11,0.5)] scale-105'
-                      : 'bg-white/5 hover:bg-white/10 text-gray-300 border border-white/10 hover:border-amber-500/30'
+                      : 'bg-[#F8F3E9] dark:bg-white/5 hover:bg-[#EFE6D5] dark:hover:bg-white/10 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-white/10 hover:border-amber-500/30'
                   }`}
                 >
                   {cat === 'All' && ' '}
@@ -311,7 +312,7 @@ export default function NationalProjectsPage() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.95 }}
                   transition={{ duration: 0.35 }}
-                  className="group relative bg-white/5 border border-amber-500/20 hover:border-amber-400/50 backdrop-blur-md rounded-2xl overflow-hidden shadow-xl hover:shadow-[0_0_35px_rgba(245,158,11,0.2)] transition-all duration-300 flex flex-col justify-between"
+                  className="group relative bg-white/90 dark:bg-white/5 border border-amber-500/25 hover:border-amber-400/50 backdrop-blur-md rounded-2xl overflow-hidden shadow-xl hover:shadow-[0_0_35px_rgba(245,158,11,0.2)] transition-all duration-300 flex flex-col justify-between"
                 >
                   {/* Image Container */}
                   <div className="relative w-full h-52 sm:h-56 overflow-hidden bg-gray-900">
@@ -351,34 +352,34 @@ export default function NationalProjectsPage() {
                   <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between space-y-4">
                     <div>
                       {/* Titles */}
-                      <h3 className="text-lg font-bold text-white group-hover:text-amber-300 transition-colors mb-1">
+                      <h3 className="text-lg font-bold text-gray-900 dark:text-white group-hover:text-amber-700 dark:group-hover:text-amber-300 transition-colors mb-1">
                         {project.title.en}
                       </h3>
-                      <p className="text-xs font-semibold text-amber-400/90 font-serif mb-3" dir="rtl">
+                      <p className="text-xs font-semibold text-amber-700 dark:text-amber-400/90 font-serif mb-3" dir="rtl">
                         {project.title.ar}
                       </p>
 
                       {/* Description */}
-                      <p className="text-xs text-gray-300 leading-relaxed font-light line-clamp-3">
+                      <p className="text-xs text-gray-600 dark:text-gray-300 leading-relaxed font-light line-clamp-3">
                         {project.description.en}
                       </p>
                     </div>
 
                     {/* Highlights & CTA */}
-                    <div className="pt-4 border-t border-white/10 space-y-3">
+                    <div className="pt-4 border-t border-gray-200 dark:border-white/10 space-y-3">
                       <div className="flex items-center justify-between text-[11px]">
-                        <span className="text-gray-400 flex items-center gap-1">
-                          <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+                        <span className="text-gray-600 dark:text-gray-400 flex items-center gap-1">
+                          <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
                           {project.highlight}
                         </span>
-                        <span className="font-mono text-amber-300 font-semibold">
+                        <span className="font-mono text-amber-700 dark:text-amber-300 font-semibold">
                           {project.stats}
                         </span>
                       </div>
 
                       <button
                         onClick={() => setActiveProjectModal(project)}
-                        className="w-full py-2.5 px-4 rounded-xl bg-white/5 hover:bg-amber-500/20 border border-white/10 hover:border-amber-500/40 text-xs font-bold text-gray-200 hover:text-amber-300 transition-all flex items-center justify-center gap-1.5 cursor-pointer group-hover:bg-amber-500/10"
+                        className="w-full py-2.5 px-4 rounded-xl bg-[#F8F3E9] dark:bg-white/5 hover:bg-amber-500/20 border border-gray-200 dark:border-white/10 hover:border-amber-500/40 text-xs font-bold text-gray-800 dark:text-gray-200 hover:text-amber-800 dark:hover:text-amber-300 transition-all flex items-center justify-center gap-1.5 cursor-pointer group-hover:bg-amber-500/10"
                       >
                         <span>Explore Milestone</span>
                         <ChevronRight className="w-3.5 h-3.5 text-amber-400 group-hover:translate-x-1 transition-transform" />
@@ -400,7 +401,7 @@ export default function NationalProjectsPage() {
                 initial={{ opacity: 0, scale: 0.95, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                className="relative w-full max-w-2xl bg-gray-950 border border-amber-500/40 rounded-3xl overflow-hidden shadow-2xl text-white"
+                className="relative w-full max-w-2xl bg-[#FDFBF7] dark:bg-gray-950 border border-amber-500/40 rounded-3xl overflow-hidden shadow-2xl text-gray-900 dark:text-white"
               >
                 {/* Modal Image */}
                 <div className="relative h-60 sm:h-72 w-full">
@@ -415,7 +416,7 @@ export default function NationalProjectsPage() {
                     onClick={() => setActiveProjectModal(null)}
                     className="absolute top-4 right-4 p-2 rounded-full bg-black/60 hover:bg-black/80 text-white/80 hover:text-white border border-white/20 transition-all cursor-pointer"
                   >
-                    
+                    <X className="w-4 h-4" />
                   </button>
 
                   <div className="absolute bottom-4 left-6">
@@ -428,42 +429,42 @@ export default function NationalProjectsPage() {
                 {/* Modal Body */}
                 <div className="p-6 sm:p-8 space-y-6">
                   <div>
-                    <h3 className="text-2xl font-black text-white mb-1">
+                    <h3 className="text-2xl font-black text-gray-900 dark:text-white mb-1">
                       {activeProjectModal.title.en}
                     </h3>
-                    <p className="text-sm font-bold text-amber-400 font-serif" dir="rtl">
+                    <p className="text-sm font-bold text-amber-700 dark:text-amber-400 font-serif" dir="rtl">
                       {activeProjectModal.title.ar}
                     </p>
                   </div>
 
                   <div className="space-y-3">
-                    <p className="text-sm text-gray-300 leading-relaxed font-light">
+                    <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed font-light">
                       {activeProjectModal.description.en}
                     </p>
-                    <p className="text-sm text-amber-100/90 leading-relaxed font-medium bg-white/5 p-4 rounded-xl border border-white/5" dir="rtl">
+                    <p className="text-sm text-amber-900 dark:text-amber-100/90 leading-relaxed font-medium bg-[#F8F3E9] dark:bg-white/5 p-4 rounded-xl border border-amber-500/20 dark:border-white/5" dir="rtl">
                       {activeProjectModal.description.ar}
                     </p>
                   </div>
 
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                    <div className="p-3 rounded-xl bg-white/5 border border-white/10">
-                      <span className="text-[10px] text-gray-400 block uppercase font-mono">Location</span>
-                      <span className="text-xs font-bold text-white">{activeProjectModal.location}</span>
+                    <div className="p-3 rounded-xl bg-[#F8F3E9] dark:bg-white/5 border border-gray-200 dark:border-white/10">
+                      <span className="text-[10px] text-gray-500 dark:text-gray-400 block uppercase font-mono">Location</span>
+                      <span className="text-xs font-bold text-gray-900 dark:text-white">{activeProjectModal.location}</span>
                     </div>
-                    <div className="p-3 rounded-xl bg-white/5 border border-white/10">
-                      <span className="text-[10px] text-gray-400 block uppercase font-mono">Timeline</span>
-                      <span className="text-xs font-bold text-white">{activeProjectModal.year}</span>
+                    <div className="p-3 rounded-xl bg-[#F8F3E9] dark:bg-white/5 border border-gray-200 dark:border-white/10">
+                      <span className="text-[10px] text-gray-500 dark:text-gray-400 block uppercase font-mono">Timeline</span>
+                      <span className="text-xs font-bold text-gray-900 dark:text-white">{activeProjectModal.year}</span>
                     </div>
-                    <div className="p-3 rounded-xl bg-white/5 border border-white/10 col-span-2 sm:col-span-1">
-                      <span className="text-[10px] text-gray-400 block uppercase font-mono">Impact Metric</span>
-                      <span className="text-xs font-bold text-amber-400 font-mono">{activeProjectModal.stats}</span>
+                    <div className="p-3 rounded-xl bg-[#F8F3E9] dark:bg-white/5 border border-gray-200 dark:border-white/10 col-span-2 sm:col-span-1">
+                      <span className="text-[10px] text-gray-500 dark:text-gray-400 block uppercase font-mono">Impact Metric</span>
+                      <span className="text-xs font-bold text-amber-700 dark:text-amber-400 font-mono">{activeProjectModal.stats}</span>
                     </div>
                   </div>
 
                   <div className="flex flex-wrap items-center justify-end gap-3 pt-2">
                     <button
                       onClick={() => setActiveProjectModal(null)}
-                      className="px-5 py-2.5 rounded-full bg-white/10 hover:bg-white/15 text-white font-semibold text-xs cursor-pointer transition-all"
+                      className="px-5 py-2.5 rounded-full bg-gray-200 dark:bg-white/10 hover:bg-gray-300 dark:hover:bg-white/15 text-gray-900 dark:text-white font-semibold text-xs cursor-pointer transition-all"
                     >
                       Close
                     </button>

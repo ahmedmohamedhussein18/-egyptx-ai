@@ -155,7 +155,7 @@ export default function VrEgyptContent() {
                   VR EGYPT
                 </h1>
               </div>
-              <p className="text-gray-400 max-w-2xl mx-auto text-lg">
+              <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto text-lg">
                 Immersive 360° virtual tours of ancient wonders. Drag to look around in available panoramas.
               </p>
             </motion.div>

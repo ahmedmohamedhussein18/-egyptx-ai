@@ -16,6 +16,7 @@ import {
   ChevronDown,
   ArrowLeftRight,
 } from 'lucide-react';
+import { stripEmojis } from '@/lib/strip-emojis';
 
 /* ─── Types ──────────────────────────────────────────────────────────────── */
 
@@ -368,7 +369,7 @@ function AIBubble({
               }`}
               style={{ fontFamily: "'Noto Naskh Arabic', 'Arabic UI Text', sans-serif" }}
             >
-              {r.translation}
+              {stripEmojis(r.translation)}
             </p>
           </div>
 
@@ -377,7 +378,7 @@ function AIBubble({
           {/* Phonetic */}
           <div className="px-4 py-2.5">
             <p className="text-[10px] uppercase tracking-widest text-[#1B6B93]/90 mb-0.5 font-semibold">How to say it</p>
-            <p className="font-mono text-[#E2CB85] text-sm md:text-base leading-snug">{r.phonetic}</p>
+            <p className="font-mono text-[#E2CB85] text-sm md:text-base leading-snug">{stripEmojis(r.phonetic)}</p>
           </div>
 
           <div className="h-px bg-gradient-to-r from-transparent via-white/5 to-transparent mx-4" />
@@ -385,7 +386,7 @@ function AIBubble({
           {/* Cultural context */}
           <div className="px-4 py-2.5">
             <p className="text-[10px] uppercase tracking-widest text-white/35 mb-0.5 font-semibold">Cultural context</p>
-            <p className="text-xs md:text-sm text-white/60 italic leading-relaxed">{r.context}</p>
+            <p className="text-xs md:text-sm text-white/60 italic leading-relaxed">{stripEmojis(r.context)}</p>
           </div>
 
           {/* Play Button */}
@@ -441,7 +442,7 @@ function UserBubble({ msg }: { msg: ChatMessage }) {
             className="w-full max-w-[200px] rounded-xl mb-2 object-cover border border-white/10"
           />
         )}
-        <p className="text-slate-900 dark:text-white text-sm leading-relaxed">{msg.text}</p>
+        <p className="text-white text-sm leading-relaxed">{stripEmojis(msg.text)}</p>
         <p className="text-white/35 text-[10px] mt-1 text-right font-mono">
           {msg.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
         </p>
@@ -635,7 +636,7 @@ export default function SlangTranslatorContent() {
       </video>
 
       {/* ── 1. CENTERED CHAT CONTAINER (Crystal Clear) ────────────────────── */}
-      <div className="w-full max-w-3xl h-[82vh] md:h-[84vh] bg-gradient-to-b from-black/30 to-black/5 border border-white/10 rounded-3xl shadow-[0_0_40px_rgba(0,0,0,0.5)] flex flex-col overflow-hidden relative z-10">
+      <div className="w-full max-w-3xl h-[82vh] md:h-[84vh] bg-gradient-to-b from-[#06101E]/85 to-[#06101E]/75 backdrop-blur-md border border-white/15 rounded-3xl shadow-[0_0_40px_rgba(0,0,0,0.65)] flex flex-col overflow-hidden relative z-10">
 
         {/* Card Top Header */}
         <div className="flex items-center justify-between px-5 md:px-6 py-3.5 border-b border-white/10 bg-black/20 shrink-0">
@@ -674,7 +675,6 @@ export default function SlangTranslatorContent() {
                 className="w-full flex items-center justify-between px-3 py-1.5 cursor-pointer select-none"
               >
                 <div className="flex items-center gap-2 overflow-hidden">
-                  <span className="text-base shrink-0">{currentLocalObj.flag}</span>
                   <div className="truncate text-left">
                     <span className="text-[9px] uppercase tracking-wider text-[#C9A84C] font-bold block leading-tight">
                       {activeInputMode === 'local' ? '● اللهجة المحلية (Active)' : 'اللهجة المحلية'}
@@ -726,7 +726,6 @@ export default function SlangTranslatorContent() {
                 className="w-full flex items-center justify-between px-3 py-1.5 cursor-pointer select-none"
               >
                 <div className="flex items-center gap-2 overflow-hidden">
-                  <span className="text-base shrink-0">{currentTouristObj.flag}</span>
                   <div className="truncate text-left">
                     <span className="text-[9px] uppercase tracking-wider text-[#4CC9F0] font-bold block leading-tight">
                       {activeInputMode === 'tourist' ? '● لغة السائح (Active)' : 'لغة السائح الأجنبي'}

@@ -345,11 +345,11 @@ export default function ExploreContent() {
                       <p className="text-slate-600 dark:text-gray-400 mb-6 flex-grow font-light">{dest.description_en || `Explore the beautiful ${dest.name_en}`}</p>
                       
                       <div className="grid grid-cols-2 gap-4 mb-6">
-                        <div className="flex items-center gap-2 text-sm text-gray-300">
+                        <div className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
                           <MapPin className="w-4 h-4 text-[#C9A84C]" />
                           <span>{dest.city || 'Egypt'}</span>
                         </div>
-                        <div className="flex items-center gap-2 text-sm text-gray-300">
+                        <div className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
                           <Star className="w-4 h-4 text-[#C9A84C]" />
                           <span className="italic text-gray-500">{t('explore.noRating')}</span>
                         </div>

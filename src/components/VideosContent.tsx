@@ -195,7 +195,7 @@ export default function VideosContent() {
       <div className="max-w-7xl mx-auto relative z-10 space-y-20">
         {/* Header Hero */}
         <header className="text-center space-y-4 max-w-3xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#C9A84C]/10 border border-[#C9A84C]/30 text-[#E2CB85] text-xs font-semibold uppercase tracking-wider">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#C9A84C]/10 border border-[#C9A84C]/30 text-[#8A661C] dark:text-[#E2CB85] text-xs font-semibold uppercase tracking-wider">
             <Sparkles className="w-3.5 h-3.5 text-[#C9A84C]" />
             <span>Cinematic Reels & Video Gallery · معرض وسائط مصر</span>
           </div>
@@ -203,11 +203,11 @@ export default function VideosContent() {
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-slate-900 via-[#A68440] to-[#C9A84C] dark:from-white dark:via-[#E2CB85] dark:to-[#C9A84C]">
               Egypt Reels & Cinema
             </span>
-            <span className="block text-2xl sm:text-3xl font-bold text-[#E2CB85]/90 mt-2 font-arabic">
+            <span className="block text-2xl sm:text-3xl font-bold text-[#8A661C] dark:text-[#E2CB85]/90 mt-2 font-arabic">
               فيديوهات وريلز أرض الفراعنة
             </span>
           </h1>
-          <p className="text-white/70 text-sm sm:text-base leading-relaxed">
+          <p className="text-gray-600 dark:text-white/70 text-sm sm:text-base leading-relaxed">
             Immerse yourself in TikTok-style vertical reels and widescreen panoramic cinematic features produced by the official Egyptian Tourism Authority.
           </p>
         </header>
@@ -215,12 +215,12 @@ export default function VideosContent() {
         {/* ── SECTION 1: REELS  (TikTok-Style Vertical Reels) ── */}
         <section id="reels" className="space-y-6">
           <div className="text-center space-y-1">
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-white flex items-center justify-center gap-2.5">
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 dark:text-white flex items-center justify-center gap-2.5">
               <span>Egypt Reels</span>
               <span className="text-xl"></span>
               <span className="text-[#C9A84C] font-arabic font-normal text-xl">· ريلز مصر</span>
             </h2>
-            <p className="text-xs sm:text-sm text-white/50">
+            <p className="text-xs sm:text-sm text-gray-500 dark:text-white/50">
               Vertical full-height interactive reels · Swipe or use controls to browse
             </p>
           </div>
@@ -382,7 +382,7 @@ export default function VideosContent() {
                   </p>
 
                   {/* Description */}
-                  <p className="text-xs text-slate-700 dark:text-white/80 line-clamp-2 leading-relaxed drop-shadow">
+                  <p className="text-xs text-white/80 line-clamp-2 leading-relaxed drop-shadow">
                     {currentReel.description}
                   </p>
 
@@ -419,8 +419,8 @@ export default function VideosContent() {
                 disabled={currentReelIndex === 0}
                 className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                   currentReelIndex === 0
-                    ? 'bg-white/5 text-white/30 border border-white/5 cursor-not-allowed'
-                    : 'bg-white/10 hover:bg-[#C9A84C] hover:text-[#030712] border border-white/15 text-white'
+                    ? 'bg-black/[0.04] dark:bg-white/5 text-gray-400 dark:text-white/30 border border-gray-200 dark:border-white/5 cursor-not-allowed'
+                    : 'bg-[#F8F3E9] dark:bg-white/10 hover:bg-[#C9A84C] hover:text-[#030712] border border-gray-300 dark:border-white/15 text-gray-900 dark:text-white'
                 }`}
               >
                 <ChevronUp className="w-4 h-4" />
@@ -437,7 +437,7 @@ export default function VideosContent() {
                     className={`h-2 rounded-full transition-all cursor-pointer ${
                       currentReelIndex === idx
                         ? 'w-6 bg-[#C9A84C]'
-                        : 'w-2 bg-white/20 hover:bg-white/40'
+                        : 'w-2 bg-gray-300 dark:bg-white/20 hover:bg-gray-400 dark:hover:bg-white/40'
                     }`}
                     title={`Go to Reel ${idx + 1}`}
                   />
@@ -450,7 +450,7 @@ export default function VideosContent() {
                 disabled={currentReelIndex === REELS.length - 1}
                 className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                   currentReelIndex === REELS.length - 1
-                    ? 'bg-white/5 text-white/30 border border-white/5 cursor-not-allowed'
+                    ? 'bg-black/[0.04] dark:bg-white/5 text-gray-400 dark:text-white/30 border border-gray-200 dark:border-white/5 cursor-not-allowed'
                     : 'bg-gradient-to-r from-[#C9A84C] to-[#E2CB85] text-[#030712] font-extrabold shadow-[0_0_15px_rgba(201,168,76,0.25)]'
                 }`}
               >
@@ -462,21 +462,21 @@ export default function VideosContent() {
         </section>
 
         {/* ── SECTION 2: FEATURED VIDEOS  ("Egypt Through a Lens") ── */}
-        <section id="featured-videos" className="space-y-6 pt-10 border-t border-white/10">
+        <section id="featured-videos" className="space-y-6 pt-10 border-t border-gray-200 dark:border-white/10">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div className="space-y-1">
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-white flex items-center gap-2.5">
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 dark:text-white flex items-center gap-2.5">
                 <Film className="w-6 h-6 text-[#C9A84C]" />
                 <span>Featured Videos</span>
                 <span className="text-[#C9A84C]">·</span>
-                <span className="font-arabic font-normal text-xl text-[#E2CB85]">مصر من عدسة</span>
+                <span className="font-arabic font-normal text-xl text-[#8A661C] dark:text-[#E2CB85]">مصر من عدسة</span>
               </h2>
               <p className="text-xs sm:text-sm text-slate-500 dark:text-white/60">
                 Widescreen 16:9 cinematic journeys across historical dynasties and panoramic landscapes
               </p>
             </div>
 
-            <span className="text-xs font-mono text-[#E2CB85] bg-[#C9A84C]/10 border border-[#C9A84C]/30 px-3 py-1.5 rounded-xl self-start sm:self-auto">
+            <span className="text-xs font-mono text-[#8A661C] dark:text-[#E2CB85] bg-[#C9A84C]/10 border border-[#C9A84C]/30 px-3 py-1.5 rounded-xl self-start sm:self-auto">
               {FEATURED_VIDEOS.length} Cinematic Features
             </span>
           </div>
@@ -486,7 +486,7 @@ export default function VideosContent() {
             {FEATURED_VIDEOS.map((video) => (
               <div
                 key={video.youtubeId}
-                className="rounded-2xl bg-[#0A1628]/85 backdrop-blur-xl border border-[#C9A84C]/30 overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.5)] hover:border-[#C9A84C] transition-all duration-300 flex flex-col justify-between group"
+                className="rounded-2xl bg-[#F8F3E9] dark:bg-[#0A1628]/85 backdrop-blur-xl border border-[#C9A84C]/30 overflow-hidden shadow-md dark:shadow-[0_8px_30px_rgba(0,0,0,0.5)] hover:border-[#C9A84C] transition-all duration-300 flex flex-col justify-between group"
               >
                 {/* 16:9 Landscape Embed */}
                 <div className="relative w-full aspect-video bg-black/60 border-b border-white/10">
@@ -503,31 +503,31 @@ export default function VideosContent() {
                 <div className="p-5 sm:p-6 space-y-3 flex-1 flex flex-col justify-between">
                   <div className="space-y-2">
                     <div className="flex items-center justify-between gap-2 flex-wrap">
-                      <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-[#C9A84C]/20 border border-[#C9A84C]/40 text-[#E2CB85]">
+                      <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-[#C9A84C]/20 border border-[#C9A84C]/40 text-[#8A661C] dark:text-[#E2CB85]">
                         {video.category}
                       </span>
-                      <span className="text-[11px] text-white/50 flex items-center gap-1">
+                      <span className="text-[11px] text-gray-500 dark:text-white/50 flex items-center gap-1">
                         <Play className="w-3 h-3 text-[#C9A84C]" />
                         <span>{video.duration}</span>
                       </span>
                     </div>
 
                     <div>
-                      <h3 className="text-base sm:text-lg font-bold text-white group-hover:text-[#E2CB85] transition-colors">
+                      <h3 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white group-hover:text-[#8A661C] dark:group-hover:text-[#E2CB85] transition-colors">
                         {video.titleEn}
                       </h3>
-                      <p className="text-sm font-semibold text-[#E2CB85] font-arabic mt-0.5">
+                      <p className="text-sm font-semibold text-[#8A661C] dark:text-[#E2CB85] font-arabic mt-0.5">
                         {video.titleAr}
                       </p>
                     </div>
 
-                    <p className="text-xs sm:text-sm text-white/70 leading-relaxed">
+                    <p className="text-xs sm:text-sm text-gray-700 dark:text-white/70 leading-relaxed">
                       {video.description}
                     </p>
                   </div>
 
-                  <div className="pt-4 border-t border-white/10 flex items-center justify-between mt-2">
-                    <span className="text-[11px] text-white/40 flex items-center gap-1">
+                  <div className="pt-4 border-t border-gray-200 dark:border-white/10 flex items-center justify-between mt-2">
+                    <span className="text-[11px] text-gray-500 dark:text-white/40 flex items-center gap-1">
                       <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
                       <span>Experience Egypt Official</span>
                     </span>
@@ -536,7 +536,7 @@ export default function VideosContent() {
                       href={`https://www.youtube.com/watch?v=${video.youtubeId}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-red-600/20 hover:bg-red-600 border border-red-500/40 hover:border-red-500 text-red-200 hover:text-white text-xs font-bold transition-all group-hover:shadow-[0_0_15px_rgba(220,38,38,0.3)]"
+                      className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-red-600/15 dark:bg-red-600/20 hover:bg-red-600 border border-red-500/40 hover:border-red-500 text-red-700 dark:text-red-200 hover:text-white text-xs font-bold transition-all group-hover:shadow-[0_0_15px_rgba(220,38,38,0.3)]"
                     >
                       <Play className="w-3 h-3 fill-current" />
                       <span>Watch</span>
@@ -549,14 +549,14 @@ export default function VideosContent() {
         </section>
 
         {/* Bottom Callout */}
-        <div className="mt-12 p-8 rounded-3xl bg-gradient-to-r from-[#0A1628] via-[#122C38] to-[#0A1628] border border-[#C9A84C]/30 text-center space-y-4 shadow-[0_0_40px_rgba(201,168,76,0.1)]">
+        <div className="mt-12 p-8 rounded-3xl bg-gradient-to-r from-[#F8F3E9] via-[#F0E6D2] to-[#F8F3E9] dark:from-[#0A1628] dark:via-[#122C38] dark:to-[#0A1628] border border-[#C9A84C]/30 text-center space-y-4 shadow-[0_0_40px_rgba(201,168,76,0.1)]">
           <div className="inline-flex items-center gap-2 p-2 rounded-full bg-[#C9A84C]/15 border border-[#C9A84C]/30 text-[#E2CB85]">
             <Compass className="w-5 h-5 text-[#C9A84C]" />
           </div>
-          <h3 className="text-xl sm:text-2xl font-bold text-white">
+          <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
             Ready to Experience Egypt in Person?
           </h3>
-          <p className="text-sm text-white/70 max-w-xl mx-auto">
+          <p className="text-sm text-gray-600 dark:text-white/70 max-w-xl mx-auto">
             Book flights, reserve historic palace hotels, or plan your entire journey with the EgyptX AI itinerary creator.
           </p>
           <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
@@ -568,7 +568,7 @@ export default function VideosContent() {
             </Link>
             <Link
               href="/planner"
-              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-sm transition-all"
+              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-black/[0.06] dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/20 border border-gray-300 dark:border-white/20 text-gray-900 dark:text-white font-bold text-sm transition-all"
             >
               <span>Launch AI Planner</span>
             </Link>

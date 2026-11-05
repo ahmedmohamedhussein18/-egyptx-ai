@@ -12,14 +12,14 @@ const langSelectorHTML = `
               </button>
               <div className="absolute right-0 mt-2 w-36 bg-[#0A1628] border border-[#C9A84C]/20 rounded-xl overflow-hidden shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
                 {[
-                  {code: 'en', flag: '🇬🇧', label: 'English'},
-                  {code: 'ar', flag: '🇪🇬', label: 'العربية'},
-                  {code: 'fr', flag: '🇫🇷', label: 'Français'},
-                  {code: 'de', flag: '🇩🇪', label: 'Deutsch'},
-                  {code: 'it', flag: '🇮🇹', label: 'Italiano'},
-                  {code: 'es', flag: '🇪🇸', label: 'Español'},
-                  {code: 'zh', flag: '🇨🇳', label: '中文'},
-                  {code: 'ru', flag: '🇷🇺', label: 'Русский'}
+                  {code: 'en', flag: '', label: 'English'},
+                  {code: 'ar', flag: '', label: 'العربية'},
+                  {code: 'fr', flag: '', label: 'Français'},
+                  {code: 'de', flag: '', label: 'Deutsch'},
+                  {code: 'it', flag: '', label: 'Italiano'},
+                  {code: 'es', flag: '', label: 'Español'},
+                  {code: 'zh', flag: '', label: '中文'},
+                  {code: 'ru', flag: '', label: 'Русский'}
                 ].map((l) => (
                   <button
                     key={l.code}

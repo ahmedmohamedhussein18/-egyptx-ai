@@ -100,14 +100,14 @@ export default function VREgyptSection() {
         {VR_LOCATIONS.map((loc) => (
           <div 
             key={loc.id}
-            className="bg-[#111C38] border-2 border-[#D4AF37]/40 rounded-3xl p-5 shadow-xl relative overflow-hidden flex flex-col justify-between hover:border-[#D4AF37] transition-all"
+            className="bg-[#F8F3E9] dark:bg-[#111C38] border-2 border-[#D4AF37]/40 rounded-3xl p-5 shadow-xl relative overflow-hidden flex flex-col justify-between hover:border-[#D4AF37] transition-all"
           >
             <div>
-              <span className="text-[10px] font-bold text-amber-400 bg-amber-500/10 px-2.5 py-1 rounded-md uppercase">
+              <span className="text-[10px] font-bold text-amber-700 dark:text-amber-400 bg-amber-500/10 px-2.5 py-1 rounded-md uppercase">
                 {loc.location}
               </span>
-              <h3 className="text-sm sm:text-base font-bold tracking-tight text-white mt-2 mb-1 leading-snug line-clamp-2">{loc.title}</h3>
-              <p className="text-xs text-gray-400 mt-1">Explore spatial panorama and virtual reality.</p>
+              <h3 className="text-sm sm:text-base font-bold tracking-tight text-gray-900 dark:text-white mt-2 mb-1 leading-snug line-clamp-2">{loc.title}</h3>
+              <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">Explore spatial panorama and virtual reality.</p>
             </div>
 
             {/* أزرار التفاعل (Tour Details و 360) */}
@@ -122,7 +122,7 @@ export default function VREgyptSection() {
               {/* زر 360 الخاص بمعبد أبو سمبل يفتح Matterport فوراً */}
               <button
                 onClick={() => setActiveTour(loc)}
-                className="bg-[#070D1F] border border-[#D4AF37]/60 hover:bg-[#D4AF37] hover:text-black text-[#D4AF37] font-bold px-4 py-3 rounded-xl transition-all text-xs cursor-pointer flex items-center justify-center gap-1"
+                className="bg-white dark:bg-[#070D1F] border border-[#D4AF37]/60 hover:bg-[#D4AF37] hover:text-black text-[#8A661C] dark:text-[#D4AF37] font-bold px-4 py-3 rounded-xl transition-all text-xs cursor-pointer flex items-center justify-center gap-1"
                 title="360° Virtual Tour"
               >
                 <span>360°</span>

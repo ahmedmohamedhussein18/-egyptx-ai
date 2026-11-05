@@ -7,7 +7,7 @@ export default function TopAttractions({ data }: { data: any[] }) {
   if (!data || data.length === 0) {
     return (
       <div className="flex flex-col h-full items-center justify-center p-6 bg-white rounded-[10px]" dir="rtl">
-        <MapPin className="w-8 h-8 text-gray-300 mb-2" />
+        <MapPin className="w-8 h-8 text-gray-400 dark:text-gray-300 mb-2" />
         <p className="text-gray-500 font-medium">لا توجد بيانات</p>
       </div>
     );

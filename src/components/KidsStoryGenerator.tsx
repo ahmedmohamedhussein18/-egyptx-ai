@@ -146,7 +146,7 @@ export default function KidsStoryGenerator({
   const activeHero = storyHeroName.trim() || heroNameDefault || 'Young Explorer';
 
   return (
-    <div className="bg-gradient-to-br from-[#0B1120] via-[#0A1628] to-[#040913] border-2 border-amber-500/30 rounded-3xl p-6 md:p-8 backdrop-blur-xl relative overflow-hidden shadow-[0_0_35px_rgba(245,158,11,0.15)]">
+    <div className="bg-gradient-to-br from-[#FDFBF7] via-[#F8F3E9] to-[#F4ECE0] dark:from-[#0B1120] dark:via-[#0A1628] dark:to-[#040913] border-2 border-amber-500/30 rounded-3xl p-6 md:p-8 backdrop-blur-xl relative overflow-hidden shadow-xl dark:shadow-[0_0_35px_rgba(245,158,11,0.15)]">
       {/* Decorative ambient glow */}
       <div className="absolute top-0 right-0 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
@@ -155,13 +155,12 @@ export default function KidsStoryGenerator({
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 relative z-10">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <Wand2 className="w-5 h-5 text-amber-400" />
-            <span className="text-xs font-black uppercase tracking-wider text-amber-400">
+            <Wand2 className="w-5 h-5 text-amber-600 dark:text-amber-400" />
+            <span className="text-xs font-black uppercase tracking-wider text-amber-700 dark:text-amber-400">
               AI Cinematic Storyteller &bull; راوي القصص المصورة
             </span>
           </div>
-          <h2 className="text-2xl font-black text-white flex items-center gap-2">
-            <span></span>
+          <h2 className="text-2xl font-black text-gray-900 dark:text-white flex items-center gap-2">
             <span>Become the Hero of Ancient Egypt!</span>
           </h2>
         </div>
@@ -176,13 +175,13 @@ export default function KidsStoryGenerator({
           ) : kidsStoryUsed ? (
             <button
               onClick={() => onOpenEliteModal?.()}
-              className="px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-amber-500/15 border border-amber-500/40 text-amber-300 hover:bg-amber-500/25 transition-colors flex items-center gap-1.5 cursor-pointer"
+              className="px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-amber-500/15 border border-amber-500/40 text-amber-800 dark:text-amber-300 hover:bg-amber-500/25 transition-colors flex items-center gap-1.5 cursor-pointer"
             >
               <Lock className="w-3.5 h-3.5 text-amber-400" />
               Trial Used &middot; Upgrade to Pro
             </button>
           ) : (
-            <span className="px-3.5 py-1.5 rounded-full text-xs font-black uppercase tracking-wider bg-gradient-to-r from-amber-400/20 via-yellow-400/20 to-amber-500/20 border border-amber-400/50 text-amber-300 flex items-center gap-1.5 shadow-[0_0_15px_rgba(245,158,11,0.3)] animate-pulse">
+            <span className="px-3.5 py-1.5 rounded-full text-xs font-black uppercase tracking-wider bg-gradient-to-r from-amber-400/20 via-yellow-400/20 to-amber-500/20 border border-amber-400/50 text-amber-800 dark:text-amber-300 flex items-center gap-1.5 shadow-[0_0_15px_rgba(245,158,11,0.3)] animate-pulse">
               <Sparkles className="w-3.5 h-3.5 text-amber-400" />
               1 Free Video Story Available
             </span>
@@ -195,17 +194,17 @@ export default function KidsStoryGenerator({
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="p-4 mb-6 rounded-2xl bg-gradient-to-r from-amber-500/20 via-yellow-500/10 to-indigo-950/40 border border-amber-400/50 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-[0_0_25px_rgba(245,158,11,0.25)] relative z-10"
+          className="p-4 mb-6 rounded-2xl bg-gradient-to-r from-amber-500/20 via-yellow-500/10 to-amber-100/60 dark:to-indigo-950/40 border border-amber-400/50 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-[0_0_25px_rgba(245,158,11,0.25)] relative z-10"
         >
           <div className="flex items-center gap-3 text-left">
             <div className="w-10 h-10 rounded-xl bg-amber-400/20 flex items-center justify-center text-amber-300 shrink-0">
               <Sparkles className="w-5 h-5 text-amber-400" />
             </div>
             <div>
-              <p className="text-sm font-bold text-amber-200">
+              <p className="text-sm font-bold text-amber-900 dark:text-amber-200">
                 You&apos;ve unlocked your free magical video story!
               </p>
-              <p className="text-xs text-slate-300/80">
+              <p className="text-xs text-gray-700 dark:text-slate-300/80">
                 Upgrade to EgyptX Elite for unlimited personalized cinematic adventures.
               </p>
             </div>
@@ -223,7 +222,7 @@ export default function KidsStoryGenerator({
       {/* Story Inputs Row */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6 relative z-10">
         <div>
-          <label className="block text-xs font-bold text-slate-300 mb-1.5">
+          <label className="block text-xs font-bold text-gray-700 dark:text-slate-300 mb-1.5">
             Child / Hero Name
           </label>
           <input
@@ -231,18 +230,18 @@ export default function KidsStoryGenerator({
             value={storyHeroName}
             onChange={(e) => setStoryHeroName(e.target.value)}
             placeholder={heroNameDefault || 'e.g. Leo, Maya'}
-            className="w-full bg-[#030712] border border-white/10 rounded-xl px-3.5 py-2.5 text-white text-sm focus:border-amber-400 focus:outline-none transition-colors"
+            className="w-full bg-white dark:bg-[#030712] border border-gray-300 dark:border-white/10 rounded-xl px-3.5 py-2.5 text-gray-900 dark:text-white text-sm focus:border-amber-400 focus:outline-none transition-colors"
           />
         </div>
 
         <div>
-          <label className="block text-xs font-bold text-slate-300 mb-1.5">
+          <label className="block text-xs font-bold text-gray-700 dark:text-slate-300 mb-1.5">
             Magical Guardian Companion
           </label>
           <select
             value={storyCompanion}
             onChange={(e) => setStoryCompanion(e.target.value)}
-            className="w-full bg-[#030712] border border-white/10 rounded-xl px-3.5 py-2.5 text-white text-sm focus:border-amber-400 focus:outline-none transition-colors"
+            className="w-full bg-white dark:bg-[#030712] border border-gray-300 dark:border-white/10 rounded-xl px-3.5 py-2.5 text-gray-900 dark:text-white text-sm focus:border-amber-400 focus:outline-none transition-colors"
           >
             <option>Horus the Golden Falcon </option>
             <option>Bastet the Wise Cat </option>
@@ -252,13 +251,13 @@ export default function KidsStoryGenerator({
         </div>
 
         <div>
-          <label className="block text-xs font-bold text-slate-300 mb-1.5">
+          <label className="block text-xs font-bold text-gray-700 dark:text-slate-300 mb-1.5">
             Secret Quest Realm
           </label>
           <select
             value={storyDestination}
             onChange={(e) => setStoryDestination(e.target.value)}
-            className="w-full bg-[#030712] border border-white/10 rounded-xl px-3.5 py-2.5 text-white text-sm focus:border-amber-400 focus:outline-none transition-colors"
+            className="w-full bg-white dark:bg-[#030712] border border-gray-300 dark:border-white/10 rounded-xl px-3.5 py-2.5 text-gray-900 dark:text-white text-sm focus:border-amber-400 focus:outline-none transition-colors"
           >
             <option>The Great Pyramid Secret Chamber </option>
             <option>The Sun Temple of Abu Simbel </option>
@@ -301,7 +300,7 @@ export default function KidsStoryGenerator({
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="bg-[#070D1F] border-2 border-[#D4AF37]/50 rounded-3xl p-8 text-center shadow-[0_0_40px_rgba(212,175,55,0.2)] mb-6 relative z-10"
+            className="bg-white dark:bg-[#070D1F] border-2 border-[#D4AF37]/50 rounded-3xl p-8 text-center shadow-[0_0_40px_rgba(212,175,55,0.2)] mb-6 relative z-10"
           >
             <div className="w-16 h-16 mx-auto mb-4 relative flex items-center justify-center">
               <div className="absolute inset-0 rounded-full border-2 border-[#D4AF37]/40 animate-ping" />
@@ -310,7 +309,7 @@ export default function KidsStoryGenerator({
             <h4 className="text-lg font-black text-[#D4AF37] mb-2 font-sans" dir="rtl">
               جاري إنتاج قصة الفيديو السحرية بالذكاء الاصطناعي...
             </h4>
-            <p className="text-xs text-slate-300 font-sans max-w-md mx-auto leading-relaxed">
+            <p className="text-xs text-gray-600 dark:text-slate-300 font-sans max-w-md mx-auto leading-relaxed">
               Synthesizing 3D cinematic animation: Ancient Egyptian temples, golden pyramids, and your magical guardian embark on the quest!
             </p>
           </motion.div>
@@ -324,25 +323,25 @@ export default function KidsStoryGenerator({
             initial={{ opacity: 0, scale: 0.96, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 0.5, ease: 'easeOut' }}
-            className="bg-[#070D1F] border-2 border-[#D4AF37] rounded-3xl p-5 md:p-7 text-left relative z-10 shadow-[0_0_50px_rgba(212,175,55,0.22)] overflow-hidden space-y-4"
+            className="bg-white dark:bg-[#070D1F] border-2 border-[#D4AF37] rounded-3xl p-5 md:p-7 text-left relative z-10 shadow-xl dark:shadow-[0_0_50px_rgba(212,175,55,0.22)] overflow-hidden space-y-4"
           >
             {/* Playful Success Banner for the Child */}
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-4 border-b border-[#D4AF37]/30">
               <div>
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-400/40 text-emerald-300 text-xs font-bold mb-2 shadow-sm">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-400/40 text-emerald-800 dark:text-emerald-300 text-xs font-bold mb-2 shadow-sm">
                   <Film className="w-3.5 h-3.5 text-emerald-400 animate-pulse" />
                   <span>AI Cinematic Story Premiere &bull; عرض الفيلم السحري</span>
                 </div>
-                <h3 className="text-xl md:text-2xl font-black text-[#D4AF37] flex items-center gap-2 tracking-wide font-sans">
+                <h3 className="text-xl md:text-2xl font-black text-[#8A6D1F] dark:text-[#D4AF37] flex items-center gap-2 tracking-wide font-sans">
                   <span>{storyVideoTitle || ` مغامرة البطل ${activeHero} السينمائية`}</span>
                 </h3>
-                <p className="text-xs text-gray-300 mt-1">
-                  Hero: <strong className="text-white">{activeHero}</strong> &middot; Guardian: <strong className="text-amber-300">{storyCompanion}</strong> &middot; Realm: <strong className="text-emerald-300">{storyDestination}</strong>
+                <p className="text-xs text-gray-600 dark:text-gray-300 mt-1">
+                  Hero: <strong className="text-gray-900 dark:text-white">{activeHero}</strong> &middot; Guardian: <strong className="text-amber-700 dark:text-amber-300">{storyCompanion}</strong> &middot; Realm: <strong className="text-emerald-700 dark:text-emerald-300">{storyDestination}</strong>
                 </p>
               </div>
 
               <div className="flex items-center gap-2 shrink-0">
-                <span className="px-3 py-1.5 rounded-xl bg-[#D4AF37]/20 border border-[#D4AF37]/50 text-[#D4AF37] font-extrabold text-xs flex items-center gap-1.5">
+                <span className="px-3 py-1.5 rounded-xl bg-[#D4AF37]/20 border border-[#D4AF37]/50 text-[#8A6D1F] dark:text-[#D4AF37] font-extrabold text-xs flex items-center gap-1.5">
                   <Sparkles className="w-3.5 h-3.5 text-amber-400" />
                   1080p HD
                 </span>
@@ -372,7 +371,7 @@ export default function KidsStoryGenerator({
                       v.play();
                     }
                   }}
-                  className="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/15 border border-white/20 text-white font-bold text-xs flex items-center gap-1.5 cursor-pointer transition-colors"
+                  className="px-4 py-2 rounded-xl bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/15 border border-gray-300 dark:border-white/20 text-gray-900 dark:text-white font-bold text-xs flex items-center gap-1.5 cursor-pointer transition-colors"
                 >
                   <RotateCcw className="w-3.5 h-3.5 text-[#D4AF37]" />
                   Replay Adventure
@@ -381,7 +380,7 @@ export default function KidsStoryGenerator({
                 {storyChapters && (
                   <button
                     onClick={handleNarrateStory}
-                    className="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/15 border border-amber-400/30 text-amber-300 font-bold text-xs flex items-center gap-1.5 cursor-pointer transition-colors"
+                    className="px-4 py-2 rounded-xl bg-amber-500/10 dark:bg-white/10 hover:bg-amber-500/20 dark:hover:bg-white/15 border border-amber-500/30 dark:border-amber-400/30 text-amber-800 dark:text-amber-300 font-bold text-xs flex items-center gap-1.5 cursor-pointer transition-colors"
                   >
                     {isNarrating ? (
                       <>
@@ -401,7 +400,7 @@ export default function KidsStoryGenerator({
               {storyVideoPrompt && (
                 <button
                   onClick={() => setShowPromptDetails(!showPromptDetails)}
-                  className="text-xs text-slate-400 hover:text-amber-300 flex items-center gap-1 transition-colors cursor-pointer"
+                  className="text-xs text-gray-600 dark:text-slate-400 hover:text-amber-700 dark:hover:text-amber-300 flex items-center gap-1 transition-colors cursor-pointer"
                 >
                   <Sparkles className="w-3 h-3 text-amber-400" />
                   <span>{showPromptDetails ? 'Hide Video Prompt' : 'View AI Video Prompt'}</span>
@@ -414,32 +413,31 @@ export default function KidsStoryGenerator({
               <motion.div
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: 'auto' }}
-                className="mt-3 p-3.5 rounded-xl bg-black/60 border border-white/10 text-xs text-slate-300 space-y-1 font-mono"
+                className="mt-3 p-3.5 rounded-xl bg-gray-100 dark:bg-black/60 border border-gray-200 dark:border-white/10 text-xs text-gray-700 dark:text-slate-300 space-y-1 font-mono"
               >
-                <span className="text-amber-400 font-sans font-bold block text-[11px] uppercase tracking-wider">
+                <span className="text-amber-700 dark:text-amber-400 font-sans font-bold block text-[11px] uppercase tracking-wider">
                   AI Video Generation Prompt:
                 </span>
-                <p className="leading-relaxed text-slate-300/90">{storyVideoPrompt}</p>
+                <p className="leading-relaxed text-gray-700 dark:text-slate-300/90">{storyVideoPrompt}</p>
               </motion.div>
             )}
 
             {/* Story Chapters Narrative Summary */}
             {storyChapters && (
-              <div className="pt-4 border-t border-white/10">
+              <div className="pt-4 border-t border-gray-200 dark:border-white/10">
                 <div className="flex items-center gap-2 mb-3">
                   <BookOpen className="w-4 h-4 text-[#D4AF37]" />
-                  <span className="text-xs font-bold text-slate-300 uppercase tracking-wider">
+                  <span className="text-xs font-bold text-gray-700 dark:text-slate-300 uppercase tracking-wider">
                     Story Chronicle &middot; فصول المغامرة
                   </span>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                   {storyChapters.chapters.map((chap, i) => (
-                    <div key={i} className="p-3.5 rounded-xl bg-white/[0.03] border border-white/5">
-                      <h4 className="text-xs font-bold text-amber-300 mb-1 flex items-center gap-1.5">
-                        <span>{chap.emoji}</span>
+                    <div key={i} className="p-3.5 rounded-xl bg-[#F8F3E9] dark:bg-white/[0.03] border border-gray-200 dark:border-white/5">
+                      <h4 className="text-xs font-bold text-amber-800 dark:text-amber-300 mb-1 flex items-center gap-1.5">
                         <span>{chap.title}</span>
                       </h4>
-                      <p className="text-slate-300 text-xs leading-relaxed line-clamp-3">
+                      <p className="text-gray-700 dark:text-slate-300 text-xs leading-relaxed line-clamp-3">
                         {chap.text}
                       </p>
                     </div>

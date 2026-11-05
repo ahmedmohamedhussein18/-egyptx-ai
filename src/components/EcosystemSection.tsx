@@ -272,12 +272,12 @@ export default function EcosystemSection() {
                 }}
               >
                 <div className="flex flex-col items-center group cursor-pointer">
-                  <div className="w-[80px] h-[80px] rounded-full bg-white/5 backdrop-blur-sm border border-[#C9A84C]/40 flex items-center justify-center group-hover:border-[#C9A84C] group-hover:shadow-[0_0_20px_rgba(201,168,76,0.2)] transition-all duration-300">
+                  <div className="w-[80px] h-[80px] rounded-full bg-[#F8F3E9] dark:bg-white/5 backdrop-blur-sm border border-[#C9A84C]/40 flex items-center justify-center group-hover:border-[#C9A84C] group-hover:shadow-[0_0_20px_rgba(201,168,76,0.2)] transition-all duration-300">
                     <div className="w-8 h-8 group-hover:scale-110 transition-transform duration-300">
                       <node.icon />
                     </div>
                   </div>
-                  <div className="mt-2 text-sm text-gray-300 group-hover:text-white transition-colors duration-300 whitespace-nowrap">{node.label}</div>
+                  <div className="mt-2 text-sm text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white transition-colors duration-300 whitespace-nowrap font-medium">{node.label}</div>
                 </div>
               </motion.div>
             );
@@ -292,7 +292,7 @@ export default function EcosystemSection() {
             whileInView={{ scale: 1, opacity: 1 }}
             viewport={{ once: true }}
           >
-            <div className="w-24 h-24 rounded-full bg-black/40 backdrop-blur-md border-2 border-[#C9A84C] flex items-center justify-center shadow-[0_0_30px_rgba(201,168,76,0.3)] relative">
+            <div className="w-24 h-24 rounded-full bg-[#F8F3E9] dark:bg-black/40 backdrop-blur-md border-2 border-[#C9A84C] flex items-center justify-center shadow-[0_0_30px_rgba(201,168,76,0.3)] relative">
               <div className="absolute inset-0 w-full h-full rounded-full border border-[#C9A84C]/50 animate-ping"></div>
               <div className="w-10 h-10 z-10">
                 <Icons.AI />
@@ -305,7 +305,7 @@ export default function EcosystemSection() {
             {nodes.map((node, index) => (
               <motion.div
                 key={`mobile-${node.id}`}
-                className="flex flex-col items-center bg-white/5 p-4 rounded-xl border border-[#C9A84C]/20"
+                className="flex flex-col items-center bg-[#F8F3E9] dark:bg-white/5 p-4 rounded-xl border border-[#C9A84C]/25"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -314,7 +314,7 @@ export default function EcosystemSection() {
                 <div className="w-10 h-10 mb-3">
                   <node.icon />
                 </div>
-                <div className="text-sm text-gray-300">{node.label}</div>
+                <div className="text-sm text-gray-700 dark:text-gray-300 font-medium">{node.label}</div>
               </motion.div>
             ))}
           </div>

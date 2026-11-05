@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { useAuth } from '@/context/AuthContext';
+import { stripEmojis } from '@/lib/strip-emojis';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -23,13 +24,14 @@ interface FormattedMessageProps {
   content: string;
 }
 
-function FormattedAssistantMessage({ content }: FormattedMessageProps) {
+function FormattedAssistantMessage({ content: rawContent }: FormattedMessageProps) {
+  const content = stripEmojis(rawContent);
   const isArabic = /[\u0600-\u06FF]/.test(content);
 
   return (
     <div
       dir={isArabic ? 'rtl' : 'ltr'}
-      className={`text-sm leading-relaxed text-slate-100 ${
+      className={`text-sm leading-relaxed text-gray-800 dark:text-slate-100 ${
         isArabic ? 'text-right font-sans' : 'text-left'
       }`}
     >
@@ -38,9 +40,9 @@ function FormattedAssistantMessage({ content }: FormattedMessageProps) {
         components={{
           p: ({ children }) => <p className="mb-2.5 last:mb-0 leading-relaxed">{children}</p>,
           strong: ({ children }) => (
-            <strong className="font-semibold text-[#E2CB85] tracking-wide">{children}</strong>
+            <strong className="font-semibold text-[#8A661C] dark:text-[#E2CB85] tracking-wide">{children}</strong>
           ),
-          em: ({ children }) => <em className="italic text-slate-200">{children}</em>,
+          em: ({ children }) => <em className="italic text-gray-700 dark:text-slate-200">{children}</em>,
           ul: ({ children }) => (
             <ul className={`my-2 space-y-1.5 list-disc ${isArabic ? 'pr-5' : 'pl-5'}`}>{children}</ul>
           ),
@@ -63,7 +65,7 @@ function FormattedAssistantMessage({ content }: FormattedMessageProps) {
           ),
           blockquote: ({ children }) => (
             <blockquote
-              className={`my-2 py-1.5 italic text-slate-300 bg-white/5 rounded-lg border-[#C9A84C]/60 ${
+              className={`my-2 py-1.5 italic text-gray-700 dark:text-slate-300 bg-amber-50/50 dark:bg-white/5 rounded-lg border-[#C9A84C]/60 ${
                 isArabic ? 'border-r-2 pr-3' : 'border-l-2 pl-3'
               }`}
             >
@@ -211,23 +213,23 @@ export default function FloatingAssistant() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="fixed bottom-0 right-0 w-full h-[100dvh] md:bottom-24 md:right-6 md:w-[420px] md:h-[620px] z-[100] flex flex-col bg-[#060E1A]/95 backdrop-blur-xl md:rounded-2xl border-t md:border border-[#C9A84C]/20 shadow-[0_0_50px_rgba(3,7,18,0.8)] overflow-hidden"
+            className="fixed bottom-0 right-0 w-full h-[100dvh] md:bottom-24 md:right-6 md:w-[420px] md:h-[620px] z-[100] flex flex-col bg-[#FDFBF7]/98 dark:bg-[#060E1A]/95 backdrop-blur-xl md:rounded-2xl border-t md:border border-slate-200 dark:border-[#C9A84C]/20 shadow-2xl dark:shadow-[0_0_50px_rgba(3,7,18,0.8)] overflow-hidden"
           >
             {/* Header */}
-            <div className="px-5 py-4 border-b border-[#C9A84C]/10 bg-white/5 flex items-center justify-between">
+            <div className="px-5 py-4 border-b border-slate-200 dark:border-[#C9A84C]/10 bg-[#F8F3E9] dark:bg-white/5 flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="relative flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-br from-[#C9A84C] to-[#1B6B93]">
                   <span className="text-[#030712] font-bold text-xs">AI</span>
                   <div className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-[#060E1A]" />
                 </div>
                 <div>
-                  <h3 className="text-white font-semibold text-sm">EgyptX AI Guide</h3>
-                  <p className="text-white/50 text-xs">Historian & Live Egypt Updates</p>
+                  <h3 className="text-gray-900 dark:text-white font-semibold text-sm">EgyptX AI Guide</h3>
+                  <p className="text-gray-500 dark:text-white/50 text-xs">Historian & Live Egypt Updates</p>
                 </div>
               </div>
               <button
                 onClick={() => setIsOpen(false)}
-                className="p-2 text-white/50 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
+                className="p-2 text-gray-500 dark:text-white/50 hover:text-gray-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-white/10 rounded-lg transition-colors"
               >
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path
@@ -251,7 +253,7 @@ export default function FloatingAssistant() {
                     className={`max-w-[88%] px-4 py-3 text-sm leading-relaxed ${
                       msg.role === 'user'
                         ? 'bg-gradient-to-r from-[#C9A84C] to-[#E2CB85] text-[#030712] font-semibold rounded-2xl rounded-tr-sm shadow-[0_4px_16px_rgba(201,168,76,0.25)]'
-                        : 'bg-[#0B1728]/95 text-slate-100 border border-[#C9A84C]/25 rounded-2xl rounded-tl-sm shadow-[0_4px_20px_rgba(0,0,0,0.35)] backdrop-blur-md'
+                        : 'bg-[#F8F3E9] dark:bg-[#0B1728]/95 text-gray-800 dark:text-slate-100 border border-slate-200 dark:border-[#C9A84C]/25 rounded-2xl rounded-tl-sm shadow-sm dark:shadow-[0_4px_20px_rgba(0,0,0,0.35)] backdrop-blur-md'
                     }`}
                   >
                     {msg.role === 'assistant' ? (
@@ -272,7 +274,7 @@ export default function FloatingAssistant() {
                     <button
                       key={idx}
                       onClick={() => handleSend(suggestion)}
-                      className="px-3 py-2 bg-[#1B6B93]/20 hover:bg-[#1B6B93]/40 border border-[#1B6B93]/30 text-[#4CC9F0] text-xs font-medium rounded-lg transition-colors text-left"
+                      className="px-3 py-2 bg-[#1B6B93]/10 dark:bg-[#1B6B93]/20 hover:bg-[#1B6B93]/20 dark:hover:bg-[#1B6B93]/40 border border-[#1B6B93]/30 text-[#1B6B93] dark:text-[#4CC9F0] text-xs font-medium rounded-lg transition-colors text-left"
                     >
                       {suggestion}
                     </button>
@@ -306,7 +308,7 @@ export default function FloatingAssistant() {
             </div>
 
             {/* Input Area */}
-            <div className="p-4 bg-white/5 border-t border-[#C9A84C]/10">
+            <div className="p-4 bg-[#F8F3E9] dark:bg-white/5 border-t border-slate-200 dark:border-[#C9A84C]/10">
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
@@ -319,7 +321,7 @@ export default function FloatingAssistant() {
                   value={inputText}
                   onChange={(e) => setInputText(e.target.value)}
                   placeholder="Ask about history, monuments, or live Egypt news..."
-                  className="flex-1 bg-[#030712]/50 border border-white/10 focus:border-[#C9A84C]/50 rounded-xl px-4 py-3 text-sm text-white placeholder-white/30 outline-none transition-colors"
+                  className="flex-1 bg-white dark:bg-[#030712]/50 border border-slate-300 dark:border-white/10 focus:border-[#C9A84C]/50 rounded-xl px-4 py-3 text-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-white/30 outline-none transition-colors"
                 />
                 <button
                   type="submit"

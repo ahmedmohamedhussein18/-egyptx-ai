@@ -126,12 +126,12 @@ export default function Footer() {
               className="relative w-full max-w-2xl rounded-3xl overflow-hidden border border-[#C9A84C]/40 shadow-[0_0_60px_rgba(201,168,76,0.25),0_25px_80px_rgba(0,0,0,0.95)] z-[202] my-auto"
             >
               {/* Glassmorphic dark overlay */}
-              <div className="relative bg-[#060E1A]/85 backdrop-blur-xl p-6 sm:p-8 text-white max-h-[90vh] overflow-y-auto">
+              <div className="relative bg-[#FDFBF7]/92 dark:bg-[#060E1A]/85 backdrop-blur-xl p-6 sm:p-8 text-gray-900 dark:text-white max-h-[90vh] overflow-y-auto">
                 {/* Close Button */}
                 <button
                   type="button"
                   onClick={() => setIsContactModalOpen(false)}
-                  className="absolute top-4 right-4 sm:top-5 sm:right-5 p-2 rounded-full bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white border border-white/10 transition-colors cursor-pointer z-10"
+                  className="absolute top-4 right-4 sm:top-5 sm:right-5 p-2 rounded-full bg-slate-200/80 dark:bg-white/10 hover:bg-slate-300 dark:hover:bg-white/20 text-gray-600 dark:text-slate-300 hover:text-gray-900 dark:hover:text-white border border-slate-300 dark:border-white/10 transition-colors cursor-pointer z-10"
                   aria-label="Close"
                 >
                   <X className="w-4 h-4" />
@@ -139,7 +139,7 @@ export default function Footer() {
 
                 {/* Header */}
                 <div className="text-center max-w-lg mx-auto mb-6 space-y-2">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#C9A84C]/15 border border-[#C9A84C]/30 text-[#E2CB85] text-xs font-semibold uppercase tracking-wider">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#C9A84C]/15 border border-[#C9A84C]/30 text-[#8A661C] dark:text-[#E2CB85] text-xs font-semibold uppercase tracking-wider">
                     <Sparkles className="w-3.5 h-3.5 text-[#C9A84C]" />
                     <span>{t('footer.contactModal.badge')}</span>
                   </div>
@@ -148,33 +148,33 @@ export default function Footer() {
                     {t('footer.contactModal.title')}
                   </h3>
 
-                  <p className="text-xs sm:text-sm text-gray-300 font-light leading-relaxed">
+                  <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 font-light leading-relaxed">
                     {t('footer.contactModal.subtitle')}
                   </p>
                 </div>
 
                 {/* Contact Badges Row */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
-                  <div className="p-3 rounded-2xl bg-white/[0.04] border border-white/10 text-center">
+                  <div className="p-3 rounded-2xl bg-[#F8F3E9] dark:bg-white/[0.04] border border-slate-200 dark:border-white/10 text-center">
                     <Mail className="w-4 h-4 text-[#C9A84C] mx-auto mb-1" />
-                    <span className="text-[10px] text-gray-400 block font-mono">{t('footer.contactModal.emailLabel')}</span>
-                    <a href="mailto:support@egyptx.ai" className="text-xs font-semibold text-white hover:text-[#C9A84C] transition-colors truncate block">
+                    <span className="text-[10px] text-gray-500 dark:text-gray-400 block font-mono">{t('footer.contactModal.emailLabel')}</span>
+                    <a href="mailto:support@egyptx.ai" className="text-xs font-semibold text-gray-900 dark:text-white hover:text-[#C9A84C] transition-colors truncate block">
                       support@egyptx.ai
                     </a>
                   </div>
 
-                  <div className="p-3 rounded-2xl bg-white/[0.04] border border-white/10 text-center">
+                  <div className="p-3 rounded-2xl bg-[#F8F3E9] dark:bg-white/[0.04] border border-slate-200 dark:border-white/10 text-center">
                     <Phone className="w-4 h-4 text-[#C9A84C] mx-auto mb-1" />
-                    <span className="text-[10px] text-gray-400 block font-mono">{t('footer.contactModal.hotlineLabel')}</span>
-                    <a href="tel:19654" className="text-xs font-semibold text-white hover:text-[#C9A84C] transition-colors block">
+                    <span className="text-[10px] text-gray-500 dark:text-gray-400 block font-mono">{t('footer.contactModal.hotlineLabel')}</span>
+                    <a href="tel:19654" className="text-xs font-semibold text-gray-900 dark:text-white hover:text-[#C9A84C] transition-colors block">
                       19654 / +20 2 2735 9000
                     </a>
                   </div>
 
-                  <div className="p-3 rounded-2xl bg-white/[0.04] border border-white/10 text-center">
+                  <div className="p-3 rounded-2xl bg-[#F8F3E9] dark:bg-white/[0.04] border border-slate-200 dark:border-white/10 text-center">
                     <MapPin className="w-4 h-4 text-[#C9A84C] mx-auto mb-1" />
-                    <span className="text-[10px] text-gray-400 block font-mono">{t('footer.contactModal.hqLabel')}</span>
-                    <span className="text-xs font-semibold text-white block truncate">
+                    <span className="text-[10px] text-gray-500 dark:text-gray-400 block font-mono">{t('footer.contactModal.hqLabel')}</span>
+                    <span className="text-xs font-semibold text-gray-900 dark:text-white block truncate">
                       {t('footer.contactModal.hqValue')}
                     </span>
                   </div>
@@ -191,7 +191,7 @@ export default function Footer() {
                   <form onSubmit={handleFormSubmit} className="space-y-4 text-left">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-[11px] font-semibold text-gray-300 uppercase tracking-wider mb-1 font-mono">
+                        <label className="block text-[11px] font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-1 font-mono">
                           {t('footer.contactModal.nameLabel')}
                         </label>
                         <input
@@ -200,12 +200,12 @@ export default function Footer() {
                           value={formData.name}
                           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                           placeholder="Sarah Jenkins"
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-black/50 border border-white/15 focus:border-[#C9A84C] focus:ring-1 focus:ring-[#C9A84C] text-sm text-white placeholder-gray-500 outline-none transition-all"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-black/50 border border-slate-300 dark:border-white/15 focus:border-[#C9A84C] focus:ring-1 focus:ring-[#C9A84C] text-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 outline-none transition-all"
                         />
                       </div>
 
                       <div>
-                        <label className="block text-[11px] font-semibold text-gray-300 uppercase tracking-wider mb-1 font-mono">
+                        <label className="block text-[11px] font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-1 font-mono">
                           {t('footer.contactModal.emailInputLabel')}
                         </label>
                         <input
@@ -214,30 +214,30 @@ export default function Footer() {
                           value={formData.email}
                           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                           placeholder="sarah@example.com"
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-black/50 border border-white/15 focus:border-[#C9A84C] focus:ring-1 focus:ring-[#C9A84C] text-sm text-white placeholder-gray-500 outline-none transition-all"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-black/50 border border-slate-300 dark:border-white/15 focus:border-[#C9A84C] focus:ring-1 focus:ring-[#C9A84C] text-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 outline-none transition-all"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-[11px] font-semibold text-gray-300 uppercase tracking-wider mb-1 font-mono">
+                      <label className="block text-[11px] font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-1 font-mono">
                         {t('footer.contactModal.subjectLabel')}
                       </label>
                       <select
                         value={formData.subject}
                         onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-black/50 border border-white/15 focus:border-[#C9A84C] focus:ring-1 focus:ring-[#C9A84C] text-sm text-white outline-none transition-all cursor-pointer"
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-black/50 border border-slate-300 dark:border-white/15 focus:border-[#C9A84C] focus:ring-1 focus:ring-[#C9A84C] text-sm text-gray-900 dark:text-white outline-none transition-all cursor-pointer"
                       >
-                        <option value="General Inquiry" className="bg-[#0A1628] text-white">{t('footer.contactModal.subjects.general')}</option>
-                        <option value="AI Itinerary & Planning" className="bg-[#0A1628] text-white">{t('footer.contactModal.subjects.planning')}</option>
-                        <option value="Smart Site & Museum Access" className="bg-[#0A1628] text-white">{t('footer.contactModal.subjects.smartSite')}</option>
-                        <option value="Enterprise / Tourism Partner" className="bg-[#0A1628] text-white">{t('footer.contactModal.subjects.enterprise')}</option>
-                        <option value="Press & Media" className="bg-[#0A1628] text-white">{t('footer.contactModal.subjects.press')}</option>
+                        <option value="General Inquiry" className="bg-white dark:bg-[#0A1628] text-gray-900 dark:text-white">{t('footer.contactModal.subjects.general')}</option>
+                        <option value="AI Itinerary & Planning" className="bg-white dark:bg-[#0A1628] text-gray-900 dark:text-white">{t('footer.contactModal.subjects.planning')}</option>
+                        <option value="Smart Site & Museum Access" className="bg-white dark:bg-[#0A1628] text-gray-900 dark:text-white">{t('footer.contactModal.subjects.smartSite')}</option>
+                        <option value="Enterprise / Tourism Partner" className="bg-white dark:bg-[#0A1628] text-gray-900 dark:text-white">{t('footer.contactModal.subjects.enterprise')}</option>
+                        <option value="Press & Media" className="bg-white dark:bg-[#0A1628] text-gray-900 dark:text-white">{t('footer.contactModal.subjects.press')}</option>
                       </select>
                     </div>
 
                     <div>
-                      <label className="block text-[11px] font-semibold text-gray-300 uppercase tracking-wider mb-1 font-mono">
+                      <label className="block text-[11px] font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-1 font-mono">
                         {t('footer.contactModal.messageLabel')}
                       </label>
                       <textarea
@@ -246,7 +246,7 @@ export default function Footer() {
                         value={formData.message}
                         onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                         placeholder={t('footer.contactModal.messagePlaceholder')}
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-black/50 border border-white/15 focus:border-[#C9A84C] focus:ring-1 focus:ring-[#C9A84C] text-sm text-white placeholder-gray-500 outline-none transition-all resize-none"
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-black/50 border border-slate-300 dark:border-white/15 focus:border-[#C9A84C] focus:ring-1 focus:ring-[#C9A84C] text-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 outline-none transition-all resize-none"
                       />
                     </div>
 

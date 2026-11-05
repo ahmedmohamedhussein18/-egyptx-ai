@@ -64,13 +64,13 @@ export default function GovernmentLoginContent() {
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="w-full max-w-md bg-[#0A1628] border border-[#1B6B93]/50 rounded-2xl shadow-[0_0_30px_rgba(27,107,147,0.3)] p-8 relative overflow-hidden"
+        className="w-full max-w-md bg-white dark:bg-[#0A1628] border border-[#1B6B93]/50 rounded-2xl shadow-xl dark:shadow-[0_0_30px_rgba(27,107,147,0.3)] p-8 relative overflow-hidden"
       >
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#1B6B93] to-[#4CC9F0]" />
         
         <div className="text-center mb-8">
           <ShieldCheck className="w-16 h-16 text-[#4CC9F0] mx-auto mb-4" />
-          <h1 className="text-2xl font-bold text-white uppercase tracking-wider">Government Portal</h1>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white uppercase tracking-wider">Government Portal</h1>
           <p className="text-[#1B6B93] font-medium text-sm mt-2 uppercase tracking-widest">Authorized Access Only</p>
         </div>
 
@@ -83,25 +83,25 @@ export default function GovernmentLoginContent() {
 
         <form onSubmit={handleLogin} className="space-y-5">
           <div>
-            <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Official Email</label>
+            <label className="block text-xs font-bold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-2">Official Email</label>
             <input 
               type="email" 
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#4CC9F0] transition-colors"
+              className="w-full bg-[#F8F3E9] dark:bg-white/5 border border-gray-300 dark:border-white/10 rounded-lg px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:border-[#4CC9F0] transition-colors"
               placeholder="admin@governorate.gov.eg"
             />
           </div>
           
           <div>
-            <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Password</label>
+            <label className="block text-xs font-bold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-2">Password</label>
             <input 
               type="password" 
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#4CC9F0] transition-colors"
+              className="w-full bg-[#F8F3E9] dark:bg-white/5 border border-gray-300 dark:border-white/10 rounded-lg px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:border-[#4CC9F0] transition-colors"
               placeholder="••••••••"
             />
           </div>

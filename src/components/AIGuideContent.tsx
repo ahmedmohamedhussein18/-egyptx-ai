@@ -9,6 +9,7 @@ import AIGuideVoiceCall from './AIGuideVoiceCall';
 import { useAuth } from '@/context/AuthContext';
 import { trackEvent } from '@/lib/analytics';
 import Link from 'next/link';
+import { stripEmojis } from '@/lib/strip-emojis';
 
 export default function AIGuideContent() {
   const { t, locale } = useLanguage();
@@ -313,7 +314,7 @@ export default function AIGuideContent() {
             )}
 
             {!result && !error && (
-              <div className="bg-white/5 border border-white/10 rounded-3xl p-8 flex-grow flex flex-col items-center justify-center text-center">
+              <div className="bg-[#F8F3E9] dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-3xl p-8 flex-grow flex flex-col items-center justify-center text-center">
                 <Sparkles className="w-12 h-12 text-gray-600 mb-4 opacity-50" />
                 <h3 className="text-xl font-bold text-gray-400 mb-2">Awaiting Image</h3>
                 <p className="text-gray-500">Capture a monument to see its verified history and details.</p>
@@ -336,7 +337,7 @@ export default function AIGuideContent() {
                   </div>
                 ) : (
                   <div className="flex flex-col h-full">
-                    <div className="mb-6 border-b border-white/10 pb-6">
+                    <div className="mb-6 border-b border-gray-200 dark:border-white/10 pb-6">
                       <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">{result.identified_name}</h2>
                       <div className="flex items-center gap-2">
                         <span className={`px-2 py-1 text-[10px] font-bold uppercase rounded-md border ${
@@ -349,10 +350,10 @@ export default function AIGuideContent() {
                       </div>
                     </div>
 
-                    <div className="prose prose-invert max-w-none mb-8">
-                      <div className="max-h-60 overflow-y-auto p-4 rounded-2xl bg-black/25 border border-white/10">
-                        <p className="text-gray-300 leading-relaxed text-sm sm:text-base whitespace-pre-wrap" style={{ whiteSpace: 'pre-wrap' }} dir="auto">
-                          {result.ai_description?.replace(/\*\*|#{1,6}\s?/g, '')}
+                    <div className="max-w-none mb-8">
+                      <div className="max-h-60 overflow-y-auto p-4 rounded-2xl bg-white dark:bg-black/25 border border-gray-200 dark:border-white/10">
+                        <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-sm sm:text-base whitespace-pre-wrap" style={{ whiteSpace: 'pre-wrap' }} dir="auto">
+                          {stripEmojis(result.ai_description?.replace(/\*\*|#{1,6}\s?/g, ''))}
                         </p>
                       </div>
                       <p className="text-xs text-orange-400/80 mt-4 font-medium flex items-start gap-1.5">
@@ -361,10 +362,10 @@ export default function AIGuideContent() {
                     </div>
 
                     {!result.db_match && (
-                      <div className="mt-auto bg-white/5 border border-white/10 rounded-xl p-4 flex items-start gap-3">
+                      <div className="mt-auto bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl p-4 flex items-start gap-3">
                         <AlertCircle className="w-5 h-5 text-gray-400 shrink-0 mt-0.5" />
                         <p className="text-xs text-gray-400">
-                          <span className="font-bold text-gray-300">{t('aiGuide.desc')}</span> — Not from EgyptX verified database.
+                          <span className="font-bold text-gray-800 dark:text-gray-300">{t('aiGuide.desc')}</span> — Not from EgyptX verified database.
                         </p>
                       </div>
                     )}
@@ -372,15 +373,15 @@ export default function AIGuideContent() {
                     {result.db_match && (
                       <div className="mt-auto">
                         <div className="bg-[#1B6B93]/10 border border-[#1B6B93]/30 rounded-xl p-4 mb-4">
-                          <div className="flex items-center gap-2 mb-2 text-[#4CC9F0]">
+                          <div className="flex items-center gap-2 mb-2 text-[#1B6B93] dark:text-[#4CC9F0]">
                             <MapPin className="w-4 h-4" />
                             <span className="text-sm font-bold uppercase tracking-wider">{t('aiGuide.verified')}</span>
                           </div>
-                          <p className="text-white font-bold">{locale === 'ar' ? (result.db_match.name_ar || result.db_match.name_en) : (result.db_match.name_en || result.db_match.name_ar)}</p>
+                          <p className="text-gray-900 dark:text-white font-bold">{locale === 'ar' ? (result.db_match.name_ar || result.db_match.name_en) : (result.db_match.name_en || result.db_match.name_ar)}</p>
                           <p className="text-gray-400 text-sm mt-1">{result.db_match.city} • {result.db_match.category}</p>
                         </div>
                         <Link href={`/destination/${result.db_match.id}`}>
-                          <button className="w-full py-3 bg-[#1B6B93]/20 hover:bg-[#1B6B93]/40 border border-[#1B6B93] text-[#4CC9F0] font-bold rounded-xl transition-colors flex items-center justify-center gap-2 uppercase text-sm tracking-wider">
+                          <button className="w-full py-3 bg-[#1B6B93] dark:bg-[#1B6B93]/20 hover:bg-[#155474] dark:hover:bg-[#1B6B93]/40 border border-[#1B6B93] text-white dark:text-[#4CC9F0] font-bold rounded-xl transition-colors flex items-center justify-center gap-2 uppercase text-sm tracking-wider">
                             {t('aiGuide.viewFull')} <ArrowRight className="w-4 h-4" />
                           </button>
                         </Link>
@@ -388,13 +389,13 @@ export default function AIGuideContent() {
                     )}
 
                                         {/* Follow-up Chat UI */}
-                    <div className="mt-8 pt-6 border-t border-white/10">
-                      <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                    <div className="mt-8 pt-6 border-t border-gray-200 dark:border-white/10">
+                      <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
                         <Sparkles className="w-5 h-5 text-[#C9A84C]" />
                         Ask About This Artifact
                       </h3>
                       
-                      <div className="bg-[#030712]/50 border border-white/10 rounded-2xl flex flex-col h-[400px] shadow-lg relative overflow-hidden">
+                      <div className="bg-white dark:bg-[#030712]/50 border border-gray-200 dark:border-white/10 rounded-2xl flex flex-col h-[400px] shadow-lg relative overflow-hidden">
                         
                         <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-6">
                           {chatMessages.length === 0 && (
@@ -408,7 +409,7 @@ export default function AIGuideContent() {
                                   <button 
                                     key={i}
                                     onClick={() => handleSendChat(q)}
-                                    className="bg-white/5 hover:bg-white/10 border border-white/10 text-[#C9A84C] text-xs py-2 px-3 rounded-full transition-colors"
+                                    className="bg-[#F8F3E9] dark:bg-white/5 hover:bg-[#C9A84C]/15 border border-gray-300 dark:border-white/10 text-[#8A661C] dark:text-[#C9A84C] text-xs py-2 px-3 rounded-full transition-colors"
                                   >
                                     {q}
                                   </button>
@@ -432,10 +433,10 @@ export default function AIGuideContent() {
                                 className={`max-w-[80%] max-h-60 overflow-y-auto rounded-2xl px-5 py-4 text-sm leading-relaxed shadow-sm whitespace-pre-wrap ${
                                   msg.role === 'user' 
                                     ? 'bg-gradient-to-br from-[#C9A84C] to-[#b39542] text-black rounded-tr-none font-medium' 
-                                    : 'bg-[#121a2f] border border-white/5 text-gray-200 rounded-tl-none'
+                                    : 'bg-[#F8F3E9] dark:bg-[#121a2f] border border-gray-200 dark:border-white/5 text-gray-800 dark:text-gray-200 rounded-tl-none'
                                 }`}
                               >
-                                {msg.content?.replace(/\*\*|#{1,6}\s?/g, '')}
+                                {stripEmojis(msg.content?.replace(/\*\*|#{1,6}\s?/g, ''))}
                               </div>
                             </div>
                           ))}
@@ -445,7 +446,7 @@ export default function AIGuideContent() {
                               <div className="w-8 h-8 rounded-full bg-[#1B6B93]/30 border border-[#1B6B93] flex items-center justify-center mr-3 flex-shrink-0">
                                 <Sparkles className="w-4 h-4 text-[#4CC9F0]" />
                               </div>
-                              <div className="bg-[#121a2f] border border-white/5 rounded-2xl rounded-tl-none px-5 py-4 flex items-center gap-1">
+                              <div className="bg-[#F8F3E9] dark:bg-[#121a2f] border border-gray-200 dark:border-white/5 rounded-2xl rounded-tl-none px-5 py-4 flex items-center gap-1">
                                 <span className="w-1.5 h-1.5 bg-[#4CC9F0] rounded-full animate-bounce [animation-delay:-0.3s]"></span>
                                 <span className="w-1.5 h-1.5 bg-[#4CC9F0] rounded-full animate-bounce [animation-delay:-0.15s]"></span>
                                 <span className="w-1.5 h-1.5 bg-[#4CC9F0] rounded-full animate-bounce"></span>
@@ -454,14 +455,14 @@ export default function AIGuideContent() {
                           )}
                         </div>
                         
-                        <div className="p-3 bg-[#0A1628] border-t border-white/10 z-10 flex gap-2">
+                        <div className="p-3 bg-[#F8F3E9] dark:bg-[#0A1628] border-t border-gray-200 dark:border-white/10 z-10 flex gap-2">
                           <input
                             type="text"
                             value={chatInput}
                             onChange={(e) => setChatInput(e.target.value)}
                             onKeyDown={(e) => e.key === 'Enter' && handleSendChat()}
                             placeholder="Ask a question..."
-                            className="flex-1 bg-black/30 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#C9A84C]/50 transition-colors placeholder:text-gray-500"
+                            className="flex-1 bg-white dark:bg-black/30 border border-gray-300 dark:border-white/10 rounded-xl px-4 py-3 text-sm text-gray-900 dark:text-white focus:outline-none focus:border-[#C9A84C]/50 transition-colors placeholder:text-gray-500"
                           />
                           {isChatLoading ? (
                             <button

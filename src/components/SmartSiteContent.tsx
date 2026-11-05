@@ -28,7 +28,7 @@ function WeatherBadge({ lat, lon }: { lat: number, lon: number }) {
   if (!weather) return null;
 
   return (
-    <div className="inline-flex items-center gap-2 bg-black/40 backdrop-blur rounded-full px-4 py-1.5 border border-[#C9A84C]/30 shadow-lg mb-6">
+    <div className="inline-flex items-center gap-2 bg-[#0A1628]/90 backdrop-blur rounded-full px-4 py-1.5 border border-[#C9A84C]/30 shadow-lg mb-6">
       <img src={`https://openweathermap.org/img/wn/${weather.icon}.png`} alt={weather.description} className="w-6 h-6" />
       <span className="text-white text-sm font-bold">{weather.temperature}°C</span>
       <span className="text-gray-300 text-xs capitalize">{weather.description}</span>
@@ -176,11 +176,11 @@ export default function SmartSiteContent() {
               onClick={() => handleSelectSite(site.id)}
               className={`flex-none w-64 p-4 rounded-2xl border text-left transition-all snap-start ${
                 selectedSiteId === site.id 
-                  ? 'bg-[#C9A84C]/10 border-[#C9A84C] shadow-[0_0_20px_rgba(201,168,76,0.15)]' 
-                  : 'bg-white/5 border-white/10 hover:border-[#C9A84C]/50'
+                  ? 'bg-[#C9A84C]/15 border-[#C9A84C] shadow-[0_0_20px_rgba(201,168,76,0.15)]' 
+                  : 'bg-[#F8F3E9] dark:bg-white/5 border-gray-200 dark:border-white/10 hover:border-[#C9A84C]/50'
               }`}
             >
-              <h3 className={`font-semibold text-lg mb-1 ${selectedSiteId === site.id ? 'text-[#C9A84C]' : 'text-white'}`}>
+              <h3 className={`font-semibold text-lg mb-1 ${selectedSiteId === site.id ? 'text-[#8A661C] dark:text-[#C9A84C]' : 'text-gray-900 dark:text-white'}`}>
                 {site.name_en}
               </h3>
               <p className="text-sm text-gray-400 line-clamp-2">{site.city || site.category}</p>
@@ -189,7 +189,7 @@ export default function SmartSiteContent() {
         </div>
 
         {/* Selected Site Header & Scan Area */}
-        <div className="bg-white/5 backdrop-blur-lg border border-[#C9A84C]/20 rounded-3xl p-8 mb-12 text-center relative overflow-hidden">
+        <div className="bg-[#F8F3E9] dark:bg-white/5 backdrop-blur-lg border border-[#C9A84C]/25 rounded-3xl p-8 mb-12 text-center relative overflow-hidden shadow-sm">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-2xl h-full bg-[#1B6B93]/5 blur-[100px] pointer-events-none" />
           
           <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-2">{selectedSite.name_en}</h2>
@@ -219,7 +219,7 @@ export default function SmartSiteContent() {
               >
                 <button 
                   onClick={handleScan}
-                  className="group relative flex flex-col items-center justify-center w-48 h-48 bg-[#0A1628] rounded-2xl border border-[#C9A84C]/30 hover:border-[#C9A84C] hover:shadow-[0_0_30px_rgba(201,168,76,0.3)] transition-all cursor-pointer"
+                  className="group relative flex flex-col items-center justify-center w-48 h-48 bg-white dark:bg-[#0A1628] text-gray-900 dark:text-white rounded-2xl border border-[#C9A84C]/30 hover:border-[#C9A84C] hover:shadow-[0_0_30px_rgba(201,168,76,0.3)] transition-all cursor-pointer shadow-md"
                 >
                   <Scan className="w-16 h-16 text-[#C9A84C] mb-4 group-hover:scale-110 transition-transform" />
                   <span className="font-semibold text-lg">Simulate Scan</span>
@@ -259,17 +259,17 @@ export default function SmartSiteContent() {
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white/5 backdrop-blur-lg border border-[#C9A84C]/20 rounded-3xl overflow-hidden"
+            className="bg-[#F8F3E9] dark:bg-white/5 backdrop-blur-lg border border-[#C9A84C]/25 rounded-3xl overflow-hidden shadow-md"
           >
-            <div className="p-6 bg-[#0A1628]/80 border-b border-[#C9A84C]/10 flex flex-wrap gap-2 md:gap-4 items-center">
-              <button onClick={() => setActiveTab('overview')} className={`px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors ${activeTab === 'overview' ? 'bg-[#C9A84C] text-[#030712]' : 'bg-white/5 text-gray-300 hover:bg-white/10'}`}><ScanLine className="w-4 h-4" /> Overview</button>
+            <div className="p-6 bg-white/80 dark:bg-[#0A1628]/80 border-b border-gray-200 dark:border-[#C9A84C]/10 flex flex-wrap gap-2 md:gap-4 items-center">
+              <button onClick={() => setActiveTab('overview')} className={`px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors ${activeTab === 'overview' ? 'bg-[#C9A84C] text-[#030712]' : 'bg-black/[0.05] dark:bg-white/5 text-gray-700 dark:text-gray-300 hover:bg-black/10 dark:hover:bg-white/10'}`}><ScanLine className="w-4 h-4" /> Overview</button>
               
               <button 
                 onClick={() => setActiveTab('timetravel')} 
                 className={`px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors ${
                   activeTab === 'timetravel' 
                     ? 'bg-gradient-to-r from-amber-400 to-yellow-500 text-slate-950 font-bold shadow-md' 
-                    : 'bg-amber-500/10 text-amber-300 border border-amber-500/30 hover:bg-amber-500/20'
+                    : 'bg-amber-500/10 text-amber-800 dark:text-amber-300 border border-amber-500/30 hover:bg-amber-500/20'
                 }`}
               >
                 <Hourglass className="w-4 h-4" /> 
@@ -283,9 +283,9 @@ export default function SmartSiteContent() {
                 )}
               </button>
 
-              <button onClick={() => setActiveTab('3d')} className={`px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors ${activeTab === '3d' ? 'bg-[#C9A84C] text-[#030712]' : 'bg-white/5 text-gray-300 hover:bg-white/10'}`}><Cuboid className="w-4 h-4" /> 3D Model</button>
-              <button onClick={() => setActiveTab('translation')} className={`px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors ${activeTab === 'translation' ? 'bg-[#C9A84C] text-[#030712]' : 'bg-white/5 text-gray-300 hover:bg-white/10'}`}><Globe className="w-4 h-4" /> Translation</button>
-              <button onClick={() => setActiveTab('ar')} className={`px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors ${activeTab === 'ar' ? 'bg-[#1B6B93] text-white border border-[#1B6B93]' : 'bg-white/5 text-gray-300 hover:bg-white/10'}`}><Eye className="w-4 h-4" /> AR View</button>
+              <button onClick={() => setActiveTab('3d')} className={`px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors ${activeTab === '3d' ? 'bg-[#C9A84C] text-[#030712]' : 'bg-black/[0.05] dark:bg-white/5 text-gray-700 dark:text-gray-300 hover:bg-black/10 dark:hover:bg-white/10'}`}><Cuboid className="w-4 h-4" /> 3D Model</button>
+              <button onClick={() => setActiveTab('translation')} className={`px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors ${activeTab === 'translation' ? 'bg-[#C9A84C] text-[#030712]' : 'bg-black/[0.05] dark:bg-white/5 text-gray-700 dark:text-gray-300 hover:bg-black/10 dark:hover:bg-white/10'}`}><Globe className="w-4 h-4" /> Translation</button>
+              <button onClick={() => setActiveTab('ar')} className={`px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors ${activeTab === 'ar' ? 'bg-[#1B6B93] text-white border border-[#1B6B93]' : 'bg-black/[0.05] dark:bg-white/5 text-gray-700 dark:text-gray-300 hover:bg-black/10 dark:hover:bg-white/10'}`}><Eye className="w-4 h-4" /> AR View</button>
             </div>
 
             <div className="p-8">
@@ -329,7 +329,7 @@ export default function SmartSiteContent() {
                           4D Temporal Reconstruction Engine
                         </span>
                       </div>
-                      <h3 className="text-2xl font-black text-white">
+                      <h3 className="text-2xl font-black text-gray-900 dark:text-white">
                         {selectedSite.name_en} in Antiquity
                       </h3>
                     </div>
@@ -340,11 +340,11 @@ export default function SmartSiteContent() {
                           <Crown className="w-3.5 h-3.5" /> Elite Unlocked
                         </span>
                       ) : timeTravelUsed ? (
-                        <span className="px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-amber-500/15 border border-amber-500/40 text-amber-300 flex items-center gap-1.5">
+                        <span className="px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-amber-500/15 border border-amber-500/40 text-amber-800 dark:text-amber-300 flex items-center gap-1.5">
                           <Lock className="w-3.5 h-3.5 text-amber-400" /> Trial Preview Used
                         </span>
                       ) : (
-                        <span className="px-3.5 py-1.5 rounded-full text-xs font-black uppercase tracking-wider bg-gradient-to-r from-amber-400/20 via-yellow-400/20 to-amber-500/20 border border-amber-400/50 text-amber-300 flex items-center gap-1.5 shadow-[0_0_15px_rgba(245,158,11,0.3)] animate-pulse">
+                        <span className="px-3.5 py-1.5 rounded-full text-xs font-black uppercase tracking-wider bg-gradient-to-r from-amber-400/20 via-yellow-400/20 to-amber-500/20 border border-amber-500/50 text-amber-800 dark:text-amber-300 flex items-center gap-1.5 shadow-[0_0_15px_rgba(245,158,11,0.3)] animate-pulse">
                           <Sparkles className="w-3.5 h-3.5 text-amber-400" />  1 Free Preview Available
                         </span>
                       )}
@@ -363,22 +363,22 @@ export default function SmartSiteContent() {
                         onClick={() => setSelectedEra(item.era)}
                         className={`p-4 rounded-2xl text-left border transition-all cursor-pointer ${
                           selectedEra === item.era
-                            ? 'bg-amber-500/15 border-amber-400 text-white shadow-[0_0_20px_rgba(245,158,11,0.2)]'
-                            : 'bg-white/5 border-white/10 text-gray-400 hover:border-white/20'
+                            ? 'bg-amber-500/15 border-amber-400 text-gray-900 dark:text-white shadow-[0_0_20px_rgba(245,158,11,0.2)]'
+                            : 'bg-white dark:bg-white/5 border-gray-200 dark:border-white/10 text-gray-600 dark:text-gray-400 hover:border-amber-400/50'
                         }`}
                       >
-                        <div className="font-bold text-sm text-amber-300 mb-1">{item.era}</div>
-                        <div className="text-xs text-gray-300 leading-relaxed">{item.desc}</div>
+                        <div className="font-bold text-sm text-amber-800 dark:text-amber-300 mb-1">{item.era}</div>
+                        <div className="text-xs text-gray-700 dark:text-gray-300 leading-relaxed">{item.desc}</div>
                       </button>
                     ))}
                   </div>
 
                   {/* Reconstruction Viewfinder */}
-                  <div className="bg-[#0A1628] rounded-2xl border border-amber-500/30 p-6 md:p-8 mb-6 relative overflow-hidden">
+                  <div className="bg-white dark:bg-[#0A1628] rounded-2xl border border-amber-500/30 p-6 md:p-8 mb-6 relative overflow-hidden shadow-sm">
                     {isReconstructing ? (
                       <div className="py-12 flex flex-col items-center justify-center text-center">
                         <Loader2 className="w-12 h-12 text-amber-400 animate-spin mb-4" />
-                        <h4 className="text-lg font-bold text-white mb-1">
+                        <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-1">
                           Synthesizing 4D Photogrammetric Models...
                         </h4>
                         <p className="text-xs text-amber-300">
@@ -410,16 +410,16 @@ export default function SmartSiteContent() {
                           </div>
 
                           <div className="w-full md:w-1/2 space-y-3 text-left">
-                            <h4 className="text-lg font-bold text-amber-300">
+                            <h4 className="text-lg font-bold text-amber-800 dark:text-amber-300">
                               Archaeological Reconstruction Notes
                             </h4>
-                            <p className="text-xs text-gray-300 leading-relaxed">
+                            <p className="text-xs text-gray-700 dark:text-gray-300 leading-relaxed">
                               • <strong>Outer Casing:</strong> Highly polished white Tura limestone tiles, fitted with hair-width joints that dazzled for miles.
                             </p>
-                            <p className="text-xs text-gray-300 leading-relaxed">
+                            <p className="text-xs text-gray-700 dark:text-gray-300 leading-relaxed">
                               • <strong>Color Palette:</strong> Original columns were deeply saturated with Egyptian Blue (calcium copper silicate) and mineral ochres.
                             </p>
-                            <p className="text-xs text-gray-300 leading-relaxed">
+                            <p className="text-xs text-gray-700 dark:text-gray-300 leading-relaxed">
                               • <strong>Nile Basin:</strong> Ancient Nile canals brought ceremonial barges directly to the entrance causeway.
                             </p>
                           </div>
@@ -432,7 +432,7 @@ export default function SmartSiteContent() {
                                 setShowEliteModal(true);
                               }
                             }}
-                            className="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-bold text-amber-300 border border-amber-400/30 flex items-center gap-2 cursor-pointer"
+                            className="px-4 py-2 rounded-xl bg-amber-500/10 dark:bg-white/10 hover:bg-amber-500/20 dark:hover:bg-white/20 text-xs font-bold text-amber-800 dark:text-amber-300 border border-amber-400/30 flex items-center gap-2 cursor-pointer"
                           >
                             <Hourglass className="w-3.5 h-3.5" />
                             Change Monument Angle (Elite)
@@ -443,7 +443,7 @@ export default function SmartSiteContent() {
                                 setShowEliteModal(true);
                               }
                             }}
-                            className="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-bold text-amber-300 border border-amber-400/30 flex items-center gap-2 cursor-pointer"
+                            className="px-4 py-2 rounded-xl bg-amber-500/10 dark:bg-white/10 hover:bg-amber-500/20 dark:hover:bg-white/20 text-xs font-bold text-amber-800 dark:text-amber-300 border border-amber-400/30 flex items-center gap-2 cursor-pointer"
                           >
                             <Sparkles className="w-3.5 h-3.5" />
                             Simulate Ancient Night Sky (Elite)
@@ -455,7 +455,7 @@ export default function SmartSiteContent() {
                         <div className="w-16 h-16 rounded-2xl bg-amber-400/10 border border-amber-400/30 flex items-center justify-center mb-4 text-amber-400">
                           <Hourglass className="w-8 h-8" />
                         </div>
-                        <h4 className="text-xl font-bold text-white mb-2">
+                        <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
                           Ready to Travel Back in Time?
                         </h4>
                         <p className="text-xs text-gray-400 max-w-sm mb-6 leading-relaxed">
@@ -483,11 +483,11 @@ export default function SmartSiteContent() {
 
               {activeTab === '3d' && (
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col items-center justify-center py-12">
-                  <div className="w-64 h-64 border-2 border-dashed border-[#C9A84C]/30 rounded-2xl flex flex-col items-center justify-center bg-[#0A1628]/50 mb-6">
+                  <div className="w-64 h-64 border-2 border-dashed border-[#C9A84C]/40 rounded-2xl flex flex-col items-center justify-center bg-white dark:bg-[#0A1628]/50 mb-6">
                     <Cuboid className="w-16 h-16 text-[#C9A84C] mb-4 opacity-50" />
                     <p className="text-gray-400 font-medium">Interactive 3D Preview</p>
                   </div>
-                  <button className="px-6 py-3 bg-white/10 hover:bg-white/20 rounded-xl transition-colors flex items-center gap-2">
+                  <button className="px-6 py-3 bg-black/[0.06] dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/20 text-gray-900 dark:text-white rounded-xl transition-colors flex items-center gap-2">
                     <History className="w-4 h-4" /> Rotate Model
                   </button>
                 </motion.div>
@@ -495,7 +495,7 @@ export default function SmartSiteContent() {
 
               {activeTab === 'translation' && (
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
-                  <div className="flex justify-between items-center bg-[#0A1628] p-4 rounded-xl border border-white/10">
+                  <div className="flex justify-between items-center bg-white dark:bg-[#0A1628] p-4 rounded-xl border border-gray-200 dark:border-white/10">
                     <span className="text-gray-400">Language:</span>
                     <select 
                       value={language}
@@ -509,7 +509,7 @@ export default function SmartSiteContent() {
                       <option>Español (Spanish)</option>
                     </select>
                   </div>
-                  <div className="bg-white/5 p-6 rounded-xl border border-white/5">
+                  <div className="bg-white dark:bg-white/5 p-6 rounded-xl border border-gray-200 dark:border-white/5">
                     <h3 className="text-xl font-bold text-[#C9A84C] mb-4">What You&apos;re Looking At</h3>
                     <p className="text-slate-600 dark:text-gray-300 leading-relaxed text-lg">{selectedSite.description_en || 'Information is currently being updated for this location.'}</p>
                     {language !== 'English' && (
@@ -532,7 +532,7 @@ export default function SmartSiteContent() {
                     
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center w-full">
                       <ScanLine className="w-12 h-12 text-[#1B6B93] mx-auto mb-4 opacity-50" />
-                      <div className="inline-block bg-black/60 backdrop-blur px-4 py-2 rounded-lg border border-[#C9A84C]/50 text-sm">
+                      <div className="inline-block bg-black/60 backdrop-blur px-4 py-2 rounded-lg border border-[#C9A84C]/50 text-sm text-white">
                         <span className="text-[#C9A84C] font-bold">Detected:</span> {selectedSite.name_en}
                       </div>
                     </div>
@@ -562,17 +562,17 @@ export default function SmartSiteContent() {
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-[#0A1628] border border-[#C9A84C]/30 rounded-3xl p-8 max-w-sm w-full relative shadow-2xl"
+              className="bg-[#FDFBF7] dark:bg-[#0A1628] border border-[#C9A84C]/30 rounded-3xl p-8 max-w-sm w-full relative shadow-2xl"
             >
               <button
                 onClick={() => setShowQrModal(false)}
-                className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
+                className="absolute top-4 right-4 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
               >
                 <X className="w-6 h-6" />
               </button>
 
               <div className="text-center">
-                <h3 className="text-2xl font-bold text-white mb-1">Check In</h3>
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-1">Check In</h3>
                 <p className="text-[#C9A84C] text-sm mb-6 font-semibold">{selectedSite?.name_en}</p>
 
                 <div className="bg-white p-4 rounded-xl inline-block mx-auto mb-6 shadow-[0_0_30px_rgba(201,168,76,0.2)]">

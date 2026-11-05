@@ -802,20 +802,20 @@ export default function KidsInteractiveStorybook() {
 
   return (
     <div
-      className="w-full max-w-5xl mx-auto my-10 font-sans text-white select-none"
+      className="w-full max-w-5xl mx-auto my-10 font-sans text-gray-900 dark:text-white select-none"
       dir={currentLangObj.dir}
     >
       {/* ── TOP SECTION: MAGICAL HEADER & LANGUAGE SELECTOR ── */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6 px-2">
         <div className="flex items-center gap-2">
           <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-[#C9A84C] to-amber-300 flex items-center justify-center text-black font-extrabold shadow-[0_0_20px_rgba(201,168,76,0.5)]">
-            
+            <BookOpen className="w-5 h-5 text-gray-950" />
           </div>
           <div>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-[#E2CB85] to-[#C9A84C]">
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 via-[#8A6D1F] to-[#C9A84C] dark:from-white dark:via-[#E2CB85] dark:to-[#C9A84C]">
               {activeStoryLang === 'ar' ? 'كتاب القصص الفرعوني التفاعلي' : 'Interactive Pharaoh Storybook'}
             </h2>
-            <p className="text-xs text-gray-300">
+            <p className="text-xs text-gray-600 dark:text-gray-300">
               {activeStoryLang === 'ar'
                 ? 'مغامرة سحرية متعددة اللغات مع حراس مصر الأسطوريين'
                 : 'A magical multilingual journey with Egypt’s legendary guardians'}
@@ -824,7 +824,7 @@ export default function KidsInteractiveStorybook() {
         </div>
 
         {/* Story Language Quick Toggle (7 Languages) */}
-        <div className="flex items-center gap-1.5 p-1 bg-[#0A1224] border border-[#C9A84C]/40 rounded-2xl shadow-inner overflow-x-auto max-w-full">
+        <div className="flex items-center gap-1.5 p-1 bg-[#F8F3E9] dark:bg-[#0A1224] border border-[#C9A84C]/40 rounded-2xl shadow-inner overflow-x-auto max-w-full">
           <Languages className="w-4 h-4 text-[#C9A84C] ml-1 shrink-0" />
           {SUPPORTED_LANGS.map((langItem) => {
             const isActive = activeStoryLang === langItem.id;
@@ -838,12 +838,11 @@ export default function KidsInteractiveStorybook() {
                 className={`px-2.5 py-1 rounded-xl text-xs font-bold transition-all flex items-center gap-1 cursor-pointer shrink-0 ${
                   isActive
                     ? 'bg-gradient-to-r from-[#C9A84C] to-[#E2CB85] text-[#0A1628] shadow-md scale-105'
-                    : 'text-gray-400 hover:text-white hover:bg-white/5'
+                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5'
                 }`}
                 title={langItem.name}
               >
-                <span>{langItem.flag}</span>
-                <span className="hidden md:inline">{langItem.name}</span>
+                <span>{langItem.name}</span>
               </button>
             );
           })}
@@ -856,7 +855,7 @@ export default function KidsInteractiveStorybook() {
           initial={{ opacity: 0, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.4 }}
-          className="bg-gradient-to-b from-[#111C38]/95 via-[#0C152B]/95 to-[#070D1F] border-2 border-[#C9A84C]/60 rounded-3xl p-6 sm:p-8 shadow-[0_0_60px_rgba(0,0,0,0.9)] backdrop-blur-xl relative overflow-hidden"
+          className="bg-gradient-to-b from-[#FDFBF7] via-[#F8F3E9] to-[#F4ECE0] dark:from-[#111C38]/95 dark:via-[#0C152B]/95 dark:to-[#070D1F] border-2 border-[#C9A84C]/60 rounded-3xl p-6 sm:p-8 shadow-xl dark:shadow-[0_0_60px_rgba(0,0,0,0.9)] backdrop-blur-xl relative overflow-hidden"
         >
           {/* Ambient Lighting */}
           <div className="absolute top-0 right-0 w-80 h-80 bg-[#C9A84C]/15 rounded-full blur-[100px] pointer-events-none" />
@@ -864,7 +863,7 @@ export default function KidsInteractiveStorybook() {
 
           {/* 1. Child Name Input */}
           <div className="mb-7">
-            <label className="block text-sm font-bold text-[#E2CB85] mb-2 flex items-center gap-2">
+            <label className="block text-sm font-bold text-[#8A6D1F] dark:text-[#E2CB85] mb-2 flex items-center gap-2">
               <Star className="w-4 h-4 text-[#C9A84C]" />
               <span>
                 {activeStoryLang === 'ar' ? 'اسم البطل الصغير:' : 'Young Hero Name:'}
@@ -877,17 +876,14 @@ export default function KidsInteractiveStorybook() {
                 onChange={(e) => setChildName(e.target.value)}
                 maxLength={24}
                 placeholder={activeStoryLang === 'ar' ? 'اكتب اسمك هنا...' : 'Enter your name...'}
-                className="w-full bg-[#070D1F] border-2 border-[#C9A84C]/40 focus:border-[#C9A84C] rounded-2xl px-5 py-3 text-sm sm:text-base text-white placeholder-gray-500 focus:outline-none transition-all shadow-inner"
+                className="w-full bg-white dark:bg-[#070D1F] border-2 border-[#C9A84C]/40 focus:border-[#C9A84C] rounded-2xl px-5 py-3 text-sm sm:text-base text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none transition-all shadow-inner"
               />
-              <span className="absolute end-4 top-1/2 -translate-y-1/2 text-lg">
-                
-              </span>
             </div>
           </div>
 
           {/* 2. Guardian Selector (3 choices) */}
           <div className="mb-7">
-            <label className="block text-sm font-bold text-[#E2CB85] mb-3 flex items-center gap-2">
+            <label className="block text-sm font-bold text-[#8A6D1F] dark:text-[#E2CB85] mb-3 flex items-center gap-2">
               <Crown className="w-4 h-4 text-[#C9A84C]" />
               <span>
                 {activeStoryLang === 'ar'
@@ -900,7 +896,7 @@ export default function KidsInteractiveStorybook() {
               {(['horus', 'anubis', 'bastet'] as GuardianId[]).map((gId) => {
                 const meta = GUARDIANS_META[gId][activeStoryLang];
                 const isSelected = selectedGuardian === gId;
-                const icon = gId === 'horus' ? '' : gId === 'anubis' ? '' : '';
+                const icon = gId === 'horus' ? <Crown className="w-5 h-5 text-[#C9A84C]" /> : gId === 'anubis' ? <Award className="w-5 h-5 text-[#C9A84C]" /> : <Sparkles className="w-5 h-5 text-[#C9A84C]" />;
                 return (
                   <button
                     key={gId}
@@ -909,11 +905,11 @@ export default function KidsInteractiveStorybook() {
                     className={`p-4 rounded-2xl border-2 text-start transition-all flex flex-col justify-between cursor-pointer relative overflow-hidden group ${
                       isSelected
                         ? 'border-[#C9A84C] bg-gradient-to-br from-[#C9A84C]/25 to-blue-900/20 shadow-[0_0_25px_rgba(201,168,76,0.35)] scale-[1.02]'
-                        : 'border-white/10 bg-white/5 hover:border-[#C9A84C]/40 hover:bg-white/10'
+                        : 'border-gray-200 dark:border-white/10 bg-white dark:bg-white/5 hover:border-[#C9A84C]/40 hover:bg-[#C9A84C]/5 dark:hover:bg-white/10'
                     }`}
                   >
                     <div className="flex items-center justify-between mb-3">
-                      <span className="text-3xl p-2 rounded-xl bg-black/40 border border-white/10">
+                      <span className="p-2.5 rounded-xl bg-[#C9A84C]/10 dark:bg-black/40 border border-[#C9A84C]/25 dark:border-white/10 flex items-center justify-center">
                         {icon}
                       </span>
                       {isSelected && (
@@ -923,10 +919,10 @@ export default function KidsInteractiveStorybook() {
                       )}
                     </div>
                     <div>
-                      <h4 className="text-sm sm:text-base font-bold text-white group-hover:text-[#C9A84C] transition-colors">
+                      <h4 className="text-sm sm:text-base font-bold text-gray-900 dark:text-white group-hover:text-[#C9A84C] transition-colors">
                         {meta.name}
                       </h4>
-                      <p className="text-[11px] text-gray-300 mt-1 line-clamp-2 leading-relaxed">
+                      <p className="text-[11px] text-gray-600 dark:text-gray-300 mt-1 line-clamp-2 leading-relaxed">
                         {meta.title}
                       </p>
                     </div>
@@ -938,7 +934,7 @@ export default function KidsInteractiveStorybook() {
 
           {/* 3. Quest Selector (3 choices) */}
           <div className="mb-8">
-            <label className="block text-sm font-bold text-[#E2CB85] mb-3 flex items-center gap-2">
+            <label className="block text-sm font-bold text-[#8A6D1F] dark:text-[#E2CB85] mb-3 flex items-center gap-2">
               <Compass className="w-4 h-4 text-[#C9A84C]" />
               <span>
                 {activeStoryLang === 'ar'
@@ -951,7 +947,7 @@ export default function KidsInteractiveStorybook() {
               {(['pyramid', 'abusimbel', 'ankh'] as QuestId[]).map((qId) => {
                 const meta = QUESTS_META[qId][activeStoryLang];
                 const isSelected = selectedQuest === qId;
-                const icon = qId === 'pyramid' ? '' : qId === 'abusimbel' ? '' : '';
+                const icon = qId === 'pyramid' ? <Compass className="w-5 h-5 text-[#C9A84C]" /> : qId === 'abusimbel' ? <Globe2 className="w-5 h-5 text-[#C9A84C]" /> : <Star className="w-5 h-5 text-[#C9A84C]" />;
                 return (
                   <button
                     key={qId}
@@ -960,22 +956,22 @@ export default function KidsInteractiveStorybook() {
                     className={`p-4 rounded-2xl border-2 text-start transition-all flex flex-col justify-between cursor-pointer relative overflow-hidden group ${
                       isSelected
                         ? 'border-[#C9A84C] bg-gradient-to-br from-[#C9A84C]/25 to-amber-900/20 shadow-[0_0_25px_rgba(201,168,76,0.35)] scale-[1.02]'
-                        : 'border-white/10 bg-white/5 hover:border-[#C9A84C]/40 hover:bg-white/10'
+                        : 'border-gray-200 dark:border-white/10 bg-white dark:bg-white/5 hover:border-[#C9A84C]/40 hover:bg-[#C9A84C]/5 dark:hover:bg-white/10'
                     }`}
                   >
                     <div className="flex items-center justify-between mb-3">
-                      <span className="text-3xl p-2 rounded-xl bg-black/40 border border-white/10">
+                      <span className="p-2.5 rounded-xl bg-[#C9A84C]/10 dark:bg-black/40 border border-[#C9A84C]/25 dark:border-white/10 flex items-center justify-center">
                         {icon}
                       </span>
-                      <span className="text-xs text-gray-400 bg-black/40 px-2 py-0.5 rounded-full border border-white/5">
+                      <span className="text-xs text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-black/40 px-2 py-0.5 rounded-full border border-gray-200 dark:border-white/5">
                         {meta.location}
                       </span>
                     </div>
                     <div>
-                      <h4 className="text-sm sm:text-base font-bold text-white group-hover:text-[#C9A84C] transition-colors">
+                      <h4 className="text-sm sm:text-base font-bold text-gray-900 dark:text-white group-hover:text-[#C9A84C] transition-colors">
                         {meta.title}
                       </h4>
-                      <p className="text-[11px] text-gray-300 mt-1 line-clamp-2 leading-relaxed">
+                      <p className="text-[11px] text-gray-600 dark:text-gray-300 mt-1 line-clamp-2 leading-relaxed">
                         {meta.goal}
                       </p>
                     </div>
@@ -986,7 +982,7 @@ export default function KidsInteractiveStorybook() {
           </div>
 
           {/* Preview Image Thumbnail Before Launching */}
-          <div className="mb-8 p-4 rounded-2xl bg-black/40 border border-[#C9A84C]/30 flex items-center gap-4">
+          <div className="mb-8 p-4 rounded-2xl bg-white/90 dark:bg-black/40 border border-[#C9A84C]/30 flex items-center gap-4">
             <div className="relative w-16 h-16 rounded-xl overflow-hidden shrink-0 border border-[#C9A84C]/50 shadow-md">
               <Image
                 src={currentStoryImage}
@@ -996,10 +992,10 @@ export default function KidsInteractiveStorybook() {
               />
             </div>
             <div>
-              <span className="text-xs text-[#E2CB85] font-bold block">
+              <span className="text-xs text-[#8A6D1F] dark:text-[#E2CB85] font-bold block">
                 {activeStoryLang === 'ar' ? 'القصة المختارة جاهزة:' : 'Selected Story Ready:'}
               </span>
-              <p className="text-xs text-gray-300">
+              <p className="text-xs text-gray-600 dark:text-gray-300">
                 {guardianMeta.name} &bull; {questMeta.title} (7 {activeStoryLang === 'ar' ? 'فصول' : 'Pages'})
               </p>
             </div>
@@ -1031,12 +1027,12 @@ export default function KidsInteractiveStorybook() {
             <div className="flex items-center gap-3">
               <button
                 onClick={handleResetStory}
-                className="px-3.5 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 text-xs text-gray-200 hover:text-white transition-all flex items-center gap-1.5 cursor-pointer"
+                className="px-3.5 py-1.5 rounded-xl bg-[#F8F3E9] dark:bg-white/10 hover:bg-[#EFE6D5] dark:hover:bg-white/20 border border-gray-300 dark:border-white/15 text-xs text-gray-800 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white transition-all flex items-center gap-1.5 cursor-pointer"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
                 <span>{activeStoryLang === 'ar' ? 'تغيير القصة' : 'Change Story'}</span>
               </button>
-              <span className="text-xs text-gray-400 border-r border-white/20 pr-3 mr-1 hidden sm:inline">
+              <span className="text-xs text-gray-600 dark:text-gray-400 border-r border-gray-300 dark:border-white/20 pr-3 mr-1 hidden sm:inline">
                 {activeStoryLang === 'ar' ? 'البطل:' : 'Hero:'}{' '}
                 <b className="text-[#C9A84C]">{childName || 'Explorer'}</b> &bull;{' '}
                 {guardianMeta.name}
@@ -1051,8 +1047,8 @@ export default function KidsInteractiveStorybook() {
                   isSpeaking
                     ? 'bg-emerald-500 text-white animate-pulse'
                     : isAudioLoading
-                    ? 'bg-amber-500/30 text-amber-300 border border-amber-400/50'
-                    : 'bg-[#C9A84C]/20 border border-[#C9A84C]/50 text-[#E2CB85] hover:bg-[#C9A84C] hover:text-[#0A1628]'
+                    ? 'bg-amber-500/20 text-amber-800 dark:text-amber-300 border border-amber-400/50'
+                    : 'bg-[#C9A84C]/20 border border-[#C9A84C]/50 text-[#8A6D1F] dark:text-[#E2CB85] hover:bg-[#C9A84C] hover:text-[#0A1628]'
                 }`}
               >
                 <Volume2 className="w-3.5 h-3.5" />
@@ -1071,7 +1067,7 @@ export default function KidsInteractiveStorybook() {
                 </span>
               </button>
 
-              <div className="px-3 py-1 rounded-xl bg-black/40 border border-white/10 text-xs font-mono text-[#E2CB85]">
+              <div className="px-3 py-1 rounded-xl bg-[#F8F3E9] dark:bg-black/40 border border-gray-300 dark:border-white/10 text-xs font-mono text-[#8A6D1F] dark:text-[#E2CB85]">
                 {activeStoryLang === 'ar'
                   ? `الصفحة ${currentPage.pageNumber} من 7`
                   : `Page ${currentPage.pageNumber} of 7`}
@@ -1183,7 +1179,7 @@ export default function KidsInteractiveStorybook() {
 
                       {/* Guardian Wisdom Quote Box */}
                       <div className="mt-6 p-4 rounded-2xl bg-[#C9A84C]/10 border border-[#C9A84C]/30 flex items-start gap-3">
-                        <span className="text-2xl shrink-0 mt-0.5"></span>
+                        <Sparkles className="w-5 h-5 text-[#C9A84C] shrink-0 mt-0.5" />
                         <div>
                           <span className="text-xs font-bold text-[#E2CB85] block mb-1">
                             {activeStoryLang === 'ar'

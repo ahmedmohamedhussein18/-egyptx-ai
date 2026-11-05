@@ -59,7 +59,7 @@ export default function VideosPage() {
 
         {/* ── HEADER ──────────────────────────────────────────────────────── */}
         <div className="text-center max-w-3xl mx-auto mb-14">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#C9A84C]/10 border border-[#C9A84C]/30 text-xs font-semibold text-[#E2CB85] uppercase tracking-widest mb-4">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#C9A84C]/10 border border-[#C9A84C]/30 text-xs font-semibold text-[#8A661C] dark:text-[#E2CB85] uppercase tracking-widest mb-4">
             <Sparkles className="w-4 h-4 text-[#C9A84C]" />
             Official Tourism Cinema · أفلام مصر الوثائقية
           </div>
@@ -77,7 +77,7 @@ export default function VideosPage() {
             </span>
             <Link
               href="/reels"
-              className="px-4 py-1.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#C9A84C]/40 text-xs font-medium text-gray-300 hover:text-[#C9A84C] transition-all flex items-center gap-1.5"
+              className="px-4 py-1.5 rounded-full bg-black/[0.05] dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 border border-gray-300 dark:border-white/10 hover:border-[#C9A84C]/40 text-xs font-medium text-gray-700 dark:text-gray-300 hover:text-[#C9A84C] transition-all flex items-center gap-1.5"
             >
               <span>Explore Egypt Reels </span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -120,7 +120,7 @@ export default function VideosPage() {
                   <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white group-hover:text-[#C9A84C] transition-colors leading-tight mb-1">
                     {video.title}
                   </h3>
-                  <p className="text-sm font-semibold text-[#E2CB85] font-serif mb-2">
+                  <p className="text-sm font-semibold text-[#8A661C] dark:text-[#E2CB85] font-serif mb-2">
                     {video.titleAr}
                   </p>
                   <p className="text-sm text-slate-600 dark:text-gray-300 leading-relaxed mb-4">
@@ -129,7 +129,7 @@ export default function VideosPage() {
                 </div>
 
                 {/* Bottom Row */}
-                <div className="pt-4 border-t border-white/10 flex items-center justify-between">
+                <div className="pt-4 border-t border-gray-200 dark:border-white/10 flex items-center justify-between">
                   <span className="text-xs text-gray-400 font-mono">
                     Public Verified Documentary
                   </span>
@@ -150,12 +150,12 @@ export default function VideosPage() {
         </div>
 
         {/* ── FOOTER BANNER ────────────────────────────────────────────────── */}
-        <div className="rounded-2xl p-8 bg-gradient-to-r from-[#0A1628] via-[#122C38] to-[#0A1628] border border-[#C9A84C] text-center flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xl">
+        <div className="rounded-2xl p-8 bg-gradient-to-r from-[#F8F3E9] via-[#F0E6D2] to-[#F8F3E9] dark:from-[#0A1628] dark:via-[#122C38] dark:to-[#0A1628] border border-[#C9A84C] text-center flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xl">
           <div className="text-left">
-            <h3 className="text-xl font-bold text-white mb-1">
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-1">
               Looking for vertical mobile reels? 
             </h3>
-            <p className="text-sm text-gray-300">
+            <p className="text-sm text-gray-600 dark:text-gray-300">
               Experience full-screen TikTok-style Egypt Reels with vertical scroll snap.
             </p>
           </div>
